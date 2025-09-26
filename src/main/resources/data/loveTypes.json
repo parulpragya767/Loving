@@ -1,0 +1,227 @@
+[
+    {
+      "id": 1,
+      "loveType": "BELONG",
+      "title": "Belong",
+      "subtitle": "The bond of trust, understanding, and feeling at home",
+      "description": "Belong is about being truly **seen** and _accepted_.",
+      "sections": [
+        {
+          "order": 1,
+          "title": "In Practice",
+          "summary": "How Belong shows up in daily life",
+          "bullets": [
+            { "title": "Open Expression", "text": "Sharing unfiltered thoughts openly." },
+            { "title": "Shared Rituals", "text": "Having private jokes or recurring habits that **deepen trust**." },
+            { "title": "Comfort in Silence", "text": "Knowing you belong without needing constant words." }
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Common Blocks",
+          "summary": "What gets in the way of Belong",
+          "bullets": [
+            { "title": "Fear of Judgment", "text": "Holding back feelings to avoid conflict." },
+            { "title": "Drifting Apart", "text": "Less shared time or conversations, leading to disconnection." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "loveType": "SPARK",
+      "title": "Spark",
+      "subtitle": "The energy of play, attraction, and lightheartedness",
+      "description": "Spark brings **fun**, curiosity, and excitement into the relationship.",
+      "sections": [
+        {
+          "order": 1,
+          "title": "In Practice",
+          "summary": "How Spark shows up",
+          "bullets": [
+            { "title": "Playful Banter", "text": "Jokes, teasing, and laughter." },
+            { "title": "Curiosity", "text": "Exploring new hobbies or ideas together." },
+            { "title": "Flirtation", "text": "Keeping the light energy alive." }
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Common Blocks",
+          "summary": "Why Spark fades",
+          "bullets": [
+            { "title": "Routine Overload", "text": "Too much structure kills spontaneity." },
+            { "title": "Stress", "text": "Exhaustion dampens playfulness." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "loveType": "FIRE",
+      "title": "Fire",
+      "subtitle": "The heat of passion and desire",
+      "description": "Fire is about **erotic energy**, intensity, and deep physical connection.",
+      "sections": [
+        {
+          "order": 1,
+          "title": "In Practice",
+          "summary": "How Fire shows up",
+          "bullets": [
+            { "title": "Intimacy", "text": "Moments of physical closeness." },
+            { "title": "Desire", "text": "Expressing attraction openly." },
+            { "title": "Adventure", "text": "Trying new ways of being together." }
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Common Blocks",
+          "summary": "What dampens Fire",
+          "bullets": [
+            { "title": "Neglect", "text": "Avoiding intimacy over time." },
+            { "title": "Fear of Rejection", "text": "Not initiating because of uncertainty." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "loveType": "CARE",
+      "title": "Care",
+      "subtitle": "The act of nurturing and protecting each other",
+      "description": "Care is expressed through **kindness**, generosity, and attention.",
+      "sections": [
+        {
+          "order": 1,
+          "title": "In Practice",
+          "summary": "How Care shows up",
+          "bullets": [
+            { "title": "Checking In", "text": "Asking about their day." },
+            { "title": "Acts of Service", "text": "Small gestures of help." },
+            { "title": "Comfort", "text": "Offering support in tough times." }
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Common Blocks",
+          "summary": "What reduces Care",
+          "bullets": [
+            { "title": "Taking for Granted", "text": "Not noticing the other’s needs." },
+            { "title": "Burnout", "text": "Giving without replenishing yourself." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "loveType": "GROW",
+      "title": "Grow",
+      "subtitle": "The energy of learning and evolving together",
+      "description": "Grow is about **curiosity**, feedback, and shared transformation.",
+      "sections": [
+        {
+          "order": 1,
+          "title": "In Practice",
+          "summary": "How Grow shows up",
+          "bullets": [
+            { "title": "Learning Together", "text": "Trying new skills as a pair." },
+            { "title": "Giving Feedback", "text": "Helping each other improve." },
+            { "title": "Shared Reflection", "text": "Looking back to see how you’ve evolved." }
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Common Blocks",
+          "summary": "What stalls growth",
+          "bullets": [
+            { "title": "Avoiding Change", "text": "Staying in comfort zones." },
+            { "title": "Criticism", "text": "Feedback without care becomes hurtful." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "loveType": "BUILD",
+      "title": "Build",
+      "subtitle": "The steady creation of shared life and partnership",
+      "description": "Build is about **stability**, reliability, and long-term commitment.",
+      "sections": [
+        {
+          "order": 1,
+          "title": "In Practice",
+          "summary": "How Build shows up",
+          "bullets": [
+            { "title": "Shared Goals", "text": "Planning the future together." },
+            { "title": "Consistency", "text": "Being reliable day to day." },
+            { "title": "Teamwork", "text": "Solving challenges jointly." }
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Common Blocks",
+          "summary": "What undermines Build",
+          "bullets": [
+            { "title": "Broken Promises", "text": "Unreliability weakens trust." },
+            { "title": "Avoidance", "text": "Dodging responsibility in partnership." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "loveType": "SELF",
+      "title": "Self",
+      "subtitle": "The love of one’s own being",
+      "description": "Self love is **self-respect**, compassion, and inner growth.",
+      "sections": [
+        {
+          "order": 1,
+          "title": "In Practice",
+          "summary": "How Self shows up",
+          "bullets": [
+            { "title": "Boundaries", "text": "Knowing and expressing limits." },
+            { "title": "Self-Care", "text": "Taking time for rest and joy." },
+            { "title": "Inner Dialogue", "text": "Being kind to yourself." }
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Common Blocks",
+          "summary": "What weakens Self love",
+          "bullets": [
+            { "title": "Comparison", "text": "Measuring worth by others." },
+            { "title": "Neglect", "text": "Ignoring personal needs." }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "loveType": "BEYOND",
+      "title": "Beyond",
+      "subtitle": "The universal compassion and sense of greater love",
+      "description": "Beyond is about **service**, spirituality, and transcendence.",
+      "sections": [
+        {
+          "order": 1,
+          "title": "In Practice",
+          "summary": "How Beyond shows up",
+          "bullets": [
+            { "title": "Altruism", "text": "Helping others selflessly." },
+            { "title": "Spiritual Practice", "text": "Meditation, prayer, or rituals." },
+            { "title": "Connection to Nature", "text": "Feeling part of something larger." }
+          ]
+        },
+        {
+          "order": 2,
+          "title": "Common Blocks",
+          "summary": "What blocks Beyond",
+          "bullets": [
+            { "title": "Ego", "text": "Focus only on self-gain." },
+            { "title": "Disconnection", "text": "Losing touch with larger meaning." }
+          ]
+        }
+      ]
+    }
+  ]
+  

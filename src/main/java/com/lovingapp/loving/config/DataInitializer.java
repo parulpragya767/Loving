@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.lovingapp.loving.model.LoveType;
+import com.lovingapp.loving.model.LoveTypeInfo;
 import com.lovingapp.loving.model.Ritual;
 import com.lovingapp.loving.repository.LoveTypeRepository;
 import com.lovingapp.loving.repository.RitualRepository;
@@ -18,7 +18,6 @@ import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -27,12 +26,16 @@ public class DataInitializer {
 
     private final LoveTypeRepository loveTypeRepository;
     private final RitualRepository ritualRepository;
+    private final ObjectMapper objectMapper;
 
     @Autowired
     public DataInitializer(LoveTypeRepository loveTypeRepository, 
-                          RitualRepository ritualRepository) {
+                          RitualRepository ritualRepository,
+                          ObjectMapper objectMapper) {
         this.loveTypeRepository = loveTypeRepository;
         this.ritualRepository = ritualRepository;
+        this.objectMapper = objectMapper.copy()
+            .registerModule(new JavaTimeModule());
     }
 
     @PostConstruct
@@ -50,14 +53,23 @@ public class DataInitializer {
     private void initializeLoveTypes() {
         // Only insert if no love types exist
         if (loveTypeRepository.count() == 0) {
-            List<LoveType> loveTypes = Arrays.asList(
-                new LoveType("Romantic Love", "Deep emotional connection and passion"),
-                new LoveType("Platonic Love", "Non-romantic affection between friends"),
-                new LoveType("Familial Love", "Bond between family members"),
-                new LoveType("Self-Love", "Appreciation and care for oneself"),
-                new LoveType("Companionate Love", "Deep friendship and long-term commitment")
-            );
-            loveTypeRepository.saveAll(loveTypes);
+            try {
+                // Read JSON file from resources
+                ClassPathResource resource = new ClassPathResource("data/loveTypes.json");
+                String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+                // Deserialize JSON to List<LoveTypeInfo>
+                List<LoveTypeInfo> loveTypes = objectMapper.readValue(
+                    json,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, LoveTypeInfo.class)
+                );
+
+                // Save all love types
+                loveTypeRepository.saveAll(loveTypes);
+                
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to initialize love types from JSON file", e);
+            }
         }
     }
 
