@@ -2,6 +2,7 @@ package com.lovingapp.loving.controller;
 
 import com.lovingapp.loving.dto.LoveTypeDTO;
 import com.lovingapp.loving.dto.RitualDTO;
+import com.lovingapp.loving.mapper.RitualMapper;
 import com.lovingapp.loving.model.LoveType;
 import com.lovingapp.loving.model.Ritual;
 import com.lovingapp.loving.repository.LoveTypeRepository;
@@ -42,8 +43,9 @@ public class AppController {
     @GetMapping("/rituals")
     public List<RitualDTO> getRituals() {
         return ritualRepository.findAll().stream()
-                .map(RitualDTO::new)
+                .map(RitualMapper::toDto)
                 .collect(Collectors.toList());
     }
 
 }
+

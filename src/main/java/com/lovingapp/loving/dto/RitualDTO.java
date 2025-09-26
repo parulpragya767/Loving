@@ -2,18 +2,23 @@ package com.lovingapp.loving.dto;
 
 import com.lovingapp.loving.model.Ritual;
 import com.lovingapp.loving.model.RitualStep;
-import com.lovingapp.loving.model.Ritual.MediaAsset;
+import com.lovingapp.loving.model.MediaAsset;
 import com.lovingapp.loving.model.enums.*;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.UUID;
+import java.util.ArrayList;
 
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @Data
 public class RitualDTO {
     private String id;
