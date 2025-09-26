@@ -1,5 +1,9 @@
 package com.lovingapp.loving.config;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.json.JsonMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lovingapp.loving.model.LoveType;
 import com.lovingapp.loving.model.Ritual;
 import com.lovingapp.loving.repository.LoveTypeRepository;
@@ -9,7 +13,11 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.StreamUtils;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
@@ -56,24 +64,25 @@ public class DataInitializer {
     private void initializeRituals() {
         // Only insert if no rituals exist
         if (ritualRepository.count() == 0) {
-            // Create some sample rituals with string tags
-            Ritual ritual1 = new Ritual();
-            ritual1.setTitle("Morning Coffee Together");
-            ritual1.setDescription("Start your day with a shared cup of coffee or tea and some quiet time together.");
-            ritual1.setTags(Arrays.asList("romantic", "casual", "morning"));
+            try {
+                // Read JSON file from resources
+                ClassPathResource resource = new ClassPathResource("data/rituals.json");
+                String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
-            Ritual ritual2 = new Ritual();
-            ritual2.setTitle("Weekly Date Night");
-            ritual2.setDescription("Set aside one evening each week for just the two of you to connect.");
-            ritual2.setTags(Arrays.asList("romantic", "quality time", "date"));
+                // Configure ObjectMapper to handle enums and Java 8 date/time
+                ObjectMapper objectMapper = JsonMapper.builder()
+                    .addModule(new JavaTimeModule())
+                    .build();
 
-            Ritual ritual3 = new Ritual();
-            ritual3.setTitle("Evening Walk");
-            ritual3.setDescription("Take a short walk together after dinner to unwind and talk about your day.");
-            ritual3.setTags(Arrays.asList("casual", "relaxing", "exercise"));
+                // Deserialize JSON to List<Ritual>
+                List<Ritual> rituals = objectMapper.readValue(json, new TypeReference<List<Ritual>>() {});
 
-            // Save all rituals
-            ritualRepository.saveAll(Arrays.asList(ritual1, ritual2, ritual3));
+                // Save all rituals
+                ritualRepository.saveAll(rituals);
+                
+            } catch (IOException e) {
+                throw new RuntimeException("Failed to initialize rituals from JSON file", e);
+            }
         }
     }
     
