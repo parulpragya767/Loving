@@ -10,5 +10,4 @@ public class MediaAsset {
     private String id;
     private String type; // e.g., "image", "audio"
     private String url;
-    private Ritual ritual;
 }

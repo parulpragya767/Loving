@@ -30,8 +30,7 @@ import java.util.UUID;
 @Builder
 public class Ritual {
     @Id
-    @GeneratedValue()
-    @Column(columnDefinition = "uuid")
+    @GeneratedValue
     private UUID id;
 
     @Column(nullable = false)
@@ -44,28 +43,25 @@ public class Ritual {
     private String fullDescription;
 
     @Type(JsonType.class)
-    @Column(name = "ritual_type", columnDefinition = "jsonb")
+    @Column(name = "ritual_types", columnDefinition = "jsonb")
     @Builder.Default
     private List<RitualType> ritualTypes = new ArrayList<>();
 
-    // ritual_mode: enum(solo, partner, group)
     @Enumerated(EnumType.STRING)
-    @Column(name = "ritual_mode")
+    @Column(name = "ritual_mode", length = 20, nullable = false)
     private RitualMode ritualMode;
 
     @Type(JsonType.class)
-    @Column(name = "tone", columnDefinition = "jsonb")
+    @Column(name = "ritual_tones", columnDefinition = "jsonb")
     @Builder.Default
-    private List<RitualTone> tones = new ArrayList<>();
+    private List<RitualTone> ritualTones = new ArrayList<>();
 
-    // sensitivity_level: enum(low, moderate, high)
-    @Type(JsonType.class)
-    @Column(name = "sensitivity_level", columnDefinition = "jsonb")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "sensitivity_level", length = 20)
     private SensitivityLevel sensitivityLevel;
-
-    // effort_level: enum(low, moderate, high)
-    @Type(JsonType.class)
-    @Column(name = "effort_level", columnDefinition = "jsonb")
+    
+    @Enumerated(EnumType.STRING)
+    @Column(name = "effort_level", length = 20)
     private EffortLevel effortLevel;
 
     @Column(name = "estimated_duration_minutes")
@@ -85,56 +81,50 @@ public class Ritual {
     @Builder.Default
     private List<RitualStep> ritualSteps = new ArrayList<>();
 
-    // media_assets: jsonb nullable
     @Type(JsonType.class)
     @Column(name = "media_assets", columnDefinition = "jsonb")
     @Builder.Default
     private List<MediaAsset> mediaAssets = new ArrayList<>();
 
     @Type(JsonType.class)
-    @Column(name = "love_type", columnDefinition = "jsonb")
+    @Column(name = "love_types", columnDefinition = "jsonb")
     @Builder.Default
     private List<LoveType> loveTypesSupported = new ArrayList<>();
 
     @Type(JsonType.class)
-    @Column(name = "emotional_state", columnDefinition = "jsonb")
+    @Column(name = "emotional_states", columnDefinition = "jsonb")
     @Builder.Default
     private List<EmotionalState> emotionalStatesSupported = new ArrayList<>();
 
     @Type(JsonType.class)
-    @Column(name = "relational_need", columnDefinition = "jsonb")
+    @Column(name = "relational_needs", columnDefinition = "jsonb")
     @Builder.Default
     private List<RelationalNeed> relationalNeedsServed = new ArrayList<>();
 
     @Type(JsonType.class)
-    @Column(name = "life_context", columnDefinition = "jsonb")
+    @Column(name = "life_contexts", columnDefinition = "jsonb")
     @Builder.Default
     private List<LifeContext> lifeContextsRelevant = new ArrayList<>();
 
-    // rhythm: enum(daily, weekly, occasional, event_triggered)
-    @Type(JsonType.class)
-    @Column(name = "rhythm", columnDefinition = "jsonb")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "rhythm", length = 20)
     private Rhythm rhythm;
 
     @Type(JsonType.class)
-    @Column(name = "requirement", columnDefinition = "jsonb")
+    @Column(name = "preparation_requirements", columnDefinition = "jsonb")
     @Builder.Default
     private List<String> preparationRequirements = new ArrayList<>();
 
-    // semantic_summary: text, nullable
     @Column(name = "semantic_summary", columnDefinition = "text")
     private String semanticSummary;
 
-    // status: enum(published, draft, archived)
-    @Type(JsonType.class)
-    @Column(name = "status", columnDefinition = "jsonb")
+    @Enumerated(EnumType.STRING)
+    @Column(length = 20)
     private PublicationStatus status;
 
-    // created_by
     @Column(name = "created_by", length = 100)
     private String createdBy;
 
-    // timestamps
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "timestamptz")
     private OffsetDateTime createdAt;

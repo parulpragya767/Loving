@@ -12,34 +12,30 @@ public final class RitualMapper {
 
     public static RitualDTO toDto(Ritual ritual) {
         if (ritual == null) return null;
-        RitualDTO dto = new RitualDTO();
-        // Scalars and simple types
-        dto.setId(ritual.getId() != null ? ritual.getId().toString() : null);
-        dto.setTitle(ritual.getTitle());
-        dto.setShortDescription(ritual.getShortDescription());
-        dto.setFullDescription(ritual.getFullDescription());
-        dto.setRitualMode(ritual.getRitualMode());
-        dto.setSensitivityLevel(ritual.getSensitivityLevel());
-        dto.setEffortLevel(ritual.getEffortLevel());
-        dto.setEstimatedDurationMinutes(ritual.getEstimatedDurationMinutes());
-        dto.setRhythm(ritual.getRhythm());
-        dto.setSemanticSummary(ritual.getSemanticSummary());
-        dto.setStatus(ritual.getStatus());
-        dto.setCreatedBy(ritual.getCreatedBy());
-        dto.setCreatedAt(ritual.getCreatedAt());
-        dto.setUpdatedAt(ritual.getUpdatedAt());
-
-        // Collections with null-safety (prefer empty lists to null)
-        dto.setRitualTypes(Objects.requireNonNullElse(ritual.getRitualTypes(), Collections.emptyList()));
-        dto.setTones(Objects.requireNonNullElse(ritual.getTones(), Collections.emptyList()));
-        dto.setRitualSteps(Objects.requireNonNullElse(ritual.getRitualSteps(), Collections.emptyList()));
-        dto.setMediaAssets(Objects.requireNonNullElse(ritual.getMediaAssets(), Collections.emptyList()));
-        dto.setLoveTypesSupported(Objects.requireNonNullElse(ritual.getLoveTypesSupported(), Collections.emptyList()));
-        dto.setEmotionalStatesSupported(Objects.requireNonNullElse(ritual.getEmotionalStatesSupported(), Collections.emptyList()));
-        dto.setRelationalNeedsServed(Objects.requireNonNullElse(ritual.getRelationalNeedsServed(), Collections.emptyList()));
-        dto.setLifeContextsRelevant(Objects.requireNonNullElse(ritual.getLifeContextsRelevant(), Collections.emptyList()));
-        dto.setPreparationRequirements(Objects.requireNonNullElse(ritual.getPreparationRequirements(), Collections.emptyList()));
-
-        return dto;
+        return RitualDTO.builder()
+                .id(ritual.getId())
+                .title(ritual.getTitle())
+                .shortDescription(ritual.getShortDescription())
+                .fullDescription(ritual.getFullDescription())
+                .ritualMode(ritual.getRitualMode())
+                .sensitivityLevel(ritual.getSensitivityLevel())
+                .effortLevel(ritual.getEffortLevel())
+                .estimatedDurationMinutes(ritual.getEstimatedDurationMinutes())
+                .rhythm(ritual.getRhythm())
+                .semanticSummary(ritual.getSemanticSummary())
+                .status(ritual.getStatus())
+                .createdBy(ritual.getCreatedBy())
+                .createdAt(ritual.getCreatedAt())
+                .updatedAt(ritual.getUpdatedAt())
+                .ritualTypes(Objects.requireNonNullElse(ritual.getRitualTypes(), Collections.emptyList()))
+                .ritualTones(Objects.requireNonNullElse(ritual.getRitualTones(), Collections.emptyList()))
+                .ritualSteps(Objects.requireNonNullElse(ritual.getRitualSteps(), Collections.emptyList()))
+                .mediaAssets(Objects.requireNonNullElse(ritual.getMediaAssets(), Collections.emptyList()))
+                .loveTypesSupported(Objects.requireNonNullElse(ritual.getLoveTypesSupported(), Collections.emptyList()))
+                .emotionalStatesSupported(Objects.requireNonNullElse(ritual.getEmotionalStatesSupported(), Collections.emptyList()))
+                .relationalNeedsServed(Objects.requireNonNullElse(ritual.getRelationalNeedsServed(), Collections.emptyList()))
+                .lifeContextsRelevant(Objects.requireNonNullElse(ritual.getLifeContextsRelevant(), Collections.emptyList()))
+                .preparationRequirements(Objects.requireNonNullElse(ritual.getPreparationRequirements(), Collections.emptyList()))
+                .build();
     }
 }
