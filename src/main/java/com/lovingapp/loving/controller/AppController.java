@@ -1,10 +1,7 @@
 package com.lovingapp.loving.controller;
 
 import com.lovingapp.loving.dto.LoveTypeDTO;
-import com.lovingapp.loving.dto.RitualDTO;
-import com.lovingapp.loving.mapper.RitualMapper;
 import com.lovingapp.loving.repository.LoveTypeRepository;
-import com.lovingapp.loving.repository.RitualRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -22,20 +19,12 @@ import java.util.List;
 @RequestMapping("/api")
 public class AppController {
 
-    private final RitualRepository ritualRepository;
     private final LoveTypeRepository loveTypeRepository;
 
     @GetMapping("/love-types")
     public List<LoveTypeDTO> getLoveTypes() {
         return loveTypeRepository.findAll().stream()
                 .map(LoveTypeDTO::new)
-                .collect(Collectors.toList());
-    }
-
-    @GetMapping("/rituals")
-    public List<RitualDTO> getRituals() {
-        return ritualRepository.findAll().stream()
-                .map(RitualMapper::toDto)
                 .collect(Collectors.toList());
     }
 
