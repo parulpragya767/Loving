@@ -2,20 +2,23 @@ package com.lovingapp.loving.config;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lovingapp.loving.model.LoveTypeInfo;
 import com.lovingapp.loving.model.Ritual;
 import com.lovingapp.loving.model.RitualPack;
+import com.lovingapp.loving.model.UserContext;
 import com.lovingapp.loving.repository.LoveTypeRepository;
 import com.lovingapp.loving.repository.RitualRepository;
 import com.lovingapp.loving.repository.RitualPackRepository;
-import jakarta.annotation.PostConstruct;
+import com.lovingapp.loving.repository.UserContextRepository;
+import java.time.OffsetDateTime;
+
 import jakarta.transaction.Transactional;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
@@ -23,23 +26,29 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Configuration
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Component
 @Profile("!test") // Don't run in tests
 public class DataInitializer {
 
     private final LoveTypeRepository loveTypeRepository;
     private final RitualRepository ritualRepository;
     private final RitualPackRepository ritualPackRepository;
+    private final UserContextRepository userContextRepository;
     private final ObjectMapper objectMapper;
 
     @Autowired
     public DataInitializer(LoveTypeRepository loveTypeRepository, 
                           RitualRepository ritualRepository,
                           RitualPackRepository ritualPackRepository,
+                          UserContextRepository userContextRepository,
                           ObjectMapper objectMapper) {
         this.loveTypeRepository = loveTypeRepository;
         this.ritualRepository = ritualRepository;
         this.ritualPackRepository = ritualPackRepository;
+        this.userContextRepository = userContextRepository;
         this.objectMapper = objectMapper.copy()
             .registerModule(new JavaTimeModule());
     }
@@ -56,6 +65,9 @@ public class DataInitializer {
         }
         if (ritualPackRepository.count() == 0) {
             initializeRitualPacks();
+        }
+        if (userContextRepository.count() == 0) {
+            initializeUserContexts();
         }
     }
 
@@ -75,7 +87,6 @@ public class DataInitializer {
 
                 // Save all love types
                 loveTypeRepository.saveAll(loveTypes);
-                
             } catch (IOException e) {
                 throw new RuntimeException("Failed to initialize love types from JSON file", e);
             }
@@ -90,17 +101,11 @@ public class DataInitializer {
                 ClassPathResource resource = new ClassPathResource("data/rituals.json");
                 String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
-                // Configure ObjectMapper to handle enums and Java 8 date/time
-                ObjectMapper objectMapper = JsonMapper.builder()
-                    .addModule(new JavaTimeModule())
-                    .build();
-
                 // Deserialize JSON to List<Ritual>
                 List<Ritual> rituals = objectMapper.readValue(json, new TypeReference<List<Ritual>>() {});
 
                 // Save all rituals
                 ritualRepository.saveAll(rituals);
-                
             } catch (IOException e) {
                 throw new RuntimeException("Failed to initialize rituals from JSON file", e);
             }
@@ -156,6 +161,27 @@ public class DataInitializer {
         }
     }
 
+    private void initializeUserContexts() {
+        try {
+            // Read JSON file from resources
+            ClassPathResource resource = new ClassPathResource("data/userContexts.json");
+            String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+            // Deserialize JSON to List<UserContext>
+            List<UserContext> userContexts = objectMapper.readValue(
+                json,
+                objectMapper.getTypeFactory().constructCollectionType(List.class, UserContext.class)
+            );
+
+            // Save all user contexts
+            userContextRepository.saveAll(userContexts);
+            log.info("Sample user contexts initialized successfully ({} records)", userContexts.size());
+        } catch (IOException e) {
+            log.error("Failed to initialize user contexts from JSON file", e);
+            throw new RuntimeException("Failed to initialize user contexts from JSON file", e);
+        }
+    }
+    
     // Helper seed-only structure
     private static class RitualPackSeed {
         public String title;

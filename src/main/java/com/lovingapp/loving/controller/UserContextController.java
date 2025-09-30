@@ -8,6 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -28,16 +30,15 @@ public class UserContextController {
     }
 
     @GetMapping
-    public ResponseEntity<List<UserContextDTO>> getUserContexts(@RequestParam String userId) {
+    public ResponseEntity<List<UserContextDTO>> getUserContexts(@RequestParam UUID userId) {
         return ResponseEntity.ok(userContextService.getUserContexts(userId));
     }
 
     @GetMapping("/active")
-    public ResponseEntity<UserContextDTO> getActiveUserContext(@RequestParam String userId) {
-        UserContextDTO activeContext = userContextService.getActiveUserContext(userId);
-        return activeContext != null ? 
-            ResponseEntity.ok(activeContext) : 
-            ResponseEntity.notFound().build();
+    public ResponseEntity<UserContextDTO> getActiveUserContext(@RequestParam UUID userId) {
+        return userContextService.getActiveUserContext(userId)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -31,7 +32,7 @@ public class UserContextService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserContextDTO> getUserContexts(String userId) {
+    public List<UserContextDTO> getUserContexts(UUID userId) {
         return userContextRepository.findByUserIdOrderByLastInteractionAtDesc(userId).stream()
                 .map(userContextMapper::toDto)
                 .collect(Collectors.toList());
@@ -62,15 +63,16 @@ public class UserContextService {
     }
 
     @Transactional(readOnly = true)
-    public UserContextDTO getLatestUserContext(String userId) {
+    public Optional<UserContextDTO> getActiveUserContext(UUID userId) {
         return userContextRepository.findMostRecentByUserId(userId).stream()
                 .findFirst()
-                .map(userContextMapper::toDto)
-                .orElse(null);
+                .map(userContextMapper::toDto);
     }
     
     @Transactional(readOnly = true)
-    public UserContextDTO getActiveUserContext(String userId) {
-        return getLatestUserContext(userId);
+    public Optional<UserContextDTO> getLatestUserContext(UUID userId) {
+        return userContextRepository.findMostRecentByUserId(userId).stream()
+                .findFirst()
+                .map(userContextMapper::toDto);
     }
 }

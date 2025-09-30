@@ -6,6 +6,7 @@ import lombok.*;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Represents the user's current context for ritual matching.
@@ -19,7 +20,7 @@ public class UserContextDTO {
     private String id;
     
     // User and conversation identification
-    private String userId;
+    private UUID userId;
     private String conversationId;
     
     // Core context dimensions

@@ -22,7 +22,7 @@ public interface UserContextRepository extends JpaRepository<UserContext, UUID> 
      * @param userId the ID of the user
      * @return list of user contexts
      */
-    List<UserContext> findByUserIdOrderByLastInteractionAtDesc(String userId);
+    List<UserContext> findByUserIdOrderByLastInteractionAtDesc(UUID userId);
     
     /**
      * Find a specific context by user ID and conversation ID.
@@ -30,7 +30,7 @@ public interface UserContextRepository extends JpaRepository<UserContext, UUID> 
      * @param conversationId the ID of the conversation
      * @return an Optional containing the user context if found
      */
-    Optional<UserContext> findByUserIdAndConversationId(String userId, String conversationId);
+    Optional<UserContext> findByUserIdAndConversationId(UUID userId, String conversationId);
     
     /**
      * Find the most recent context for a user.
@@ -38,5 +38,5 @@ public interface UserContextRepository extends JpaRepository<UserContext, UUID> 
      * @return an Optional containing the most recent user context if found
      */
     @Query("SELECT uc FROM UserContext uc WHERE uc.userId = :userId ORDER BY uc.lastInteractionAt DESC")
-    List<UserContext> findMostRecentByUserId(@Param("userId") String userId);
+    List<UserContext> findMostRecentByUserId(@Param("userId") UUID userId);
 }

@@ -28,8 +28,8 @@ public class UserContext {
     private UUID id;
 
     // User and conversation identification
-    @Column(name = "user_id", nullable = false)
-    private String userId;
+    @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
+    private UUID userId;
 
     @Column(name = "conversation_id")
     private String conversationId;

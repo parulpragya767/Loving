@@ -1,0 +1,50 @@
+[
+  {
+    "userId": "123e4567-e89b-12d3-a456-426614174000",
+    "conversationId": "morning-routine",
+    "emotionalStates": ["PEACEFUL", "EXCITED"],
+    "relationalNeeds": ["CONNECTION", "APPRECIATION"],
+    "preferredLoveLanguages": ["CARE", "BELONG"],
+    "preferredRitualTypes": ["REFLECTION", "CONVERSATION"],
+    "preferredTones": ["CALM", "THOUGHTFUL"],
+    "availableTimeMinutes": 30,
+    "preferredEffortLevel": "MODERATE",
+    "preferredIntensity": "MODERATE",
+    "currentContexts": ["MORNING_ROUTINE", "LONG_TERM_RELATIONSHIP"],
+    "timeContext": "MORNING",
+    "relationshipStatus": "COMMITTED",
+    "semanticQuery": "Looking for a gentle morning connection ritual"
+  },
+  {
+    "userId": "123e4567-e89b-12d3-a456-426614174000",
+    "conversationId": "evening-wind-down",
+    "emotionalStates": ["PEACEFUL", "TIRED"],
+    "relationalNeeds": ["INTIMACY", "SUPPORT"],
+    "preferredLoveLanguages": ["CARE", "SPARK"],
+    "preferredRitualTypes": ["RELAXATION", "APPRECIATION"],
+    "preferredTones": ["CALM", "ROMANTIC"],
+    "availableTimeMinutes": 45,
+    "preferredEffortLevel": "LOW",
+    "preferredIntensity": "LOW",
+    "currentContexts": ["EVENING_ROUTINE", "WEEKEND"],
+    "timeContext": "EVENING",
+    "relationshipStatus": "COMMITTED",
+    "semanticQuery": "Relaxing evening ritual to connect with my partner"
+  },
+  {
+    "userId": "123e4567-e89b-12d3-a456-426614174000",
+    "conversationId": "date-night",
+    "emotionalStates": ["HAPPY", "EXCITED"],
+    "relationalNeeds": ["ADVENTURE", "RESPECT"],
+    "preferredLoveLanguages": ["FIRE", "GROW"],
+    "preferredRitualTypes": ["ADVENTURE", "PLAY"],
+    "preferredTones": ["PLAYFUL", "ROMANTIC"],
+    "availableTimeMinutes": 120,
+    "preferredEffortLevel": "HIGH",
+    "preferredIntensity": "HIGH",
+    "currentContexts": ["DATE_NIGHT", "WEEKEND"],
+    "timeContext": "EVENING",
+    "relationshipStatus": "COMMITTED",
+    "semanticQuery": "Planning a special date night to reconnect and have fun"
+  }
+]

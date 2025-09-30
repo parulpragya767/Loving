@@ -4,6 +4,8 @@ import com.lovingapp.loving.model.UserContext;
 import com.lovingapp.loving.model.dto.UserContextDTO;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -26,15 +28,15 @@ public class UserContextMapper {
                 .id(entity.getId() != null ? entity.getId().toString() : null)
                 .userId(entity.getUserId())
                 .conversationId(entity.getConversationId())
-                .emotionalStates(entity.getEmotionalStates())
-                .relationalNeeds(entity.getRelationalNeeds())
-                .preferredLoveLanguages(entity.getPreferredLoveLanguages())
-                .preferredRitualTypes(entity.getPreferredRitualTypes())
-                .preferredTones(entity.getPreferredTones())
+                .emotionalStates(Objects.requireNonNullElse(entity.getEmotionalStates(), Collections.emptyList()))
+                .relationalNeeds(Objects.requireNonNullElse(entity.getRelationalNeeds(), Collections.emptyList()))
+                .preferredLoveLanguages(Objects.requireNonNullElse(entity.getPreferredLoveLanguages(), Collections.emptyList()))
+                .preferredRitualTypes(Objects.requireNonNullElse(entity.getPreferredRitualTypes(), Collections.emptyList()))
+                .preferredTones(Objects.requireNonNullElse(entity.getPreferredTones(), Collections.emptyList()))
                 .availableTimeMinutes(entity.getAvailableTimeMinutes())
                 .preferredEffortLevel(entity.getPreferredEffortLevel())
                 .preferredIntensity(entity.getPreferredIntensity())
-                .currentContexts(entity.getCurrentContexts())
+                .currentContexts(Objects.requireNonNullElse(entity.getCurrentContexts(), Collections.emptyList()))
                 .timeContext(entity.getTimeContext())
                 .relationshipStatus(entity.getRelationshipStatus())
                 .semanticQuery(entity.getSemanticQuery())
@@ -58,15 +60,15 @@ public class UserContextMapper {
                 .id(dto.getId() != null ? UUID.fromString(dto.getId()) : null)
                 .userId(dto.getUserId())
                 .conversationId(dto.getConversationId())
-                .emotionalStates(dto.getEmotionalStates())
-                .relationalNeeds(dto.getRelationalNeeds())
-                .preferredLoveLanguages(dto.getPreferredLoveLanguages())
-                .preferredRitualTypes(dto.getPreferredRitualTypes())
-                .preferredTones(dto.getPreferredTones())
+                .emotionalStates(Objects.requireNonNullElse(dto.getEmotionalStates(), Collections.emptyList()))
+                .relationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()))
+                .preferredLoveLanguages(Objects.requireNonNullElse(dto.getPreferredLoveLanguages(), Collections.emptyList()))
+                .preferredRitualTypes(Objects.requireNonNullElse(dto.getPreferredRitualTypes(), Collections.emptyList()))
+                .preferredTones(Objects.requireNonNullElse(dto.getPreferredTones(), Collections.emptyList()))
                 .availableTimeMinutes(dto.getAvailableTimeMinutes())
                 .preferredEffortLevel(dto.getPreferredEffortLevel())
                 .preferredIntensity(dto.getPreferredIntensity())
-                .currentContexts(dto.getCurrentContexts())
+                .currentContexts(Objects.requireNonNullElse(dto.getCurrentContexts(), Collections.emptyList()))
                 .timeContext(dto.getTimeContext())
                 .relationshipStatus(dto.getRelationshipStatus())
                 .semanticQuery(dto.getSemanticQuery())
@@ -90,13 +92,13 @@ public class UserContextMapper {
         if (dto.getConversationId() != null) entity.setConversationId(dto.getConversationId());
         
         // Core context dimensions
-        if (dto.getEmotionalStates() != null) entity.setEmotionalStates(dto.getEmotionalStates());
-        if (dto.getRelationalNeeds() != null) entity.setRelationalNeeds(dto.getRelationalNeeds());
-        if (dto.getPreferredLoveLanguages() != null) entity.setPreferredLoveLanguages(dto.getPreferredLoveLanguages());
+        entity.setEmotionalStates(Objects.requireNonNullElse(dto.getEmotionalStates(), Collections.emptyList()));
+        entity.setRelationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
+        entity.setPreferredLoveLanguages(Objects.requireNonNullElse(dto.getPreferredLoveLanguages(), Collections.emptyList()));
         
         // Ritual preferences
-        if (dto.getPreferredRitualTypes() != null) entity.setPreferredRitualTypes(dto.getPreferredRitualTypes());
-        if (dto.getPreferredTones() != null) entity.setPreferredTones(dto.getPreferredTones());
+        entity.setPreferredRitualTypes(Objects.requireNonNullElse(dto.getPreferredRitualTypes(), Collections.emptyList()));
+        entity.setPreferredTones(Objects.requireNonNullElse(dto.getPreferredTones(), Collections.emptyList()));
         
         // Practical constraints
         if (dto.getAvailableTimeMinutes() != null) entity.setAvailableTimeMinutes(dto.getAvailableTimeMinutes());
@@ -104,7 +106,7 @@ public class UserContextMapper {
         if (dto.getPreferredIntensity() != null) entity.setPreferredIntensity(dto.getPreferredIntensity());
         
         // Situational context
-        if (dto.getCurrentContexts() != null) entity.setCurrentContexts(dto.getCurrentContexts());
+        entity.setCurrentContexts(Objects.requireNonNullElse(dto.getCurrentContexts(), Collections.emptyList()));
         if (dto.getTimeContext() != null) entity.setTimeContext(dto.getTimeContext());
         if (dto.getRelationshipStatus() != null) entity.setRelationshipStatus(dto.getRelationshipStatus());
         
