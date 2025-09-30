@@ -1,0 +1,39 @@
+[
+  {
+    "title": "Daily Presence Starter Pack",
+    "shortDescription": "Gentle daily practices to begin and end your day with presence.",
+    "fullDescription": "A curated set of rituals to help you greet the morning with gratitude and wind down your evening with calm reflection.",
+    "ritualTitles": [
+      "Morning Gratitude Ritual",
+      "Evening Wind-Down Reflection"
+    ],
+    "semanticSummary": "Daily bookend rituals supporting mindfulness and emotional balance.",
+    "status": "PUBLISHED",
+    "createdBy": "system"
+  },
+  {
+    "title": "Connection & Appreciation Pack",
+    "shortDescription": "Strengthen bonds through weekly connection and appreciation.",
+    "fullDescription": "A relationship-focused collection to maintain emotional intimacy, share appreciations, and align for the week ahead.",
+    "ritualTitles": [
+      "Weekly Connection Check-in",
+      "Date Night Appreciation"
+    ],
+    "semanticSummary": "Partner-centered rituals fostering appreciation and meaningful check-ins.",
+    "status": "PUBLISHED",
+    "createdBy": "system"
+  },
+  {
+    "title": "Weekend Warmth Pack",
+    "shortDescription": "Joyful and restorative rituals for the weekend.",
+    "fullDescription": "A playful yet grounding weekend set to create memories and recharge together.",
+    "ritualTitles": [
+      "Family Game Night",
+      "Evening Wind-Down Reflection",
+      "Date Night Appreciation"
+    ],
+    "semanticSummary": "Lighthearted connection with gentle restoration for weekends.",
+    "status": "PUBLISHED",
+    "createdBy": "system"
+  }
+]

@@ -47,7 +47,7 @@
         "url": "/images/morning-ritual.jpg"
       }
     ],
-    "loveTypesSupported": ["SELF_LOVE", "COMPANIONATE_LOVE"],
+    "loveTypesSupported": ["SELF", "CARE"],
     "emotionalStatesSupported": ["PEACEFUL", "GRATEFUL", "LOVING"],
     "relationalNeedsServed": ["APPRECIATION", "CONNECTION"],
     "lifeContextsRelevant": ["MORNING_ROUTINE"],
@@ -98,7 +98,7 @@
         "optional": true
       }
     ],
-    "loveTypesSupported": ["ROMANTIC_LOVE", "COMPANIONATE_LOVE"],
+    "loveTypesSupported": ["FIRE", "CARE"],
     "emotionalStatesSupported": ["LOVING", "PEACEFUL", "GRATEFUL"],
     "relationalNeedsServed": ["CONNECTION", "SUPPORT", "RESPECT"],
     "lifeContextsRelevant": ["LONG_TERM_RELATIONSHIP"],
@@ -148,13 +148,101 @@
         "optional": false
       }
     ],
-    "loveTypesSupported": ["FAMILIAL_LOVE", "PLATONIC_LOVE"],
+    "loveTypesSupported": ["CARE", "SPARK"],
     "emotionalStatesSupported": ["HAPPY", "EXCITED", "LOVING"],
     "relationalNeedsServed": ["CONNECTION", "ADVENTURE", "SUPPORT"],
     "lifeContextsRelevant": ["WEEKEND"],
     "rhythm": "WEEKLY",
     "preparationRequirements": ["Board games or card games", "Snacks", "Comfortable seating"],
     "semanticSummary": "A weekly family game night to strengthen bonds and create joyful memories.",
+    "status": "PUBLISHED",
+    "createdBy": "system"
+  },
+  {
+    "title": "Evening Wind-Down Reflection",
+    "shortDescription": "A calming solo reflection to close your day with presence.",
+    "fullDescription": "This simple evening ritual helps you unwind, reflect on the day, and gently transition to rest.",
+    "ritualTypes": ["REFLECTION"],
+    "ritualMode": "SOLO",
+    "ritualTones": ["CALM", "THOUGHTFUL"],
+    "sensitivityLevel": "LOW",
+    "effortLevel": "LOW",
+    "estimatedDurationMinutes": 10,
+    "ritualSteps": [
+      {
+        "title": "Slow Breathing",
+        "description": "Take 5 slow, deep breaths to settle the nervous system.",
+        "order": 1,
+        "durationMinutes": 2,
+        "optional": false
+      },
+      {
+        "title": "Daily Highlights",
+        "description": "Note one highlight and one learning from today.",
+        "order": 2,
+        "durationMinutes": 5,
+        "optional": false
+      },
+      {
+        "title": "Release and Intention",
+        "description": "Write one thing you release and one intention for tomorrow.",
+        "order": 3,
+        "durationMinutes": 3,
+        "optional": true
+      }
+    ],
+    "mediaAssets": [],
+    "loveTypesSupported": ["SELF"],
+    "emotionalStatesSupported": ["PEACEFUL", "GRATEFUL"],
+    "relationalNeedsServed": ["CONNECTION"],
+    "lifeContextsRelevant": ["WEEKEND"],
+    "rhythm": "DAILY",
+    "preparationRequirements": ["Journal", "Pen", "Quiet space"],
+    "semanticSummary": "A gentle evening reflection supporting calm and closure.",
+    "status": "PUBLISHED",
+    "createdBy": "system"
+  },
+  {
+    "title": "Date Night Appreciation",
+    "shortDescription": "A partner ritual to share appreciations and deepen connection.",
+    "fullDescription": "A light yet intimate practice for partners to exchange appreciations and reconnect emotionally.",
+    "ritualTypes": ["APPRECIATION", "CONVERSATION"],
+    "ritualMode": "PARTNER",
+    "ritualTones": ["INTIMATE", "LIGHTHEARTED"],
+    "sensitivityLevel": "MODERATE",
+    "effortLevel": "LOW",
+    "estimatedDurationMinutes": 20,
+    "ritualSteps": [
+      {
+        "title": "Set the Scene",
+        "description": "Sit together with phones away and soft lighting.",
+        "order": 1,
+        "durationMinutes": 3,
+        "optional": false
+      },
+      {
+        "title": "Three Appreciations",
+        "description": "Each partner shares three specific appreciations about the other.",
+        "order": 2,
+        "durationMinutes": 10,
+        "optional": false
+      },
+      {
+        "title": "Looking Ahead",
+        "description": "Name one small thing you’d like to do for each other this week.",
+        "order": 3,
+        "durationMinutes": 7,
+        "optional": true
+      }
+    ],
+    "mediaAssets": [],
+    "loveTypesSupported": ["FIRE", "CARE"],
+    "emotionalStatesSupported": ["LOVING", "GRATEFUL"],
+    "relationalNeedsServed": ["APPRECIATION", "CONNECTION"],
+    "lifeContextsRelevant": ["LONG_TERM_RELATIONSHIP"],
+    "rhythm": "WEEKLY",
+    "preparationRequirements": ["Quiet space"],
+    "semanticSummary": "A compact partner ritual to express appreciation and align for the week.",
     "status": "PUBLISHED",
     "createdBy": "system"
   }
