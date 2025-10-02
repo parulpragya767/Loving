@@ -1,6 +1,6 @@
 package com.lovingapp.loving.controller;
 
-import com.lovingapp.loving.model.dto.UserContextDTO;
+import com.lovingapp.loving.dto.UserContextDTO;
 import com.lovingapp.loving.service.UserContextService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

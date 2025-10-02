@@ -1,0 +1,34 @@
+[
+  {
+    "id": "123e4567-e89b-12d3-a456-426614174000",
+    "email": "user@example.com",
+    "passwordHash": "$2a$10$xLFtBIXGtW3IZ1/JYvW7VuB0VHM/pD0qVWbOOSFFgzU7x8a5Q9J2q",
+    "firstName": "Alex",
+    "lastName": "Johnson",
+    "displayName": "Alex J",
+    "phoneNumber": "+1234567890",
+    "dateOfBirth": "1990-01-15T00:00:00Z",
+    "gender": "MALE",
+    "isEmailVerified": true,
+    "isActive": true,
+    "lastLoginAt": "2023-10-15T08:30:00Z",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-10-15T08:30:00Z"
+  },
+  {
+    "id": "223e4567-e89b-12d3-a456-426614174000",
+    "email": "admin@example.com",
+    "passwordHash": "$2a$10$xLFtBIXGtW3IZ1/JYvW7VuB0VHM/pD0qVWbOOSFFgzU7x8a5Q9J2q",
+    "firstName": "Admin",
+    "lastName": "User",
+    "displayName": "Admin",
+    "phoneNumber": "+1987654321",
+    "dateOfBirth": "1985-05-20T00:00:00Z",
+    "gender": "FEMALE",
+    "isEmailVerified": true,
+    "isActive": true,
+    "lastLoginAt": "2023-10-16T10:15:00Z",
+    "createdAt": "2023-01-01T00:00:00Z",
+    "updatedAt": "2023-10-16T10:15:00Z"
+  }
+]

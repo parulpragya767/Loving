@@ -1,7 +1,8 @@
 package com.lovingapp.loving.mapper;
 
+import com.lovingapp.loving.dto.UserContextDTO;
 import com.lovingapp.loving.model.UserContext;
-import com.lovingapp.loving.model.dto.UserContextDTO;
+
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

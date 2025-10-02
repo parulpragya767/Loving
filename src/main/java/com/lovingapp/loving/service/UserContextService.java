@@ -1,8 +1,8 @@
 package com.lovingapp.loving.service;
 
+import com.lovingapp.loving.dto.UserContextDTO;
 import com.lovingapp.loving.mapper.UserContextMapper;
 import com.lovingapp.loving.model.UserContext;
-import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.repository.UserContextRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

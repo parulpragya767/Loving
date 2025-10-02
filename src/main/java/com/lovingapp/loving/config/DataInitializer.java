@@ -6,12 +6,13 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.lovingapp.loving.model.LoveTypeInfo;
 import com.lovingapp.loving.model.Ritual;
 import com.lovingapp.loving.model.RitualPack;
+import com.lovingapp.loving.model.User;
 import com.lovingapp.loving.model.UserContext;
 import com.lovingapp.loving.repository.LoveTypeRepository;
 import com.lovingapp.loving.repository.RitualRepository;
 import com.lovingapp.loving.repository.RitualPackRepository;
 import com.lovingapp.loving.repository.UserContextRepository;
-import java.time.OffsetDateTime;
+import com.lovingapp.loving.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
 import jakarta.annotation.PostConstruct;
@@ -37,6 +38,7 @@ public class DataInitializer {
     private final RitualRepository ritualRepository;
     private final RitualPackRepository ritualPackRepository;
     private final UserContextRepository userContextRepository;
+    private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
 
     @Autowired
@@ -44,19 +46,37 @@ public class DataInitializer {
                           RitualRepository ritualRepository,
                           RitualPackRepository ritualPackRepository,
                           UserContextRepository userContextRepository,
+                          UserRepository userRepository,
                           ObjectMapper objectMapper) {
         this.loveTypeRepository = loveTypeRepository;
         this.ritualRepository = ritualRepository;
         this.ritualPackRepository = ritualPackRepository;
         this.userContextRepository = userContextRepository;
+        this.userRepository = userRepository;
         this.objectMapper = objectMapper.copy()
             .registerModule(new JavaTimeModule());
     }
 
+    private String loadJsonFile(String path) throws IOException {
+        ClassPathResource resource = new ClassPathResource(path);
+        return StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+    }
+
     @PostConstruct
     @Transactional
-    public void init() {
-        // Only initialize if the database is empty
+    public void init() throws IOException {
+        objectMapper.registerModule(new JavaTimeModule());
+        
+        // Load users
+        if (userRepository.count() == 0) {
+            log.info("Loading users...");
+            String usersJson = loadJsonFile("data/users.json");
+            List<User> users = objectMapper.readValue(usersJson, new TypeReference<>() {});
+            userRepository.saveAll(users);
+            log.info("Loaded {} users", users.size());
+        }
+        
+        // Load love types
         if (loveTypeRepository.count() == 0) {
             initializeLoveTypes();
         }

@@ -1,4 +1,4 @@
-package com.lovingapp.loving.model.dto;
+package com.lovingapp.loving.dto;
 
 import com.lovingapp.loving.model.enums.*;
 import lombok.*;
