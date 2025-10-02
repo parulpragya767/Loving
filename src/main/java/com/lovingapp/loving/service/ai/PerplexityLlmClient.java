@@ -5,14 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.Map;
-import java.util.List;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovingapp.loving.model.enums.EmotionalState;
+import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.config.LlmClientProperties;
+import com.lovingapp.loving.dto.ai.LlmResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -20,11 +21,15 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Perplexity AI implementation of the LlmClient interface.
  */
+@Slf4j
 @Component
 public class PerplexityLlmClient implements LlmClient {
 
@@ -36,8 +41,10 @@ public class PerplexityLlmClient implements LlmClient {
         this.webClient = webClient;
     }
 
+    private final ObjectMapper objectMapper = new ObjectMapper();
+
     @Override
-    public Mono<String> chat(List<Message> messages) {
+    public Mono<LlmResponse> chat(List<Message> messages) {
         // Convert Message objects to PerplexityMessage objects
         List<PerplexityMessage> perplexityMessages = messages.stream()
                 .map(msg -> PerplexityMessage.builder()
@@ -75,58 +82,96 @@ public class PerplexityLlmClient implements LlmClient {
                 .header(HttpHeaders.AUTHORIZATION, "Bearer " + perplexityProps.getApiKey())
                 .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .body(BodyInserters.fromValue(request))
-                .exchangeToMono(clientResponse -> {
-                    // Log the response status and headers
-                    System.out.println("Received response from Perplexity API:");
-                    System.out.println("Status: " + clientResponse.statusCode());
-                    System.out.println("Headers: " + clientResponse.headers().asHttpHeaders());
-                    
-                    // Read the response body as a string first for logging
-                    return clientResponse.bodyToMono(String.class)
-                            .doOnNext(body -> {
-                                System.out.println("Response body: " + body);
-                                try {
-                                    // Try to parse it as JSON for better formatting
-                                    ObjectMapper mapper = new ObjectMapper();
-                                    Object json = mapper.readValue(body, Object.class);
-                                    System.out.println("Formatted response: " + 
-                                        mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json));
-                                } catch (Exception e) {
-                                    // If not JSON or parsing fails, just log as is
-                                    System.out.println("Response body (raw): " + body);
-                                }
-                            })
-                            .flatMap(body -> {
-                                try {
-                                    // Parse the response as a Map first to access fields directly
-                                    ObjectMapper mapper = new ObjectMapper();
-                                    Map<String, Object> responseMap = mapper.readValue(body, new TypeReference<Map<String, Object>>() {});
-                                    
-                                    // Get the first choice's message content directly
-                                    if (responseMap.containsKey("choices")) {
-                                        List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
-                                        if (choices != null && !choices.isEmpty()) {
-                                            Map<String, Object> firstChoice = choices.get(0);
-                                            if (firstChoice.containsKey("message")) {
-                                                Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
-                                                if (message != null && message.containsKey("content")) {
-                                                    return Mono.just(message.get("content").toString());
-                                                }
-                                            }
-                                        }
-                                    }
-                                    return Mono.error(new RuntimeException("No valid response content found in Perplexity AI response"));
-                                } catch (Exception e) {
-                                    return Mono.error(new RuntimeException("Failed to parse response: " + e.getMessage() + "\nResponse body: " + body));
-                                }
-                            });
-                })
+                .retrieve()
+                .bodyToMono(String.class)
+                .flatMap(this::parseLlmResponse)
                 .onErrorResume(e -> {
-                    // Log the error for debugging
-                    System.err.println("Error calling Perplexity API: " + e.getMessage());
-                    e.printStackTrace();
-                    return Mono.just("Sorry, I encountered an error while processing your request: " + e.getMessage());
+                    log.error("Error calling Perplexity API", e);
+                    return Mono.error(new RuntimeException("Failed to get response from Perplexity: " + e.getMessage()));
                 });
+    }
+
+    @SuppressWarnings("unchecked")
+    private Mono<LlmResponse> parseLlmResponse(String jsonResponse) {
+        try {
+            // Parse the response as a Map first to access fields directly
+            Map<String, Object> responseMap = objectMapper.readValue(jsonResponse, new TypeReference<Map<String, Object>>() {});
+            
+            // Get the first choice's message content
+            String content = "";
+            if (responseMap.containsKey("choices")) {
+                List<Map<String, Object>> choices = (List<Map<String, Object>>) responseMap.get("choices");
+                if (choices != null && !choices.isEmpty()) {
+                    Map<String, Object> firstChoice = choices.get(0);
+                    if (firstChoice.containsKey("message")) {
+                        Map<String, Object> message = (Map<String, Object>) firstChoice.get("message");
+                        if (message != null && message.containsKey("content")) {
+                            content = message.get("content").toString();
+                        }
+                    }
+                }
+            }
+            
+            // Extract the response text and context from the content
+            String responseText = content;
+            LlmResponse.Context context = null;
+            
+            // Look for the context_json marker in the response
+            int contextStart = content.indexOf("<context_json>");
+            if (contextStart != -1) {
+                // Extract the response text (everything before the context_json)
+                responseText = content.substring(0, contextStart).trim();
+                
+                // Extract the JSON context
+                int contextEnd = content.indexOf("</context_json>", contextStart);
+                if (contextEnd != -1) {
+                    String jsonContext = content.substring(contextStart + "<context_json>".length(), contextEnd).trim();
+                    try {
+                        Map<String, Object> contextMap = objectMapper.readValue(jsonContext, new TypeReference<Map<String, Object>>() {});
+                        
+                        // Extract emotional states
+                        List<String> emotionalStates = contextMap.containsKey("emotional_states") ? 
+                                (List<String>) contextMap.get("emotional_states") : 
+                                Collections.emptyList();
+                        
+                        // Extract love types (if any)
+                        List<String> loveTypes = contextMap.containsKey("love_types") ? 
+                                (List<String>) contextMap.get("love_types") : 
+                                Collections.emptyList();
+                        
+                        // Build the context
+                        context = LlmResponse.Context.builder()
+                                .emotionalStates(emotionalStates.stream()
+                                        .map(EmotionalState::valueOf)
+                                        .collect(Collectors.toList()))
+                                .loveTypes(loveTypes.stream()
+                                        .map(LoveType::valueOf)
+                                        .collect(Collectors.toList()))
+                                .needsFollowUp(Boolean.TRUE.equals(contextMap.get("needs_follow_up")))
+                                .readyForRecommendation(Boolean.TRUE.equals(contextMap.get("ready_for_recommendation")))
+                                .build();
+                                
+                    } catch (Exception e) {
+                        log.warn("Failed to parse context JSON", e);
+                    }
+                }
+            }
+            
+            // Build and return the LlmResponse
+            return Mono.just(LlmResponse.builder()
+                    .response(responseText)
+                    .context(context != null ? context : LlmResponse.Context.builder()
+                            .emotionalStates(Collections.emptyList())
+                            .loveTypes(Collections.emptyList())
+                            .needsFollowUp(false)
+                            .readyForRecommendation(false)
+                            .build())
+                    .build());
+                    
+        } catch (Exception e) {
+            log.error("Failed to parse response", e);
+            return Mono.error(new RuntimeException("Failed to parse LLM response: " + e.getMessage()));
+        }
     }
 
     // Request/Response DTOs for Perplexity API
