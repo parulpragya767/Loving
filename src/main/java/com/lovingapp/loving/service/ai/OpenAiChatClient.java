@@ -2,11 +2,11 @@ package com.lovingapp.loving.service.ai;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.lovingapp.loving.config.AiClientProperties;
-import com.lovingapp.loving.model.ai.ChatMessageRole;
+import com.lovingapp.loving.config.LlmClientProperties;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -14,73 +14,82 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * OpenAI implementation of the LlmClient interface.
+ */
 @Component
-@RequiredArgsConstructor
-public class OpenAiChatClient {
+public class OpenAiChatClient implements LlmClient {
 
-    private final AiClientProperties props;
+    private final LlmClientProperties.OpenAiProperties openAiProps;
+    private final WebClient webClient;
 
+    public OpenAiChatClient(LlmClientProperties llmClientProperties, WebClient webClient) {
+        this.openAiProps = llmClientProperties.getOpenai();
+        this.webClient = webClient;
+    }
+
+    @Override
     public Mono<String> chat(List<Message> messages) {
-        WebClient client = WebClient.builder()
-                .baseUrl(props.getBaseUrl())
-                .defaultHeader(HttpHeaders.AUTHORIZATION, "Bearer " + props.getApiKey())
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        OpenAiRequest request = OpenAiRequest.builder()
+                .model(openAiProps.getModel())
+                .maxTokens(openAiProps.getMaxTokens())
+                .temperature(openAiProps.getTemperature())
+                .messages(messages)
                 .build();
 
-        ChatRequest req = new ChatRequest();
-        req.setModel(props.getModel());
-        req.setMaxTokens(props.getMaxTokens());
-        req.setTemperature(props.getTemperature());
-        req.setMessages(messages);
-
-        return client.post()
-                .uri("/v1/chat/completions")
-                .body(BodyInserters.fromValue(req))
+        return webClient.post()
+                .uri(openAiProps.getBaseUrl() + "/v1/chat/completions")
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + openAiProps.getApiKey())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(BodyInserters.fromValue(request))
                 .retrieve()
-                .bodyToMono(ChatResponse.class)
+                .bodyToMono(OpenAiResponse.class)
                 .map(r -> r.getChoices() != null && !r.getChoices().isEmpty()
                         ? r.getChoices().get(0).getMessage().getContent()
                         : "");
     }
 
-    // Helper structures for API
+    // Request/Response DTOs for OpenAI API
     @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class ChatRequest {
+    private static class OpenAiRequest {
         private String model;
         @JsonProperty("max_tokens")
         private Integer maxTokens;
         private Double temperature;
-        private List<Message> messages = new ArrayList<>();
+        private List<Message> messages;
     }
 
     @Data
+    @Builder
+    @NoArgsConstructor
     @AllArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    public static class Message {
-        private String role;
-        private String content;
-        public static Message of(ChatMessageRole role, String content) {
-            return new Message(role.name().toLowerCase(), content);
-        }
-    }
-
-    @Data
-    public static class ChatResponse {
+    private static class OpenAiResponse {
         private List<Choice> choices;
     }
 
     @Data
-    public static class Choice {
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private static class Choice {
         private int index;
-        private AIMessage message;
+        private OpenAiMessage message;
     }
 
     @Data
-    public static class AIMessage {
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private static class OpenAiMessage {
         private String role;
         private String content;
     }

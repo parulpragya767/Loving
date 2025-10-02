@@ -7,8 +7,14 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Data Transfer Objects for AI chat functionality.
+ */
 public class ChatDTOs {
 
+    /**
+     * Request to start a new chat session or continue an existing one.
+     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -19,17 +25,22 @@ public class ChatDTOs {
         private String systemPrompt;   // optional custom system prompt
     }
 
+    /**
+     * Response containing session details after starting or continuing a chat session.
+     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class StartSessionResponse {
         private UUID sessionId;
-        private UUID userId;
         private String conversationId;
-        private OffsetDateTime createdAt;
+        private List<ChatMessageDTO> messages;
     }
 
+    /**
+     * Request to send a message in a chat session.
+     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -38,6 +49,9 @@ public class ChatDTOs {
         private String content; // user message
     }
 
+    /**
+     * Represents a chat message in the system.
+     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -50,17 +64,35 @@ public class ChatDTOs {
         private OffsetDateTime createdAt;
     }
 
+    /**
+     * Response containing the assistant's reply to a user message.
+     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
     public static class SendMessageResponse {
-        private ChatMessageDTO userMessage;
         private ChatMessageDTO assistantMessage;
         private boolean askedFollowUp;
         private boolean recommendationTriggered;
     }
 
+    /**
+     * Response containing the chat history for a session.
+     */
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class GetHistoryResponse {
+        private UUID sessionId;
+        private List<ChatMessageDTO> messages;
+    }
+    
+    /**
+     * @deprecated Use {@link GetHistoryResponse} instead.
+     */
+    @Deprecated
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
