@@ -13,6 +13,10 @@ import com.lovingapp.loving.repository.RitualRepository;
 import com.lovingapp.loving.repository.RitualPackRepository;
 import com.lovingapp.loving.repository.UserContextRepository;
 import com.lovingapp.loving.repository.UserRepository;
+import com.lovingapp.loving.repository.RitualHistoryRepository;
+import com.lovingapp.loving.model.RitualHistory;
+import com.lovingapp.loving.model.enums.RitualHistoryStatus;
+import com.lovingapp.loving.model.enums.EmojiFeedback;
 
 import jakarta.transaction.Transactional;
 import jakarta.annotation.PostConstruct;
@@ -38,6 +42,7 @@ public class DataInitializer {
     private final RitualRepository ritualRepository;
     private final RitualPackRepository ritualPackRepository;
     private final UserContextRepository userContextRepository;
+    private final RitualHistoryRepository ritualHistoryRepository;
     private final UserRepository userRepository;
     private final ObjectMapper objectMapper;
 
@@ -47,12 +52,14 @@ public class DataInitializer {
                           RitualPackRepository ritualPackRepository,
                           UserContextRepository userContextRepository,
                           UserRepository userRepository,
+                          RitualHistoryRepository ritualHistoryRepository,
                           ObjectMapper objectMapper) {
         this.loveTypeRepository = loveTypeRepository;
         this.ritualRepository = ritualRepository;
         this.ritualPackRepository = ritualPackRepository;
         this.userContextRepository = userContextRepository;
         this.userRepository = userRepository;
+        this.ritualHistoryRepository = ritualHistoryRepository;
         this.objectMapper = objectMapper.copy()
             .registerModule(new JavaTimeModule());
     }
@@ -88,6 +95,59 @@ public class DataInitializer {
         }
         if (userContextRepository.count() == 0) {
             initializeUserContexts();
+        }
+        if (ritualHistoryRepository.count() == 0) {
+            initializeRitualHistories();
+        }
+    }
+    
+    private void initializeRitualHistories() {
+        try {
+            // Read JSON file from resources
+            ClassPathResource resource = new ClassPathResource("data/ritualHistories.json");
+            String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
+
+            // Deserialize JSON to List<RitualHistorySeed>
+            List<RitualHistorySeed> seeds = objectMapper.readValue(
+                json,
+                objectMapper.getTypeFactory().constructCollectionType(List.class, RitualHistorySeed.class)
+            );
+
+            // Resolve ritual titles to IDs in a single query
+            List<String> titles = seeds.stream()
+                    .map(s -> s.ritualTitle)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .toList();
+
+            Map<String, UUID> ritualIdByTitle = ritualRepository.findAllByTitleIn(titles).stream()
+                    .collect(Collectors.toMap(Ritual::getTitle, Ritual::getId));
+
+            List<RitualHistory> histories = new ArrayList<>();
+            for (RitualHistorySeed seed : seeds) {
+                UUID ritualId = ritualIdByTitle.get(seed.ritualTitle);
+                if (ritualId == null) {
+                    // Skip if ritual title cannot be resolved
+                    continue;
+                }
+
+                RitualHistory rh = RitualHistory.builder()
+                        .userId(seed.userId)
+                        .ritualId(ritualId)
+                        .status(seed.status != null ? RitualHistoryStatus.valueOf(seed.status) : RitualHistoryStatus.SUGGESTED)
+                        .feedback(seed.feedback != null ? EmojiFeedback.valueOf(seed.feedback) : null)
+                        .occurredAt(seed.occurredAt)
+                        .build();
+                histories.add(rh);
+            }
+
+            if (!histories.isEmpty()) {
+                ritualHistoryRepository.saveAll(histories);
+                log.info("Sample ritual histories initialized successfully ({} records)", histories.size());
+            }
+        } catch (IOException e) {
+            log.error("Failed to initialize ritual histories from JSON file", e);
+            throw new RuntimeException("Failed to initialize ritual histories from JSON file", e);
         }
     }
 
@@ -211,5 +271,14 @@ public class DataInitializer {
         public String semanticSummary;
         public String createdBy;
         public com.lovingapp.loving.model.enums.PublicationStatus status;
+    }
+
+    // Helper seed-only structure for ritual histories
+    private static class RitualHistorySeed {
+        public java.util.UUID userId;
+        public String ritualTitle;
+        public String status;
+        public String feedback;
+        public java.time.OffsetDateTime occurredAt;
     }
 }
