@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import com.lovingapp.loving.config.LlmClientProperties;
+import com.lovingapp.loving.config.SupabaseProperties;
 
 @SpringBootApplication
-@EnableConfigurationProperties(LlmClientProperties.class)
+@EnableConfigurationProperties({LlmClientProperties.class, SupabaseProperties.class})
 @RestController
 public class LovingApplication {
 
