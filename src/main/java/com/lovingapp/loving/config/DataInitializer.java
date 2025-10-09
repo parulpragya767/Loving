@@ -1,36 +1,42 @@
 package com.lovingapp.loving.config;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.lovingapp.loving.model.LoveTypeInfo;
-import com.lovingapp.loving.model.Ritual;
-import com.lovingapp.loving.model.RitualPack;
-import com.lovingapp.loving.model.User;
-import com.lovingapp.loving.model.UserContext;
-import com.lovingapp.loving.repository.LoveTypeRepository;
-import com.lovingapp.loving.repository.RitualRepository;
-import com.lovingapp.loving.repository.RitualPackRepository;
-import com.lovingapp.loving.repository.UserContextRepository;
-import com.lovingapp.loving.repository.UserRepository;
-import com.lovingapp.loving.repository.RitualHistoryRepository;
-import com.lovingapp.loving.model.RitualHistory;
-import com.lovingapp.loving.model.enums.RitualHistoryStatus;
-import com.lovingapp.loving.model.enums.EmojiFeedback;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
-import jakarta.transaction.Transactional;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.lovingapp.loving.model.LoveTypeInfo;
+import com.lovingapp.loving.model.Ritual;
+import com.lovingapp.loving.model.RitualHistory;
+import com.lovingapp.loving.model.RitualPack;
+import com.lovingapp.loving.model.User;
+import com.lovingapp.loving.model.UserContext;
+import com.lovingapp.loving.model.enums.EmojiFeedback;
+import com.lovingapp.loving.model.enums.RitualHistoryStatus;
+import com.lovingapp.loving.repository.LoveTypeRepository;
+import com.lovingapp.loving.repository.RitualHistoryRepository;
+import com.lovingapp.loving.repository.RitualPackRepository;
+import com.lovingapp.loving.repository.RitualRepository;
+import com.lovingapp.loving.repository.UserContextRepository;
+import com.lovingapp.loving.repository.UserRepository;
 
+import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -47,13 +53,13 @@ public class DataInitializer {
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public DataInitializer(LoveTypeRepository loveTypeRepository, 
-                          RitualRepository ritualRepository,
-                          RitualPackRepository ritualPackRepository,
-                          UserContextRepository userContextRepository,
-                          UserRepository userRepository,
-                          RitualHistoryRepository ritualHistoryRepository,
-                          ObjectMapper objectMapper) {
+    public DataInitializer(LoveTypeRepository loveTypeRepository,
+            RitualRepository ritualRepository,
+            RitualPackRepository ritualPackRepository,
+            UserContextRepository userContextRepository,
+            UserRepository userRepository,
+            RitualHistoryRepository ritualHistoryRepository,
+            ObjectMapper objectMapper) {
         this.loveTypeRepository = loveTypeRepository;
         this.ritualRepository = ritualRepository;
         this.ritualPackRepository = ritualPackRepository;
@@ -61,7 +67,7 @@ public class DataInitializer {
         this.userRepository = userRepository;
         this.ritualHistoryRepository = ritualHistoryRepository;
         this.objectMapper = objectMapper.copy()
-            .registerModule(new JavaTimeModule());
+                .registerModule(new JavaTimeModule());
     }
 
     private String loadJsonFile(String path) throws IOException {
@@ -73,16 +79,17 @@ public class DataInitializer {
     @Transactional
     public void init() throws IOException {
         objectMapper.registerModule(new JavaTimeModule());
-        
+
         // Load users
         if (userRepository.count() == 0) {
             log.info("Loading users...");
             String usersJson = loadJsonFile("data/users.json");
-            List<User> users = objectMapper.readValue(usersJson, new TypeReference<>() {});
+            List<User> users = objectMapper.readValue(usersJson, new TypeReference<>() {
+            });
             userRepository.saveAll(users);
             log.info("Loaded {} users", users.size());
         }
-        
+
         // Load love types
         if (loveTypeRepository.count() == 0) {
             initializeLoveTypes();
@@ -100,7 +107,7 @@ public class DataInitializer {
             initializeRitualHistories();
         }
     }
-    
+
     private void initializeRitualHistories() {
         try {
             // Read JSON file from resources
@@ -109,9 +116,8 @@ public class DataInitializer {
 
             // Deserialize JSON to List<RitualHistorySeed>
             List<RitualHistorySeed> seeds = objectMapper.readValue(
-                json,
-                objectMapper.getTypeFactory().constructCollectionType(List.class, RitualHistorySeed.class)
-            );
+                    json,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, RitualHistorySeed.class));
 
             // Resolve ritual titles to IDs in a single query
             List<String> titles = seeds.stream()
@@ -134,7 +140,8 @@ public class DataInitializer {
                 RitualHistory rh = RitualHistory.builder()
                         .userId(seed.userId)
                         .ritualId(ritualId)
-                        .status(seed.status != null ? RitualHistoryStatus.valueOf(seed.status) : RitualHistoryStatus.SUGGESTED)
+                        .status(seed.status != null ? RitualHistoryStatus.valueOf(seed.status)
+                                : RitualHistoryStatus.SUGGESTED)
                         .feedback(seed.feedback != null ? EmojiFeedback.valueOf(seed.feedback) : null)
                         .occurredAt(seed.occurredAt)
                         .build();
@@ -161,9 +168,8 @@ public class DataInitializer {
 
                 // Deserialize JSON to List<LoveTypeInfo>
                 List<LoveTypeInfo> loveTypes = objectMapper.readValue(
-                    json,
-                    objectMapper.getTypeFactory().constructCollectionType(List.class, LoveTypeInfo.class)
-                );
+                        json,
+                        objectMapper.getTypeFactory().constructCollectionType(List.class, LoveTypeInfo.class));
 
                 // Save all love types
                 loveTypeRepository.saveAll(loveTypes);
@@ -182,7 +188,8 @@ public class DataInitializer {
                 String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
                 // Deserialize JSON to List<Ritual>
-                List<Ritual> rituals = objectMapper.readValue(json, new TypeReference<List<Ritual>>() {});
+                List<Ritual> rituals = objectMapper.readValue(json, new TypeReference<List<Ritual>>() {
+                });
 
                 // Save all rituals
                 ritualRepository.saveAll(rituals);
@@ -199,7 +206,8 @@ public class DataInitializer {
             String json = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
 
             // Seed model structure: we reference rituals by title in JSON for convenience
-            List<RitualPackSeed> seeds = objectMapper.readValue(json, new TypeReference<List<RitualPackSeed>>() {});
+            List<RitualPackSeed> seeds = objectMapper.readValue(json, new TypeReference<List<RitualPackSeed>>() {
+            });
 
             for (RitualPackSeed seed : seeds) {
                 RitualPack pack = new RitualPack();
@@ -211,7 +219,8 @@ public class DataInitializer {
                 pack.setCreatedBy(seed.createdBy);
 
                 // Resolve rituals by title
-                List<Ritual> rituals = ritualRepository.findAllByTitleIn(seed.ritualTitles != null ? seed.ritualTitles : Collections.emptyList());
+                List<Ritual> rituals = ritualRepository
+                        .findAllByTitleIn(seed.ritualTitles != null ? seed.ritualTitles : Collections.emptyList());
                 pack.setRituals(rituals);
 
                 // Aggregate tags from child rituals
@@ -222,16 +231,20 @@ public class DataInitializer {
                         .flatMap(r -> Optional.ofNullable(r.getRitualTones()).orElse(Collections.emptyList()).stream())
                         .distinct().collect(Collectors.toList()));
                 pack.setLoveTypesSupported(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getLoveTypesSupported()).orElse(Collections.emptyList()).stream())
+                        .flatMap(r -> Optional.ofNullable(r.getLoveTypesSupported()).orElse(Collections.emptyList())
+                                .stream())
                         .distinct().collect(Collectors.toList()));
                 pack.setEmotionalStatesSupported(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getEmotionalStatesSupported()).orElse(Collections.emptyList()).stream())
+                        .flatMap(r -> Optional.ofNullable(r.getEmotionalStatesSupported())
+                                .orElse(Collections.emptyList()).stream())
                         .distinct().collect(Collectors.toList()));
                 pack.setRelationalNeedsServed(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getRelationalNeedsServed()).orElse(Collections.emptyList()).stream())
+                        .flatMap(r -> Optional.ofNullable(r.getRelationalNeedsServed()).orElse(Collections.emptyList())
+                                .stream())
                         .distinct().collect(Collectors.toList()));
                 pack.setLifeContextsRelevant(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getLifeContextsRelevant()).orElse(Collections.emptyList()).stream())
+                        .flatMap(r -> Optional.ofNullable(r.getLifeContextsRelevant()).orElse(Collections.emptyList())
+                                .stream())
                         .distinct().collect(Collectors.toList()));
 
                 ritualPackRepository.save(pack);
@@ -249,9 +262,8 @@ public class DataInitializer {
 
             // Deserialize JSON to List<UserContext>
             List<UserContext> userContexts = objectMapper.readValue(
-                json,
-                objectMapper.getTypeFactory().constructCollectionType(List.class, UserContext.class)
-            );
+                    json,
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, UserContext.class));
 
             // Save all user contexts
             userContextRepository.saveAll(userContexts);
@@ -261,7 +273,7 @@ public class DataInitializer {
             throw new RuntimeException("Failed to initialize user contexts from JSON file", e);
         }
     }
-    
+
     // Helper seed-only structure
     private static class RitualPackSeed {
         public String title;

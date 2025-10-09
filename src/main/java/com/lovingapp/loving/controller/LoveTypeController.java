@@ -1,14 +1,18 @@
 package com.lovingapp.loving.controller;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.lovingapp.loving.model.LoveTypeInfo;
 import com.lovingapp.loving.service.LoveTypeService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/api/love-types")
@@ -28,28 +32,5 @@ public class LoveTypeController {
         return loveTypeService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
-    }
-
-    @PostMapping
-    public ResponseEntity<LoveTypeInfo> createLoveType(@Valid @RequestBody LoveTypeInfo loveTypeInfo) {
-        LoveTypeInfo createdLoveType = loveTypeService.save(loveTypeInfo);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdLoveType);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<LoveTypeInfo> updateLoveType(
-            @PathVariable Integer id, 
-            @Valid @RequestBody LoveTypeInfo loveTypeInfo) {
-        return loveTypeService.update(id, loveTypeInfo)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteLoveType(@PathVariable Integer id) {
-        if (loveTypeService.deleteById(id)) {
-            return ResponseEntity.noContent().build();
-        }
-        return ResponseEntity.notFound().build();
     }
 }
