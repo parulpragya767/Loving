@@ -1,17 +1,20 @@
 package com.lovingapp.loving.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.UuidGenerator;
-
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
-/**
- * Core user entity representing a user of the application.
- */
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "users")
 @Data
@@ -19,19 +22,13 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class User {
-
     @Id
     @Column(updatable = false, nullable = false)
     private UUID id;
 
-    // Authentication
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
-    private String passwordHash;
-
-    // Personal Information
     @Column(name = "first_name")
     private String firstName;
 
@@ -50,7 +47,6 @@ public class User {
     @Column(name = "gender")
     private String gender;
 
-    // Account Status
     @Column(name = "is_email_verified", nullable = false)
     @Builder.Default
     private Boolean isEmailVerified = false;
@@ -62,7 +58,6 @@ public class User {
     @Column(name = "last_login_at")
     private OffsetDateTime lastLoginAt;
 
-    // Timestamps
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime createdAt;
@@ -71,7 +66,6 @@ public class User {
     @Column(name = "updated_at", columnDefinition = "TIMESTAMP WITH TIME ZONE")
     private OffsetDateTime updatedAt;
 
-    // Helper methods
     public String getFullName() {
         return (firstName != null ? firstName + " " : "") + (lastName != null ? lastName : "").trim();
     }

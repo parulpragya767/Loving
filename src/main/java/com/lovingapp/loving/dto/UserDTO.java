@@ -1,12 +1,12 @@
 package com.lovingapp.loving.dto;
 
-import lombok.*;
-
 import java.time.OffsetDateTime;
 
-/**
- * Data Transfer Object for User entity.
- */
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
