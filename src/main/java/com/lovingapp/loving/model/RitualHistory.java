@@ -51,10 +51,6 @@ public class RitualHistory {
     @Column(name = "feedback", length = 30)
     private EmojiFeedback feedback;
 
-    // When this history event occurred (e.g., when completed/skipped)
-    @Column(name = "occurred_at", columnDefinition = "timestamptz")
-    private OffsetDateTime occurredAt;
-
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, columnDefinition = "timestamptz")
     private OffsetDateTime createdAt;

@@ -6,11 +6,10 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.lovingapp.loving.model.RitualHistory;
+import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 
 public interface RitualHistoryRepository extends JpaRepository<RitualHistory, UUID> {
-    List<RitualHistory> findByUserIdOrderByOccurredAtDesc(UUID userId);
+    List<RitualHistory> findByUserIdOrderByUpdatedAtDesc(UUID userId);
 
-    List<RitualHistory> findByRitualIdOrderByOccurredAtDesc(UUID ritualId);
-
-    List<RitualHistory> findByUserIdAndRitualIdOrderByOccurredAtDesc(UUID userId, UUID ritualId);
+    List<RitualHistory> findByUserIdAndStatusInOrderByUpdatedAtDesc(UUID userId, List<RitualHistoryStatus> statuses);
 }

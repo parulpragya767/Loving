@@ -1,9 +1,7 @@
 package com.lovingapp.loving.controller;
 
-import java.net.URI;
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.dto.RitualHistoryDTO;
-import com.lovingapp.loving.mapper.RitualHistoryMapper;
-import com.lovingapp.loving.model.RitualHistory;
+import com.lovingapp.loving.dto.RitualHistoryStatusUpdateRequest;
+import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.service.RitualHistoryService;
 
 import lombok.RequiredArgsConstructor;
@@ -51,10 +49,15 @@ public class RitualHistoryController {
     public ResponseEntity<List<RitualHistoryDTO>> list(
             @AuthenticationPrincipal Jwt jwt) {
         UUID userId = getAuthUserId(jwt);
+        List<RitualHistoryDTO> list = ritualHistoryService.listByUser(userId);
+        return ResponseEntity.ok(list);
+    }
 
-        List<RitualHistory> list = ritualHistoryService.listByUser(userId);
-        List<RitualHistoryDTO> body = list.stream().map(RitualHistoryMapper::toDto).collect(Collectors.toList());
-        return ResponseEntity.ok(body);
+    @GetMapping("/active")
+    public ResponseEntity<List<RitualHistoryDTO>> listActive(@AuthenticationPrincipal Jwt jwt) {
+        UUID userId = getAuthUserId(jwt);
+        List<RitualHistoryDTO> list = ritualHistoryService.listActiveByUser(userId);
+        return ResponseEntity.ok(list);
     }
 
     @PostMapping
@@ -62,42 +65,43 @@ public class RitualHistoryController {
             @RequestBody RitualHistoryDTO request) {
         UUID userId = getAuthUserId(jwt);
         request.setId(null);
-        RitualHistory entity = RitualHistoryMapper.fromDto(request);
-        entity.setUserId(userId);
-        RitualHistory saved = ritualHistoryService.save(entity);
-        RitualHistoryDTO body = RitualHistoryMapper.toDto(saved);
-        return ResponseEntity.created(URI.create("/api/ritual-history/" + saved.getId())).body(body);
+        request.setUserId(userId);
+        RitualHistoryDTO savedDto = ritualHistoryService.save(request);
+        return new ResponseEntity<>(savedDto, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<RitualHistoryDTO> update(@AuthenticationPrincipal Jwt jwt, @PathVariable("id") UUID id,
-            @RequestBody RitualHistoryDTO request) {
+    @PostMapping("/{id}/complete")
+    public ResponseEntity<RitualHistoryDTO> complete(@AuthenticationPrincipal Jwt jwt,
+            @PathVariable("id") UUID id,
+            @RequestBody RitualHistoryStatusUpdateRequest request) {
         UUID userId = getAuthUserId(jwt);
-        return ritualHistoryService.findById(id)
-                .map(existing -> {
-                    if (!existing.getUserId().equals(userId)) {
-                        return new ResponseEntity<RitualHistoryDTO>(HttpStatus.FORBIDDEN);
-                    }
-                    request.setId(existing.getId());
-                    RitualHistoryMapper.updateEntityFromDto(request, existing);
-                    existing.setUserId(userId);
-                    RitualHistory saved = ritualHistoryService.save(existing);
-                    return ResponseEntity.ok(RitualHistoryMapper.toDto(saved));
-                })
+        return ritualHistoryService
+                .updateStatusWithOwnership(id, userId, RitualHistoryStatus.COMPLETED, request.getFeedback())
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @PutMapping("/{id}/status")
+    public ResponseEntity<RitualHistoryDTO> updateStatus(@AuthenticationPrincipal Jwt jwt,
+            @PathVariable("id") UUID id,
+            @RequestBody RitualHistoryStatusUpdateRequest request) {
+        UUID userId = getAuthUserId(jwt);
+        if (request.getStatus() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return ritualHistoryService
+                .updateStatusWithOwnership(id, userId, request.getStatus(), null)
+                .map(ResponseEntity::ok)
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal Jwt jwt, @PathVariable("id") UUID id) {
         UUID userId = getAuthUserId(jwt);
-        return ritualHistoryService.findById(id)
-                .map(existing -> {
-                    if (!existing.getUserId().equals(userId)) {
-                        return new ResponseEntity<Void>(HttpStatus.FORBIDDEN);
-                    }
-                    ritualHistoryService.delete(existing);
-                    return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-                })
+        return ritualHistoryService
+                .updateStatusWithOwnership(id, userId, RitualHistoryStatus.ABANDONED, null)
+                .map(savedDto -> ResponseEntity.noContent().<Void>build())
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
 }

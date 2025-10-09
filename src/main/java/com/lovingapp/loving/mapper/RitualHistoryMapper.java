@@ -17,7 +17,6 @@ public final class RitualHistoryMapper {
                 .ritualPackId(entity.getRitualPackId())
                 .status(entity.getStatus())
                 .feedback(entity.getFeedback())
-                .occurredAt(entity.getOccurredAt())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
                 .build();
@@ -33,7 +32,6 @@ public final class RitualHistoryMapper {
                 .ritualPackId(dto.getRitualPackId())
                 .status(dto.getStatus())
                 .feedback(dto.getFeedback())
-                .occurredAt(dto.getOccurredAt())
                 .build();
     }
 
@@ -45,6 +43,5 @@ public final class RitualHistoryMapper {
         entity.setRitualPackId(dto.getRitualPackId());
         entity.setStatus(dto.getStatus());
         entity.setFeedback(dto.getFeedback());
-        entity.setOccurredAt(dto.getOccurredAt());
     }
 }

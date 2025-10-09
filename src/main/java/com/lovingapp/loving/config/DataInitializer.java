@@ -160,7 +160,6 @@ public class DataInitializer {
                         .status(seed.status != null ? RitualHistoryStatus.valueOf(seed.status)
                                 : RitualHistoryStatus.SUGGESTED)
                         .feedback(seed.feedback != null ? EmojiFeedback.valueOf(seed.feedback) : null)
-                        .occurredAt(seed.occurredAt)
                         .build();
                 histories.add(rh);
             }
@@ -309,6 +308,5 @@ public class DataInitializer {
         public String ritualPackTitle;
         public String status;
         public String feedback;
-        public java.time.OffsetDateTime occurredAt;
     }
 }
