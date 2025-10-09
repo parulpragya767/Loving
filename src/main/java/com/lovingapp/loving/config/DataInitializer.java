@@ -120,14 +120,24 @@ public class DataInitializer {
                     objectMapper.getTypeFactory().constructCollectionType(List.class, RitualHistorySeed.class));
 
             // Resolve ritual titles to IDs in a single query
-            List<String> titles = seeds.stream()
+            List<String> ritualTitles = seeds.stream()
                     .map(s -> s.ritualTitle)
                     .filter(Objects::nonNull)
                     .distinct()
                     .toList();
 
-            Map<String, UUID> ritualIdByTitle = ritualRepository.findAllByTitleIn(titles).stream()
+            Map<String, UUID> ritualIdByTitle = ritualRepository.findAllByTitleIn(ritualTitles).stream()
                     .collect(Collectors.toMap(Ritual::getTitle, Ritual::getId));
+
+            // Resolve ritual pack titles to IDs in a single query
+            List<String> packTitles = seeds.stream()
+                    .map(s -> s.ritualPackTitle)
+                    .filter(Objects::nonNull)
+                    .distinct()
+                    .toList();
+
+            Map<String, UUID> packIdByTitle = ritualPackRepository.findAllByTitleIn(packTitles).stream()
+                    .collect(Collectors.toMap(RitualPack::getTitle, RitualPack::getId));
 
             List<RitualHistory> histories = new ArrayList<>();
             for (RitualHistorySeed seed : seeds) {
@@ -137,9 +147,16 @@ public class DataInitializer {
                     continue;
                 }
 
+                // Resolve ritualPackId using seed title or fallback mapping
+                UUID ritualPackId = null;
+                if (seed.ritualPackTitle != null) {
+                    ritualPackId = packIdByTitle.get(seed.ritualPackTitle);
+                }
+
                 RitualHistory rh = RitualHistory.builder()
                         .userId(seed.userId)
                         .ritualId(ritualId)
+                        .ritualPackId(ritualPackId)
                         .status(seed.status != null ? RitualHistoryStatus.valueOf(seed.status)
                                 : RitualHistoryStatus.SUGGESTED)
                         .feedback(seed.feedback != null ? EmojiFeedback.valueOf(seed.feedback) : null)
@@ -289,6 +306,7 @@ public class DataInitializer {
     private static class RitualHistorySeed {
         public java.util.UUID userId;
         public String ritualTitle;
+        public String ritualPackTitle;
         public String status;
         public String feedback;
         public java.time.OffsetDateTime occurredAt;

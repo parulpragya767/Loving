@@ -1,14 +1,25 @@
 package com.lovingapp.loving.model;
 
-import com.lovingapp.loving.model.enums.EmojiFeedback;
-import com.lovingapp.loving.model.enums.RitualHistoryStatus;
-import jakarta.persistence.*;
-import lombok.*;
+import java.time.OffsetDateTime;
+import java.util.UUID;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.OffsetDateTime;
-import java.util.UUID;
+import com.lovingapp.loving.model.enums.EmojiFeedback;
+import com.lovingapp.loving.model.enums.RitualHistoryStatus;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "ritual_history")
@@ -28,6 +39,9 @@ public class RitualHistory {
 
     @Column(name = "ritual_id", nullable = false, columnDefinition = "uuid")
     private UUID ritualId;
+
+    @Column(name = "ritual_pack_id", columnDefinition = "uuid")
+    private UUID ritualPackId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)

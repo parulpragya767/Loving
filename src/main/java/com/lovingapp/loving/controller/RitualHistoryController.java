@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -50,31 +49,12 @@ public class RitualHistoryController {
 
     @GetMapping
     public ResponseEntity<List<RitualHistoryDTO>> list(
-            @AuthenticationPrincipal Jwt jwt,
-            @RequestParam(value = "ritualId", required = false) UUID ritualId) {
+            @AuthenticationPrincipal Jwt jwt) {
         UUID userId = getAuthUserId(jwt);
 
-        List<RitualHistory> list;
-        if (ritualId != null) {
-            list = ritualHistoryService.listByUserAndRitual(userId, ritualId);
-        } else {
-            list = ritualHistoryService.listByUser(userId);
-        }
+        List<RitualHistory> list = ritualHistoryService.listByUser(userId);
         List<RitualHistoryDTO> body = list.stream().map(RitualHistoryMapper::toDto).collect(Collectors.toList());
         return ResponseEntity.ok(body);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<RitualHistoryDTO> getById(@AuthenticationPrincipal Jwt jwt, @PathVariable("id") UUID id) {
-        UUID userId = getAuthUserId(jwt);
-        return ritualHistoryService.findById(id)
-                .map(entity -> {
-                    if (!entity.getUserId().equals(userId)) {
-                        return new ResponseEntity<RitualHistoryDTO>(HttpStatus.FORBIDDEN);
-                    }
-                    return ResponseEntity.ok(RitualHistoryMapper.toDto(entity));
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -83,7 +63,6 @@ public class RitualHistoryController {
         UUID userId = getAuthUserId(jwt);
         request.setId(null);
         RitualHistory entity = RitualHistoryMapper.fromDto(request);
-        // Enforce ownership from token
         entity.setUserId(userId);
         RitualHistory saved = ritualHistoryService.save(entity);
         RitualHistoryDTO body = RitualHistoryMapper.toDto(saved);
@@ -101,7 +80,6 @@ public class RitualHistoryController {
                     }
                     request.setId(existing.getId());
                     RitualHistoryMapper.updateEntityFromDto(request, existing);
-                    // Enforce ownership from token
                     existing.setUserId(userId);
                     RitualHistory saved = ritualHistoryService.save(existing);
                     return ResponseEntity.ok(RitualHistoryMapper.toDto(saved));

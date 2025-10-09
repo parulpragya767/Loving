@@ -1,23 +1,61 @@
 [
   {
-    "userId": "123e4567-e89b-12d3-a456-426614174000",
+    "userId": "46877115-8ae2-4cf2-94dc-6a67c770136c",
+    "ritualTitle": "Morning Gratitude Ritual",
+    "ritualPackTitle": "Daily Presence Starter Pack",
+    "status": "SUGGESTED",
+    "occurredAt": "2025-10-08T08:05:00Z"
+  },
+  {
+    "userId": "46877115-8ae2-4cf2-94dc-6a67c770136c",
+    "ritualTitle": "Evening Wind-Down Reflection",
+    "status": "STARTED",
+    "occurredAt": "2025-10-08T21:30:00Z"
+  },
+  {
+    "userId": "46877115-8ae2-4cf2-94dc-6a67c770136c",
     "ritualTitle": "Morning Gratitude Ritual",
     "status": "COMPLETED",
     "feedback": "HEART",
-    "occurredAt": "2025-10-05T07:30:00Z"
+    "occurredAt": "2025-10-07T07:20:00Z"
   },
   {
-    "userId": "123e4567-e89b-12d3-a456-426614174000",
-    "ritualTitle": "Evening Wind-Down Reflection",
+    "userId": "46877115-8ae2-4cf2-94dc-6a67c770136c",
+    "ritualTitle": "Weekly Connection Check-in",
     "status": "SKIPPED",
     "feedback": "NEUTRAL",
-    "occurredAt": "2025-10-04T21:45:00Z"
+    "occurredAt": "2025-10-06T18:00:00Z"
   },
   {
-    "userId": "223e4567-e89b-12d3-a456-426614174000",
+    "userId": "f765864f-17f3-4ba1-b696-74f0b29d6b1c",
+    "ritualPackTitle": "Connection & Appreciation Pack",
+    "status": "SUGGESTED",
+    "occurredAt": "2025-10-08T09:00:00Z"
+  },
+  {
+    "userId": "f765864f-17f3-4ba1-b696-74f0b29d6b1c",
+    "ritualTitle": "Date Night Appreciation",
+    "status": "STARTED",
+    "occurredAt": "2025-10-08T19:30:00Z"
+  },
+  {
+    "userId": "f765864f-17f3-4ba1-b696-74f0b29d6b1c",
+    "ritualTitle": "Family Game Night",
+    "status": "SUGGESTED",
+    "occurredAt": "2025-10-07T16:00:00Z"
+  },
+  {
+    "userId": "f765864f-17f3-4ba1-b696-74f0b29d6b1c",
     "ritualTitle": "Weekly Connection Check-in",
     "status": "COMPLETED",
     "feedback": "THUMBS_UP",
-    "occurredAt": "2025-10-03T18:00:00Z"
+    "occurredAt": "2025-10-06T18:30:00Z"
+  },
+  {
+    "userId": "f765864f-17f3-4ba1-b696-74f0b29d6b1c",
+    "ritualTitle": "Evening Wind-Down Reflection",
+    "status": "SKIPPED",
+    "feedback": "NEUTRAL",
+    "occurredAt": "2025-10-05T22:00:00Z"
   }
 ]

@@ -18,6 +18,7 @@ public class RitualHistoryDTO {
     private UUID id;
     private UUID userId;
     private UUID ritualId;
+    private UUID ritualPackId;
     private RitualHistoryStatus status;
     private EmojiFeedback feedback;
     private OffsetDateTime occurredAt;

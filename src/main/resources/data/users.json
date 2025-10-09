@@ -1,7 +1,7 @@
 [
   {
-    "id": "123e4567-e89b-12d3-a456-426614174000",
-    "email": "user@example.com",
+    "id": "46877115-8ae2-4cf2-94dc-6a67c770136c",
+    "email": "user1@gmail.com",
     "passwordHash": "$2a$10$xLFtBIXGtW3IZ1/JYvW7VuB0VHM/pD0qVWbOOSFFgzU7x8a5Q9J2q",
     "firstName": "Alex",
     "lastName": "Johnson",
@@ -16,8 +16,8 @@
     "updatedAt": "2023-10-15T08:30:00Z"
   },
   {
-    "id": "223e4567-e89b-12d3-a456-426614174000",
-    "email": "admin@example.com",
+    "id": "f765864f-17f3-4ba1-b696-74f0b29d6b1c",
+    "email": "user2@gmail.com",
     "passwordHash": "$2a$10$xLFtBIXGtW3IZ1/JYvW7VuB0VHM/pD0qVWbOOSFFgzU7x8a5Q9J2q",
     "firstName": "Admin",
     "lastName": "User",

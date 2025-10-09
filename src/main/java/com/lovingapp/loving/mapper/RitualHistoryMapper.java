@@ -14,6 +14,7 @@ public final class RitualHistoryMapper {
                 .id(entity.getId())
                 .userId(entity.getUserId())
                 .ritualId(entity.getRitualId())
+                .ritualPackId(entity.getRitualPackId())
                 .status(entity.getStatus())
                 .feedback(entity.getFeedback())
                 .occurredAt(entity.getOccurredAt())
@@ -29,6 +30,7 @@ public final class RitualHistoryMapper {
                 .id(dto.getId())
                 .userId(dto.getUserId())
                 .ritualId(dto.getRitualId())
+                .ritualPackId(dto.getRitualPackId())
                 .status(dto.getStatus())
                 .feedback(dto.getFeedback())
                 .occurredAt(dto.getOccurredAt())
@@ -40,6 +42,7 @@ public final class RitualHistoryMapper {
             return;
         entity.setUserId(dto.getUserId());
         entity.setRitualId(dto.getRitualId());
+        entity.setRitualPackId(dto.getRitualPackId());
         entity.setStatus(dto.getStatus());
         entity.setFeedback(dto.getFeedback());
         entity.setOccurredAt(dto.getOccurredAt());
