@@ -1,17 +1,19 @@
 package com.lovingapp.loving.mapper;
 
-import com.lovingapp.loving.dto.RitualDTO;
-import com.lovingapp.loving.model.Ritual;
-
 import java.util.Collections;
 import java.util.Objects;
 
+import com.lovingapp.loving.dto.RitualDTO;
+import com.lovingapp.loving.model.Ritual;
+
 public final class RitualMapper {
 
-    private RitualMapper() {}
+    private RitualMapper() {
+    }
 
     public static RitualDTO toDto(Ritual ritual) {
-        if (ritual == null) return null;
+        if (ritual == null)
+            return null;
         return RitualDTO.builder()
                 .id(ritual.getId())
                 .title(ritual.getTitle())
@@ -32,15 +34,20 @@ public final class RitualMapper {
                 .ritualSteps(Objects.requireNonNullElse(ritual.getRitualSteps(), Collections.emptyList()))
                 .mediaAssets(Objects.requireNonNullElse(ritual.getMediaAssets(), Collections.emptyList()))
                 .loveTypesSupported(Objects.requireNonNullElse(ritual.getLoveTypesSupported(), Collections.emptyList()))
-                .emotionalStatesSupported(Objects.requireNonNullElse(ritual.getEmotionalStatesSupported(), Collections.emptyList()))
-                .relationalNeedsServed(Objects.requireNonNullElse(ritual.getRelationalNeedsServed(), Collections.emptyList()))
-                .lifeContextsRelevant(Objects.requireNonNullElse(ritual.getLifeContextsRelevant(), Collections.emptyList()))
-                .preparationRequirements(Objects.requireNonNullElse(ritual.getPreparationRequirements(), Collections.emptyList()))
+                .emotionalStatesSupported(
+                        Objects.requireNonNullElse(ritual.getEmotionalStatesSupported(), Collections.emptyList()))
+                .relationalNeedsServed(
+                        Objects.requireNonNullElse(ritual.getRelationalNeedsServed(), Collections.emptyList()))
+                .lifeContextsRelevant(
+                        Objects.requireNonNullElse(ritual.getLifeContextsRelevant(), Collections.emptyList()))
+                .preparationRequirements(
+                        Objects.requireNonNullElse(ritual.getPreparationRequirements(), Collections.emptyList()))
                 .build();
     }
 
     public static Ritual fromDto(RitualDTO dto) {
-        if (dto == null) return null;
+        if (dto == null)
+            return null;
         Ritual entity = new Ritual();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
@@ -61,15 +68,20 @@ public final class RitualMapper {
         entity.setRitualSteps(Objects.requireNonNullElse(dto.getRitualSteps(), Collections.emptyList()));
         entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
         entity.setLoveTypesSupported(Objects.requireNonNullElse(dto.getLoveTypesSupported(), Collections.emptyList()));
-        entity.setEmotionalStatesSupported(Objects.requireNonNullElse(dto.getEmotionalStatesSupported(), Collections.emptyList()));
-        entity.setRelationalNeedsServed(Objects.requireNonNullElse(dto.getRelationalNeedsServed(), Collections.emptyList()));
-        entity.setLifeContextsRelevant(Objects.requireNonNullElse(dto.getLifeContextsRelevant(), Collections.emptyList()));
-        entity.setPreparationRequirements(Objects.requireNonNullElse(dto.getPreparationRequirements(), Collections.emptyList()));
+        entity.setEmotionalStatesSupported(
+                Objects.requireNonNullElse(dto.getEmotionalStatesSupported(), Collections.emptyList()));
+        entity.setRelationalNeedsServed(
+                Objects.requireNonNullElse(dto.getRelationalNeedsServed(), Collections.emptyList()));
+        entity.setLifeContextsRelevant(
+                Objects.requireNonNullElse(dto.getLifeContextsRelevant(), Collections.emptyList()));
+        entity.setPreparationRequirements(
+                Objects.requireNonNullElse(dto.getPreparationRequirements(), Collections.emptyList()));
         return entity;
     }
 
     public static void updateEntityFromDto(RitualDTO dto, Ritual entity) {
-        if (dto == null || entity == null) return;
+        if (dto == null || entity == null)
+            return;
         entity.setTitle(dto.getTitle());
         entity.setShortDescription(dto.getShortDescription());
         entity.setFullDescription(dto.getFullDescription());
@@ -87,9 +99,13 @@ public final class RitualMapper {
         entity.setRitualSteps(Objects.requireNonNullElse(dto.getRitualSteps(), Collections.emptyList()));
         entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
         entity.setLoveTypesSupported(Objects.requireNonNullElse(dto.getLoveTypesSupported(), Collections.emptyList()));
-        entity.setEmotionalStatesSupported(Objects.requireNonNullElse(dto.getEmotionalStatesSupported(), Collections.emptyList()));
-        entity.setRelationalNeedsServed(Objects.requireNonNullElse(dto.getRelationalNeedsServed(), Collections.emptyList()));
-        entity.setLifeContextsRelevant(Objects.requireNonNullElse(dto.getLifeContextsRelevant(), Collections.emptyList()));
-        entity.setPreparationRequirements(Objects.requireNonNullElse(dto.getPreparationRequirements(), Collections.emptyList()));
+        entity.setEmotionalStatesSupported(
+                Objects.requireNonNullElse(dto.getEmotionalStatesSupported(), Collections.emptyList()));
+        entity.setRelationalNeedsServed(
+                Objects.requireNonNullElse(dto.getRelationalNeedsServed(), Collections.emptyList()));
+        entity.setLifeContextsRelevant(
+                Objects.requireNonNullElse(dto.getLifeContextsRelevant(), Collections.emptyList()));
+        entity.setPreparationRequirements(
+                Objects.requireNonNullElse(dto.getPreparationRequirements(), Collections.emptyList()));
     }
 }

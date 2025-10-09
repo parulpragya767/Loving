@@ -1,19 +1,21 @@
 package com.lovingapp.loving.mapper;
 
-import com.lovingapp.loving.dto.RitualPackDTO;
-import com.lovingapp.loving.model.Ritual;
-import com.lovingapp.loving.model.RitualPack;
-
 import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.lovingapp.loving.dto.RitualPackDTO;
+import com.lovingapp.loving.model.Ritual;
+import com.lovingapp.loving.model.RitualPack;
+
 public final class RitualPackMapper {
 
-    private RitualPackMapper() {}
+    private RitualPackMapper() {
+    }
 
     public static RitualPackDTO toDto(RitualPack pack) {
-        if (pack == null) return null;
+        if (pack == null)
+            return null;
         return RitualPackDTO.builder()
                 .id(pack.getId())
                 .title(pack.getTitle())
@@ -26,9 +28,12 @@ public final class RitualPackMapper {
                 .sensitivityLevel(pack.getSensitivityLevel())
                 .effortLevel(pack.getEffortLevel())
                 .loveTypesSupported(Objects.requireNonNullElse(pack.getLoveTypesSupported(), Collections.emptyList()))
-                .emotionalStatesSupported(Objects.requireNonNullElse(pack.getEmotionalStatesSupported(), Collections.emptyList()))
-                .relationalNeedsServed(Objects.requireNonNullElse(pack.getRelationalNeedsServed(), Collections.emptyList()))
-                .lifeContextsRelevant(Objects.requireNonNullElse(pack.getLifeContextsRelevant(), Collections.emptyList()))
+                .emotionalStatesSupported(
+                        Objects.requireNonNullElse(pack.getEmotionalStatesSupported(), Collections.emptyList()))
+                .relationalNeedsServed(
+                        Objects.requireNonNullElse(pack.getRelationalNeedsServed(), Collections.emptyList()))
+                .lifeContextsRelevant(
+                        Objects.requireNonNullElse(pack.getLifeContextsRelevant(), Collections.emptyList()))
                 .semanticSummary(pack.getSemanticSummary())
                 .status(pack.getStatus())
                 .createdBy(pack.getCreatedBy())
@@ -38,7 +43,8 @@ public final class RitualPackMapper {
     }
 
     public static RitualPack fromDto(RitualPackDTO dto) {
-        if (dto == null) return null;
+        if (dto == null)
+            return null;
         RitualPack entity = new RitualPack();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
@@ -54,7 +60,8 @@ public final class RitualPackMapper {
     }
 
     public static void updateEntityFromDto(RitualPackDTO dto, RitualPack entity) {
-        if (dto == null || entity == null) return;
+        if (dto == null || entity == null)
+            return;
         entity.setTitle(dto.getTitle());
         entity.setShortDescription(dto.getShortDescription());
         entity.setFullDescription(dto.getFullDescription());
