@@ -2,8 +2,6 @@ package com.lovingapp.loving.service;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import java.util.function.Function;
@@ -43,11 +41,9 @@ public class RitualPackService {
     @Transactional
     public RitualPackDTO create(RitualPackDTO dto) {
         RitualPack entity = RitualPackMapper.fromDto(dto);
-        // Resolve rituals
         List<Ritual> rituals = resolveRituals(dto.getRitualIds());
         entity.setRituals(rituals);
-        // Aggregate tags
-        aggregateTags(entity);
+        aggregateTagsFromRituals(entity, rituals);
         RitualPack saved = ritualPackRepository.save(entity);
         return RitualPackMapper.toDto(saved);
     }
@@ -56,10 +52,16 @@ public class RitualPackService {
     public Optional<RitualPackDTO> update(UUID id, RitualPackDTO dto) {
         return ritualPackRepository.findById(id).map(existing -> {
             RitualPackMapper.updateEntityFromDto(dto, existing);
+            List<Ritual> rituals;
             if (dto.getRitualIds() != null) {
-                existing.setRituals(resolveRituals(dto.getRitualIds()));
+                rituals = resolveRituals(dto.getRitualIds());
+                existing.setRituals(rituals);
+            } else {
+                rituals = existing.getRituals() != null
+                        ? existing.getRituals()
+                        : Collections.emptyList();
             }
-            aggregateTags(existing);
+            aggregateTagsFromRituals(existing, rituals);
             RitualPack saved = ritualPackRepository.save(existing);
             return RitualPackMapper.toDto(saved);
         });
@@ -80,62 +82,21 @@ public class RitualPackService {
         return ritualRepository.findAllById(ritualIds);
     }
 
-    private void aggregateTags(RitualPack pack) {
-        List<Ritual> rituals = Optional.ofNullable(pack.getRituals()).orElse(Collections.emptyList());
+    private void aggregateTagsFromRituals(RitualPack pack, List<Ritual> rituals) {
+        List<Ritual> safeRituals = Optional.ofNullable(rituals).orElse(Collections.emptyList());
 
-        // Union lists
-        pack.setRitualTypes(rituals.stream()
-                .flatMap(r -> Optional.ofNullable(r.getRitualTypes()).orElse(Collections.emptyList()).stream())
-                .distinct()
-                .collect(Collectors.toList()));
-
-        pack.setRitualTones(rituals.stream()
-                .flatMap(r -> Optional.ofNullable(r.getRitualTones()).orElse(Collections.emptyList()).stream())
-                .distinct()
-                .collect(Collectors.toList()));
-
-        pack.setLoveTypesSupported(rituals.stream()
-                .flatMap(r -> Optional.ofNullable(r.getLoveTypesSupported()).orElse(Collections.emptyList()).stream())
-                .distinct()
-                .collect(Collectors.toList()));
-
-        pack.setEmotionalStatesSupported(rituals.stream()
-                .flatMap(r -> Optional.ofNullable(r.getEmotionalStatesSupported()).orElse(Collections.emptyList())
-                        .stream())
-                .distinct()
-                .collect(Collectors.toList()));
-
-        pack.setRelationalNeedsServed(rituals.stream()
-                .flatMap(
-                        r -> Optional.ofNullable(r.getRelationalNeedsServed()).orElse(Collections.emptyList()).stream())
-                .distinct()
-                .collect(Collectors.toList()));
-
-        pack.setLifeContextsRelevant(rituals.stream()
-                .flatMap(r -> Optional.ofNullable(r.getLifeContextsRelevant()).orElse(Collections.emptyList()).stream())
-                .distinct()
-                .collect(Collectors.toList()));
-
-        // Derive representative single-value enums by mode (most common) if present
-        pack.setSensitivityLevel(modeEnum(rituals.stream()
-                .map(Ritual::getSensitivityLevel)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList())));
-
-        pack.setEffortLevel(modeEnum(rituals.stream()
-                .map(Ritual::getEffortLevel)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toList())));
+        pack.setRitualTypes(unionDistinct(safeRituals, Ritual::getRitualTypes));
+        pack.setRitualTones(unionDistinct(safeRituals, Ritual::getRitualTones));
+        pack.setLoveTypesSupported(unionDistinct(safeRituals, Ritual::getLoveTypesSupported));
+        pack.setEmotionalStatesSupported(unionDistinct(safeRituals, Ritual::getEmotionalStatesSupported));
+        pack.setRelationalNeedsServed(unionDistinct(safeRituals, Ritual::getRelationalNeedsServed));
+        pack.setLifeContextsRelevant(unionDistinct(safeRituals, Ritual::getLifeContextsRelevant));
     }
 
-    private static <E extends Enum<E>> E modeEnum(List<E> values) {
-        if (values == null || values.isEmpty())
-            return null;
-        return values.stream()
-                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-                .entrySet().stream()
-                .max(Map.Entry.comparingByValue())
-                .map(Map.Entry::getKey)
-                .orElse(null);
+    private <T> List<T> unionDistinct(List<Ritual> rituals, Function<Ritual, List<T>> extractor) {
+        return rituals.stream()
+                .flatMap(r -> Optional.ofNullable(extractor.apply(r)).orElse(Collections.emptyList()).stream())
+                .distinct()
+                .collect(Collectors.toList());
     }
 }
