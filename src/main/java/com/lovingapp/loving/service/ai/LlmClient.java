@@ -2,7 +2,7 @@ package com.lovingapp.loving.service.ai;
 
 import java.util.List;
 
-import com.lovingapp.loving.model.dto.ai.LlmResponse;
+import com.lovingapp.loving.model.domain.LlmResponse;
 
 import reactor.core.publisher.Mono;
 

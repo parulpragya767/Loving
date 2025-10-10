@@ -1,4 +1,4 @@
-package com.lovingapp.loving.service.ai;
+package com.lovingapp.loving.service;
 
 import java.util.List;
 import java.util.UUID;
@@ -7,15 +7,17 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lovingapp.loving.model.domain.LlmResponse;
+import com.lovingapp.loving.model.dto.ChatDTOs;
 import com.lovingapp.loving.model.dto.UserContextDTO;
-import com.lovingapp.loving.model.dto.ai.ChatDTOs;
-import com.lovingapp.loving.model.dto.ai.LlmResponse;
-import com.lovingapp.loving.model.entity.ai.ChatMessage;
-import com.lovingapp.loving.model.entity.ai.ChatMessageRole;
-import com.lovingapp.loving.model.entity.ai.ChatSession;
-import com.lovingapp.loving.model.entity.ai.ChatSessionStatus;
-import com.lovingapp.loving.repository.ai.ChatMessageRepository;
-import com.lovingapp.loving.repository.ai.ChatSessionRepository;
+import com.lovingapp.loving.model.entity.ChatMessage;
+import com.lovingapp.loving.model.entity.ChatSession;
+import com.lovingapp.loving.model.enums.ChatMessageRole;
+import com.lovingapp.loving.model.enums.ChatSessionStatus;
+import com.lovingapp.loving.repository.ChatMessageRepository;
+import com.lovingapp.loving.repository.ChatSessionRepository;
+import com.lovingapp.loving.service.ai.AIChatPrompts;
+import com.lovingapp.loving.service.ai.LlmClient;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,24 +30,24 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class AIChatServiceImpl implements AIChatService {
+public class AIChatService {
 
         private final ChatSessionRepository sessionRepository;
         private final ChatMessageRepository messageRepository;
         private final LlmClient llmClient;
         private final AIChatPrompts aiChatPrompts;
 
-        @Override
         @Transactional
         public Mono<ChatDTOs.StartSessionResponse> startSession(ChatDTOs.StartSessionRequest request) {
                 UUID userId = request.getUserId();
-                String conversationId = request.getConversationId();
+                UUID sessionId = request.getSessionId();
+                String conversationTitle = request.getConversationTitle();
 
                 // Try to find existing session with this conversation ID
-                Mono<ChatSession> sessionMono = conversationId != null
+                Mono<ChatSession> sessionMono = conversationTitle != null
                                 ? Mono.fromCallable(() -> sessionRepository
-                                                .findByUserIdAndConversationId(userId, conversationId)
-                                                .orElseGet(() -> createNewSession(userId, conversationId)))
+                                                .findById(sessionId)
+                                                .orElseGet(() -> createNewSession(userId, conversationTitle)))
                                 : Mono.fromCallable(() -> createNewSession(userId, null));
 
                 return sessionMono.flatMap(session -> {
@@ -71,7 +73,7 @@ public class AIChatServiceImpl implements AIChatService {
 
                         return Mono.just(ChatDTOs.StartSessionResponse.builder()
                                         .sessionId(session.getId())
-                                        .conversationId(session.getConversationId())
+                                        .conversationTitle(session.getConversationTitle())
                                         .messages(existingMessages.stream()
                                                         .map(this::toDto)
                                                         .collect(Collectors.toList()))
@@ -79,7 +81,6 @@ public class AIChatServiceImpl implements AIChatService {
                 });
         }
 
-        @Override
         @Transactional
         public Mono<ChatDTOs.SendMessageResponse> sendMessage(UUID sessionId, ChatDTOs.SendMessageRequest request) {
                 // 1. Save user message
@@ -153,7 +154,6 @@ public class AIChatServiceImpl implements AIChatService {
                                 });
         }
 
-        @Override
         @Transactional(readOnly = true)
         public Mono<ChatDTOs.GetHistoryResponse> getChatHistory(UUID sessionId) {
                 return Mono.fromCallable(() -> {
@@ -178,7 +178,8 @@ public class AIChatServiceImpl implements AIChatService {
         private ChatSession createNewSession(UUID userId, String conversationId) {
                 ChatSession session = ChatSession.builder()
                                 .userId(userId)
-                                .conversationId(conversationId != null ? conversationId : UUID.randomUUID().toString())
+                                .conversationTitle(
+                                                conversationId != null ? conversationId : UUID.randomUUID().toString())
                                 .status(ChatSessionStatus.ACTIVE)
                                 .build();
                 return sessionRepository.save(session);

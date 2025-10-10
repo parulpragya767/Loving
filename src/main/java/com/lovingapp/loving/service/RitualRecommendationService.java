@@ -1,4 +1,4 @@
-package com.lovingapp.loving.service.ai;
+package com.lovingapp.loving.service;
 
 import org.springframework.stereotype.Service;
 

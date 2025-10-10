@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
 import com.lovingapp.loving.model.dto.UserContextDTO;
-import com.lovingapp.loving.model.entity.ai.ChatMessage;
+import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.enums.EmotionalState;
 import com.lovingapp.loving.model.enums.LoveType;
 

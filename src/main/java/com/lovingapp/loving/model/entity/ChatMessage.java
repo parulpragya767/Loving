@@ -1,7 +1,11 @@
-package com.lovingapp.loving.model.entity.ai;
+package com.lovingapp.loving.model.entity;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.lovingapp.loving.model.enums.ChatMessageRole;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +13,6 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,11 +41,7 @@ public class ChatMessage {
     @Column(name = "content", columnDefinition = "text", nullable = false)
     private String content;
 
+    @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "timestamptz", updatable = false)
     private OffsetDateTime createdAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = OffsetDateTime.now();
-    }
 }

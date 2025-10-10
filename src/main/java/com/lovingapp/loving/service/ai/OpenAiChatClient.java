@@ -16,7 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.config.LlmClientProperties;
-import com.lovingapp.loving.model.dto.ai.LlmResponse;
+import com.lovingapp.loving.model.domain.LlmResponse;
 import com.lovingapp.loving.model.enums.EmotionalState;
 import com.lovingapp.loving.model.enums.LoveType;
 

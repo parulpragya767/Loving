@@ -1,19 +1,24 @@
-package com.lovingapp.loving.controller.ai;
-
-import com.lovingapp.loving.model.dto.ai.ChatDTOs;
-import com.lovingapp.loving.model.dto.ai.ChatDTOs.GetHistoryResponse;
-import com.lovingapp.loving.service.ai.AIChatService;
-import jakarta.validation.Valid;
-import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
+package com.lovingapp.loving.controller;
 
 import java.util.UUID;
 
-/**
- * REST controller for managing AI chat sessions and messages.
- */
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.lovingapp.loving.model.dto.ChatDTOs;
+import com.lovingapp.loving.model.dto.ChatDTOs.GetHistoryResponse;
+import com.lovingapp.loving.service.AIChatService;
+
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Mono;
+
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/ai-chat")

@@ -1,10 +1,10 @@
-package com.lovingapp.loving.model.dto.ai;
+package com.lovingapp.loving.model.dto;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.lovingapp.loving.model.entity.ai.ChatMessageRole;
+import com.lovingapp.loving.model.enums.ChatMessageRole;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -25,7 +25,8 @@ public class ChatDTOs {
     @Builder
     public static class StartSessionRequest {
         private UUID userId;
-        private String conversationId; // optional if you want to thread with frontend id
+        private UUID sessionId;
+        private String conversationTitle; // optional if you want to thread with frontend id
         private String systemPrompt; // optional custom system prompt
     }
 
@@ -39,7 +40,7 @@ public class ChatDTOs {
     @Builder
     public static class StartSessionResponse {
         private UUID sessionId;
-        private String conversationId;
+        private String conversationTitle;
         private List<ChatMessageDTO> messages;
     }
 
@@ -90,19 +91,6 @@ public class ChatDTOs {
     @AllArgsConstructor
     @Builder
     public static class GetHistoryResponse {
-        private UUID sessionId;
-        private List<ChatMessageDTO> messages;
-    }
-
-    /**
-     * @deprecated Use {@link GetHistoryResponse} instead.
-     */
-    @Deprecated
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class HistoryResponse {
         private UUID sessionId;
         private List<ChatMessageDTO> messages;
     }

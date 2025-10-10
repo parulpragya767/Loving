@@ -1,4 +1,4 @@
-package com.lovingapp.loving.model.entity.ai;
+package com.lovingapp.loving.model.enums;
 
 public enum ChatMessageRole {
     USER,

@@ -1,4 +1,4 @@
-package com.lovingapp.loving.model.dto.ai;
+package com.lovingapp.loving.model.domain;
 
 import java.util.List;
 
