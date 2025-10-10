@@ -1,20 +1,38 @@
 package com.lovingapp.loving.model;
 
-import com.lovingapp.loving.model.enums.*;
-import com.vladmihalcea.hibernate.type.json.JsonType;
-import jakarta.persistence.*;
-import lombok.*;
-import org.hibernate.annotations.Type;
-
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * Represents a user's context for ritual matching.
- * Captures the user's current state, preferences, and situational context.
- */
+import org.hibernate.annotations.Type;
+
+import com.lovingapp.loving.model.enums.EffortLevel;
+import com.lovingapp.loving.model.enums.EmotionalState;
+import com.lovingapp.loving.model.enums.IntensityLevel;
+import com.lovingapp.loving.model.enums.LifeContext;
+import com.lovingapp.loving.model.enums.LoveType;
+import com.lovingapp.loving.model.enums.RelationalNeed;
+import com.lovingapp.loving.model.enums.RelationshipStatus;
+import com.lovingapp.loving.model.enums.RitualTone;
+import com.lovingapp.loving.model.enums.RitualType;
+import com.lovingapp.loving.model.enums.TimeContext;
+import com.vladmihalcea.hibernate.type.json.JsonType;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 @Entity
 @Table(name = "user_contexts")
 @Data
@@ -22,19 +40,17 @@ import java.util.UUID;
 @AllArgsConstructor
 @Builder
 public class UserContext {
-    
+
     @Id
     @GeneratedValue
     private UUID id;
 
-    // User and conversation identification
     @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
     private UUID userId;
 
     @Column(name = "conversation_id")
     private String conversationId;
 
-    // Core context dimensions
     @Type(JsonType.class)
     @Column(name = "emotional_states", columnDefinition = "jsonb")
     @Builder.Default
@@ -50,7 +66,6 @@ public class UserContext {
     @Builder.Default
     private List<LoveType> preferredLoveLanguages = new ArrayList<>();
 
-    // Ritual preferences
     @Type(JsonType.class)
     @Column(name = "preferred_ritual_types", columnDefinition = "jsonb")
     @Builder.Default
@@ -61,7 +76,6 @@ public class UserContext {
     @Builder.Default
     private List<RitualTone> preferredTones = new ArrayList<>();
 
-    // Practical constraints
     @Column(name = "available_time_minutes")
     private Integer availableTimeMinutes;
 
@@ -73,7 +87,6 @@ public class UserContext {
     @Column(name = "preferred_intensity", length = 20)
     private IntensityLevel preferredIntensity;
 
-    // Situational context
     @Type(JsonType.class)
     @Column(name = "current_contexts", columnDefinition = "jsonb")
     @Builder.Default
@@ -87,11 +100,9 @@ public class UserContext {
     @Column(name = "relationship_status", length = 30)
     private RelationshipStatus relationshipStatus;
 
-    // Semantic understanding
     @Column(name = "semantic_query", columnDefinition = "text")
     private String semanticQuery;
 
-    // Metadata
     @Column(name = "last_interaction_at", columnDefinition = "timestamptz")
     private OffsetDateTime lastInteractionAt;
 
