@@ -1,5 +1,10 @@
 package com.lovingapp.loving.model.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum EmotionalState {
     HAPPY("Happy"),
     SAD("Sad"),
@@ -14,14 +19,6 @@ public enum EmotionalState {
     OVERWHELMED("Overwhelmed");
 
     private final String displayName;
-
-    EmotionalState(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 
     @Override
     public String toString() {

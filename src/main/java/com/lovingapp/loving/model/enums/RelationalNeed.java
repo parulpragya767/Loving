@@ -1,5 +1,10 @@
 package com.lovingapp.loving.model.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum RelationalNeed {
     CONNECTION("Connection"),
     APPRECIATION("Appreciation"),
@@ -13,14 +18,6 @@ public enum RelationalNeed {
     ADVENTURE("Adventure");
 
     private final String displayName;
-
-    RelationalNeed(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 
     @Override
     public String toString() {

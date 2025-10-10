@@ -1,5 +1,10 @@
 package com.lovingapp.loving.model.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum RitualTone {
     ROMANTIC("Romantic"),
     PLAYFUL("Playful"),
@@ -13,14 +18,6 @@ public enum RitualTone {
     SPONTANEOUS("Spontaneous");
 
     private final String displayName;
-
-    RitualTone(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 
     @Override
     public String toString() {

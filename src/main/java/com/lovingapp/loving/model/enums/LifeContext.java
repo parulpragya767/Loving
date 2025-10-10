@@ -1,5 +1,10 @@
 package com.lovingapp.loving.model.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum LifeContext {
     MORNING_ROUTINE("Morning Routine"),
     EVENING_ROUTINE("Evening Routine"),
@@ -13,14 +18,6 @@ public enum LifeContext {
     LONG_TERM_RELATIONSHIP("Long-term Relationship");
 
     private final String displayName;
-
-    LifeContext(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 
     @Override
     public String toString() {

@@ -1,5 +1,10 @@
 package com.lovingapp.loving.model.enums;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
 public enum RitualType {
     REFLECTION("Reflection"),
     CONVERSATION("Conversation"),
@@ -13,14 +18,6 @@ public enum RitualType {
     SELF_IMPROVEMENT("Self-Improvement");
 
     private final String displayName;
-
-    RitualType(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
 
     @Override
     public String toString() {
