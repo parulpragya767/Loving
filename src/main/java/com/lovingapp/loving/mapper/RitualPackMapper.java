@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.lovingapp.loving.dto.RitualPackDTO;
-import com.lovingapp.loving.model.Ritual;
-import com.lovingapp.loving.model.RitualPack;
+import com.lovingapp.loving.model.dto.RitualPackDTO;
+import com.lovingapp.loving.model.entity.Ritual;
+import com.lovingapp.loving.model.entity.RitualPack;
 
 public final class RitualPackMapper {
 

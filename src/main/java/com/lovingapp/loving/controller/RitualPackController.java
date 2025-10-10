@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lovingapp.loving.dto.RitualPackDTO;
+import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.service.RitualPackService;
 
 import lombok.RequiredArgsConstructor;

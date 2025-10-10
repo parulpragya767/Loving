@@ -1,4 +1,17 @@
-package com.lovingapp.loving.model;
+package com.lovingapp.loving.model.entity;
+
+import java.time.Duration;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.lovingapp.loving.model.domain.MediaAsset;
+import com.lovingapp.loving.model.domain.RitualStep;
 import com.lovingapp.loving.model.enums.EffortLevel;
 import com.lovingapp.loving.model.enums.EmotionalState;
 import com.lovingapp.loving.model.enums.LifeContext;
@@ -11,20 +24,23 @@ import com.lovingapp.loving.model.enums.RitualTone;
 import com.lovingapp.loving.model.enums.RitualType;
 import com.lovingapp.loving.model.enums.SensitivityLevel;
 import com.vladmihalcea.hibernate.type.json.JsonType;
-import jakarta.persistence.*;
-import jakarta.persistence.Table;
-import lombok.*;
-import org.hibernate.annotations.*;
 
-import java.time.Duration;
-import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "rituals")
-@Data 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -59,19 +75,19 @@ public class Ritual {
     @Enumerated(EnumType.STRING)
     @Column(name = "sensitivity_level", length = 20)
     private SensitivityLevel sensitivityLevel;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "effort_level", length = 20)
     private EffortLevel effortLevel;
 
     @Column(name = "estimated_duration_minutes")
     private Integer estimatedDurationMinutes;
-    
+
     @Transient
     public Duration getEstimatedDuration() {
         return estimatedDurationMinutes != null ? Duration.ofMinutes(estimatedDurationMinutes) : null;
     }
-    
+
     public void setEstimatedDuration(Duration duration) {
         this.estimatedDurationMinutes = duration != null ? (int) duration.toMinutes() : null;
     }

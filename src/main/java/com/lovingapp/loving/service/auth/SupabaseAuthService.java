@@ -1,8 +1,9 @@
 package com.lovingapp.loving.service.auth;
 
 import com.lovingapp.loving.config.SupabaseProperties;
-import com.lovingapp.loving.dto.auth.LoginRequest;
-import com.lovingapp.loving.dto.auth.LoginResponse;
+import com.lovingapp.loving.model.dto.auth.LoginRequest;
+import com.lovingapp.loving.model.dto.auth.LoginResponse;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -27,8 +28,7 @@ public class SupabaseAuthService {
                 .header("apikey", supabaseProperties.getAnonKey())
                 .bodyValue(Map.of(
                         "email", request.getEmail(),
-                        "password", request.getPassword()
-                ))
+                        "password", request.getPassword()))
                 .retrieve()
                 .bodyToMono(LoginResponse.class);
     }

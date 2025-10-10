@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lovingapp.loving.dto.auth.LoginRequest;
-import com.lovingapp.loving.dto.auth.LoginResponse;
+import com.lovingapp.loving.model.dto.auth.LoginRequest;
+import com.lovingapp.loving.model.dto.auth.LoginResponse;
 import com.lovingapp.loving.service.auth.SupabaseAuthService;
 
 import jakarta.validation.Valid;

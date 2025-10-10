@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.lovingapp.loving.dto.UserContextDTO;
+import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.service.UserContextService;
 
 import jakarta.validation.Valid;

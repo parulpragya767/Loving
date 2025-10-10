@@ -1,13 +1,14 @@
-package com.lovingapp.loving.dto.ai;
+package com.lovingapp.loving.model.dto.ai;
+
+import java.util.List;
 
 import com.lovingapp.loving.model.enums.EmotionalState;
 import com.lovingapp.loving.model.enums.LoveType;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @Builder

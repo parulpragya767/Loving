@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.lovingapp.loving.dto.UserDTO;
-import com.lovingapp.loving.model.User;
+import com.lovingapp.loving.model.dto.UserDTO;
+import com.lovingapp.loving.model.entity.User;
 
 @Component
 public final class UserMapper {

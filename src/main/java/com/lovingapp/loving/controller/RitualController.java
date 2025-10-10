@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.lovingapp.loving.dto.RitualDTO;
+import com.lovingapp.loving.model.dto.RitualDTO;
 import com.lovingapp.loving.service.RitualService;
 
 import lombok.RequiredArgsConstructor;

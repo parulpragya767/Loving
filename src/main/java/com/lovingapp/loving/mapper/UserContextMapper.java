@@ -6,8 +6,8 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.lovingapp.loving.dto.UserContextDTO;
-import com.lovingapp.loving.model.UserContext;
+import com.lovingapp.loving.model.dto.UserContextDTO;
+import com.lovingapp.loving.model.entity.UserContext;
 
 @Component
 public final class UserContextMapper {

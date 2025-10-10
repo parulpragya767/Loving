@@ -1,11 +1,15 @@
-package com.lovingapp.loving.dto.ai;
-
-import com.lovingapp.loving.model.ai.ChatMessageRole;
-import lombok.*;
+package com.lovingapp.loving.model.dto.ai;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import com.lovingapp.loving.model.entity.ai.ChatMessageRole;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * Data Transfer Objects for AI chat functionality.
@@ -22,11 +26,12 @@ public class ChatDTOs {
     public static class StartSessionRequest {
         private UUID userId;
         private String conversationId; // optional if you want to thread with frontend id
-        private String systemPrompt;   // optional custom system prompt
+        private String systemPrompt; // optional custom system prompt
     }
 
     /**
-     * Response containing session details after starting or continuing a chat session.
+     * Response containing session details after starting or continuing a chat
+     * session.
      */
     @Data
     @NoArgsConstructor
@@ -88,7 +93,7 @@ public class ChatDTOs {
         private UUID sessionId;
         private List<ChatMessageDTO> messages;
     }
-    
+
     /**
      * @deprecated Use {@link GetHistoryResponse} instead.
      */

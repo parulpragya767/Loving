@@ -1,14 +1,23 @@
-package com.lovingapp.loving.dto;
-
-import com.lovingapp.loving.model.enums.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+package com.lovingapp.loving.model.dto;
 
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import com.lovingapp.loving.model.enums.EffortLevel;
+import com.lovingapp.loving.model.enums.EmotionalState;
+import com.lovingapp.loving.model.enums.LifeContext;
+import com.lovingapp.loving.model.enums.LoveType;
+import com.lovingapp.loving.model.enums.PublicationStatus;
+import com.lovingapp.loving.model.enums.RelationalNeed;
+import com.lovingapp.loving.model.enums.RitualTone;
+import com.lovingapp.loving.model.enums.RitualType;
+import com.lovingapp.loving.model.enums.SensitivityLevel;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor

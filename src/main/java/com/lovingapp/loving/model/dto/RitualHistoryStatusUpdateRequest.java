@@ -1,4 +1,4 @@
-package com.lovingapp.loving.dto;
+package com.lovingapp.loving.model.dto;
 
 import com.lovingapp.loving.model.enums.EmojiFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;

@@ -1,4 +1,4 @@
-package com.lovingapp.loving.dto;
+package com.lovingapp.loving.model.dto;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

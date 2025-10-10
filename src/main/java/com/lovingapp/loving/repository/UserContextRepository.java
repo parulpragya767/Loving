@@ -7,7 +7,7 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.lovingapp.loving.model.UserContext;
+import com.lovingapp.loving.model.entity.UserContext;
 
 @Repository
 public interface UserContextRepository extends JpaRepository<UserContext, UUID> {

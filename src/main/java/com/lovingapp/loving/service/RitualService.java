@@ -7,10 +7,10 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.dto.RitualDTO;
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualMapper;
-import com.lovingapp.loving.model.Ritual;
+import com.lovingapp.loving.model.dto.RitualDTO;
+import com.lovingapp.loving.model.entity.Ritual;
 import com.lovingapp.loving.repository.RitualRepository;
 
 import lombok.RequiredArgsConstructor;

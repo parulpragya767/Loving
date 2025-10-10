@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.model.LoveTypeInfo;
+import com.lovingapp.loving.model.entity.LoveTypeInfo;
 import com.lovingapp.loving.repository.LoveTypeRepository;
 
 import lombok.RequiredArgsConstructor;

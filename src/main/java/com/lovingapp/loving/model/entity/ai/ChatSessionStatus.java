@@ -1,4 +1,4 @@
-package com.lovingapp.loving.model.ai;
+package com.lovingapp.loving.model.entity.ai;
 
 public enum ChatSessionStatus {
     ACTIVE,

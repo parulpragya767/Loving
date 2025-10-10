@@ -5,10 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lovingapp.loving.model.dto.ai.LlmResponse;
 import com.lovingapp.loving.model.enums.EmotionalState;
 import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.config.LlmClientProperties;
-import com.lovingapp.loving.dto.ai.LlmResponse;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -57,8 +58,8 @@ public class PerplexityLlmClient implements LlmClient {
                 .model(perplexityProps.getModel())
                 .maxTokens(perplexityProps.getMaxTokens())
                 .temperature(perplexityProps.getTemperature())
-                .topP(0.9)  // Default value
-                .topK(40)    // Default value
+                .topP(0.9) // Default value
+                .topK(40) // Default value
                 .stream(false)
                 .presencePenalty(0.0)
                 .frequencyPenalty(0.0)
@@ -87,7 +88,8 @@ public class PerplexityLlmClient implements LlmClient {
                 .flatMap(this::parseLlmResponse)
                 .onErrorResume(e -> {
                     log.error("Error calling Perplexity API", e);
-                    return Mono.error(new RuntimeException("Failed to get response from Perplexity: " + e.getMessage()));
+                    return Mono
+                            .error(new RuntimeException("Failed to get response from Perplexity: " + e.getMessage()));
                 });
     }
 
@@ -95,8 +97,10 @@ public class PerplexityLlmClient implements LlmClient {
     private Mono<LlmResponse> parseLlmResponse(String jsonResponse) {
         try {
             // Parse the response as a Map first to access fields directly
-            Map<String, Object> responseMap = objectMapper.readValue(jsonResponse, new TypeReference<Map<String, Object>>() {});
-            
+            Map<String, Object> responseMap = objectMapper.readValue(jsonResponse,
+                    new TypeReference<Map<String, Object>>() {
+                    });
+
             // Get the first choice's message content
             String content = "";
             if (responseMap.containsKey("choices")) {
@@ -111,34 +115,36 @@ public class PerplexityLlmClient implements LlmClient {
                     }
                 }
             }
-            
+
             // Extract the response text and context from the content
             String responseText = content;
             LlmResponse.Context context = null;
-            
+
             // Look for the context_json marker in the response
             int contextStart = content.indexOf("<context_json>");
             if (contextStart != -1) {
                 // Extract the response text (everything before the context_json)
                 responseText = content.substring(0, contextStart).trim();
-                
+
                 // Extract the JSON context
                 int contextEnd = content.indexOf("</context_json>", contextStart);
                 if (contextEnd != -1) {
                     String jsonContext = content.substring(contextStart + "<context_json>".length(), contextEnd).trim();
                     try {
-                        Map<String, Object> contextMap = objectMapper.readValue(jsonContext, new TypeReference<Map<String, Object>>() {});
-                        
+                        Map<String, Object> contextMap = objectMapper.readValue(jsonContext,
+                                new TypeReference<Map<String, Object>>() {
+                                });
+
                         // Extract emotional states
-                        List<String> emotionalStates = contextMap.containsKey("emotional_states") ? 
-                                (List<String>) contextMap.get("emotional_states") : 
-                                Collections.emptyList();
-                        
+                        List<String> emotionalStates = contextMap.containsKey("emotional_states")
+                                ? (List<String>) contextMap.get("emotional_states")
+                                : Collections.emptyList();
+
                         // Extract love types (if any)
-                        List<String> loveTypes = contextMap.containsKey("love_types") ? 
-                                (List<String>) contextMap.get("love_types") : 
-                                Collections.emptyList();
-                        
+                        List<String> loveTypes = contextMap.containsKey("love_types")
+                                ? (List<String>) contextMap.get("love_types")
+                                : Collections.emptyList();
+
                         // Build the context
                         context = LlmResponse.Context.builder()
                                 .emotionalStates(emotionalStates.stream()
@@ -150,24 +156,25 @@ public class PerplexityLlmClient implements LlmClient {
                                 .needsFollowUp(Boolean.TRUE.equals(contextMap.get("needs_follow_up")))
                                 .readyForRecommendation(Boolean.TRUE.equals(contextMap.get("ready_for_recommendation")))
                                 .build();
-                                
+
                     } catch (Exception e) {
                         log.warn("Failed to parse context JSON", e);
                     }
                 }
             }
-            
+
             // Build and return the LlmResponse
             return Mono.just(LlmResponse.builder()
                     .response(responseText)
-                    .context(context != null ? context : LlmResponse.Context.builder()
-                            .emotionalStates(Collections.emptyList())
-                            .loveTypes(Collections.emptyList())
-                            .needsFollowUp(false)
-                            .readyForRecommendation(false)
-                            .build())
+                    .context(context != null ? context
+                            : LlmResponse.Context.builder()
+                                    .emotionalStates(Collections.emptyList())
+                                    .loveTypes(Collections.emptyList())
+                                    .needsFollowUp(false)
+                                    .readyForRecommendation(false)
+                                    .build())
                     .build());
-                    
+
         } catch (Exception e) {
             log.error("Failed to parse response", e);
             return Mono.error(new RuntimeException("Failed to parse LLM response: " + e.getMessage()));
@@ -224,7 +231,7 @@ public class PerplexityLlmClient implements LlmClient {
         @JsonProperty("finish_reason")
         private String finishReason;
     }
-    
+
     @Data
     @Builder
     @NoArgsConstructor
@@ -239,7 +246,7 @@ public class PerplexityLlmClient implements LlmClient {
         @JsonProperty("total_tokens")
         private int totalTokens;
         @JsonProperty("search_context_size")
-        private Integer searchContextSize;  // Make it Integer to handle potential null
+        private Integer searchContextSize; // Make it Integer to handle potential null
     }
 
     @Data

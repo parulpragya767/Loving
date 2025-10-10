@@ -5,12 +5,12 @@ package com.lovingapp.loving.model.enums;
  * Extend this list as product evolves.
  */
 public enum EmojiFeedback {
-    HEART,        // ❤️ Loved it
-    SMILE,        // 🙂 Good
-    NEUTRAL,      // 😐 Okay
-    SAD,          // 🙁 Didn't like
-    ANGRY,        // 😠 Bad experience
-    FIRE,         // 🔥 Amazing
-    THUMBS_UP,    // 👍 Positive
-    THUMBS_DOWN   // 👎 Negative
+    HEART, // ❤️ Loved it
+    SMILE, // 🙂 Good
+    NEUTRAL, // 😐 Okay
+    SAD, // 🙁 Didn't like
+    ANGRY, // 😠 Bad experience
+    FIRE, // 🔥 Amazing
+    THUMBS_UP, // 👍 Positive
+    THUMBS_DOWN // 👎 Negative
 }

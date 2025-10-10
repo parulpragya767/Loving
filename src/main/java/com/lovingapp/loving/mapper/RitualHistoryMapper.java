@@ -1,7 +1,7 @@
 package com.lovingapp.loving.mapper;
 
-import com.lovingapp.loving.dto.RitualHistoryDTO;
-import com.lovingapp.loving.model.RitualHistory;
+import com.lovingapp.loving.model.dto.RitualHistoryDTO;
+import com.lovingapp.loving.model.entity.RitualHistory;
 
 public final class RitualHistoryMapper {
     private RitualHistoryMapper() {

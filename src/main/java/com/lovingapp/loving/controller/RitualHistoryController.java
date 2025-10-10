@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.lovingapp.loving.dto.RitualHistoryDTO;
-import com.lovingapp.loving.dto.RitualHistoryStatusUpdateRequest;
+import com.lovingapp.loving.model.dto.RitualHistoryDTO;
+import com.lovingapp.loving.model.dto.RitualHistoryStatusUpdateRequest;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.service.RitualHistoryService;
 

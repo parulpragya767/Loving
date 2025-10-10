@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.dto.UserContextDTO;
 import com.lovingapp.loving.mapper.UserContextMapper;
-import com.lovingapp.loving.model.UserContext;
+import com.lovingapp.loving.model.dto.UserContextDTO;
+import com.lovingapp.loving.model.entity.UserContext;
 import com.lovingapp.loving.repository.UserContextRepository;
 
 import lombok.RequiredArgsConstructor;

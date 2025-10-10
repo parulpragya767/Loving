@@ -1,6 +1,7 @@
-package com.lovingapp.loving.dto.auth;
+package com.lovingapp.loving.model.dto.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.Data;
 
 @Data

@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.lovingapp.loving.model.RitualHistory;
+import com.lovingapp.loving.model.entity.RitualHistory;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 
 public interface RitualHistoryRepository extends JpaRepository<RitualHistory, UUID> {

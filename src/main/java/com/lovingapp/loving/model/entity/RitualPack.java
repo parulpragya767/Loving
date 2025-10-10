@@ -1,15 +1,40 @@
-package com.lovingapp.loving.model;
+package com.lovingapp.loving.model.entity;
 
-import com.lovingapp.loving.model.enums.*;
-import com.vladmihalcea.hibernate.type.json.JsonType;
-import jakarta.persistence.*;
-import lombok.*;
+import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.time.OffsetDateTime;
-import java.util.*;
+import com.lovingapp.loving.model.enums.EffortLevel;
+import com.lovingapp.loving.model.enums.EmotionalState;
+import com.lovingapp.loving.model.enums.LifeContext;
+import com.lovingapp.loving.model.enums.LoveType;
+import com.lovingapp.loving.model.enums.PublicationStatus;
+import com.lovingapp.loving.model.enums.RelationalNeed;
+import com.lovingapp.loving.model.enums.RitualTone;
+import com.lovingapp.loving.model.enums.RitualType;
+import com.lovingapp.loving.model.enums.SensitivityLevel;
+import com.vladmihalcea.hibernate.type.json.JsonType;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "ritual_packs")
@@ -33,11 +58,7 @@ public class RitualPack {
 
     // Curated rituals in this pack
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "ritual_pack_rituals",
-            joinColumns = @JoinColumn(name = "pack_id"),
-            inverseJoinColumns = @JoinColumn(name = "ritual_id")
-    )
+    @JoinTable(name = "ritual_pack_rituals", joinColumns = @JoinColumn(name = "pack_id"), inverseJoinColumns = @JoinColumn(name = "ritual_id"))
     @Builder.Default
     private List<Ritual> rituals = new ArrayList<>();
 

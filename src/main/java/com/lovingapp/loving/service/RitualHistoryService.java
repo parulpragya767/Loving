@@ -8,9 +8,9 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.dto.RitualHistoryDTO;
 import com.lovingapp.loving.mapper.RitualHistoryMapper;
-import com.lovingapp.loving.model.RitualHistory;
+import com.lovingapp.loving.model.dto.RitualHistoryDTO;
+import com.lovingapp.loving.model.entity.RitualHistory;
 import com.lovingapp.loving.model.enums.EmojiFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.repository.RitualHistoryRepository;

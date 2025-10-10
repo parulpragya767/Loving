@@ -3,7 +3,7 @@ package com.lovingapp.loving.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.lovingapp.loving.model.LoveTypeInfo;
+import com.lovingapp.loving.model.entity.LoveTypeInfo;
 
 @Repository
 public interface LoveTypeRepository extends JpaRepository<LoveTypeInfo, Integer> {

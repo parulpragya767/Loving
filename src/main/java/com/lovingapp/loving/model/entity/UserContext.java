@@ -1,4 +1,4 @@
-package com.lovingapp.loving.model;
+package com.lovingapp.loving.model.entity;
 
 import java.time.OffsetDateTime;
 import java.util.ArrayList;

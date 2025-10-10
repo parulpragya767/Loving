@@ -1,18 +1,27 @@
-package com.lovingapp.loving.dto;
+package com.lovingapp.loving.model.dto;
 
-import com.lovingapp.loving.model.RitualStep;
-import com.lovingapp.loving.model.MediaAsset;
-import com.lovingapp.loving.model.enums.*;
+import java.time.OffsetDateTime;
+import java.util.List;
+import java.util.UUID;
+
+import com.lovingapp.loving.model.domain.MediaAsset;
+import com.lovingapp.loving.model.domain.RitualStep;
+import com.lovingapp.loving.model.enums.EffortLevel;
+import com.lovingapp.loving.model.enums.EmotionalState;
+import com.lovingapp.loving.model.enums.LifeContext;
+import com.lovingapp.loving.model.enums.LoveType;
+import com.lovingapp.loving.model.enums.PublicationStatus;
+import com.lovingapp.loving.model.enums.RelationalNeed;
+import com.lovingapp.loving.model.enums.Rhythm;
+import com.lovingapp.loving.model.enums.RitualMode;
+import com.lovingapp.loving.model.enums.RitualTone;
+import com.lovingapp.loving.model.enums.RitualType;
+import com.lovingapp.loving.model.enums.SensitivityLevel;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.OffsetDateTime;
-
-import java.util.List;
-import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -43,4 +52,3 @@ public class RitualDTO {
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
 }
-

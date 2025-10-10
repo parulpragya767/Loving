@@ -1,4 +1,4 @@
-package com.lovingapp.loving.dto.auth;
+package com.lovingapp.loving.model.dto.auth;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

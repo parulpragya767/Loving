@@ -1,13 +1,23 @@
-package com.lovingapp.loving.model;
+package com.lovingapp.loving.model.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
+import java.util.List;
+
 import org.hibernate.annotations.Type;
 
 import com.lovingapp.loving.model.enums.LoveType;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 
-import java.util.List;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "love_types")
@@ -19,7 +29,7 @@ import java.util.List;
 public class LoveTypeInfo {
 
     @Id
-    private Integer id; 
+    private Integer id;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "love_type", length = 20, nullable = false)
@@ -57,7 +67,6 @@ public class LoveTypeInfo {
     @Builder
     public static class InfoBullet {
         private String title; // optional
-        private String text;  // markdown supported
+        private String text; // markdown supported
     }
 }
-

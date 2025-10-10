@@ -10,10 +10,10 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.dto.RitualPackDTO;
 import com.lovingapp.loving.mapper.RitualPackMapper;
-import com.lovingapp.loving.model.Ritual;
-import com.lovingapp.loving.model.RitualPack;
+import com.lovingapp.loving.model.dto.RitualPackDTO;
+import com.lovingapp.loving.model.entity.Ritual;
+import com.lovingapp.loving.model.entity.RitualPack;
 import com.lovingapp.loving.repository.RitualPackRepository;
 import com.lovingapp.loving.repository.RitualRepository;
 
