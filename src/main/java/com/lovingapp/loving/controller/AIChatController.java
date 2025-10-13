@@ -2,42 +2,56 @@ package com.lovingapp.loving.controller;
 
 import java.util.UUID;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.model.dto.ChatDTOs;
-import com.lovingapp.loving.model.dto.ChatDTOs.GetHistoryResponse;
 import com.lovingapp.loving.service.AIChatService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import reactor.core.publisher.Mono;
 
 @RestController
-@CrossOrigin(origins = "*")
-@RequestMapping("/api/ai-chat")
+@RequestMapping("/api/chat")
 @RequiredArgsConstructor
 public class AIChatController {
 
         private final AIChatService aiChatService;
 
+        private UUID getAuthUserId(Jwt jwt) {
+                String sub = jwt.getSubject();
+                if (sub == null) {
+                        throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not present");
+                }
+                try {
+                        return UUID.fromString(sub);
+                } catch (IllegalArgumentException e) {
+                        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user id in token");
+                }
+        }
+
         /**
          * Start a new chat session or continue an existing one.
          * 
          * @param request The start session request
-         * @return A Mono emitting the response entity with the session details
+         * @return The response entity with the session details
          */
         @PostMapping("/sessions")
-        public Mono<ResponseEntity<ChatDTOs.StartSessionResponse>> startSession(
+        public ResponseEntity<ChatDTOs.StartSessionResponse> startSession(
+                        @AuthenticationPrincipal Jwt jwt,
                         @Valid @RequestBody ChatDTOs.StartSessionRequest request) {
-                return aiChatService.startSession(request)
-                                .map(ResponseEntity::ok);
+                UUID userId = getAuthUserId(jwt);
+                request.setUserId(userId);
+                return ResponseEntity.ok(aiChatService.startSession(request));
         }
 
         /**
@@ -45,26 +59,26 @@ public class AIChatController {
          * 
          * @param sessionId The ID of the chat session
          * @param request   The message request
-         * @return A Mono emitting the response entity with the assistant's reply
+         * @return The response entity with the assistant's reply
          */
         @PostMapping("/sessions/{sessionId}/messages")
-        public Mono<ResponseEntity<ChatDTOs.SendMessageResponse>> sendMessage(
+        public ResponseEntity<ChatDTOs.SendMessageResponse> sendMessage(
+                        @AuthenticationPrincipal Jwt jwt,
                         @PathVariable UUID sessionId,
                         @Valid @RequestBody ChatDTOs.SendMessageRequest request) {
-                return aiChatService.sendMessage(sessionId, request)
-                                .map(ResponseEntity::ok);
+                return ResponseEntity.ok(aiChatService.sendMessage(sessionId, request));
         }
 
         /**
          * Get the chat history for a session.
          * 
          * @param sessionId The ID of the chat session
-         * @return A Mono emitting the response entity with the chat history
+         * @return The response entity with the chat history
          */
-        @GetMapping("/sessions/{sessionId}/history")
-        public Mono<ResponseEntity<GetHistoryResponse>> getChatHistory(
+        @GetMapping("/sessions/{sessionId}/messages")
+        public ResponseEntity<ChatDTOs.GetHistoryResponse> getChatHistory(
+                        @AuthenticationPrincipal Jwt jwt,
                         @PathVariable UUID sessionId) {
-                return aiChatService.getChatHistory(sessionId)
-                                .map(ResponseEntity::ok);
+                return ResponseEntity.ok(aiChatService.getChatHistory(sessionId));
         }
 }

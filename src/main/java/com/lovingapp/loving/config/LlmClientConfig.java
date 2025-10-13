@@ -1,12 +1,14 @@
 package com.lovingapp.loving.config;
 
-import com.lovingapp.loving.service.ai.LlmClient;
-import com.lovingapp.loving.service.ai.OpenAiChatClient;
-import com.lovingapp.loving.service.ai.PerplexityLlmClient;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import com.lovingapp.loving.client.LlmClient;
+import com.lovingapp.loving.client.OpenAiChatClient;
+import com.lovingapp.loving.client.PerplexityLlmClient;
+
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor

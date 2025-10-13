@@ -27,7 +27,6 @@ public class ChatDTOs {
         private UUID userId;
         private UUID sessionId;
         private String conversationTitle; // optional if you want to thread with frontend id
-        private String systemPrompt; // optional custom system prompt
     }
 
     /**

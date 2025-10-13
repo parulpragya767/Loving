@@ -1,4 +1,4 @@
-package com.lovingapp.loving.service.ai;
+package com.lovingapp.loving.helpers.ai;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Component
-public class AIChatPrompts {
+public class LLMPromptHelper {
 
     /**
      * Generates a system prompt with information about love types and emotional

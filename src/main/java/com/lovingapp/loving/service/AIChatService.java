@@ -7,21 +7,23 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.model.domain.LlmResponse;
+import com.lovingapp.loving.client.LlmClient;
+import com.lovingapp.loving.helpers.ai.LLMPromptHelper;
+import com.lovingapp.loving.mapper.ChatMessageMapper;
+import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
+import com.lovingapp.loving.model.domain.ai.LLMRequest;
+import com.lovingapp.loving.model.domain.ai.LLMResponse;
+import com.lovingapp.loving.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.loving.model.dto.ChatDTOs;
-import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.entity.ChatSession;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
 import com.lovingapp.loving.model.enums.ChatSessionStatus;
 import com.lovingapp.loving.repository.ChatMessageRepository;
 import com.lovingapp.loving.repository.ChatSessionRepository;
-import com.lovingapp.loving.service.ai.AIChatPrompts;
-import com.lovingapp.loving.service.ai.LlmClient;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Mono;
 
 /**
  * Service implementation for managing AI chat sessions and messages.
@@ -32,57 +34,38 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class AIChatService {
 
-        private final ChatSessionRepository sessionRepository;
-        private final ChatMessageRepository messageRepository;
+        private final ChatSessionRepository chatSessionRepository;
+        private final ChatMessageRepository chatMessageRepository;
         private final LlmClient llmClient;
-        private final AIChatPrompts aiChatPrompts;
+        private final LLMPromptHelper llmPromptHelper;
 
         @Transactional
-        public Mono<ChatDTOs.StartSessionResponse> startSession(ChatDTOs.StartSessionRequest request) {
+        public ChatDTOs.StartSessionResponse startSession(ChatDTOs.StartSessionRequest request) {
                 UUID userId = request.getUserId();
                 UUID sessionId = request.getSessionId();
                 String conversationTitle = request.getConversationTitle();
 
-                // Try to find existing session with this conversation ID
-                Mono<ChatSession> sessionMono = conversationTitle != null
-                                ? Mono.fromCallable(() -> sessionRepository
-                                                .findById(sessionId)
-                                                .orElseGet(() -> createNewSession(userId, conversationTitle)))
-                                : Mono.fromCallable(() -> createNewSession(userId, null));
+                // Get or create session
+                ChatSession session = (sessionId != null)
+                                ? chatSessionRepository.findById(sessionId)
+                                                .orElseGet(() -> createNewSession(userId, conversationTitle))
+                                : createNewSession(userId, conversationTitle);
 
-                return sessionMono.flatMap(session -> {
-                        // Get existing messages for this session
-                        List<ChatMessage> existingMessages = messageRepository
-                                        .findBySessionIdOrderByCreatedAtAsc(session.getId());
+                // Get existing messages for this session
+                List<ChatMessage> existingMessages = chatMessageRepository
+                                .findBySessionIdOrderByCreatedAtAsc(session.getId());
 
-                        // If this is a new session or has no messages, add the system prompt
-                        if (existingMessages.isEmpty()) {
-                                String systemPrompt = request.getSystemPrompt() != null
-                                                ? request.getSystemPrompt()
-                                                : aiChatPrompts.generateSystemPrompt();
-
-                                ChatMessage systemMessage = ChatMessage.builder()
-                                                .sessionId(session.getId())
-                                                .role(ChatMessageRole.SYSTEM)
-                                                .content(systemPrompt)
-                                                .build();
-
-                                messageRepository.save(systemMessage);
-                                existingMessages.add(systemMessage);
-                        }
-
-                        return Mono.just(ChatDTOs.StartSessionResponse.builder()
-                                        .sessionId(session.getId())
-                                        .conversationTitle(session.getConversationTitle())
-                                        .messages(existingMessages.stream()
-                                                        .map(this::toDto)
-                                                        .collect(Collectors.toList()))
-                                        .build());
-                });
+                return ChatDTOs.StartSessionResponse.builder()
+                                .sessionId(session.getId())
+                                .conversationTitle(session.getConversationTitle())
+                                .messages(existingMessages.stream()
+                                                .map(ChatMessageMapper::toDto)
+                                                .collect(Collectors.toList()))
+                                .build();
         }
 
         @Transactional
-        public Mono<ChatDTOs.SendMessageResponse> sendMessage(UUID sessionId, ChatDTOs.SendMessageRequest request) {
+        public ChatDTOs.SendMessageResponse sendMessage(UUID sessionId, ChatDTOs.SendMessageRequest request) {
                 // 1. Save user message
                 ChatMessage userMessage = ChatMessage.builder()
                                 .sessionId(sessionId)
@@ -90,108 +73,58 @@ public class AIChatService {
                                 .content(request.getContent())
                                 .build();
 
-                return Mono.fromCallable(() -> messageRepository.save(userMessage))
-                                .flatMap(savedUserMessage -> {
-                                        // 2. Get conversation history
-                                        List<ChatMessage> messages = messageRepository
-                                                        .findBySessionIdOrderByCreatedAtAsc(sessionId);
+                chatMessageRepository.save(userMessage);
 
-                                        // 3. Convert to LLM message format
-                                        List<LlmClient.Message> llmMessages = messages.stream()
-                                                        .map(m -> new LlmClient.Message(
-                                                                        m.getRole().name().toLowerCase(),
-                                                                        m.getContent()))
-                                                        .collect(Collectors.toList());
+                // 2. Get conversation history
+                List<ChatMessage> messages = chatMessageRepository
+                                .findBySessionIdOrderByCreatedAtAsc(sessionId);
 
-                                        // 4. Get AI response and process it
-                                        return llmClient.chat(llmMessages)
-                                                        .flatMap(llmResponse -> {
-                                                                // 5. Save assistant's response
-                                                                ChatMessage assistantMessage = ChatMessage.builder()
-                                                                                .sessionId(sessionId)
-                                                                                .role(ChatMessageRole.ASSISTANT)
-                                                                                .content(llmResponse.getResponse())
-                                                                                .build();
+                // 3. Build prompt string from conversation history
+                LLMRequest llmRequest = LLMRequest.builder()
+                                .messages(messages.stream()
+                                                .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
+                                                .collect(Collectors.toList()))
+                                .systemPrompt(llmPromptHelper.generateSystemPrompt())
+                                .responseFormat(LLMResponseFormat.TEXT)
+                                .build();
 
-                                                                ChatMessage savedAssistantMessage = messageRepository
-                                                                                .save(assistantMessage);
+                // 4. Get AI response (raw content string)
+                LLMResponse aiReply = llmClient.generate(llmRequest);
 
-                                                                // 6. Process the context from LLM response
-                                                                LlmResponse.Context context = llmResponse.getContext();
-                                                                UserContextDTO userContext = UserContextDTO.builder()
-                                                                                .emotionalStates(context
-                                                                                                .getEmotionalStates())
-                                                                                .preferredLoveLanguages(
-                                                                                                context.getLoveTypes())
-                                                                                .build();
+                // 5. Save assistant's response
+                ChatMessage assistantMessage = ChatMessage.builder()
+                                .sessionId(sessionId)
+                                .role(ChatMessageRole.ASSISTANT)
+                                .content(aiReply.getRawContent())
+                                .build();
 
-                                                                // 7. If we have enough context, trigger recommendations
-                                                                boolean recommendationTriggered = false;
-                                                                if (context.isReadyForRecommendation()) {
-                                                                        recommendationTriggered = recommendationServiceTrigger(
-                                                                                        userContext);
+                ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
 
-                                                                        // Update session status if we're done
-                                                                        sessionRepository.findById(sessionId)
-                                                                                        .ifPresent(session -> {
-                                                                                                session.setStatus(
-                                                                                                                ChatSessionStatus.COMPLETED);
-                                                                                                sessionRepository.save(
-                                                                                                                session);
-                                                                                        });
-                                                                }
-
-                                                                // 8. Return the response
-                                                                return Mono.just(ChatDTOs.SendMessageResponse.builder()
-                                                                                .assistantMessage(toDto(
-                                                                                                savedAssistantMessage))
-                                                                                .askedFollowUp(context
-                                                                                                .isNeedsFollowUp())
-                                                                                .recommendationTriggered(
-                                                                                                recommendationTriggered)
-                                                                                .build());
-                                                        });
-                                });
+                // 6. Return the response
+                return ChatDTOs.SendMessageResponse.builder()
+                                .assistantMessage(ChatMessageMapper.toDto(savedAssistantMessage))
+                                .askedFollowUp(false)
+                                .recommendationTriggered(false)
+                                .build();
         }
 
         @Transactional(readOnly = true)
-        public Mono<ChatDTOs.GetHistoryResponse> getChatHistory(UUID sessionId) {
-                return Mono.fromCallable(() -> {
-                        List<ChatMessage> messages = messageRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
-                        return ChatDTOs.GetHistoryResponse.builder()
-                                        .messages(messages.stream()
-                                                        .map(this::toDto)
-                                                        .collect(Collectors.toList()))
-                                        .build();
-                });
+        public ChatDTOs.GetHistoryResponse getChatHistory(UUID sessionId) {
+                List<ChatMessage> messages = chatMessageRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
+                return ChatDTOs.GetHistoryResponse.builder()
+                                .sessionId(sessionId)
+                                .messages(messages.stream()
+                                                .map(ChatMessageMapper::toDto)
+                                                .collect(Collectors.toList()))
+                                .build();
         }
 
-        // === Private helper methods ===
-
-        private boolean recommendationServiceTrigger(UserContextDTO context) {
-                // Implement recommendation service trigger logic here
-                // For now, just log and return false
-                log.info("Recommendation service triggered with context: {}", context);
-                return false;
-        }
-
-        private ChatSession createNewSession(UUID userId, String conversationId) {
+        private ChatSession createNewSession(UUID userId, String conversationTitle) {
                 ChatSession session = ChatSession.builder()
                                 .userId(userId)
-                                .conversationTitle(
-                                                conversationId != null ? conversationId : UUID.randomUUID().toString())
+                                .conversationTitle(conversationTitle)
                                 .status(ChatSessionStatus.ACTIVE)
                                 .build();
-                return sessionRepository.save(session);
-        }
-
-        private ChatDTOs.ChatMessageDTO toDto(ChatMessage message) {
-                return ChatDTOs.ChatMessageDTO.builder()
-                                .id(message.getId())
-                                .sessionId(message.getSessionId())
-                                .role(message.getRole())
-                                .content(message.getContent())
-                                .createdAt(message.getCreatedAt())
-                                .build();
+                return chatSessionRepository.save(session);
         }
 }
