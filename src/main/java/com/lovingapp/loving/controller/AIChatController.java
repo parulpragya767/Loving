@@ -66,7 +66,8 @@ public class AIChatController {
                         @AuthenticationPrincipal Jwt jwt,
                         @PathVariable UUID sessionId,
                         @Valid @RequestBody ChatDTOs.SendMessageRequest request) {
-                return ResponseEntity.ok(aiChatService.sendMessage(sessionId, request));
+                UUID userId = getAuthUserId(jwt);
+                return ResponseEntity.ok(aiChatService.sendMessage(sessionId, userId, request));
         }
 
         /**

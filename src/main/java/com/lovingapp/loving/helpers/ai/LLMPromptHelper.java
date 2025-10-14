@@ -11,22 +11,28 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
 import com.lovingapp.loving.model.entity.LoveTypeInfo;
+import com.lovingapp.loving.model.enums.EffortLevel;
 import com.lovingapp.loving.model.enums.EmotionalState;
+import com.lovingapp.loving.model.enums.IntensityLevel;
 import com.lovingapp.loving.model.enums.LifeContext;
+import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.RelationalNeed;
+import com.lovingapp.loving.model.enums.RelationshipStatus;
+import com.lovingapp.loving.model.enums.RitualTone;
+import com.lovingapp.loving.model.enums.RitualType;
+import com.lovingapp.loving.model.enums.TimeContext;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class LLMPromptHelper {
-
     private final String empatheticChatResponsePromptFilePath = "prompts/empathetic_chat_response_prompt.txt";
+    private final String userContextExtractionPromptFilePath = "prompts/user_context_extraction_prompt.txt";
 
     /**
      * Generate the empathetic chat system prompt, formatting and injecting the
-     * provided
-     * love type definitions into the template.
+     * provided love type definitions into the template.
      */
     public String generateEmpatheticChatResponsePrompt(List<LoveTypeInfo> loveTypes) {
         String template = readPromptFile(empatheticChatResponsePromptFilePath);
@@ -108,5 +114,35 @@ public class LLMPromptHelper {
         return Arrays.stream(values)
                 .map(Enum::name)
                 .collect(Collectors.joining(", "));
+    }
+
+    /**
+     * Generate the user context extraction system prompt by injecting all enum NAME
+     * lists
+     * and contextual placeholders. Enum values are provided as their exact names
+     * for strict matching.
+     */
+    public String generateUserContextExtractionPrompt(
+            String conversationSummary,
+            String optionalEnumDefinitions) {
+        String template = readPromptFile(userContextExtractionPromptFilePath);
+
+        String content = template
+                .replace("{{EMOTIONAL_STATES_ENUM_NAMES}}", enumList(EmotionalState.values()))
+                .replace("{{RELATIONAL_NEEDS_ENUM_NAMES}}", enumList(RelationalNeed.values()))
+                .replace("{{LOVE_TYPES_ENUM_NAMES}}", enumList(LoveType.values()))
+                .replace("{{RITUAL_TYPES_ENUM_NAMES}}", enumList(RitualType.values()))
+                .replace("{{RITUAL_TONES_ENUM_NAMES}}", enumList(RitualTone.values()))
+                .replace("{{LIFE_CONTEXTS_ENUM_NAMES}}", enumList(LifeContext.values()))
+                .replace("{{TIME_CONTEXT_ENUM_NAMES}}", enumList(TimeContext.values()))
+                .replace("{{RELATIONSHIP_STATUS_ENUM_NAMES}}", enumList(RelationshipStatus.values()))
+                .replace("{{EFFORT_LEVEL_ENUM_NAMES}}", enumList(EffortLevel.values()))
+                .replace("{{INTENSITY_LEVEL_ENUM_NAMES}}", enumList(IntensityLevel.values()))
+                .replace("{{OPTIONAL_ENUM_DEFINITIONS}}",
+                        optionalEnumDefinitions == null ? "" : optionalEnumDefinitions)
+                .replace("{{CONVERSATION_SUMMARY}}",
+                        conversationSummary == null ? "No conversation summary available" : conversationSummary);
+
+        return content;
     }
 }

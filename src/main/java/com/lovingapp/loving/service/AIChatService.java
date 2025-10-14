@@ -10,12 +10,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.lovingapp.loving.client.LlmClient;
 import com.lovingapp.loving.helpers.ai.LLMPromptHelper;
+import com.lovingapp.loving.helpers.ai.UserContextExtractor;
 import com.lovingapp.loving.mapper.ChatMessageMapper;
 import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
 import com.lovingapp.loving.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.loving.model.dto.ChatDTOs;
+import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.entity.ChatSession;
 import com.lovingapp.loving.model.entity.LoveTypeInfo;
@@ -41,7 +43,9 @@ public class AIChatService {
         private final ChatMessageRepository chatMessageRepository;
         private final LlmClient llmClient;
         private final LLMPromptHelper llmPromptHelper;
+        private final UserContextExtractor userContextExtractor;
         private final LoveTypeRepository loveTypeRepository;
+        private final UserContextService userContextService;
 
         @Transactional
         public ChatDTOs.StartSessionResponse startSession(ChatDTOs.StartSessionRequest request) {
@@ -69,7 +73,8 @@ public class AIChatService {
         }
 
         @Transactional
-        public ChatDTOs.SendMessageResponse sendMessage(UUID sessionId, ChatDTOs.SendMessageRequest request) {
+        public ChatDTOs.SendMessageResponse sendMessage(UUID sessionId, UUID userId,
+                        ChatDTOs.SendMessageRequest request) {
                 // 1. Save user message
                 ChatMessage userMessage = ChatMessage.builder()
                                 .sessionId(sessionId)
@@ -83,10 +88,20 @@ public class AIChatService {
                 List<ChatMessage> messages = chatMessageRepository
                                 .findBySessionIdOrderByCreatedAtAsc(sessionId);
 
+                if (!request.isReadyForRitualSuggestion()) {
+                        return handleEmpatheticFlow(sessionId, messages);
+                } else {
+                        return handleContextExtractionFlow(sessionId, userId, request, messages);
+                }
+        }
+
+        private ChatDTOs.SendMessageResponse handleEmpatheticFlow(UUID sessionId,
+                        List<ChatMessage> messages) {
+
                 // 2.1 Get all love types for the prompt
                 List<LoveTypeInfo> loveTypes = loveTypeRepository.findAll();
 
-                // 3. Build prompt string from conversation history
+                // Build empathetic chat system prompt and request from conversation history
                 LLMRequest llmRequest = LLMRequest.builder()
                                 .messages(messages.stream()
                                                 .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
@@ -95,26 +110,70 @@ public class AIChatService {
                                 .responseFormat(LLMResponseFormat.TEXT)
                                 .build();
 
-                // 4. Get AI response (raw content string)
                 LLMResponse aiReply = llmClient.generate(llmRequest);
                 JsonNode node = aiReply.getParsedJson();
                 String response = node.path("response").asText();
-                boolean isReadyForRitualSuggestion = node.path("ready_for_ritual_suggestion").asBoolean();
 
-                // 5. Save assistant's response
                 ChatMessage assistantMessage = ChatMessage.builder()
                                 .sessionId(sessionId)
                                 .role(ChatMessageRole.ASSISTANT)
                                 .content(response)
                                 .build();
-
                 ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
-
-                // 6. Return the response
 
                 return ChatDTOs.SendMessageResponse.builder()
                                 .assistantMessage(ChatMessageMapper.toDto(savedAssistantMessage))
-                                .isReadyForRitualSuggestion(isReadyForRitualSuggestion)
+                                .isReadyForRitualSuggestion(false)
+                                .build();
+        }
+
+        private ChatDTOs.SendMessageResponse handleContextExtractionFlow(
+                        UUID sessionId,
+                        UUID userId,
+                        ChatDTOs.SendMessageRequest request,
+                        List<ChatMessage> messages) {
+                // Build a structured conversation summary
+                String conversationSummary = messages.stream()
+                                .map(msg -> String.format("%s: %s",
+                                                msg.getRole().name().toLowerCase(),
+                                                msg.getContent()))
+                                .collect(Collectors.joining("\n"));
+
+                String extractionSystemPrompt = llmPromptHelper.generateUserContextExtractionPrompt(
+                                conversationSummary,
+                                null);
+
+                LLMRequest extractionRequest = LLMRequest.builder()
+                                .systemPrompt(extractionSystemPrompt)
+                                .responseFormat(LLMResponseFormat.JSON)
+                                .build();
+
+                boolean validated = true;
+                try {
+                        LLMResponse extractionResponse = llmClient.generate(extractionRequest);
+                        JsonNode extracted = extractionResponse.getParsedJson();
+                        // Parse and validate; will throw on invalid values
+                        UserContextDTO dto = userContextExtractor.parseAndValidate(extracted);
+                        // Enrich with identifiers before persisting
+                        dto.setUserId(userId);
+                        dto.setConversationId(sessionId.toString());
+                        userContextService.createUserContext(dto);
+                } catch (Exception ex) {
+                        log.warn("UserContext extraction/validation/persistence failed: {}", ex.getMessage());
+                        validated = false;
+                }
+
+                ChatMessage assistantMessage = ChatMessage.builder()
+                                .sessionId(sessionId)
+                                .role(ChatMessageRole.ASSISTANT)
+                                .content("Ritual Pack recommended")
+                                .build();
+                // ChatMessage savedAssistantMessage =
+                // chatMessageRepository.save(assistantMessage);
+
+                return ChatDTOs.SendMessageResponse.builder()
+                                .assistantMessage(ChatMessageMapper.toDto(assistantMessage))
+                                .isReadyForRitualSuggestion(validated)
                                 .build();
         }
 

@@ -52,6 +52,7 @@ public class ChatDTOs {
     @Builder
     public static class SendMessageRequest {
         private String content; // user message
+        private boolean isReadyForRitualSuggestion;
     }
 
     /**

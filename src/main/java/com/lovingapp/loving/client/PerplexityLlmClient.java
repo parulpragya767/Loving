@@ -59,12 +59,14 @@ public class PerplexityLlmClient implements LlmClient {
                     .build());
         }
 
-        request.getMessages().stream()
-                .map(msg -> PerplexityMessage.builder()
-                        .role(msg.getRole().name().toLowerCase())
-                        .content(msg.getContent())
-                        .build())
-                .forEach(perplexityMessages::add);
+        if (request.getMessages() != null) {
+            request.getMessages().stream()
+                    .map(msg -> PerplexityMessage.builder()
+                            .role(msg.getRole().name().toLowerCase())
+                            .content(msg.getContent())
+                            .build())
+                    .forEach(perplexityMessages::add);
+        }
 
         PerplexityRequest perplexityRequest = PerplexityRequest.builder()
                 .model(perplexityProps.getModel())
