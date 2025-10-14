@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.config.LlmClientProperties;
+import com.lovingapp.loving.helpers.ai.LLMResponseParser;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
@@ -34,12 +35,16 @@ public class PerplexityLlmClient implements LlmClient {
 
     private final LlmClientProperties.PerplexityProperties perplexityProps;
     private final WebClient webClient;
+    private final LLMResponseParser llmResponseParser;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public PerplexityLlmClient(LlmClientProperties llmClientProperties, WebClient webClient) {
+    public PerplexityLlmClient(LlmClientProperties llmClientProperties,
+            WebClient webClient,
+            LLMResponseParser llmResponseParser) {
         this.perplexityProps = llmClientProperties.getPerplexity();
         this.webClient = webClient;
+        this.llmResponseParser = llmResponseParser;
     }
 
     @Override
@@ -94,8 +99,17 @@ public class PerplexityLlmClient implements LlmClient {
                     .bodyToMono(String.class)
                     .block();
 
+            log.info("Response from Perplexity API:");
+            try {
+                ObjectMapper mapper = new ObjectMapper();
+                String requestBody = mapper.writeValueAsString(response);
+                log.info("Response: " + requestBody);
+            } catch (Exception e) {
+                log.error("Error logging response: " + e.getMessage());
+            }
+
             String content = extractContent(response);
-            return new LLMResponse(content, null);
+            return llmResponseParser.parseResponse(content);
         } catch (Exception e) {
             log.error("Error calling Perplexity API", e);
             throw new RuntimeException("Failed to get response from Perplexity: " + e.getMessage(), e);

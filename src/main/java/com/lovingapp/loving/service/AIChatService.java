@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.lovingapp.loving.client.LlmClient;
 import com.lovingapp.loving.helpers.ai.LLMPromptHelper;
 import com.lovingapp.loving.mapper.ChatMessageMapper;
@@ -17,10 +18,12 @@ import com.lovingapp.loving.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.loving.model.dto.ChatDTOs;
 import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.entity.ChatSession;
+import com.lovingapp.loving.model.entity.LoveTypeInfo;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
 import com.lovingapp.loving.model.enums.ChatSessionStatus;
 import com.lovingapp.loving.repository.ChatMessageRepository;
 import com.lovingapp.loving.repository.ChatSessionRepository;
+import com.lovingapp.loving.repository.LoveTypeRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,6 +41,7 @@ public class AIChatService {
         private final ChatMessageRepository chatMessageRepository;
         private final LlmClient llmClient;
         private final LLMPromptHelper llmPromptHelper;
+        private final LoveTypeRepository loveTypeRepository;
 
         @Transactional
         public ChatDTOs.StartSessionResponse startSession(ChatDTOs.StartSessionRequest request) {
@@ -79,32 +83,38 @@ public class AIChatService {
                 List<ChatMessage> messages = chatMessageRepository
                                 .findBySessionIdOrderByCreatedAtAsc(sessionId);
 
+                // 2.1 Get all love types for the prompt
+                List<LoveTypeInfo> loveTypes = loveTypeRepository.findAll();
+
                 // 3. Build prompt string from conversation history
                 LLMRequest llmRequest = LLMRequest.builder()
                                 .messages(messages.stream()
                                                 .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
                                                 .collect(Collectors.toList()))
-                                .systemPrompt(llmPromptHelper.generateSystemPrompt())
+                                .systemPrompt(llmPromptHelper.generateEmpatheticChatResponsePrompt(loveTypes))
                                 .responseFormat(LLMResponseFormat.TEXT)
                                 .build();
 
                 // 4. Get AI response (raw content string)
                 LLMResponse aiReply = llmClient.generate(llmRequest);
+                JsonNode node = aiReply.getParsedJson();
+                String response = node.path("response").asText();
+                boolean isReadyForRitualSuggestion = node.path("ready_for_ritual_suggestion").asBoolean();
 
                 // 5. Save assistant's response
                 ChatMessage assistantMessage = ChatMessage.builder()
                                 .sessionId(sessionId)
                                 .role(ChatMessageRole.ASSISTANT)
-                                .content(aiReply.getRawContent())
+                                .content(response)
                                 .build();
 
                 ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
 
                 // 6. Return the response
+
                 return ChatDTOs.SendMessageResponse.builder()
                                 .assistantMessage(ChatMessageMapper.toDto(savedAssistantMessage))
-                                .askedFollowUp(false)
-                                .recommendationTriggered(false)
+                                .isReadyForRitualSuggestion(isReadyForRitualSuggestion)
                                 .build();
         }
 
@@ -127,4 +137,5 @@ public class AIChatService {
                                 .build();
                 return chatSessionRepository.save(session);
         }
+
 }

@@ -78,8 +78,8 @@ public class ChatDTOs {
     @Builder
     public static class SendMessageResponse {
         private ChatMessageDTO assistantMessage;
-        private boolean askedFollowUp;
-        private boolean recommendationTriggered;
+        private boolean isReadyForRitualSuggestion;
+        private String recommendedRitualPack;
     }
 
     /**
