@@ -10,6 +10,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StreamUtils;
 
+import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.entity.LoveTypeInfo;
 import com.lovingapp.loving.model.enums.EffortLevel;
 import com.lovingapp.loving.model.enums.EmotionalState;
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class LLMPromptHelper {
     private final String empatheticChatResponsePromptFilePath = "prompts/empathetic_chat_response_prompt.txt";
     private final String userContextExtractionPromptFilePath = "prompts/user_context_extraction_prompt.txt";
+    private final String ritualWrapUpPromptFilePath = "prompts/ritual_wrap_up_prompt.txt";
 
     /**
      * Generate the empathetic chat system prompt, formatting and injecting the
@@ -140,5 +142,68 @@ public class LLMPromptHelper {
                         optionalEnumDefinitions == null ? "" : optionalEnumDefinitions);
 
         return content;
+    }
+
+    /**
+     * Generate the ritual wrap-up system prompt that ties the recommended ritual
+     * pack
+     * to the user's situation using internal domain knowledge without exposing enum
+     * labels.
+     */
+    public String generateRitualWrapUpPrompt(List<LoveTypeInfo> loveTypes, RitualPackDTO pack) {
+        String template = readPromptFile(ritualWrapUpPromptFilePath);
+        String withEnums = injectDynamicDomainKnowledge(template);
+
+        String loveTypeDefs = (loveTypes == null || loveTypes.isEmpty())
+                ? ""
+                : formatLoveTypeDefinitions(loveTypes);
+
+        String packTitle = pack != null && pack.getTitle() != null ? pack.getTitle() : "";
+        String packShort = pack != null && pack.getShortDescription() != null ? pack.getShortDescription() : "";
+        String packTags = pack != null ? formatPackTags(pack) : "";
+
+        return withEnums
+                .replace("{{LOVE_TYPES_DEFINITIONS}}", loveTypeDefs)
+                .replace("{{PACK_TITLE}}", escapeCurly(packTitle))
+                .replace("{{PACK_SHORT_DESCRIPTION}}", escapeCurly(packShort))
+                .replace("{{PACK_TAGS}}", escapeCurly(packTags));
+    }
+
+    private String formatPackTags(RitualPackDTO pack) {
+        StringBuilder sb = new StringBuilder();
+        // Love types
+        if (pack.getLoveTypesSupported() != null && !pack.getLoveTypesSupported().isEmpty()) {
+            sb.append("loveTypes=")
+                    .append(pack.getLoveTypesSupported().stream().map(Enum::name).collect(Collectors.joining("|")));
+        }
+        // Relational needs
+        if (pack.getRelationalNeedsServed() != null && !pack.getRelationalNeedsServed().isEmpty()) {
+            if (sb.length() > 0)
+                sb.append(", ");
+            sb.append("relationalNeeds=")
+                    .append(pack.getRelationalNeedsServed().stream().map(Enum::name).collect(Collectors.joining("|")));
+        }
+        // Life contexts
+        if (pack.getLifeContextsRelevant() != null && !pack.getLifeContextsRelevant().isEmpty()) {
+            if (sb.length() > 0)
+                sb.append(", ");
+            sb.append("lifeContexts=")
+                    .append(pack.getLifeContextsRelevant().stream().map(Enum::name).collect(Collectors.joining("|")));
+        }
+        // Emotional states
+        if (pack.getEmotionalStatesSupported() != null && !pack.getEmotionalStatesSupported().isEmpty()) {
+            if (sb.length() > 0)
+                sb.append(", ");
+            sb.append("emotionalStates=").append(
+                    pack.getEmotionalStatesSupported().stream().map(Enum::name).collect(Collectors.joining("|")));
+        }
+        return sb.toString();
+    }
+
+    private String escapeCurly(String input) {
+        // Avoid accidental template collisions if curly braces appear in content
+        if (input == null)
+            return "";
+        return input.replace("{{", "{").replace("}}", "}");
     }
 }

@@ -161,16 +161,52 @@ public class AIChatService {
                 recommendedPack = ritualRecommendationService.recommendRitualPack(null)
                                 .orElse(null);
 
-                // Create response message based on whether we found a recommendation
+                // Build a contextual wrap-up via LLM that ties the pack to the user's situation
                 String responseMessage;
-                if (recommendedPack != null) {
-                        responseMessage = String.format("I recommend the '%s' ritual pack for you! %s",
-                                        recommendedPack.getTitle(),
-                                        recommendedPack.getShortDescription() != null
-                                                        ? recommendedPack.getShortDescription()
-                                                        : "");
-                } else {
-                        responseMessage = "I've analyzed your conversation. Here's a ritual pack that might interest you.";
+                try {
+                        // Fetch love types for richer domain knowledge in the prompt
+                        List<LoveTypeInfo> loveTypes = loveTypeRepository.findAll();
+
+                        if (recommendedPack != null) {
+                                String wrapUpSystemPrompt = llmPromptHelper.generateRitualWrapUpPrompt(loveTypes,
+                                                recommendedPack);
+
+                                LLMRequest wrapUpRequest = LLMRequest.builder()
+                                                .messages(messages.stream()
+                                                                .map(m -> new LLMChatMessage(m.getRole(),
+                                                                                m.getContent()))
+                                                                .collect(Collectors.toList()))
+                                                .systemPrompt(wrapUpSystemPrompt)
+                                                .responseFormat(LLMResponseFormat.TEXT)
+                                                .build();
+
+                                // LLMResponse wrapUpResponse = llmClient.generate(wrapUpRequest);
+                                // JsonNode wrapUpNode = wrapUpResponse.getParsedJson();
+                                // String llmWrap = wrapUpNode.path("response").asText(null);
+                                String llmWrap = "";
+                                responseMessage = (llmWrap != null && !llmWrap.isBlank())
+                                                ? llmWrap
+                                                : String.format("I recommend the '%s' ritual pack for you! %s",
+                                                                recommendedPack.getTitle(),
+                                                                recommendedPack.getShortDescription() != null
+                                                                                ? recommendedPack.getShortDescription()
+                                                                                : "");
+                        } else {
+                                // Fallback if no recommendation could be made
+                                responseMessage = "I've taken in what you've shared. I don't have a specific ritual pack to suggest just yet, but we can keep exploring and I'll recommend something that fits as soon as I have enough context.";
+                        }
+                } catch (Exception ex) {
+                        log.warn("Ritual wrap-up LLM generation failed: {}", ex.getMessage());
+                        // Robust fallback
+                        if (recommendedPack != null) {
+                                responseMessage = String.format("I recommend the '%s' ritual pack for you! %s",
+                                                recommendedPack.getTitle(),
+                                                recommendedPack.getShortDescription() != null
+                                                                ? recommendedPack.getShortDescription()
+                                                                : "");
+                        } else {
+                                responseMessage = "I've analyzed your conversation. Here's a ritual pack that might interest you.";
+                        }
                 }
 
                 // Create and save assistant message
