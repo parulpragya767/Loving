@@ -1,23 +1,127 @@
 package com.lovingapp.loving.service;
 
-import org.springframework.stereotype.Service;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.lovingapp.loving.mapper.RitualPackMapper;
+import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.dto.UserContextDTO;
+import com.lovingapp.loving.model.entity.RitualPack;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class RitualRecommendationService {
 
+    private final RitualPackService ritualPackService;
+
     /**
-     * Temporary stub. Returns true when minimal context present.
-     * Replace with real ritual recommendation engine call later.
+     * Recommends a ritual pack based on the user's context.
+     * Uses a simple scoring system to rank ritual packs based on how well they
+     * match the user's preferences.
+     * 
+     * @param userContext The user's context containing preferences and needs
+     * @return An Optional containing the recommended RitualPackDTO if available,
+     *         empty otherwise
      */
-    public boolean triggerRecommendations(UserContextDTO context) {
-        if (context == null)
-            return false;
-        boolean hasEmotions = context.getEmotionalStates() != null && !context.getEmotionalStates().isEmpty();
-        boolean hasNeeds = context.getRelationalNeeds() != null && !context.getRelationalNeeds().isEmpty();
-        boolean hasLoveLang = context.getPreferredLoveLanguages() != null
-                && !context.getPreferredLoveLanguages().isEmpty();
-        return hasEmotions || hasNeeds || hasLoveLang;
+    @Transactional(readOnly = true)
+    public Optional<RitualPackDTO> recommendRitualPack(UserContextDTO userContext) {
+        // Get all available ritual packs
+        List<RitualPack> allPacks = ritualPackService.findAll().stream()
+                .map(RitualPackMapper::fromDto)
+                .collect(Collectors.toList());
+
+        if (allPacks.isEmpty()) {
+            log.warn("No ritual packs available for recommendation");
+            // If no packs are available, return empty
+            return Optional.empty();
+        }
+
+        if (userContext == null) {
+            log.warn("Cannot recommend ritual pack: user context is null");
+            // return Optional.empty();
+            // If you want to return the first pack when no context is available, use:
+            return Optional.of(RitualPackMapper.toDto(allPacks.get(0)));
+        }
+
+        // Score and sort ritual packs based on user context
+        return allPacks.stream()
+                .map(pack -> {
+                    int score = calculateMatchScore(pack, userContext);
+                    log.debug("Pack '{}' score: {}", pack.getTitle(), score);
+                    return new ScoredPack(pack, score);
+                })
+                .sorted(Comparator.comparingInt(ScoredPack::getScore).reversed())
+                .findFirst()
+                .map(ScoredPack::getPack)
+                .map(RitualPackMapper::toDto);
+    }
+
+    /**
+     * Calculates a match score for a ritual pack based on user context.
+     * Higher scores indicate better matches.
+     */
+    private int calculateMatchScore(RitualPack pack, UserContextDTO userContext) {
+        int score = 0;
+
+        // Match emotional states
+        if (userContext.getEmotionalStates() != null && pack.getEmotionalStatesSupported() != null) {
+            score += userContext.getEmotionalStates().stream()
+                    .filter(emotion -> pack.getEmotionalStatesSupported().contains(emotion))
+                    .count() * 3; // Higher weight for emotional states
+        }
+
+        // Match relational needs
+        if (userContext.getRelationalNeeds() != null && pack.getRelationalNeedsServed() != null) {
+            score += userContext.getRelationalNeeds().stream()
+                    .filter(need -> pack.getRelationalNeedsServed().contains(need))
+                    .count() * 3; // Higher weight for relational needs
+        }
+
+        // Match love languages
+        if (userContext.getPreferredLoveLanguages() != null && pack.getLoveTypesSupported() != null) {
+            score += userContext.getPreferredLoveLanguages().stream()
+                    .filter(loveType -> pack.getLoveTypesSupported().contains(loveType))
+                    .count() * 2;
+        }
+
+        // Match ritual types
+        if (userContext.getPreferredRitualTypes() != null && pack.getRitualTypes() != null) {
+            score += userContext.getPreferredRitualTypes().stream()
+                    .filter(type -> pack.getRitualTypes().contains(type))
+                    .count() * 2;
+        }
+
+        // Match ritual tones
+        if (userContext.getPreferredTones() != null && pack.getRitualTones() != null) {
+            score += userContext.getPreferredTones().stream()
+                    .filter(tone -> pack.getRitualTones().contains(tone))
+                    .count();
+        }
+
+        // Match effort level
+        if (userContext.getPreferredEffortLevel() != null &&
+                pack.getEffortLevel() == userContext.getPreferredEffortLevel()) {
+            score += 2; // Bonus points for matching effort level
+        }
+
+        return score;
+    }
+
+    /**
+     * Helper class to associate ritual packs with their match scores
+     */
+    @lombok.Value
+    private static class ScoredPack {
+        RitualPack pack;
+        int score;
     }
 }

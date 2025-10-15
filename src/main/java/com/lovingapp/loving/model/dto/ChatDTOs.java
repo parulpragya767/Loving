@@ -80,7 +80,7 @@ public class ChatDTOs {
     public static class SendMessageResponse {
         private ChatMessageDTO assistantMessage;
         private boolean isReadyForRitualSuggestion;
-        private String recommendedRitualPack;
+        private RitualPackDTO recommendedRitualPack;
     }
 
     /**

@@ -17,7 +17,7 @@ import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
 import com.lovingapp.loving.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.loving.model.dto.ChatDTOs;
-import com.lovingapp.loving.model.dto.UserContextDTO;
+import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.entity.ChatSession;
 import com.lovingapp.loving.model.entity.LoveTypeInfo;
@@ -46,6 +46,7 @@ public class AIChatService {
         private final UserContextExtractor userContextExtractor;
         private final LoveTypeRepository loveTypeRepository;
         private final UserContextService userContextService;
+        private final RitualRecommendationService ritualRecommendationService;
 
         @Transactional
         public ChatDTOs.StartSessionResponse startSession(ChatDTOs.StartSessionRequest request) {
@@ -136,31 +137,54 @@ public class AIChatService {
                                 .build();
 
                 boolean validated = true;
-                try {
-                        LLMResponse extractionResponse = llmClient.generate(extractionRequest);
-                        JsonNode extracted = extractionResponse.getParsedJson();
-                        // Parse and validate; will throw on invalid values
-                        UserContextDTO dto = userContextExtractor.parseAndValidate(extracted);
-                        // Enrich with identifiers before persisting
-                        dto.setUserId(userId);
-                        dto.setConversationId(sessionId.toString());
-                        userContextService.createUserContext(dto);
-                } catch (Exception ex) {
-                        log.warn("UserContext extraction/validation/persistence failed: {}", ex.getMessage());
-                        validated = false;
+                RitualPackDTO recommendedPack = null;
+
+                // try {
+                // // Extract user context
+                // LLMResponse extractionResponse = llmClient.generate(extractionRequest);
+                // JsonNode extracted = extractionResponse.getParsedJson();
+
+                // // Parse and validate user context
+                // UserContextDTO dto = userContextExtractor.parseAndValidate(extracted);
+
+                // // Enrich with identifiers before persisting
+                // dto.setUserId(userId);
+                // dto.setConversationId(sessionId.toString());
+                // userContextService.createUserContext(dto);
+                // } catch (Exception ex) {
+                // log.warn("UserContext extraction/validation/persistence failed: {}",
+                // ex.getMessage());
+                // validated = false;
+                // }
+
+                // Get ritual pack recommendation
+                recommendedPack = ritualRecommendationService.recommendRitualPack(null)
+                                .orElse(null);
+
+                // Create response message based on whether we found a recommendation
+                String responseMessage;
+                if (recommendedPack != null) {
+                        responseMessage = String.format("I recommend the '%s' ritual pack for you! %s",
+                                        recommendedPack.getTitle(),
+                                        recommendedPack.getShortDescription() != null
+                                                        ? recommendedPack.getShortDescription()
+                                                        : "");
+                } else {
+                        responseMessage = "I've analyzed your conversation. Here's a ritual pack that might interest you.";
                 }
 
+                // Create and save assistant message
                 ChatMessage assistantMessage = ChatMessage.builder()
                                 .sessionId(sessionId)
                                 .role(ChatMessageRole.ASSISTANT)
-                                .content("Ritual Pack recommended")
+                                .content(responseMessage)
                                 .build();
-                // ChatMessage savedAssistantMessage =
-                // chatMessageRepository.save(assistantMessage);
+                ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
 
                 return ChatDTOs.SendMessageResponse.builder()
-                                .assistantMessage(ChatMessageMapper.toDto(assistantMessage))
+                                .assistantMessage(ChatMessageMapper.toDto(savedAssistantMessage))
                                 .isReadyForRitualSuggestion(validated)
+                                .recommendedRitualPack(recommendedPack)
                                 .build();
         }
 
