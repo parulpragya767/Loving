@@ -66,8 +66,16 @@ public class AIChatController {
                         @AuthenticationPrincipal Jwt jwt,
                         @PathVariable UUID sessionId,
                         @Valid @RequestBody ChatDTOs.SendMessageRequest request) {
+                return ResponseEntity.ok(aiChatService.sendMessage(sessionId, request));
+        }
+
+        @PostMapping("/sessions/{sessionId}/recommend")
+        public ResponseEntity<ChatDTOs.SendMessageResponse> recommendRitualPack(
+                        @AuthenticationPrincipal Jwt jwt,
+                        @PathVariable UUID sessionId,
+                        @Valid @RequestBody ChatDTOs.SendMessageRequest request) {
                 UUID userId = getAuthUserId(jwt);
-                return ResponseEntity.ok(aiChatService.sendMessage(sessionId, userId, request));
+                return ResponseEntity.ok(aiChatService.recommendRitualPack(sessionId, userId, request));
         }
 
         /**

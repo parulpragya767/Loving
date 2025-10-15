@@ -73,7 +73,7 @@ public class AIChatService {
         }
 
         @Transactional
-        public ChatDTOs.SendMessageResponse sendMessage(UUID sessionId, UUID userId,
+        public ChatDTOs.SendMessageResponse sendMessage(UUID sessionId,
                         ChatDTOs.SendMessageRequest request) {
                 // 1. Save user message
                 ChatMessage userMessage = ChatMessage.builder()
@@ -87,16 +87,6 @@ public class AIChatService {
                 // 2. Get conversation history
                 List<ChatMessage> messages = chatMessageRepository
                                 .findBySessionIdOrderByCreatedAtAsc(sessionId);
-
-                if (!request.isReadyForRitualSuggestion()) {
-                        return handleEmpatheticFlow(sessionId, messages);
-                } else {
-                        return handleContextExtractionFlow(sessionId, userId, request, messages);
-                }
-        }
-
-        private ChatDTOs.SendMessageResponse handleEmpatheticFlow(UUID sessionId,
-                        List<ChatMessage> messages) {
 
                 // 2.1 Get all love types for the prompt
                 List<LoveTypeInfo> loveTypes = loveTypeRepository.findAll();
@@ -127,25 +117,22 @@ public class AIChatService {
                                 .build();
         }
 
-        private ChatDTOs.SendMessageResponse handleContextExtractionFlow(
+        public ChatDTOs.SendMessageResponse recommendRitualPack(
                         UUID sessionId,
                         UUID userId,
-                        ChatDTOs.SendMessageRequest request,
-                        List<ChatMessage> messages) {
-                // Build a structured conversation summary
-                String conversationSummary = messages.stream()
-                                .map(msg -> String.format("%s: %s",
-                                                msg.getRole().name().toLowerCase(),
-                                                msg.getContent()))
-                                .collect(Collectors.joining("\n"));
+                        ChatDTOs.SendMessageRequest request) {
 
-                String extractionSystemPrompt = llmPromptHelper.generateUserContextExtractionPrompt(
-                                conversationSummary,
-                                null);
+                List<ChatMessage> messages = chatMessageRepository
+                                .findBySessionIdOrderByCreatedAtAsc(sessionId);
+
+                String extractionSystemPrompt = llmPromptHelper.generateUserContextExtractionPrompt(null);
 
                 LLMRequest extractionRequest = LLMRequest.builder()
+                                .messages(messages.stream()
+                                                .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
+                                                .collect(Collectors.toList()))
                                 .systemPrompt(extractionSystemPrompt)
-                                .responseFormat(LLMResponseFormat.JSON)
+                                .responseFormat(LLMResponseFormat.TEXT)
                                 .build();
 
                 boolean validated = true;

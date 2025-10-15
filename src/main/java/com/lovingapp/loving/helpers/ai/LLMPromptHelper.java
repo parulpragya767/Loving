@@ -118,13 +118,11 @@ public class LLMPromptHelper {
 
     /**
      * Generate the user context extraction system prompt by injecting all enum NAME
-     * lists
-     * and contextual placeholders. Enum values are provided as their exact names
-     * for strict matching.
+     * lists and optional enum definitions. The full chat history will be supplied
+     * to the LLM as separate messages; this method only prepares the system
+     * instructions.
      */
-    public String generateUserContextExtractionPrompt(
-            String conversationSummary,
-            String optionalEnumDefinitions) {
+    public String generateUserContextExtractionPrompt(String optionalEnumDefinitions) {
         String template = readPromptFile(userContextExtractionPromptFilePath);
 
         String content = template
@@ -139,9 +137,7 @@ public class LLMPromptHelper {
                 .replace("{{EFFORT_LEVEL_ENUM_NAMES}}", enumList(EffortLevel.values()))
                 .replace("{{INTENSITY_LEVEL_ENUM_NAMES}}", enumList(IntensityLevel.values()))
                 .replace("{{OPTIONAL_ENUM_DEFINITIONS}}",
-                        optionalEnumDefinitions == null ? "" : optionalEnumDefinitions)
-                .replace("{{CONVERSATION_SUMMARY}}",
-                        conversationSummary == null ? "No conversation summary available" : conversationSummary);
+                        optionalEnumDefinitions == null ? "" : optionalEnumDefinitions);
 
         return content;
     }
