@@ -31,6 +31,7 @@ public class LLMPromptHelper {
     private final String empatheticChatResponsePromptFilePath = "prompts/empathetic_chat_response_prompt.txt";
     private final String userContextExtractionPromptFilePath = "prompts/user_context_extraction_prompt.txt";
     private final String ritualWrapUpPromptFilePath = "prompts/ritual_wrap_up_prompt.txt";
+    private final String sampleChatPromptsPromptFilePath = "prompts/sample_chat_prompts_prompt.txt";
 
     /**
      * Generate the empathetic chat system prompt, formatting and injecting the
@@ -167,6 +168,12 @@ public class LLMPromptHelper {
                 .replace("{{PACK_TITLE}}", escapeCurly(packTitle))
                 .replace("{{PACK_SHORT_DESCRIPTION}}", escapeCurly(packShort))
                 .replace("{{PACK_TAGS}}", escapeCurly(packTags));
+    }
+
+    public String generateSamplePromptsPrompt(String recentContext) {
+        String template = readPromptFile(sampleChatPromptsPromptFilePath);
+        return template
+                .replace("{{RECENT_CONTEXT}}", recentContext);
     }
 
     private String formatPackTags(RitualPackDTO pack) {

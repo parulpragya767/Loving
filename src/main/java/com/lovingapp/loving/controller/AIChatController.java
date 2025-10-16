@@ -90,4 +90,17 @@ public class AIChatController {
                         @PathVariable UUID sessionId) {
                 return ResponseEntity.ok(aiChatService.getChatHistory(sessionId));
         }
+
+        /**
+         * Get sample prompts for a chat session.
+         * 
+         * @param jwt The authenticated user's JWT token
+         * @return List of sample prompts
+         */
+        @GetMapping("/sample-prompts")
+        public ResponseEntity<ChatDTOs.SamplePromptsResponse> getSamplePrompts(
+                        @AuthenticationPrincipal Jwt jwt) {
+                UUID userId = getAuthUserId(jwt);
+                return ResponseEntity.ok(aiChatService.getSamplePrompts(userId));
+        }
 }

@@ -94,4 +94,15 @@ public class ChatDTOs {
         private UUID sessionId;
         private List<ChatMessageDTO> messages;
     }
+
+    /**
+     * Response containing sample prompts for the user.
+     */
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class SamplePromptsResponse {
+        private List<String> prompts;
+    }
 }
