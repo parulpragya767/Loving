@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.lovingapp.loving.model.dto.CurrentRitualsDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryStatusUpdateRequest;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
@@ -54,10 +55,10 @@ public class RitualHistoryController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<List<RitualHistoryDTO>> listActive(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<CurrentRitualsDTO> listActive(@AuthenticationPrincipal Jwt jwt) {
         UUID userId = getAuthUserId(jwt);
-        List<RitualHistoryDTO> list = ritualHistoryService.listActiveByUser(userId);
-        return ResponseEntity.ok(list);
+        CurrentRitualsDTO currentRituals = ritualHistoryService.listActiveByUser(userId);
+        return ResponseEntity.ok(currentRituals);
     }
 
     @PostMapping

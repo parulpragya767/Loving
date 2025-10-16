@@ -39,6 +39,16 @@ public class RitualPackService {
         return ritualPackRepository.findById(id).map(RitualPackMapper::toDto);
     }
 
+    @Transactional(readOnly = true)
+    public List<RitualPackDTO> findAllById(List<UUID> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return List.of();
+        }
+        return ritualPackRepository.findAllById(ids).stream()
+                .map(RitualPackMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
     @Transactional
     public RitualPackDTO create(RitualPackDTO dto) {
         RitualPack entity = RitualPackMapper.fromDto(dto);

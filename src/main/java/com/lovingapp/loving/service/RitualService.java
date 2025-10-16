@@ -1,5 +1,6 @@
 package com.lovingapp.loving.service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -33,6 +34,16 @@ public class RitualService {
         return ritualRepository.findById(id)
                 .map(RitualMapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException("Ritual not found with id: " + id));
+    }
+
+    @Transactional(readOnly = true)
+    public List<RitualDTO> findAllById(List<UUID> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return ritualRepository.findAllById(ids).stream()
+                .map(RitualMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional

@@ -3,15 +3,12 @@ package com.lovingapp.loving.service;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.mapper.RitualPackMapper;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.dto.UserContextDTO;
-import com.lovingapp.loving.model.entity.RitualPack;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +32,7 @@ public class RitualRecommendationService {
     @Transactional(readOnly = true)
     public Optional<RitualPackDTO> recommendRitualPack(UserContextDTO userContext) {
         // Get all available ritual packs
-        List<RitualPack> allPacks = ritualPackService.findAll().stream()
-                .map(RitualPackMapper::fromDto)
-                .collect(Collectors.toList());
+        List<RitualPackDTO> allPacks = ritualPackService.findAll();
 
         if (allPacks.isEmpty()) {
             log.warn("No ritual packs available for recommendation");
@@ -49,7 +44,7 @@ public class RitualRecommendationService {
             log.warn("Cannot recommend ritual pack: user context is null");
             // return Optional.empty();
             // If you want to return the first pack when no context is available, use:
-            return Optional.of(RitualPackMapper.toDto(allPacks.get(0)));
+            return Optional.of(allPacks.get(0));
         }
 
         // Score and sort ritual packs based on user context
@@ -61,15 +56,14 @@ public class RitualRecommendationService {
                 })
                 .sorted(Comparator.comparingInt(ScoredPack::getScore).reversed())
                 .findFirst()
-                .map(ScoredPack::getPack)
-                .map(RitualPackMapper::toDto);
+                .map(ScoredPack::getPack);
     }
 
     /**
      * Calculates a match score for a ritual pack based on user context.
      * Higher scores indicate better matches.
      */
-    private int calculateMatchScore(RitualPack pack, UserContextDTO userContext) {
+    private int calculateMatchScore(RitualPackDTO pack, UserContextDTO userContext) {
         int score = 0;
 
         // Match emotional states
@@ -121,7 +115,7 @@ public class RitualRecommendationService {
      */
     @lombok.Value
     private static class ScoredPack {
-        RitualPack pack;
+        RitualPackDTO pack;
         int score;
     }
 }
