@@ -29,8 +29,8 @@ public class RitualPackDTO {
     private String shortDescription;
     private String fullDescription;
 
-    // Ritual IDs to include in the pack (used for create/update)
-    private List<UUID> ritualIds;
+    // Rituals included in the pack
+    private List<RitualDTO> rituals;
 
     // Aggregated tags
     private List<RitualType> ritualTypes;

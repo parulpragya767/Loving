@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.loving.mapper.RitualPackMapper;
+import com.lovingapp.loving.model.dto.RitualDTO;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.entity.Ritual;
 import com.lovingapp.loving.model.entity.RitualPack;
@@ -41,9 +42,14 @@ public class RitualPackService {
     @Transactional
     public RitualPackDTO create(RitualPackDTO dto) {
         RitualPack entity = RitualPackMapper.fromDto(dto);
-        List<Ritual> rituals = resolveRituals(dto.getRitualIds());
-        entity.setRituals(rituals);
-        aggregateTagsFromRituals(entity, rituals);
+        if (dto.getRituals() != null) {
+            List<UUID> ritualIds = dto.getRituals().stream()
+                    .map(RitualDTO::getId)
+                    .collect(Collectors.toList());
+            List<Ritual> rituals = resolveRituals(ritualIds);
+            entity.setRituals(rituals);
+            aggregateTagsFromRituals(entity, rituals);
+        }
         RitualPack saved = ritualPackRepository.save(entity);
         return RitualPackMapper.toDto(saved);
     }
@@ -53,8 +59,11 @@ public class RitualPackService {
         return ritualPackRepository.findById(id).map(existing -> {
             RitualPackMapper.updateEntityFromDto(dto, existing);
             List<Ritual> rituals;
-            if (dto.getRitualIds() != null) {
-                rituals = resolveRituals(dto.getRitualIds());
+            if (dto.getRituals() != null) {
+                List<UUID> ritualIds = dto.getRituals().stream()
+                        .map(RitualDTO::getId)
+                        .collect(Collectors.toList());
+                rituals = resolveRituals(ritualIds);
                 existing.setRituals(rituals);
             } else {
                 rituals = existing.getRituals() != null
