@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.lovingapp.loving.model.dto.BulkRitualHistoryStatusUpdateRequest;
 import com.lovingapp.loving.model.dto.CurrentRitualsDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryStatusUpdateRequest;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.service.RitualHistoryService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -54,10 +56,10 @@ public class RitualHistoryController {
         return ResponseEntity.ok(list);
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<CurrentRitualsDTO> listActive(@AuthenticationPrincipal Jwt jwt) {
+    @GetMapping("/current")
+    public ResponseEntity<CurrentRitualsDTO> listCurrent(@AuthenticationPrincipal Jwt jwt) {
         UUID userId = getAuthUserId(jwt);
-        CurrentRitualsDTO currentRituals = ritualHistoryService.listActiveByUser(userId);
+        CurrentRitualsDTO currentRituals = ritualHistoryService.listCurrentByUser(userId);
         return ResponseEntity.ok(currentRituals);
     }
 
@@ -65,10 +67,18 @@ public class RitualHistoryController {
     public ResponseEntity<RitualHistoryDTO> create(@AuthenticationPrincipal Jwt jwt,
             @RequestBody RitualHistoryDTO request) {
         UUID userId = getAuthUserId(jwt);
-        request.setId(null);
-        request.setUserId(userId);
-        RitualHistoryDTO savedDto = ritualHistoryService.save(request);
+        RitualHistoryDTO savedDto = ritualHistoryService.save(userId, request);
         return new ResponseEntity<>(savedDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/bulk")
+    public ResponseEntity<List<RitualHistoryDTO>> bulkCreate(
+            @AuthenticationPrincipal Jwt jwt,
+            @Valid @RequestBody List<@Valid RitualHistoryDTO> ritualHistories) {
+        UUID userId = getAuthUserId(jwt);
+
+        List<RitualHistoryDTO> result = ritualHistoryService.bulkCreateRitualHistories(userId, ritualHistories);
+        return new ResponseEntity<>(result, HttpStatus.CREATED);
     }
 
     @PostMapping("/{id}/complete")
@@ -96,6 +106,23 @@ public class RitualHistoryController {
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @PutMapping("/bulk/status")
+    public ResponseEntity<List<RitualHistoryDTO>> bulkUpdateStatus(
+            @AuthenticationPrincipal Jwt jwt,
+            @Valid @RequestBody BulkRitualHistoryStatusUpdateRequest request) {
+        UUID userId = getAuthUserId(jwt);
+
+        if (request.getUpdates() == null || request.getUpdates().isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        List<RitualHistoryDTO> updatedHistories = ritualHistoryService.bulkUpdateStatusWithOwnership(
+                userId,
+                request.getUpdates());
+
+        return ResponseEntity.ok(updatedHistories);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal Jwt jwt, @PathVariable("id") UUID id) {
         UUID userId = getAuthUserId(jwt);
@@ -104,5 +131,4 @@ public class RitualHistoryController {
                 .map(savedDto -> ResponseEntity.noContent().<Void>build())
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
 }

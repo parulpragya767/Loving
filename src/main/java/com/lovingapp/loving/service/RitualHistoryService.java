@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.loving.mapper.RitualHistoryMapper;
+import com.lovingapp.loving.model.dto.BulkRitualHistoryStatusUpdateRequest.RitualStatusUpdate;
 import com.lovingapp.loving.model.dto.CurrentRitualsDTO;
 import com.lovingapp.loving.model.dto.RitualDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTO;
@@ -26,6 +27,7 @@ import com.lovingapp.loving.model.enums.EmojiFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.repository.RitualHistoryRepository;
 
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -44,7 +46,7 @@ public class RitualHistoryService {
                 .collect(Collectors.toList());
     }
 
-    public CurrentRitualsDTO listActiveByUser(UUID userId) {
+    public CurrentRitualsDTO listCurrentByUser(UUID userId) {
         // Get all active rituals for the user
         List<RitualHistory> activeRituals = ritualHistoryRepository
                 .findByUserIdAndStatusInOrderByUpdatedAtDesc(userId, List.of(RitualHistoryStatus.ACTIVE));
@@ -114,8 +116,15 @@ public class RitualHistoryService {
     }
 
     @Transactional
-    public RitualHistoryDTO save(RitualHistoryDTO entity) {
+    public RitualHistoryDTO save(UUID userId, RitualHistoryDTO entity) {
+        // Check if the ritual exists
+        RitualDTO ritual = ritualService.getRitualById(entity.getRitualId());
+        if (ritual == null) {
+            throw new EntityNotFoundException("Ritual not found with id: " + entity.getRitualId());
+        }
+
         RitualHistory ritualHistory = RitualHistoryMapper.fromDto(entity);
+        ritualHistory.setUserId(userId);
         RitualHistory saved = ritualHistoryRepository.save(ritualHistory);
         return RitualHistoryMapper.toDto(saved);
     }
@@ -124,6 +133,98 @@ public class RitualHistoryService {
     public void delete(RitualHistoryDTO entity) {
         RitualHistory ritualHistory = RitualHistoryMapper.fromDto(entity);
         ritualHistoryRepository.delete(ritualHistory);
+    }
+
+    @Transactional
+    public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId, List<RitualHistoryDTO> ritualHistories) {
+        // Validate all ritual IDs exist
+        Set<UUID> ritualIds = ritualHistories.stream()
+                .map(RitualHistoryDTO::getRitualId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        if (!ritualIds.isEmpty()) {
+            List<UUID> existingRituals = ritualService.findAllById(new ArrayList<>(ritualIds)).stream()
+                    .map(RitualDTO::getId)
+                    .collect(Collectors.toList());
+
+            List<UUID> missingRituals = ritualIds.stream()
+                    .filter(id -> !existingRituals.contains(id))
+                    .collect(Collectors.toList());
+
+            if (!missingRituals.isEmpty()) {
+                throw new EntityNotFoundException("The following ritual IDs were not found: " + missingRituals);
+            }
+        }
+
+        // Validate all ritual pack IDs exist if provided
+        Set<UUID> packIds = ritualHistories.stream()
+                .map(RitualHistoryDTO::getRitualPackId)
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+
+        if (!packIds.isEmpty()) {
+            List<UUID> existingPacks = ritualPackService.findAllById(new ArrayList<>(packIds)).stream()
+                    .map(RitualPackDTO::getId)
+                    .collect(Collectors.toList());
+
+            List<UUID> missingPacks = packIds.stream()
+                    .filter(id -> !existingPacks.contains(id))
+                    .collect(Collectors.toList());
+
+            if (!missingPacks.isEmpty()) {
+                throw new EntityNotFoundException("The following ritual pack IDs were not found: " + missingPacks);
+            }
+        }
+
+        // Map DTOs to entities and set the user ID
+        List<RitualHistory> histories = ritualHistories.stream()
+                .map(dto -> {
+                    RitualHistory history = RitualHistoryMapper.fromDto(dto);
+                    history.setUserId(userId);
+                    return history;
+                })
+                .collect(Collectors.toList());
+
+        // Save all in a single batch
+        List<RitualHistory> savedHistories = ritualHistoryRepository.saveAll(histories);
+
+        // Convert back to DTOs and return
+        return savedHistories.stream()
+                .map(RitualHistoryMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public List<RitualHistoryDTO> addRitualPack(UUID userId, UUID ritualPackId) {
+        // Find the ritual pack
+        RitualPackDTO ritualPack = ritualPackService.findById(ritualPackId)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Ritual pack not found with id: " + ritualPackId));
+
+        // Get all rituals in the pack
+        List<RitualDTO> rituals = ritualPack.getRituals();
+        if (rituals == null || rituals.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Create new history entries for all rituals in the pack
+        List<RitualHistory> histories = rituals.stream()
+                .map(ritual -> RitualHistory.builder()
+                        .ritualId(ritual.getId())
+                        .ritualPackId(ritualPackId)
+                        .userId(userId)
+                        .status(RitualHistoryStatus.SUGGESTED)
+                        .build())
+                .collect(Collectors.toList());
+
+        // Save all new histories in a single database call
+        List<RitualHistory> savedHistories = ritualHistoryRepository.saveAll(histories);
+
+        // Convert to DTOs and return
+        return savedHistories.stream()
+                .map(RitualHistoryMapper::toDto)
+                .collect(Collectors.toList());
     }
 
     @Transactional
@@ -141,5 +242,46 @@ public class RitualHistoryService {
         }
         RitualHistory saved = ritualHistoryRepository.save(rh);
         return Optional.ofNullable(RitualHistoryMapper.toDto(saved));
+    }
+
+    @Transactional
+    public List<RitualHistoryDTO> bulkUpdateStatusWithOwnership(UUID userId, List<RitualStatusUpdate> updates) {
+
+        // Get all ritual history IDs from the updates
+        List<UUID> ritualHistoryIds = updates.stream()
+                .map(RitualStatusUpdate::getRitualHistoryId)
+                .collect(Collectors.toList());
+
+        // Find all ritual histories that belong to the user
+        Map<UUID, RitualHistory> historyMap = ritualHistoryRepository.findAllById(ritualHistoryIds).stream()
+                .filter(rh -> rh.getUserId().equals(userId))
+                .collect(Collectors.toMap(RitualHistory::getId, rh -> rh));
+
+        // Create a map of updates by ritual history ID for quick lookup
+        Map<UUID, RitualStatusUpdate> updatesMap = updates.stream()
+                .collect(Collectors.toMap(
+                        RitualStatusUpdate::getRitualHistoryId,
+                        update -> update));
+
+        // Update each history with its corresponding status and feedback
+        List<RitualHistory> historiesToUpdate = new ArrayList<>();
+        for (Map.Entry<UUID, RitualHistory> entry : historyMap.entrySet()) {
+            UUID historyId = entry.getKey();
+            RitualHistory history = entry.getValue();
+            RitualStatusUpdate update = updatesMap.get(historyId);
+
+            if (update != null) {
+                history.setStatus(update.getStatus());
+                historiesToUpdate.add(history);
+            }
+        }
+
+        // Save all updates
+        List<RitualHistory> savedHistories = ritualHistoryRepository.saveAll(historiesToUpdate);
+
+        // Convert to DTOs and return
+        return savedHistories.stream()
+                .map(RitualHistoryMapper::toDto)
+                .collect(Collectors.toList());
     }
 }
