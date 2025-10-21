@@ -3,16 +3,22 @@ package com.lovingapp.loving.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.model.dto.RitualDTO;
+import com.lovingapp.loving.model.dto.RitualFilterRequest;
+import com.lovingapp.loving.model.dto.RitualTagsDTO;
 import com.lovingapp.loving.service.RitualService;
 
 import lombok.RequiredArgsConstructor;
@@ -38,5 +44,18 @@ public class RitualController {
         } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
+    }
+
+    @GetMapping("/tags")
+    public RitualTagsDTO getAllTags() {
+        return ritualService.getRitualTags();
+    }
+
+    @PostMapping("/search")
+    public Page<RitualDTO> search(@RequestBody(required = false) RitualFilterRequest filter, Pageable pageable) {
+        if (filter == null) {
+            filter = new RitualFilterRequest();
+        }
+        return ritualService.searchRituals(filter, pageable);
     }
 }

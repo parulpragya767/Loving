@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.lovingapp.loving.model.entity.Ritual;
 
 @Repository
-public interface RitualRepository extends JpaRepository<Ritual, UUID> {
+public interface RitualRepository extends JpaRepository<Ritual, UUID>, RitualRepositoryCustom {
     // Custom query methods can be added here if needed
     List<Ritual> findAllByTitleIn(Collection<String> titles);
 }

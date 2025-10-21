@@ -1,17 +1,29 @@
 package com.lovingapp.loving.service;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualMapper;
 import com.lovingapp.loving.model.dto.RitualDTO;
+import com.lovingapp.loving.model.dto.RitualFilterRequest;
+import com.lovingapp.loving.model.dto.RitualTagDTO;
+import com.lovingapp.loving.model.dto.RitualTagsDTO;
+import com.lovingapp.loving.model.dto.TagValueDTO;
 import com.lovingapp.loving.model.entity.Ritual;
+import com.lovingapp.loving.model.enums.EmotionalState;
+import com.lovingapp.loving.model.enums.LoveType;
+import com.lovingapp.loving.model.enums.RelationalNeed;
+import com.lovingapp.loving.model.enums.RitualMode;
+import com.lovingapp.loving.model.enums.RitualType;
 import com.lovingapp.loving.repository.RitualRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -44,6 +56,69 @@ public class RitualService {
         return ritualRepository.findAllById(ids).stream()
                 .map(RitualMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public Page<RitualDTO> searchRituals(RitualFilterRequest filter, Pageable pageable) {
+        Page<Ritual> result = ritualRepository.search(filter, pageable);
+        return result.map(RitualMapper::toDto);
+    }
+
+    @Transactional(readOnly = true)
+    public RitualTagsDTO getRitualTags() {
+        RitualTagDTO loveTypes = new RitualTagDTO(
+                "Love Types",
+                1,
+                toTagValues(LoveType.values()));
+
+        RitualTagDTO ritualTypes = new RitualTagDTO(
+                "Ritual Types",
+                2,
+                toTagValues(RitualType.values()));
+
+        RitualTagDTO ritualModes = new RitualTagDTO(
+                "Ritual Modes",
+                3,
+                toTagValues(RitualMode.values()));
+
+        RitualTagDTO emotionalStates = new RitualTagDTO(
+                "Emotional States",
+                4,
+                toTagValues(EmotionalState.values()));
+
+        RitualTagDTO relationalNeeds = new RitualTagDTO(
+                "Relational Needs",
+                5,
+                toTagValues(RelationalNeed.values()));
+
+        return new RitualTagsDTO(
+                loveTypes,
+                ritualTypes,
+                ritualModes,
+                emotionalStates,
+                relationalNeeds);
+    }
+
+    private List<TagValueDTO> toTagValues(Enum<?>[] values) {
+        Class<?> declaring = values.length > 0 ? values[0].getDeclaringClass() : Enum.class;
+        boolean pretty = declaring == LoveType.class || declaring == RitualMode.class;
+        return Arrays.stream(values)
+                .map(e -> new TagValueDTO(e.name(), pretty ? humanize(e.name()) : e.toString()))
+                .collect(Collectors.toList());
+    }
+
+    private String humanize(String name) {
+        String[] parts = name.toLowerCase().split("_");
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < parts.length; i++) {
+            if (parts[i].isEmpty())
+                continue;
+            sb.append(Character.toUpperCase(parts[i].charAt(0)))
+                    .append(parts[i].substring(1));
+            if (i < parts.length - 1)
+                sb.append(' ');
+        }
+        return sb.toString();
     }
 
     @Transactional
