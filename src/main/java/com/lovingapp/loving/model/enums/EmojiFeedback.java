@@ -1,9 +1,8 @@
 package com.lovingapp.loving.model.enums;
 
-/**
- * Emoji-based feedback options for a ritual experience.
- * Extend this list as product evolves.
- */
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(enumAsRef = true)
 public enum EmojiFeedback {
     HEART, // ❤️ Loved it
     SMILE, // 🙂 Good

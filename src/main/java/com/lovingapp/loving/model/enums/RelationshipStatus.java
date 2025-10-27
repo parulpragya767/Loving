@@ -1,8 +1,11 @@
 package com.lovingapp.loving.model.enums;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 /**
  * Represents the current status or phase of a relationship.
  */
+@Schema(enumAsRef = true)
 public enum RelationshipStatus {
     NEW, // New relationship (0-3 months)
     ESTABLISHED, // Established but still growing (3-12 months)
