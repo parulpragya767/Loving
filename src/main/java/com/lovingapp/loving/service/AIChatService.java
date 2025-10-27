@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -318,6 +321,32 @@ public class AIChatService {
                                 .status(ChatSessionStatus.ACTIVE)
                                 .build();
                 return chatSessionRepository.save(session);
+        }
+
+        @Transactional(readOnly = true)
+        public ChatDTOs.ListSessionsResponse listSessions(UUID userId, int page, int size) {
+                PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedAt"));
+                Page<ChatSession> sessionsPage = chatSessionRepository.findByUserId(userId, pageRequest);
+
+                List<ChatDTOs.SessionSummaryDTO> items = sessionsPage.getContent().stream()
+                                .map(s -> ChatDTOs.SessionSummaryDTO.builder()
+                                                .id(s.getId())
+                                                .conversationTitle(s.getConversationTitle())
+                                                .status(s.getStatus())
+                                                .createdAt(s.getCreatedAt())
+                                                .updatedAt(s.getUpdatedAt())
+                                                .build())
+                                .collect(Collectors.toList());
+
+                return ChatDTOs.ListSessionsResponse.builder()
+                                .sessions(items)
+                                .page(sessionsPage.getNumber())
+                                .size(sessionsPage.getSize())
+                                .totalElements(sessionsPage.getTotalElements())
+                                .totalPages(sessionsPage.getTotalPages())
+                                .first(sessionsPage.isFirst())
+                                .last(sessionsPage.isLast())
+                                .build();
         }
 
 }

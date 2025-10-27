@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -102,5 +103,14 @@ public class AIChatController {
                         @AuthenticationPrincipal Jwt jwt) {
                 UUID userId = getAuthUserId(jwt);
                 return ResponseEntity.ok(aiChatService.getSamplePrompts(userId));
+        }
+
+        @GetMapping("/sessions")
+        public ResponseEntity<ChatDTOs.ListSessionsResponse> listSessions(
+                        @AuthenticationPrincipal Jwt jwt,
+                        @RequestParam(name = "page", defaultValue = "0") int page,
+                        @RequestParam(name = "size", defaultValue = "20") int size) {
+                UUID userId = getAuthUserId(jwt);
+                return ResponseEntity.ok(aiChatService.listSessions(userId, page, size));
         }
 }

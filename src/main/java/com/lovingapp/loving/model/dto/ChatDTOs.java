@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import com.lovingapp.loving.model.enums.ChatMessageRole;
+import com.lovingapp.loving.model.enums.ChatSessionStatus;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -104,5 +105,37 @@ public class ChatDTOs {
     @Builder
     public static class SamplePromptsResponse {
         private List<String> prompts;
+    }
+
+    /**
+     * Summary information about a chat session, suitable for listing.
+     */
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class SessionSummaryDTO {
+        private UUID id;
+        private String conversationTitle;
+        private ChatSessionStatus status;
+        private OffsetDateTime createdAt;
+        private OffsetDateTime updatedAt;
+    }
+
+    /**
+     * Paginated response for listing chat sessions for a user.
+     */
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class ListSessionsResponse {
+        private List<SessionSummaryDTO> sessions;
+        private int page;
+        private int size;
+        private long totalElements;
+        private int totalPages;
+        private boolean first;
+        private boolean last;
     }
 }
