@@ -104,12 +104,8 @@ public class RitualPackService {
     private void aggregateTagsFromRituals(RitualPack pack, List<Ritual> rituals) {
         List<Ritual> safeRituals = Optional.ofNullable(rituals).orElse(Collections.emptyList());
 
-        pack.setRitualTypes(unionDistinct(safeRituals, Ritual::getRitualTypes));
-        pack.setRitualTones(unionDistinct(safeRituals, Ritual::getRitualTones));
-        pack.setLoveTypesSupported(unionDistinct(safeRituals, Ritual::getLoveTypesSupported));
-        pack.setEmotionalStatesSupported(unionDistinct(safeRituals, Ritual::getEmotionalStatesSupported));
-        pack.setRelationalNeedsServed(unionDistinct(safeRituals, Ritual::getRelationalNeedsServed));
-        pack.setLifeContextsRelevant(unionDistinct(safeRituals, Ritual::getLifeContextsRelevant));
+        pack.setLoveTypes(unionDistinct(safeRituals, Ritual::getLoveTypes));
+        pack.setRelationalNeeds(unionDistinct(safeRituals, Ritual::getRelationalNeeds));
     }
 
     private <T> List<T> unionDistinct(List<Ritual> rituals, Function<Ritual, List<T>> extractor) {

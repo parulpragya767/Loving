@@ -10,16 +10,9 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.lovingapp.loving.model.dto.UserContextDTO;
-import com.lovingapp.loving.model.enums.EffortLevel;
-import com.lovingapp.loving.model.enums.EmotionalState;
-import com.lovingapp.loving.model.enums.IntensityLevel;
-import com.lovingapp.loving.model.enums.LifeContext;
 import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.RelationalNeed;
 import com.lovingapp.loving.model.enums.RelationshipStatus;
-import com.lovingapp.loving.model.enums.RitualTone;
-import com.lovingapp.loving.model.enums.RitualType;
-import com.lovingapp.loving.model.enums.TimeContext;
 
 @Component
 public class UserContextExtractor {
@@ -31,23 +24,14 @@ public class UserContextExtractor {
 
         UserContextDTO dto = new UserContextDTO();
 
-        // Scalars
-        dto.setAvailableTimeMinutes(
-                root.path("availableTimeMinutes").isNumber() ? root.get("availableTimeMinutes").asInt() : null);
-        dto.setPreferredEffortLevel(parseEnumOrNull(root.path("preferredEffortLevel").asText(null), EffortLevel.class));
-        dto.setPreferredIntensity(parseEnumOrNull(root.path("preferredIntensity").asText(null), IntensityLevel.class));
-        dto.setTimeContext(parseEnumOrNull(root.path("timeContext").asText(null), TimeContext.class));
+        // Scalars (supported)
         dto.setRelationshipStatus(
                 parseEnumOrNull(root.path("relationshipStatus").asText(null), RelationshipStatus.class));
-        dto.setSemanticQuery(root.path("semanticQuery").asText(null));
+        dto.setSemanticSummary(root.path("semanticSummary").asText(null));
 
-        // Arrays (deduped, max 3)
-        dto.setEmotionalStates(parseEnumArray(root.get("emotionalStates"), EmotionalState.class));
+        // Arrays (deduped, max 3 where applicable)
         dto.setRelationalNeeds(parseEnumArray(root.get("relationalNeeds"), RelationalNeed.class));
-        dto.setPreferredLoveLanguages(parseEnumArray(root.get("preferredLoveLanguages"), LoveType.class));
-        dto.setPreferredRitualTypes(parseEnumArray(root.get("preferredRitualTypes"), RitualType.class));
-        dto.setPreferredTones(parseEnumArray(root.get("preferredTones"), RitualTone.class));
-        dto.setCurrentContexts(parseEnumArray(root.get("currentContexts"), LifeContext.class));
+        dto.setLoveTypes(parseEnumArray(root.get("loveTypes"), LoveType.class));
 
         return dto;
     }

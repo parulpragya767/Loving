@@ -198,8 +198,8 @@ public class AIChatService {
                                                 ? llmWrap
                                                 : String.format("I recommend the '%s' ritual pack for you! %s",
                                                                 recommendedPack.getTitle(),
-                                                                recommendedPack.getShortDescription() != null
-                                                                                ? recommendedPack.getShortDescription()
+                                                                recommendedPack.getDescription() != null
+                                                                                ? recommendedPack.getDescription()
                                                                                 : "");
                         } else {
                                 // Fallback if no recommendation could be made
@@ -211,8 +211,8 @@ public class AIChatService {
                         if (recommendedPack != null) {
                                 responseMessage = String.format("I recommend the '%s' ritual pack for you! %s",
                                                 recommendedPack.getTitle(),
-                                                recommendedPack.getShortDescription() != null
-                                                                ? recommendedPack.getShortDescription()
+                                                recommendedPack.getDescription() != null
+                                                                ? recommendedPack.getDescription()
                                                                 : "");
                         } else {
                                 responseMessage = "I've analyzed your conversation. Here's a ritual pack that might interest you.";
@@ -251,7 +251,7 @@ public class AIChatService {
                 List<String> semanticSummaries;
                 try {
                         semanticSummaries = userContextService.getUserContexts(userId).stream()
-                                        .map(UserContextDTO::getSemanticQuery)
+                                        .map(UserContextDTO::getSemanticSummary)
                                         .filter(s -> s != null && !s.isBlank())
                                         .limit(5)
                                         .collect(Collectors.toList());

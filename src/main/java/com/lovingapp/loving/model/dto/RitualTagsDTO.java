@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RitualTagsDTO {
     private RitualTagDTO loveTypes;
-    private RitualTagDTO ritualTypes;
     private RitualTagDTO ritualModes;
-    private RitualTagDTO emotionalStates;
     private RitualTagDTO relationalNeeds;
 }

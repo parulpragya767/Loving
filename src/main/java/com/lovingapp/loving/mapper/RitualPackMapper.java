@@ -19,26 +19,18 @@ public final class RitualPackMapper {
         return RitualPackDTO.builder()
                 .id(pack.getId())
                 .title(pack.getTitle())
-                .shortDescription(pack.getShortDescription())
-                .fullDescription(pack.getFullDescription())
+                .description(pack.getDescription())
                 .rituals((pack.getRituals() != null ? pack.getRituals() : Collections.<Ritual>emptyList())
                         .stream()
                         .map(ritual -> RitualMapper.toDto(ritual))
                         .collect(Collectors.toList()))
-                .ritualTypes(Objects.requireNonNullElse(pack.getRitualTypes(), Collections.emptyList()))
-                .ritualTones(Objects.requireNonNullElse(pack.getRitualTones(), Collections.emptyList()))
-                .sensitivityLevel(pack.getSensitivityLevel())
-                .effortLevel(pack.getEffortLevel())
-                .loveTypesSupported(Objects.requireNonNullElse(pack.getLoveTypesSupported(), Collections.emptyList()))
-                .emotionalStatesSupported(
-                        Objects.requireNonNullElse(pack.getEmotionalStatesSupported(), Collections.emptyList()))
-                .relationalNeedsServed(
-                        Objects.requireNonNullElse(pack.getRelationalNeedsServed(), Collections.emptyList()))
-                .lifeContextsRelevant(
-                        Objects.requireNonNullElse(pack.getLifeContextsRelevant(), Collections.emptyList()))
+                .journey(pack.getJourney())
+                .loveTypes(Objects.requireNonNullElse(pack.getLoveTypes(), Collections.emptyList()))
+                .relationalNeeds(Objects.requireNonNullElse(pack.getRelationalNeeds(), Collections.emptyList()))
+                .mediaAssets(Objects.requireNonNullElse(pack.getMediaAssets(), Collections.emptyList()))
                 .semanticSummary(pack.getSemanticSummary())
                 .status(pack.getStatus())
-                .createdBy(pack.getCreatedBy())
+                .contentHash(pack.getContentHash())
                 .createdAt(pack.getCreatedAt())
                 .updatedAt(pack.getUpdatedAt())
                 .build();
@@ -50,13 +42,14 @@ public final class RitualPackMapper {
         RitualPack entity = new RitualPack();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
-        entity.setShortDescription(dto.getShortDescription());
-        entity.setFullDescription(dto.getFullDescription());
-        entity.setSensitivityLevel(dto.getSensitivityLevel());
-        entity.setEffortLevel(dto.getEffortLevel());
+        entity.setDescription(dto.getDescription());
+        entity.setJourney(dto.getJourney());
         entity.setSemanticSummary(dto.getSemanticSummary());
         entity.setStatus(dto.getStatus());
-        entity.setCreatedBy(dto.getCreatedBy());
+        entity.setContentHash(dto.getContentHash());
+        entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
+        entity.setRelationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
+        entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
         // rituals are set by service based on ritualIds
         return entity;
     }
@@ -65,13 +58,14 @@ public final class RitualPackMapper {
         if (dto == null || entity == null)
             return;
         entity.setTitle(dto.getTitle());
-        entity.setShortDescription(dto.getShortDescription());
-        entity.setFullDescription(dto.getFullDescription());
-        entity.setSensitivityLevel(dto.getSensitivityLevel());
-        entity.setEffortLevel(dto.getEffortLevel());
+        entity.setDescription(dto.getDescription());
+        entity.setJourney(dto.getJourney());
         entity.setSemanticSummary(dto.getSemanticSummary());
         entity.setStatus(dto.getStatus());
-        entity.setCreatedBy(dto.getCreatedBy());
+        entity.setContentHash(dto.getContentHash());
+        entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
+        entity.setRelationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
+        entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
         // rituals are managed by service
     }
 }

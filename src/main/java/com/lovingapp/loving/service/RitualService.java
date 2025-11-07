@@ -19,11 +19,9 @@ import com.lovingapp.loving.model.dto.RitualTagDTO;
 import com.lovingapp.loving.model.dto.RitualTagsDTO;
 import com.lovingapp.loving.model.dto.TagValueDTO;
 import com.lovingapp.loving.model.entity.Ritual;
-import com.lovingapp.loving.model.enums.EmotionalState;
 import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.RelationalNeed;
 import com.lovingapp.loving.model.enums.RitualMode;
-import com.lovingapp.loving.model.enums.RitualType;
 import com.lovingapp.loving.repository.RitualRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -71,31 +69,19 @@ public class RitualService {
                 1,
                 toTagValues(LoveType.values()));
 
-        RitualTagDTO ritualTypes = new RitualTagDTO(
-                "Ritual Types",
-                2,
-                toTagValues(RitualType.values()));
-
         RitualTagDTO ritualModes = new RitualTagDTO(
                 "Ritual Modes",
-                3,
+                2,
                 toTagValues(RitualMode.values()));
-
-        RitualTagDTO emotionalStates = new RitualTagDTO(
-                "Emotional States",
-                4,
-                toTagValues(EmotionalState.values()));
 
         RitualTagDTO relationalNeeds = new RitualTagDTO(
                 "Relational Needs",
-                5,
+                3,
                 toTagValues(RelationalNeed.values()));
 
         return new RitualTagsDTO(
                 loveTypes,
-                ritualTypes,
                 ritualModes,
-                emotionalStates,
                 relationalNeeds);
     }
 

@@ -9,15 +9,11 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.lovingapp.loving.model.enums.EffortLevel;
-import com.lovingapp.loving.model.enums.EmotionalState;
-import com.lovingapp.loving.model.enums.LifeContext;
+import com.lovingapp.loving.model.domain.MediaAsset;
+import com.lovingapp.loving.model.enums.Journey;
 import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.PublicationStatus;
 import com.lovingapp.loving.model.enums.RelationalNeed;
-import com.lovingapp.loving.model.enums.RitualTone;
-import com.lovingapp.loving.model.enums.RitualType;
-import com.lovingapp.loving.model.enums.SensitivityLevel;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 
 import jakarta.persistence.Column;
@@ -50,11 +46,8 @@ public class RitualPack {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "short_description")
-    private String shortDescription;
-
-    @Column(name = "full_description", columnDefinition = "text")
-    private String fullDescription;
+    @Column(name = "description")
+    private String description;
 
     // Curated rituals in this pack
     @ManyToMany(fetch = FetchType.LAZY)
@@ -62,44 +55,25 @@ public class RitualPack {
     @Builder.Default
     private List<Ritual> rituals = new ArrayList<>();
 
-    // Aggregated tags computed from child rituals
-    @Type(JsonType.class)
-    @Column(name = "ritual_types", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<RitualType> ritualTypes = new ArrayList<>();
-
-    @Type(JsonType.class)
-    @Column(name = "ritual_tones", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<RitualTone> ritualTones = new ArrayList<>();
-
+    // Core tags for recommendation and classification
     @Enumerated(EnumType.STRING)
-    @Column(name = "sensitivity_level", length = 20)
-    private SensitivityLevel sensitivityLevel; // optional: dominant/most common
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "effort_level", length = 20)
-    private EffortLevel effortLevel; // optional: average/representative
+    @Column(length = 40)
+    private Journey journey;
 
     @Type(JsonType.class)
     @Column(name = "love_types", columnDefinition = "jsonb")
     @Builder.Default
-    private List<LoveType> loveTypesSupported = new ArrayList<>();
-
-    @Type(JsonType.class)
-    @Column(name = "emotional_states", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<EmotionalState> emotionalStatesSupported = new ArrayList<>();
+    private List<LoveType> loveTypes = new ArrayList<>();
 
     @Type(JsonType.class)
     @Column(name = "relational_needs", columnDefinition = "jsonb")
     @Builder.Default
-    private List<RelationalNeed> relationalNeedsServed = new ArrayList<>();
+    private List<RelationalNeed> relationalNeeds = new ArrayList<>();
 
     @Type(JsonType.class)
-    @Column(name = "life_contexts", columnDefinition = "jsonb")
+    @Column(name = "media_assets", columnDefinition = "jsonb")
     @Builder.Default
-    private List<LifeContext> lifeContextsRelevant = new ArrayList<>();
+    private List<MediaAsset> mediaAssets = new ArrayList<>();
 
     @Column(name = "semantic_summary", columnDefinition = "text")
     private String semanticSummary;
@@ -108,8 +82,8 @@ public class RitualPack {
     @Column(length = 20)
     private PublicationStatus status;
 
-    @Column(name = "created_by", length = 100)
-    private String createdBy;
+    @Column(name = "content_hash", length = 128)
+    private String contentHash;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "timestamptz")

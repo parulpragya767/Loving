@@ -17,40 +17,23 @@ public final class RitualMapper {
                 return RitualDTO.builder()
                                 .id(ritual.getId())
                                 .title(ritual.getTitle())
-                                .shortDescription(ritual.getShortDescription())
-                                .fullDescription(ritual.getFullDescription())
+                                .description(ritual.getDescription())
                                 .ritualMode(ritual.getRitualMode())
-                                .sensitivityLevel(ritual.getSensitivityLevel())
-                                .effortLevel(ritual.getEffortLevel())
-                                .estimatedDurationMinutes(ritual.getEstimatedDurationMinutes())
-                                .rhythm(ritual.getRhythm())
+                                .timeTaken(ritual.getTimeTaken())
                                 .semanticSummary(ritual.getSemanticSummary())
                                 .status(ritual.getStatus())
-                                .createdBy(ritual.getCreatedBy())
+                                .contentHash(ritual.getContentHash())
                                 .createdAt(ritual.getCreatedAt())
                                 .updatedAt(ritual.getUpdatedAt())
-                                .ritualTypes(Objects.requireNonNullElse(ritual.getRitualTypes(),
-                                                Collections.emptyList()))
                                 .ritualTones(Objects.requireNonNullElse(ritual.getRitualTones(),
                                                 Collections.emptyList()))
-                                .ritualSteps(Objects.requireNonNullElse(ritual.getRitualSteps(),
-                                                Collections.emptyList()))
+                                .steps(Objects.requireNonNullElse(ritual.getSteps(), Collections.emptyList()))
                                 .mediaAssets(Objects.requireNonNullElse(ritual.getMediaAssets(),
                                                 Collections.emptyList()))
-                                .loveTypesSupported(Objects.requireNonNullElse(ritual.getLoveTypesSupported(),
+                                .loveTypes(Objects.requireNonNullElse(ritual.getLoveTypes(),
                                                 Collections.emptyList()))
-                                .emotionalStatesSupported(
-                                                Objects.requireNonNullElse(ritual.getEmotionalStatesSupported(),
-                                                                Collections.emptyList()))
-                                .relationalNeedsServed(
-                                                Objects.requireNonNullElse(ritual.getRelationalNeedsServed(),
-                                                                Collections.emptyList()))
-                                .lifeContextsRelevant(
-                                                Objects.requireNonNullElse(ritual.getLifeContextsRelevant(),
-                                                                Collections.emptyList()))
-                                .preparationRequirements(
-                                                Objects.requireNonNullElse(ritual.getPreparationRequirements(),
-                                                                Collections.emptyList()))
+                                .relationalNeeds(Objects.requireNonNullElse(ritual.getRelationalNeeds(),
+                                                Collections.emptyList()))
                                 .build();
         }
 
@@ -60,32 +43,20 @@ public final class RitualMapper {
                 Ritual entity = new Ritual();
                 entity.setId(dto.getId());
                 entity.setTitle(dto.getTitle());
-                entity.setShortDescription(dto.getShortDescription());
-                entity.setFullDescription(dto.getFullDescription());
+                entity.setDescription(dto.getDescription());
                 entity.setRitualMode(dto.getRitualMode());
-                entity.setSensitivityLevel(dto.getSensitivityLevel());
-                entity.setEffortLevel(dto.getEffortLevel());
-                entity.setEstimatedDurationMinutes(dto.getEstimatedDurationMinutes());
-                entity.setRhythm(dto.getRhythm());
+                entity.setTimeTaken(dto.getTimeTaken());
                 entity.setSemanticSummary(dto.getSemanticSummary());
                 entity.setStatus(dto.getStatus());
-                entity.setCreatedBy(dto.getCreatedBy());
+                entity.setContentHash(dto.getContentHash());
                 // Do not set createdAt/updatedAt; they are managed by JPA timestamps
 
-                entity.setRitualTypes(Objects.requireNonNullElse(dto.getRitualTypes(), Collections.emptyList()));
                 entity.setRitualTones(Objects.requireNonNullElse(dto.getRitualTones(), Collections.emptyList()));
-                entity.setRitualSteps(Objects.requireNonNullElse(dto.getRitualSteps(), Collections.emptyList()));
+                entity.setSteps(Objects.requireNonNullElse(dto.getSteps(), Collections.emptyList()));
                 entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
-                entity.setLoveTypesSupported(
-                                Objects.requireNonNullElse(dto.getLoveTypesSupported(), Collections.emptyList()));
-                entity.setEmotionalStatesSupported(
-                                Objects.requireNonNullElse(dto.getEmotionalStatesSupported(), Collections.emptyList()));
-                entity.setRelationalNeedsServed(
-                                Objects.requireNonNullElse(dto.getRelationalNeedsServed(), Collections.emptyList()));
-                entity.setLifeContextsRelevant(
-                                Objects.requireNonNullElse(dto.getLifeContextsRelevant(), Collections.emptyList()));
-                entity.setPreparationRequirements(
-                                Objects.requireNonNullElse(dto.getPreparationRequirements(), Collections.emptyList()));
+                entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
+                entity.setRelationalNeeds(
+                                Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
                 return entity;
         }
 
@@ -93,30 +64,18 @@ public final class RitualMapper {
                 if (dto == null || entity == null)
                         return;
                 entity.setTitle(dto.getTitle());
-                entity.setShortDescription(dto.getShortDescription());
-                entity.setFullDescription(dto.getFullDescription());
+                entity.setDescription(dto.getDescription());
                 entity.setRitualMode(dto.getRitualMode());
-                entity.setSensitivityLevel(dto.getSensitivityLevel());
-                entity.setEffortLevel(dto.getEffortLevel());
-                entity.setEstimatedDurationMinutes(dto.getEstimatedDurationMinutes());
-                entity.setRhythm(dto.getRhythm());
+                entity.setTimeTaken(dto.getTimeTaken());
                 entity.setSemanticSummary(dto.getSemanticSummary());
                 entity.setStatus(dto.getStatus());
-                entity.setCreatedBy(dto.getCreatedBy());
+                entity.setContentHash(dto.getContentHash());
 
-                entity.setRitualTypes(Objects.requireNonNullElse(dto.getRitualTypes(), Collections.emptyList()));
                 entity.setRitualTones(Objects.requireNonNullElse(dto.getRitualTones(), Collections.emptyList()));
-                entity.setRitualSteps(Objects.requireNonNullElse(dto.getRitualSteps(), Collections.emptyList()));
+                entity.setSteps(Objects.requireNonNullElse(dto.getSteps(), Collections.emptyList()));
                 entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
-                entity.setLoveTypesSupported(
-                                Objects.requireNonNullElse(dto.getLoveTypesSupported(), Collections.emptyList()));
-                entity.setEmotionalStatesSupported(
-                                Objects.requireNonNullElse(dto.getEmotionalStatesSupported(), Collections.emptyList()));
-                entity.setRelationalNeedsServed(
-                                Objects.requireNonNullElse(dto.getRelationalNeedsServed(), Collections.emptyList()));
-                entity.setLifeContextsRelevant(
-                                Objects.requireNonNullElse(dto.getLifeContextsRelevant(), Collections.emptyList()));
-                entity.setPreparationRequirements(
-                                Objects.requireNonNullElse(dto.getPreparationRequirements(), Collections.emptyList()));
+                entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
+                entity.setRelationalNeeds(
+                                Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
         }
 }

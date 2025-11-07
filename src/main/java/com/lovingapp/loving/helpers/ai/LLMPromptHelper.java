@@ -12,16 +12,10 @@ import org.springframework.util.StreamUtils;
 
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.entity.LoveTypeInfo;
-import com.lovingapp.loving.model.enums.EffortLevel;
-import com.lovingapp.loving.model.enums.EmotionalState;
-import com.lovingapp.loving.model.enums.IntensityLevel;
-import com.lovingapp.loving.model.enums.LifeContext;
 import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.RelationalNeed;
 import com.lovingapp.loving.model.enums.RelationshipStatus;
 import com.lovingapp.loving.model.enums.RitualTone;
-import com.lovingapp.loving.model.enums.RitualType;
-import com.lovingapp.loving.model.enums.TimeContext;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -97,14 +91,10 @@ public class LLMPromptHelper {
 
     private String injectDynamicDomainKnowledge(String content) {
         try {
-            String emotionalStates = enumList(EmotionalState.values());
             String relationalNeeds = enumList(RelationalNeed.values());
-            String lifeContexts = enumList(LifeContext.values());
 
             return content
-                    .replace("{{EMOTIONAL_STATES_ENUM}}", emotionalStates)
-                    .replace("{{RELATIONAL_NEEDS_ENUM}}", relationalNeeds)
-                    .replace("{{LIFE_CONTEXTS_ENUM}}", lifeContexts);
+                    .replace("{{RELATIONAL_NEEDS_ENUM}}", relationalNeeds);
             // Note: {{LOVE_TYPES_DEFINITIONS}} intentionally left for future injection from
             // a dedicated resource
         } catch (Exception ex) {
@@ -129,16 +119,10 @@ public class LLMPromptHelper {
         String template = readPromptFile(userContextExtractionPromptFilePath);
 
         String content = template
-                .replace("{{EMOTIONAL_STATES_ENUM_NAMES}}", enumList(EmotionalState.values()))
                 .replace("{{RELATIONAL_NEEDS_ENUM_NAMES}}", enumList(RelationalNeed.values()))
                 .replace("{{LOVE_TYPES_ENUM_NAMES}}", enumList(LoveType.values()))
-                .replace("{{RITUAL_TYPES_ENUM_NAMES}}", enumList(RitualType.values()))
                 .replace("{{RITUAL_TONES_ENUM_NAMES}}", enumList(RitualTone.values()))
-                .replace("{{LIFE_CONTEXTS_ENUM_NAMES}}", enumList(LifeContext.values()))
-                .replace("{{TIME_CONTEXT_ENUM_NAMES}}", enumList(TimeContext.values()))
                 .replace("{{RELATIONSHIP_STATUS_ENUM_NAMES}}", enumList(RelationshipStatus.values()))
-                .replace("{{EFFORT_LEVEL_ENUM_NAMES}}", enumList(EffortLevel.values()))
-                .replace("{{INTENSITY_LEVEL_ENUM_NAMES}}", enumList(IntensityLevel.values()))
                 .replace("{{OPTIONAL_ENUM_DEFINITIONS}}",
                         optionalEnumDefinitions == null ? "" : optionalEnumDefinitions);
 
@@ -160,7 +144,7 @@ public class LLMPromptHelper {
                 : formatLoveTypeDefinitions(loveTypes);
 
         String packTitle = pack != null && pack.getTitle() != null ? pack.getTitle() : "";
-        String packShort = pack != null && pack.getShortDescription() != null ? pack.getShortDescription() : "";
+        String packShort = pack != null && pack.getDescription() != null ? pack.getDescription() : "";
         String packTags = pack != null ? formatPackTags(pack) : "";
 
         return withEnums
@@ -179,30 +163,16 @@ public class LLMPromptHelper {
     private String formatPackTags(RitualPackDTO pack) {
         StringBuilder sb = new StringBuilder();
         // Love types
-        if (pack.getLoveTypesSupported() != null && !pack.getLoveTypesSupported().isEmpty()) {
+        if (pack.getLoveTypes() != null && !pack.getLoveTypes().isEmpty()) {
             sb.append("loveTypes=")
-                    .append(pack.getLoveTypesSupported().stream().map(Enum::name).collect(Collectors.joining("|")));
+                    .append(pack.getLoveTypes().stream().map(Enum::name).collect(Collectors.joining("|")));
         }
         // Relational needs
-        if (pack.getRelationalNeedsServed() != null && !pack.getRelationalNeedsServed().isEmpty()) {
+        if (pack.getRelationalNeeds() != null && !pack.getRelationalNeeds().isEmpty()) {
             if (sb.length() > 0)
                 sb.append(", ");
             sb.append("relationalNeeds=")
-                    .append(pack.getRelationalNeedsServed().stream().map(Enum::name).collect(Collectors.joining("|")));
-        }
-        // Life contexts
-        if (pack.getLifeContextsRelevant() != null && !pack.getLifeContextsRelevant().isEmpty()) {
-            if (sb.length() > 0)
-                sb.append(", ");
-            sb.append("lifeContexts=")
-                    .append(pack.getLifeContextsRelevant().stream().map(Enum::name).collect(Collectors.joining("|")));
-        }
-        // Emotional states
-        if (pack.getEmotionalStatesSupported() != null && !pack.getEmotionalStatesSupported().isEmpty()) {
-            if (sb.length() > 0)
-                sb.append(", ");
-            sb.append("emotionalStates=").append(
-                    pack.getEmotionalStatesSupported().stream().map(Enum::name).collect(Collectors.joining("|")));
+                    .append(pack.getRelationalNeeds().stream().map(Enum::name).collect(Collectors.joining("|")));
         }
         return sb.toString();
     }

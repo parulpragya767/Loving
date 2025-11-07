@@ -1,6 +1,5 @@
 package com.lovingapp.loving.model.entity;
 
-import java.time.Duration;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,18 +10,12 @@ import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.lovingapp.loving.model.domain.MediaAsset;
-import com.lovingapp.loving.model.domain.RitualStep;
-import com.lovingapp.loving.model.enums.EffortLevel;
-import com.lovingapp.loving.model.enums.EmotionalState;
-import com.lovingapp.loving.model.enums.LifeContext;
 import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.PublicationStatus;
 import com.lovingapp.loving.model.enums.RelationalNeed;
-import com.lovingapp.loving.model.enums.Rhythm;
 import com.lovingapp.loving.model.enums.RitualMode;
 import com.lovingapp.loving.model.enums.RitualTone;
-import com.lovingapp.loving.model.enums.RitualType;
-import com.lovingapp.loving.model.enums.SensitivityLevel;
+import com.lovingapp.loving.model.enums.TimeTaken;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 
 import jakarta.persistence.Column;
@@ -32,7 +25,6 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,16 +44,23 @@ public class Ritual {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "short_description")
-    private String shortDescription;
-
-    @Column(name = "full_description", columnDefinition = "text")
-    private String fullDescription;
+    @Column
+    private String description;
 
     @Type(JsonType.class)
-    @Column(name = "ritual_types", columnDefinition = "jsonb")
+    @Column(name = "steps", columnDefinition = "jsonb")
     @Builder.Default
-    private List<RitualType> ritualTypes = new ArrayList<>();
+    private List<String> steps = new ArrayList<>();
+
+    @Type(JsonType.class)
+    @Column(name = "love_types", columnDefinition = "jsonb")
+    @Builder.Default
+    private List<LoveType> loveTypes = new ArrayList<>();
+
+    @Type(JsonType.class)
+    @Column(name = "relational_needs", columnDefinition = "jsonb")
+    @Builder.Default
+    private List<RelationalNeed> relationalNeeds = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ritual_mode", length = 20, nullable = false)
@@ -73,63 +72,13 @@ public class Ritual {
     private List<RitualTone> ritualTones = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "sensitivity_level", length = 20)
-    private SensitivityLevel sensitivityLevel;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "effort_level", length = 20)
-    private EffortLevel effortLevel;
-
-    @Column(name = "estimated_duration_minutes")
-    private Integer estimatedDurationMinutes;
-
-    @Transient
-    public Duration getEstimatedDuration() {
-        return estimatedDurationMinutes != null ? Duration.ofMinutes(estimatedDurationMinutes) : null;
-    }
-
-    public void setEstimatedDuration(Duration duration) {
-        this.estimatedDurationMinutes = duration != null ? (int) duration.toMinutes() : null;
-    }
-
-    @Type(JsonType.class)
-    @Column(name = "ritual_steps", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<RitualStep> ritualSteps = new ArrayList<>();
+    @Column(name = "time_taken", length = 20)
+    private TimeTaken timeTaken;
 
     @Type(JsonType.class)
     @Column(name = "media_assets", columnDefinition = "jsonb")
     @Builder.Default
     private List<MediaAsset> mediaAssets = new ArrayList<>();
-
-    @Type(JsonType.class)
-    @Column(name = "love_types", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<LoveType> loveTypesSupported = new ArrayList<>();
-
-    @Type(JsonType.class)
-    @Column(name = "emotional_states", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<EmotionalState> emotionalStatesSupported = new ArrayList<>();
-
-    @Type(JsonType.class)
-    @Column(name = "relational_needs", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<RelationalNeed> relationalNeedsServed = new ArrayList<>();
-
-    @Type(JsonType.class)
-    @Column(name = "life_contexts", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<LifeContext> lifeContextsRelevant = new ArrayList<>();
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "rhythm", length = 20)
-    private Rhythm rhythm;
-
-    @Type(JsonType.class)
-    @Column(name = "preparation_requirements", columnDefinition = "jsonb")
-    @Builder.Default
-    private List<String> preparationRequirements = new ArrayList<>();
 
     @Column(name = "semantic_summary", columnDefinition = "text")
     private String semanticSummary;
@@ -138,8 +87,8 @@ public class Ritual {
     @Column(length = 20)
     private PublicationStatus status;
 
-    @Column(name = "created_by", length = 100)
-    private String createdBy;
+    @Column(name = "content_hash", length = 128)
+    private String contentHash;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "timestamptz")

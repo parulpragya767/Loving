@@ -66,45 +66,18 @@ public class RitualRecommendationService {
     private int calculateMatchScore(RitualPackDTO pack, UserContextDTO userContext) {
         int score = 0;
 
-        // Match emotional states
-        if (userContext.getEmotionalStates() != null && pack.getEmotionalStatesSupported() != null) {
-            score += userContext.getEmotionalStates().stream()
-                    .filter(emotion -> pack.getEmotionalStatesSupported().contains(emotion))
-                    .count() * 3; // Higher weight for emotional states
-        }
-
         // Match relational needs
-        if (userContext.getRelationalNeeds() != null && pack.getRelationalNeedsServed() != null) {
+        if (userContext.getRelationalNeeds() != null && pack.getRelationalNeeds() != null) {
             score += userContext.getRelationalNeeds().stream()
-                    .filter(need -> pack.getRelationalNeedsServed().contains(need))
+                    .filter(need -> pack.getRelationalNeeds().contains(need))
                     .count() * 3; // Higher weight for relational needs
         }
 
         // Match love languages
-        if (userContext.getPreferredLoveLanguages() != null && pack.getLoveTypesSupported() != null) {
-            score += userContext.getPreferredLoveLanguages().stream()
-                    .filter(loveType -> pack.getLoveTypesSupported().contains(loveType))
+        if (userContext.getLoveTypes() != null && pack.getLoveTypes() != null) {
+            score += userContext.getLoveTypes().stream()
+                    .filter(loveType -> pack.getLoveTypes().contains(loveType))
                     .count() * 2;
-        }
-
-        // Match ritual types
-        if (userContext.getPreferredRitualTypes() != null && pack.getRitualTypes() != null) {
-            score += userContext.getPreferredRitualTypes().stream()
-                    .filter(type -> pack.getRitualTypes().contains(type))
-                    .count() * 2;
-        }
-
-        // Match ritual tones
-        if (userContext.getPreferredTones() != null && pack.getRitualTones() != null) {
-            score += userContext.getPreferredTones().stream()
-                    .filter(tone -> pack.getRitualTones().contains(tone))
-                    .count();
-        }
-
-        // Match effort level
-        if (userContext.getPreferredEffortLevel() != null &&
-                pack.getEffortLevel() == userContext.getPreferredEffortLevel()) {
-            score += 2; // Bonus points for matching effort level
         }
 
         return score;

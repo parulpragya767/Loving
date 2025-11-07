@@ -12,7 +12,7 @@ import com.lovingapp.loving.model.entity.UserContext;
 @Repository
 public interface UserContextRepository extends JpaRepository<UserContext, UUID> {
 
-    List<UserContext> findByUserIdOrderByLastInteractionAtDesc(UUID userId);
+    List<UserContext> findByUserId(UUID userId);
 
-    Optional<UserContext> findByUserIdAndConversationId(UUID userId, String conversationId);
+    Optional<UserContext> findByUserIdAndConversationId(UUID userId, UUID conversationId);
 }

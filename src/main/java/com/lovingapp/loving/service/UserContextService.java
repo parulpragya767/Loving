@@ -30,7 +30,7 @@ public class UserContextService {
 
     @Transactional(readOnly = true)
     public List<UserContextDTO> getUserContexts(UUID userId) {
-        return userContextRepository.findByUserIdOrderByLastInteractionAtDesc(userId).stream()
+        return userContextRepository.findByUserId(userId).stream()
                 .map(UserContextMapper::toDto)
                 .collect(Collectors.toList());
     }
@@ -44,8 +44,8 @@ public class UserContextService {
 
     @Transactional(readOnly = true)
     public Optional<UserContextDTO> getLatestUserContext(UUID userId) {
-        return userContextRepository.findByUserIdOrderByLastInteractionAtDesc(userId).stream()
-                .findFirst()
+        return userContextRepository.findByUserId(userId).stream()
+                .findFirst() // no ordering maintained now
                 .map(UserContextMapper::toDto);
     }
 

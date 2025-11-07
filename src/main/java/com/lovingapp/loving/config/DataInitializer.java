@@ -94,15 +94,15 @@ public class DataInitializer {
         if (loveTypeRepository.count() == 0) {
             initializeLoveTypes();
         }
-        if (ritualRepository.count() == 0) {
-            initializeRituals();
-        }
-        if (ritualPackRepository.count() == 0) {
-            initializeRitualPacks();
-        }
-        if (userContextRepository.count() == 0) {
-            initializeUserContexts();
-        }
+        // if (ritualRepository.count() == 0) {
+        // initializeRituals();
+        // }
+        // if (ritualPackRepository.count() == 0) {
+        // initializeRitualPacks();
+        // }
+        // if (userContextRepository.count() == 0) {
+        // initializeUserContexts();
+        // }
         if (ritualHistoryRepository.count() == 0) {
             initializeRitualHistories();
         }
@@ -228,39 +228,23 @@ public class DataInitializer {
             for (RitualPackSeed seed : seeds) {
                 RitualPack pack = new RitualPack();
                 pack.setTitle(seed.title);
-                pack.setShortDescription(seed.shortDescription);
-                pack.setFullDescription(seed.fullDescription);
+                // Map to simplified single description
+                String desc = seed.shortDescription != null ? seed.shortDescription : seed.fullDescription;
+                pack.setDescription(desc);
                 pack.setSemanticSummary(seed.semanticSummary);
                 pack.setStatus(seed.status);
-                pack.setCreatedBy(seed.createdBy);
 
                 // Resolve rituals by title
                 List<Ritual> rituals = ritualRepository
                         .findAllByTitleIn(seed.ritualTitles != null ? seed.ritualTitles : Collections.emptyList());
                 pack.setRituals(rituals);
 
-                // Aggregate tags from child rituals
-                pack.setRitualTypes(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getRitualTypes()).orElse(Collections.emptyList()).stream())
+                // Aggregate supported tags
+                pack.setLoveTypes(rituals.stream()
+                        .flatMap(r -> Optional.ofNullable(r.getLoveTypes()).orElse(Collections.emptyList()).stream())
                         .distinct().collect(Collectors.toList()));
-                pack.setRitualTones(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getRitualTones()).orElse(Collections.emptyList()).stream())
-                        .distinct().collect(Collectors.toList()));
-                pack.setLoveTypesSupported(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getLoveTypesSupported()).orElse(Collections.emptyList())
-                                .stream())
-                        .distinct().collect(Collectors.toList()));
-                pack.setEmotionalStatesSupported(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getEmotionalStatesSupported())
-                                .orElse(Collections.emptyList()).stream())
-                        .distinct().collect(Collectors.toList()));
-                pack.setRelationalNeedsServed(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getRelationalNeedsServed()).orElse(Collections.emptyList())
-                                .stream())
-                        .distinct().collect(Collectors.toList()));
-                pack.setLifeContextsRelevant(rituals.stream()
-                        .flatMap(r -> Optional.ofNullable(r.getLifeContextsRelevant()).orElse(Collections.emptyList())
-                                .stream())
+                pack.setRelationalNeeds(rituals.stream()
+                        .flatMap(r -> Optional.ofNullable(r.getRelationalNeeds()).orElse(Collections.emptyList()).stream())
                         .distinct().collect(Collectors.toList()));
 
                 ritualPackRepository.save(pack);

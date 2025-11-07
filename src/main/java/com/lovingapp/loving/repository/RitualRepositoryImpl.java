@@ -35,17 +35,9 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
         List<String> where = new ArrayList<>();
 
         // JSONB array filters (enums stored as strings)
-        if (filter.getRitualTypes() != null && !filter.getRitualTypes().isEmpty()) {
-            where.add("EXISTS (SELECT 1 FROM jsonb_array_elements_text(r.ritual_types) v WHERE v IN (:ritualTypes))");
-            params.put("ritualTypes", filter.getRitualTypes().stream().map(Enum::name).toList());
-        }
         if (filter.getLoveTypes() != null && !filter.getLoveTypes().isEmpty()) {
             where.add("EXISTS (SELECT 1 FROM jsonb_array_elements_text(r.love_types) v WHERE v IN (:loveTypes))");
             params.put("loveTypes", filter.getLoveTypes().stream().map(Enum::name).toList());
-        }
-        if (filter.getEmotionalStates() != null && !filter.getEmotionalStates().isEmpty()) {
-            where.add("EXISTS (SELECT 1 FROM jsonb_array_elements_text(r.emotional_states) v WHERE v IN (:emotionalStates))");
-            params.put("emotionalStates", filter.getEmotionalStates().stream().map(Enum::name).toList());
         }
         if (filter.getRelationalNeeds() != null && !filter.getRelationalNeeds().isEmpty()) {
             where.add("EXISTS (SELECT 1 FROM jsonb_array_elements_text(r.relational_needs) v WHERE v IN (:relationalNeeds))");
