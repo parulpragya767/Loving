@@ -46,8 +46,14 @@ public class RitualPack {
     @Column(nullable = false)
     private String title;
 
-    @Column(name = "description")
+    @Column
+    private String tagLine;
+
+    @Column
     private String description;
+
+    @Column(name = "how_it_helps", columnDefinition = "text")
+    private String howItHelps;
 
     // Curated rituals in this pack
     @ManyToMany(fetch = FetchType.LAZY)

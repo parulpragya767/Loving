@@ -22,7 +22,9 @@ import lombok.NoArgsConstructor;
 public class RitualPackDTO {
     private UUID id;
     private String title;
+    private String tagLine;
     private String description;
+    private String howItHelps;
 
     // Rituals included in the pack
     private List<RitualDTO> rituals;

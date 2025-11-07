@@ -24,7 +24,9 @@ import lombok.NoArgsConstructor;
 public class RitualDTO {
     private UUID id;
     private String title;
+    private String tagLine;
     private String description;
+    private String howItHelps;
     private RitualMode ritualMode;
     private List<RitualTone> ritualTones;
     private TimeTaken timeTaken;

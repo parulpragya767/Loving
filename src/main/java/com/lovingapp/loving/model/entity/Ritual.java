@@ -45,7 +45,13 @@ public class Ritual {
     private String title;
 
     @Column
+    private String tagLine;
+
+    @Column
     private String description;
+
+    @Column(name = "how_it_helps", columnDefinition = "text")
+    private String howItHelps;
 
     @Type(JsonType.class)
     @Column(name = "steps", columnDefinition = "jsonb")

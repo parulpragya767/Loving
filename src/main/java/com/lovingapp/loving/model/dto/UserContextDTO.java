@@ -19,9 +19,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class UserContextDTO {
-    private String id;
+    private UUID id;
     private UUID userId;
-    private String conversationId;
+    private UUID conversationId;
     private Journey journey;
     private List<LoveType> loveTypes;
     private List<RelationalNeed> relationalNeeds;

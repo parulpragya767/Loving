@@ -19,7 +19,9 @@ public final class RitualPackMapper {
         return RitualPackDTO.builder()
                 .id(pack.getId())
                 .title(pack.getTitle())
+                .tagLine(pack.getTagLine())
                 .description(pack.getDescription())
+                .howItHelps(pack.getHowItHelps())
                 .rituals((pack.getRituals() != null ? pack.getRituals() : Collections.<Ritual>emptyList())
                         .stream()
                         .map(ritual -> RitualMapper.toDto(ritual))
@@ -42,7 +44,9 @@ public final class RitualPackMapper {
         RitualPack entity = new RitualPack();
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
+        entity.setTagLine(dto.getTagLine());
         entity.setDescription(dto.getDescription());
+        entity.setHowItHelps(dto.getHowItHelps());
         entity.setJourney(dto.getJourney());
         entity.setSemanticSummary(dto.getSemanticSummary());
         entity.setStatus(dto.getStatus());
@@ -58,7 +62,9 @@ public final class RitualPackMapper {
         if (dto == null || entity == null)
             return;
         entity.setTitle(dto.getTitle());
+        entity.setTagLine(dto.getTagLine());
         entity.setDescription(dto.getDescription());
+        entity.setHowItHelps(dto.getHowItHelps());
         entity.setJourney(dto.getJourney());
         entity.setSemanticSummary(dto.getSemanticSummary());
         entity.setStatus(dto.getStatus());

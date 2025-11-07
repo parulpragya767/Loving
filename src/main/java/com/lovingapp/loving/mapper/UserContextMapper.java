@@ -2,7 +2,6 @@ package com.lovingapp.loving.mapper;
 
 import java.util.Collections;
 import java.util.Objects;
-import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -17,9 +16,9 @@ public final class UserContextMapper {
         }
 
         return UserContextDTO.builder()
-                .id(entity.getId() != null ? entity.getId().toString() : null)
+                .id(entity.getId())
                 .userId(entity.getUserId())
-                .conversationId(entity.getConversationId() != null ? entity.getConversationId().toString() : null)
+                .conversationId(entity.getConversationId())
                 .journey(entity.getJourney())
                 .loveTypes(Objects.requireNonNullElse(entity.getLoveTypes(), Collections.emptyList()))
                 .relationalNeeds(Objects.requireNonNullElse(entity.getRelationalNeeds(), Collections.emptyList()))
@@ -36,9 +35,9 @@ public final class UserContextMapper {
         }
 
         return UserContext.builder()
-                .id(dto.getId() != null ? UUID.fromString(dto.getId()) : null)
+                .id(dto.getId())
                 .userId(dto.getUserId())
-                .conversationId(dto.getConversationId() != null ? UUID.fromString(dto.getConversationId()) : null)
+                .conversationId(dto.getConversationId())
                 .journey(dto.getJourney())
                 .loveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()))
                 .relationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()))
@@ -57,7 +56,7 @@ public final class UserContextMapper {
         if (dto.getUserId() != null)
             entity.setUserId(dto.getUserId());
         if (dto.getConversationId() != null)
-            entity.setConversationId(UUID.fromString(dto.getConversationId()));
+            entity.setConversationId(dto.getConversationId());
         entity.setJourney(dto.getJourney());
         entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
         entity.setRelationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));

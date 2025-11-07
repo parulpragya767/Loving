@@ -35,7 +35,7 @@ public class RitualSyncService implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        syncRituals();
+        // syncRituals();
         syncRitualPacks();
     }
 
