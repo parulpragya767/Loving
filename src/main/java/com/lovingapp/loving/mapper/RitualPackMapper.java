@@ -26,6 +26,10 @@ public final class RitualPackMapper {
                         .stream()
                         .map(ritual -> RitualMapper.toDto(ritual))
                         .collect(Collectors.toList()))
+                .ritualIds((pack.getRituals() != null ? pack.getRituals() : Collections.<Ritual>emptyList())
+                        .stream()
+                        .map(Ritual::getId)
+                        .collect(Collectors.toList()))
                 .journey(pack.getJourney())
                 .loveTypes(Objects.requireNonNullElse(pack.getLoveTypes(), Collections.emptyList()))
                 .relationalNeeds(Objects.requireNonNullElse(pack.getRelationalNeeds(), Collections.emptyList()))
@@ -54,7 +58,6 @@ public final class RitualPackMapper {
         entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
         entity.setRelationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
         entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
-        // rituals are set by service based on ritualIds
         return entity;
     }
 
@@ -72,6 +75,5 @@ public final class RitualPackMapper {
         entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
         entity.setRelationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
         entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
-        // rituals are managed by service
     }
 }

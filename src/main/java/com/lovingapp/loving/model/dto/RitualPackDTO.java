@@ -28,6 +28,7 @@ public class RitualPackDTO {
 
     // Rituals included in the pack
     private List<RitualDTO> rituals;
+    private List<UUID> ritualIds;
 
     // Core tags on the pack
     private Journey journey;

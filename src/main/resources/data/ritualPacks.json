@@ -1,39 +1,50 @@
 [
   {
-    "title": "Daily Presence Starter Pack",
-    "shortDescription": "Gentle daily practices to begin and end your day with presence.",
-    "fullDescription": "A curated set of rituals to help you greet the morning with gratitude and wind down your evening with calm reflection.",
-    "ritualTitles": [
-      "Morning Gratitude Ritual",
-      "Evening Wind-Down Reflection"
+    "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
+    "title": "Deep Connection Pack",
+    "tagLine": "Strengthen your bond through presence and shared experiences",
+    "description": "A collection of rituals designed to deepen your connection through presence and shared moments of wonder.",
+    "howItHelps": "These rituals help couples create meaningful connections by being fully present with each other and sharing experiences that spark joy and wonder.",
+    "ritualIds": [
+      "bba70dda-4f2a-4e6b-b9fe-0e1dcbb0d97d",
+      "b4dcd2d2-1fd0-4a84-a7b7-dcc7696fd536"
     ],
-    "semanticSummary": "Daily bookend rituals supporting mindfulness and emotional balance.",
-    "status": "PUBLISHED",
-    "createdBy": "system"
+    "journey": "FEELING_DISTANT",
+    "loveTypes": [
+      "BEYOND",
+      "BELONG",
+      "GRACE"
+    ],
+    "relationalNeeds": [
+      "PRESENCE_AND_QUALITY_TIME",
+      "TRUST_AND_SAFETY",
+      "CONNECTION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "A pack focused on deepening emotional connection through presence and shared experiences",
+    "status": "PUBLISHED"
   },
   {
-    "title": "Connection & Appreciation Pack",
-    "shortDescription": "Strengthen bonds through weekly connection and appreciation.",
-    "fullDescription": "A relationship-focused collection to maintain emotional intimacy, share appreciations, and align for the week ahead.",
-    "ritualTitles": [
-      "Weekly Connection Check-in",
-      "Date Night Appreciation"
+    "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
+    "title": "Joyful Togetherness Pack",
+    "tagLine": "Tagline1",
+    "description": "A collection of rituals designed to bring playfulness and creative expression into your relationship.",
+    "howItHelps": "These rituals encourage couples to explore new experiences together, fostering joy and creativity in their relationship.",
+    "ritualIds": [
+      "4cf479f0-ef01-44d1-b775-c343a1246804",
+      "4988b0d0-8707-4772-a0a8-753cc468f5cc"
     ],
-    "semanticSummary": "Partner-centered rituals fostering appreciation and meaningful check-ins.",
-    "status": "PUBLISHED",
-    "createdBy": "system"
-  },
-  {
-    "title": "Weekend Warmth Pack",
-    "shortDescription": "Joyful and restorative rituals for the weekend.",
-    "fullDescription": "A playful yet grounding weekend set to create memories and recharge together.",
-    "ritualTitles": [
-      "Family Game Night",
-      "Evening Wind-Down Reflection",
-      "Date Night Appreciation"
+    "journey": "LOVE_FEELS_FLAT",
+    "loveTypes": [
+      "SPARK",
+      "BEYOND"
     ],
-    "semanticSummary": "Lighthearted connection with gentle restoration for weekends.",
-    "status": "PUBLISHED",
-    "createdBy": "system"
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "CONNECTION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "A pack focused on bringing joy and creativity into the relationship through shared experiences",
+    "status": "PUBLISHED"
   }
 ]

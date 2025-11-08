@@ -20,8 +20,9 @@ import org.springframework.util.StreamUtils;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.model.dto.RitualDTO;
+import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.enums.PublicationStatus;
-import com.lovingapp.loving.repository.RitualPackRepository;
+import com.lovingapp.loving.service.RitualPackService;
 import com.lovingapp.loving.service.RitualService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +35,7 @@ public class ContentManagementService implements CommandLineRunner {
     private RitualService ritualService;
 
     @Autowired
-    private RitualPackRepository ritualPackRepository;
+    private RitualPackService ritualPackService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -106,7 +107,63 @@ public class ContentManagementService implements CommandLineRunner {
     }
 
     private void syncRitualPacks() {
-        // similar logic
+        try {
+            log.info("Starting ritual pack synchronization...");
+            String json = loadJsonFile("data/ritualPacks.json");
+            List<RitualPackDTO> packs = objectMapper.readValue(json, new TypeReference<List<RitualPackDTO>>() {
+            });
+
+            // Get existing packs and map by ID
+            Map<UUID, RitualPackDTO> dbById = ritualPackService.findAll().stream()
+                    .collect(Collectors.toMap(RitualPackDTO::getId, p -> p));
+
+            List<RitualPackDTO> toCreate = new ArrayList<>();
+            List<RitualPackDTO> toUpdate = new ArrayList<>();
+            Set<UUID> activePackIds = new HashSet<>();
+
+            // Process each pack from JSON
+            for (RitualPackDTO dto : packs) {
+                if (dto.getId() == null) {
+                    continue;
+                }
+
+                activePackIds.add(dto.getId());
+                String newHash = computeRitualPackHash(dto);
+                RitualPackDTO existing = dbById.get(dto.getId());
+
+                if (existing == null) {
+                    dto.setContentHash(newHash);
+                    toCreate.add(dto);
+                } else if (isDifferent(existing.getContentHash(), newHash)) {
+                    dto.setContentHash(newHash);
+                    toUpdate.add(dto);
+                }
+            }
+
+            // Determine deletions (mark as ARCHIVED)
+            List<RitualPackDTO> toDelete = dbById.values().stream()
+                    .filter(existing -> !activePackIds.contains(existing.getId())
+                            && existing.getStatus() != PublicationStatus.ARCHIVED)
+                    .peek(existing -> {
+                        existing.setStatus(PublicationStatus.ARCHIVED);
+                        existing.setContentHash(computeRitualPackHash(existing));
+                    })
+                    .collect(Collectors.toList());
+
+            // Bulk operations
+            int created = ritualPackService.bulkCreate(toCreate).size();
+            // merge updates and deletions into a single bulk update
+            toUpdate.addAll(toDelete);
+            int updated = ritualPackService.bulkUpdate(toUpdate).size();
+            int archived = toDelete.size();
+
+            log.info("Ritual pack synchronization completed - Created: {}, Updated: {}, Archived: {}",
+                    created, updated, archived);
+
+        } catch (Exception e) {
+            log.error("Failed to synchronize ritual packs", e);
+            throw new RuntimeException("Failed to initialize ritual packs from JSON file", e);
+        }
     }
 
     private String loadJsonFile(String path) throws IOException {
@@ -140,6 +197,29 @@ public class ContentManagementService implements CommandLineRunner {
             return DigestUtils.sha256Hex(json);
         } catch (Exception e) {
             throw new RuntimeException("Failed to compute ritual hash", e);
+        }
+    }
+
+    private String computeRitualPackHash(RitualPackDTO dto) {
+        try {
+            RitualPackDTO hashDto = RitualPackDTO.builder()
+                    .title(dto.getTitle())
+                    .tagLine(dto.getTagLine())
+                    .description(dto.getDescription())
+                    .howItHelps(dto.getHowItHelps())
+                    .ritualIds(dto.getRitualIds())
+                    .journey(dto.getJourney())
+                    .loveTypes(dto.getLoveTypes())
+                    .relationalNeeds(dto.getRelationalNeeds())
+                    .mediaAssets(dto.getMediaAssets())
+                    .semanticSummary(dto.getSemanticSummary())
+                    .status(dto.getStatus())
+                    .build();
+
+            String json = objectMapper.writeValueAsString(hashDto);
+            return DigestUtils.sha256Hex(json);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to compute ritual pack hash", e);
         }
     }
 }
