@@ -47,20 +47,19 @@ public final class RitualMapper {
         entity.setTitle(dto.getTitle());
         entity.setTagLine(dto.getTagLine());
         entity.setDescription(dto.getDescription());
+        entity.setSteps(Objects.requireNonNullElse(dto.getSteps(), Collections.emptyList()));
         entity.setHowItHelps(dto.getHowItHelps());
+        entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
+        entity.setRelationalNeeds(
+                Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
         entity.setRitualMode(dto.getRitualMode());
+        entity.setRitualTones(Objects.requireNonNullElse(dto.getRitualTones(), Collections.emptyList()));
         entity.setTimeTaken(dto.getTimeTaken());
         entity.setSemanticSummary(dto.getSemanticSummary());
         entity.setStatus(dto.getStatus());
         entity.setContentHash(dto.getContentHash());
-        // Do not set createdAt/updatedAt; they are managed by JPA timestamps
-
-        entity.setRitualTones(Objects.requireNonNullElse(dto.getRitualTones(), Collections.emptyList()));
-        entity.setSteps(Objects.requireNonNullElse(dto.getSteps(), Collections.emptyList()));
         entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
-        entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
-        entity.setRelationalNeeds(
-                Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
+
         return entity;
     }
 
@@ -70,18 +69,17 @@ public final class RitualMapper {
         entity.setTitle(dto.getTitle());
         entity.setTagLine(dto.getTagLine());
         entity.setDescription(dto.getDescription());
+        entity.setSteps(Objects.requireNonNullElse(dto.getSteps(), Collections.emptyList()));
         entity.setHowItHelps(dto.getHowItHelps());
+        entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
+        entity.setRelationalNeeds(
+                Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
         entity.setRitualMode(dto.getRitualMode());
+        entity.setRitualTones(Objects.requireNonNullElse(dto.getRitualTones(), Collections.emptyList()));
         entity.setTimeTaken(dto.getTimeTaken());
         entity.setSemanticSummary(dto.getSemanticSummary());
         entity.setStatus(dto.getStatus());
         entity.setContentHash(dto.getContentHash());
-
-        entity.setRitualTones(Objects.requireNonNullElse(dto.getRitualTones(), Collections.emptyList()));
-        entity.setSteps(Objects.requireNonNullElse(dto.getSteps(), Collections.emptyList()));
         entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
-        entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
-        entity.setRelationalNeeds(
-                Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
     }
 }

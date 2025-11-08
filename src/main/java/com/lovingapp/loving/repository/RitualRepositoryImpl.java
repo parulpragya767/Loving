@@ -40,7 +40,8 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
             params.put("loveTypes", filter.getLoveTypes().stream().map(Enum::name).toList());
         }
         if (filter.getRelationalNeeds() != null && !filter.getRelationalNeeds().isEmpty()) {
-            where.add("EXISTS (SELECT 1 FROM jsonb_array_elements_text(r.relational_needs) v WHERE v IN (:relationalNeeds))");
+            where.add(
+                    "EXISTS (SELECT 1 FROM jsonb_array_elements_text(r.relational_needs) v WHERE v IN (:relationalNeeds))");
             params.put("relationalNeeds", filter.getRelationalNeeds().stream().map(Enum::name).toList());
         }
 
@@ -48,6 +49,12 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
         if (filter.getRitualModes() != null && !filter.getRitualModes().isEmpty()) {
             where.add("r.ritual_mode IN (:ritualModes)");
             params.put("ritualModes", filter.getRitualModes().stream().map(Enum::name).toList());
+        }
+
+        // Filter by status if provided
+        if (filter.getStatus() != null) {
+            where.add("r.status = :status");
+            params.put("status", filter.getStatus().name());
         }
 
         if (!where.isEmpty()) {

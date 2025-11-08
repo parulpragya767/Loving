@@ -27,13 +27,13 @@ public class RitualDTO {
     private String tagLine;
     private String description;
     private String howItHelps;
+    private List<String> steps;
+    private List<LoveType> loveTypes;
+    private List<RelationalNeed> relationalNeeds;
     private RitualMode ritualMode;
     private List<RitualTone> ritualTones;
     private TimeTaken timeTaken;
-    private List<String> steps;
     private List<MediaAsset> mediaAssets;
-    private List<LoveType> loveTypes;
-    private List<RelationalNeed> relationalNeeds;
     private String semanticSummary;
     private PublicationStatus status;
     private String contentHash;
