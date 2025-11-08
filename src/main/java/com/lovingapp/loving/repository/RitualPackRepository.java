@@ -1,7 +1,5 @@
 package com.lovingapp.loving.repository;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +9,5 @@ import com.lovingapp.loving.model.entity.RitualPack;
 
 @Repository
 public interface RitualPackRepository extends JpaRepository<RitualPack, UUID> {
-    Optional<RitualPack> findByTitle(String title);
-
-    List<RitualPack> findAllByTitleIn(List<String> titles);
+    // Custom query methods can be added here if needed
 }

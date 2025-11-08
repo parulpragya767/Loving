@@ -48,6 +48,9 @@ public class LoveTypeInfo {
     @Column(columnDefinition = "jsonb")
     private List<InfoSection> sections;
 
+    @Column(name = "content_hash", length = 64)
+    private String contentHash;
+
     @Getter
     @Setter
     @NoArgsConstructor

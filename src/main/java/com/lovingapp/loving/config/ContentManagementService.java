@@ -21,7 +21,9 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.model.dto.RitualDTO;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
+import com.lovingapp.loving.model.entity.LoveTypeInfo;
 import com.lovingapp.loving.model.enums.PublicationStatus;
+import com.lovingapp.loving.service.LoveTypeService;
 import com.lovingapp.loving.service.RitualPackService;
 import com.lovingapp.loving.service.RitualService;
 
@@ -38,12 +40,16 @@ public class ContentManagementService implements CommandLineRunner {
     private RitualPackService ritualPackService;
 
     @Autowired
+    private LoveTypeService loveTypeService;
+
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Override
     public void run(String... args) throws Exception {
         syncRituals();
         syncRitualPacks();
+        syncLoveTypes();
     }
 
     private void syncRituals() {
@@ -103,6 +109,47 @@ public class ContentManagementService implements CommandLineRunner {
         } catch (Exception e) {
             log.error("Failed to synchronize rituals", e);
             throw new RuntimeException("Failed to initialize rituals from JSON file", e);
+        }
+    }
+
+    private void syncLoveTypes() {
+        try {
+            log.info("Starting love type synchronization...");
+            String json = loadJsonFile("data/loveTypes.json");
+            List<LoveTypeInfo> loveTypes = objectMapper.readValue(json, new TypeReference<List<LoveTypeInfo>>() {
+            });
+
+            Map<Integer, LoveTypeInfo> dbById = loveTypeService.findAll().stream()
+                    .collect(Collectors.toMap(LoveTypeInfo::getId, lt -> lt));
+
+            int created = 0;
+            int updated = 0;
+
+            for (LoveTypeInfo dto : loveTypes) {
+                if (dto.getId() == null) {
+                    continue;
+                }
+
+                String newHash = computeLoveTypeHash(dto);
+                LoveTypeInfo existing = dbById.get(dto.getId());
+
+                if (existing == null) {
+                    dto.setContentHash(newHash);
+                    loveTypeService.save(dto);
+                    created++;
+                } else if (isDifferent(existing.getContentHash(), newHash)) {
+                    dto.setContentHash(newHash);
+                    if (loveTypeService.update(dto.getId(), dto).isPresent()) {
+                        updated++;
+                    }
+                }
+            }
+
+            log.info("Love type synchronization completed - Created: {}, Updated: {}", created, updated);
+
+        } catch (Exception e) {
+            log.error("Failed to synchronize love types", e);
+            throw new RuntimeException("Failed to initialize love types from JSON file", e);
         }
     }
 
@@ -220,6 +267,23 @@ public class ContentManagementService implements CommandLineRunner {
             return DigestUtils.sha256Hex(json);
         } catch (Exception e) {
             throw new RuntimeException("Failed to compute ritual pack hash", e);
+        }
+    }
+
+    private String computeLoveTypeHash(LoveTypeInfo dto) {
+        try {
+            LoveTypeInfo hashDto = LoveTypeInfo.builder()
+                    .loveType(dto.getLoveType())
+                    .title(dto.getTitle())
+                    .subtitle(dto.getSubtitle())
+                    .description(dto.getDescription())
+                    .sections(dto.getSections())
+                    .build();
+
+            String json = objectMapper.writeValueAsString(hashDto);
+            return DigestUtils.sha256Hex(json);
+        } catch (Exception e) {
+            throw new RuntimeException("Failed to compute love type hash", e);
         }
     }
 }
