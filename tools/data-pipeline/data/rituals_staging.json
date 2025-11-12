@@ -1,0 +1,122 @@
+[
+  {
+    "Title": "One Truth, One Tenderness",
+    "Description": "Each shares one truth they haven\u2019t voiced lately, and one thing they appreciate.",
+    "Ritual Packs": [
+      "Bridges of Understanding"
+    ],
+    "Love Types": [
+      "CARE",
+      "BELONG"
+    ],
+    "Time Taken": "MEDIUM",
+    "Relational Needs": [
+      "TRUST_AND_SAFETY",
+      "UNDERSTANDING"
+    ],
+    "id": "67df3e22-5876-4871-99ea-397a38913ea5",
+    "recordId": "reckdURyZnOIGmwAv",
+    "version": 1,
+    "needsReview": false
+  },
+  {
+    "Title": "Quiet Touch ",
+    "Description": "Sit close, place your hand gently on your partner's arm or back or heart, just breathing together for 1 minute.",
+    "Ritual Packs": [
+      "Finding Our Way Back"
+    ],
+    "Love Types": [
+      "CARE"
+    ],
+    "Time Taken": "MOMENT",
+    "Relational Needs": [
+      "TRUST_AND_SAFETY"
+    ],
+    "Steps": "[\n\"1. Settle together. Find a cozy spot where you can sit close without distractions \u2014 maybe on the couch, floor, or even during a walk.\",\n\"2. Recall a moment. Each take a quiet pause to remember one joyful or funny moment from your early days together \u2014 something simple that still makes you smile.\",\n\"3. Share the story. One at a time, tell that story. Let yourself feel what it was like back then as you speak.\",\n\"4. Listen fully. When it\u2019s your turn to listen, simply stay present \u2014 notice their eyes, their tone, the warmth in the memory.\",\n\"5. Pause together. After both have shared, take a slow breath together. Feel the small spark of connection between past and present.\"\n]",
+    "id": "c7fd36b1-1b2b-4e41-b142-47f5de905c0e",
+    "recordId": "recCF6vjFk3h1LTVd",
+    "version": 1,
+    "needsReview": false
+  },
+  {
+    "Title": "Comfort Blanket Moment",
+    "Description": "Lie or sit together under one blanket, no talking, just shared warmth.",
+    "Love Types": [
+      "CARE"
+    ],
+    "Time Taken": "MEDIUM",
+    "Relational Needs": [
+      "TRUST_AND_SAFETY"
+    ],
+    "id": "f4e4844b-1849-4516-a5fc-7f576e860d20",
+    "recordId": "rec0fttfljfBLkZBD",
+    "version": 1,
+    "needsReview": false
+  },
+  {
+    "Title": "What Touch Feels Safe ",
+    "Description": "Share what kinds of touch feel most comforting vs. overwhelming. ",
+    "Ritual Packs": [],
+    "Love Types": [
+      "CARE"
+    ],
+    "Time Taken": "MEDIUM",
+    "Relational Needs": [
+      "TRUST_AND_SAFETY",
+      "UNDERSTANDING"
+    ],
+    "id": "5eebb144-8bd6-432c-b75c-346c6b7e3b95",
+    "recordId": "recE58UnAiam6lYOD",
+    "version": 1,
+    "needsReview": false
+  },
+  {
+    "Title": "Palm Rest ",
+    "Description": "Rest your palms together, noticing texture, feeling the warmth of shared presence.",
+    "Ritual Packs": [],
+    "Love Types": [
+      "CARE"
+    ],
+    "Time Taken": "MOMENT",
+    "Relational Needs": [
+      "TRUST_AND_SAFETY",
+      "INTIMACY"
+    ],
+    "id": "50f4b96f-4d15-48ee-a3ea-4608d2b72cc0",
+    "recordId": "recGlWkZbIlNgKNS5",
+    "version": 1,
+    "needsReview": false
+  },
+  {
+    "Title": "Breath Check ",
+    "Description": "Ask each other, \u201cHow\u2019s your breath right now?\u201d Then take three slower ones together.",
+    "Ritual Packs": [],
+    "Love Types": [
+      "CARE"
+    ],
+    "Time Taken": "SHORT",
+    "Relational Needs": [
+      "TRUST_AND_SAFETY"
+    ],
+    "id": "a4fc9b9a-1da1-4ec1-8f89-24b9dc849e2c",
+    "recordId": "recRoCN8NA5mNWWaN",
+    "version": 1,
+    "needsReview": false
+  },
+  {
+    "Title": "Safe Words",
+    "Description": "Choose two comfort words for the week (\u201canchor,\u201d \u201csoft\u201d); say them when either feels tense.",
+    "Ritual Packs": [],
+    "Love Types": [
+      "CARE"
+    ],
+    "Time Taken": "SHORT",
+    "Relational Needs": [
+      "TRUST_AND_SAFETY"
+    ],
+    "id": "a65df9f0-65b1-4233-af64-48f16ef7d0a1",
+    "recordId": "recvyvwioj1isueFG",
+    "version": 1,
+    "needsReview": false
+  }
+]
