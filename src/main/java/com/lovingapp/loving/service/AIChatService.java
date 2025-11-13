@@ -15,19 +15,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.client.LlmClient;
 import com.lovingapp.loving.helpers.ai.LLMPromptHelper;
-import com.lovingapp.loving.helpers.ai.UserContextExtractor;
 import com.lovingapp.loving.mapper.ChatMessageMapper;
 import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
 import com.lovingapp.loving.model.domain.ai.LLMEmpatheticResponse;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
 import com.lovingapp.loving.model.domain.ai.LLMResponseFormat;
+import com.lovingapp.loving.model.domain.ai.LLMUserContextExtraction;
 import com.lovingapp.loving.model.dto.ChatDTOs;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.entity.ChatSession;
-import com.lovingapp.loving.model.entity.LoveTypeInfo;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
 import com.lovingapp.loving.model.enums.ChatSessionStatus;
 import com.lovingapp.loving.repository.ChatMessageRepository;
@@ -50,7 +49,6 @@ public class AIChatService {
         private final ChatMessageRepository chatMessageRepository;
         private final LlmClient llmClient;
         private final LLMPromptHelper llmPromptHelper;
-        private final UserContextExtractor userContextExtractor;
         private final LoveTypeRepository loveTypeRepository;
         private final ObjectMapper objectMapper = new ObjectMapper();
         private final UserContextService userContextService;
@@ -111,7 +109,7 @@ public class AIChatService {
                                 LLMEmpatheticResponse.class);
                 LLMEmpatheticResponse empatheticResponse = aiReply.getParsed();
                 String response = empatheticResponse.getResponse();
-                boolean ready = empatheticResponse.isReady_for_ritual_suggestion();
+                boolean ready = empatheticResponse.isReadyForRitualSuggestion();
 
                 ChatMessage assistantMessage = ChatMessage.builder()
                                 .sessionId(sessionId)
@@ -134,100 +132,74 @@ public class AIChatService {
                 List<ChatMessage> messages = chatMessageRepository
                                 .findBySessionIdOrderByCreatedAtAsc(sessionId);
 
-                String extractionSystemPrompt = llmPromptHelper.generateUserContextExtractionPrompt(null);
-
                 LLMRequest extractionRequest = LLMRequest.builder()
                                 .messages(messages.stream()
                                                 .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
                                                 .collect(Collectors.toList()))
-                                .systemPrompt(extractionSystemPrompt)
-                                .responseFormat(LLMResponseFormat.TEXT)
+                                .systemPrompt(llmPromptHelper.generateUserContextExtractionStructuredPrompt())
+                                .responseFormat(LLMResponseFormat.JSON)
                                 .build();
 
-                boolean validated = true;
+                LLMResponse<LLMUserContextExtraction> llmUserContextResponse = llmClient.generate(extractionRequest,
+                                LLMUserContextExtraction.class);
+                LLMUserContextExtraction llmUserContext = llmUserContextResponse.getParsed();
+
+                UserContextDTO userContext = UserContextDTO.builder()
+                                .userId(userId)
+                                .conversationId(sessionId)
+                                .journey(llmUserContext.getJourney())
+                                .loveTypes(llmUserContext.getLoveTypes())
+                                .relationalNeeds(llmUserContext.getRelationalNeeds())
+                                .relationshipStatus(llmUserContext.getRelationshipStatus())
+                                .semanticSummary(llmUserContext.getSemanticSummary())
+                                .build();
+
+                UserContextDTO savedUserContext = userContextService.createUserContext(userContext);
+
                 RitualPackDTO recommendedPack = null;
-
-                // try {
-                // // Extract user context
-                // LLMResponse extractionResponse = llmClient.generate(extractionRequest);
-                // JsonNode extracted = extractionResponse.getParsedJson();
-
-                // // Parse and validate user context
-                // UserContextDTO dto = userContextExtractor.parseAndValidate(extracted);
-
-                // // Enrich with identifiers before persisting
-                // dto.setUserId(userId);
-                // dto.setConversationId(sessionId.toString());
-                // userContextService.createUserContext(dto);
-                // } catch (Exception ex) {
-                // log.warn("UserContext extraction/validation/persistence failed: {}",
-                // ex.getMessage());
-                // validated = false;
-                // }
 
                 // Get ritual pack recommendation
                 recommendedPack = ritualRecommendationService.recommendRitualPack(null)
                                 .orElse(null);
 
                 // Build a contextual wrap-up via LLM that ties the pack to the user's situation
-                String responseMessage;
+                String wrapUpMessage = "";
+
                 try {
-                        // Fetch love types for richer domain knowledge in the prompt
-                        List<LoveTypeInfo> loveTypes = loveTypeRepository.findAll();
-
                         if (recommendedPack != null) {
-                                String wrapUpSystemPrompt = llmPromptHelper.generateRitualWrapUpPrompt(loveTypes,
-                                                recommendedPack);
-
                                 LLMRequest wrapUpRequest = LLMRequest.builder()
                                                 .messages(messages.stream()
                                                                 .map(m -> new LLMChatMessage(m.getRole(),
                                                                                 m.getContent()))
                                                                 .collect(Collectors.toList()))
-                                                .systemPrompt(wrapUpSystemPrompt)
+                                                .systemPrompt(llmPromptHelper
+                                                                .generateRitualWrapUpPromptV1(recommendedPack))
                                                 .responseFormat(LLMResponseFormat.TEXT)
                                                 .build();
 
-                                // LLMResponse wrapUpResponse = llmClient.generate(wrapUpRequest);
-                                // JsonNode wrapUpNode = wrapUpResponse.getParsedJson();
-                                // String llmWrap = wrapUpNode.path("response").asText(null);
-                                String llmWrap = "";
-                                responseMessage = (llmWrap != null && !llmWrap.isBlank())
-                                                ? llmWrap
-                                                : String.format("I recommend the '%s' ritual pack for you! %s",
-                                                                recommendedPack.getTitle(),
-                                                                recommendedPack.getDescription() != null
-                                                                                ? recommendedPack.getDescription()
-                                                                                : "");
-                        } else {
-                                // Fallback if no recommendation could be made
-                                responseMessage = "I've taken in what you've shared. I don't have a specific ritual pack to suggest just yet, but we can keep exploring and I'll recommend something that fits as soon as I have enough context.";
+                                LLMResponse<String> wrapUpResponse = llmClient.generate(wrapUpRequest);
+                                wrapUpMessage = wrapUpResponse.getRawText();
+                        }
+
+                        if (wrapUpMessage == null || wrapUpMessage.trim().isEmpty()) {
+                                wrapUpMessage = getFallbackWrapUpMessage(recommendedPack);
                         }
                 } catch (Exception ex) {
                         log.warn("Ritual wrap-up LLM generation failed: {}", ex.getMessage());
-                        // Robust fallback
-                        if (recommendedPack != null) {
-                                responseMessage = String.format("I recommend the '%s' ritual pack for you! %s",
-                                                recommendedPack.getTitle(),
-                                                recommendedPack.getDescription() != null
-                                                                ? recommendedPack.getDescription()
-                                                                : "");
-                        } else {
-                                responseMessage = "I've analyzed your conversation. Here's a ritual pack that might interest you.";
-                        }
+                        wrapUpMessage = getFallbackWrapUpMessage(recommendedPack);
                 }
 
                 // Create and save assistant message
                 ChatMessage assistantMessage = ChatMessage.builder()
                                 .sessionId(sessionId)
                                 .role(ChatMessageRole.ASSISTANT)
-                                .content(responseMessage)
+                                .content(wrapUpMessage)
                                 .build();
                 ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
 
                 return ChatDTOs.SendMessageResponse.builder()
                                 .assistantMessage(ChatMessageMapper.toDto(savedAssistantMessage))
-                                .isReadyForRitualSuggestion(validated)
+                                .isReadyForRitualSuggestion(true)
                                 .recommendedRitualPack(recommendedPack)
                                 .build();
         }
@@ -310,6 +282,28 @@ public class AIChatService {
                                 "What's one small thing I can do today to make my partner feel appreciated?",
                                 "How can we improve our communication when we disagree?",
                                 "What's a fun activity we could try together this weekend?");
+        }
+
+        /**
+         * Get fallback wrap-up messages in case the LLM call fails.
+         */
+        private String getFallbackWrapUpMessage(RitualPackDTO recommendedPack) {
+                String wrapUpMessage;
+
+                if (recommendedPack != null) {
+                        wrapUpMessage = String.format("I recommend the '%s' ritual pack for you! %s",
+                                        recommendedPack.getTitle(),
+                                        recommendedPack.getTagLine() != null ? recommendedPack.getTagLine() : "");
+                } else {
+                        wrapUpMessage = "I've analyzed your conversation. Here's a ritual pack that might interest you.";
+                }
+
+                // Fallback if no recommendation could be made
+                // wrapUpMessage = "I've taken in what you've shared. I don't have a specific
+                // ritual pack to suggest just yet, but we can keep exploring and I'll recommend
+                // something that fits as soon as I have enough context.";
+
+                return wrapUpMessage;
         }
 
         private ChatSession createNewSession(UUID userId, String conversationTitle) {

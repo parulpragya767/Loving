@@ -25,7 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 public class LLMPromptHelper {
     private final String empatheticChatResponsePromptFilePath = "prompts/empathetic_chat_response_prompt.txt";
     private final String userContextExtractionPromptFilePath = "prompts/user_context_extraction_prompt.txt";
-    private final String ritualWrapUpPromptFilePath = "prompts/ritual_wrap_up_prompt.txt";
+    private final String userContextExtractionStructuredPromptFilePath = "prompts/user_context_extraction_structured_prompt.txt";
+    private final String ritualWrapUpPromptFilePath = "prompts/ritual_wrap_up_prompt_v1.txt";
     private final String sampleChatPromptsPromptFilePath = "prompts/sample_chat_prompts_prompt.txt";
     private final String empatheticChatStructuredPromptFilePath = "prompts/empathetic_chat_structured_prompt.txt";
 
@@ -162,6 +163,36 @@ public class LLMPromptHelper {
     }
 
     /**
+     * Generate the empathetic chat prompt with strict JSON structured output.
+     * Injects enum NAME → description mappings directly from enums.
+     */
+    public String generateUserContextExtractionStructuredPrompt() {
+        String template = readPromptFile(userContextExtractionStructuredPromptFilePath);
+
+        String loveTypeDefs = Arrays.stream(LoveType.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        String journeyDefs = Arrays.stream(Journey.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        String relationalNeedsDefs = Arrays.stream(RelationalNeed.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        String relationshipStatusDefs = Arrays.stream(RelationshipStatus.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        return template
+                .replace("{{LOVE_TYPES_ENUM}}", loveTypeDefs)
+                .replace("{{JOURNEY_ENUM}}", journeyDefs)
+                .replace("{{RELATIONAL_NEEDS_ENUM}}", relationalNeedsDefs)
+                .replace("{{RELATIONSHIP_STATUS_ENUM}}", relationshipStatusDefs);
+    }
+
+    /**
      * Generate the ritual wrap-up system prompt that ties the recommended ritual
      * pack
      * to the user's situation using internal domain knowledge without exposing enum
@@ -184,6 +215,32 @@ public class LLMPromptHelper {
                 .replace("{{PACK_TITLE}}", escapeCurly(packTitle))
                 .replace("{{PACK_SHORT_DESCRIPTION}}", escapeCurly(packShort))
                 .replace("{{PACK_TAGS}}", escapeCurly(packTags));
+    }
+
+    public String generateRitualWrapUpPromptV1(RitualPackDTO ritualPack) {
+        String template = readPromptFile(ritualWrapUpPromptFilePath);
+
+        String loveTypeDefs = Arrays.stream(LoveType.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        // Format the ritual pack details
+        StringBuilder packDetails = new StringBuilder();
+        if (ritualPack != null) {
+            if (ritualPack.getTitle() != null) {
+                packDetails.append("Title: ").append(ritualPack.getTitle()).append("\n");
+            }
+            if (ritualPack.getDescription() != null) {
+                packDetails.append("Description: ").append(ritualPack.getDescription()).append("\n");
+            }
+            if (ritualPack.getHowItHelps() != null) {
+                packDetails.append("How It Helps: ").append(ritualPack.getHowItHelps());
+            }
+        }
+
+        return template
+                .replace("{{LOVE_TYPES_ENUM}}", loveTypeDefs)
+                .replace("{{SUGGESTED_RITUAL_PACK}}", packDetails.toString());
     }
 
     public String generateSamplePromptsPrompt(String recentContext) {

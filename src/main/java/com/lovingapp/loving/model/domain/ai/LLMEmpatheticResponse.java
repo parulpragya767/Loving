@@ -16,5 +16,5 @@ public class LLMEmpatheticResponse {
     public String response;
 
     @JsonPropertyDescription("Does LLM have all the information to suggest a ritual pack?")
-    public boolean ready_for_ritual_suggestion;
+    public boolean readyForRitualSuggestion;
 }

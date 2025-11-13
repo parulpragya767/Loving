@@ -89,6 +89,40 @@ public class OpenAiChatClient implements LlmClient {
                 } else {
                     rawText = "";
                 }
+            } else {
+                ResponseCreateParams params = buildResponseCreateParams(request)
+                        .build();
+
+                try {
+                    log.info("Sending request to OpenAI API: {}",
+                            objectMapper.writeValueAsString(buildRequestLog(request)));
+                } catch (Exception e) {
+                    log.error("Error logging request: " + e.getMessage());
+                }
+
+                var response = client.responses().create(params);
+
+                try {
+                    List<String> outputs = response.output().stream()
+                            .flatMap(item -> item.message().stream())
+                            .flatMap(message -> message.content().stream())
+                            .flatMap(content -> content.outputText().stream())
+                            .map(this::truncateObject)
+                            .collect(Collectors.toList());
+                    Map<String, Object> respLog = new HashMap<>();
+                    respLog.put("outputs", outputs);
+                    log.info("Response from OpenAI API: {}", objectMapper.writeValueAsString(respLog));
+                } catch (Exception e) {
+                    log.error("Error logging response: " + e.getMessage());
+                }
+
+                rawText = response.output().stream()
+                        .flatMap(item -> item.message().stream())
+                        .flatMap(message -> message.content().stream())
+                        .flatMap(content -> content.outputText().stream())
+                        .findFirst()
+                        .map(outputText -> outputText.text())
+                        .orElse("");
             }
             return new LLMResponse<>(rawText, parsed);
 
@@ -169,7 +203,7 @@ public class OpenAiChatClient implements LlmClient {
     private String truncate(String s) {
         if (s == null)
             return null;
-        int max = 4000;
+        int max = 8000;
         return s.length() <= max ? s : s.substring(0, max);
     }
 
