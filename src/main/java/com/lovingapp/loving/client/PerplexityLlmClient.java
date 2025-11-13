@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -30,25 +29,20 @@ import lombok.extern.slf4j.Slf4j;
  * Perplexity AI implementation of the LlmClient interface.
  */
 @Slf4j
-@Component
 public class PerplexityLlmClient implements LlmClient {
 
     private final LlmClientProperties.PerplexityProperties perplexityProps;
     private final WebClient webClient;
-    private final LLMResponseParser llmResponseParser;
-
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public PerplexityLlmClient(LlmClientProperties llmClientProperties,
-            WebClient webClient,
-            LLMResponseParser llmResponseParser) {
+            WebClient webClient) {
         this.perplexityProps = llmClientProperties.getPerplexity();
         this.webClient = webClient;
-        this.llmResponseParser = llmResponseParser;
     }
 
     @Override
-    public LLMResponse generate(LLMRequest request) {
+    public <T> LLMResponse<T> generate(LLMRequest request, Class<T> responseClass) {
 
         List<PerplexityMessage> perplexityMessages = new ArrayList<>();
 
@@ -111,7 +105,7 @@ public class PerplexityLlmClient implements LlmClient {
             }
 
             String content = extractContent(response);
-            return llmResponseParser.parseResponse(content);
+            return LLMResponseParser.parseResponse(content, responseClass);
         } catch (Exception e) {
             log.error("Error calling Perplexity API", e);
             throw new RuntimeException("Failed to get response from Perplexity: " + e.getMessage(), e);

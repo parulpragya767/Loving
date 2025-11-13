@@ -12,6 +12,7 @@ import org.springframework.util.StreamUtils;
 
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.entity.LoveTypeInfo;
+import com.lovingapp.loving.model.enums.Journey;
 import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.RelationalNeed;
 import com.lovingapp.loving.model.enums.RelationshipStatus;
@@ -26,6 +27,7 @@ public class LLMPromptHelper {
     private final String userContextExtractionPromptFilePath = "prompts/user_context_extraction_prompt.txt";
     private final String ritualWrapUpPromptFilePath = "prompts/ritual_wrap_up_prompt.txt";
     private final String sampleChatPromptsPromptFilePath = "prompts/sample_chat_prompts_prompt.txt";
+    private final String empatheticChatStructuredPromptFilePath = "prompts/empathetic_chat_structured_prompt.txt";
 
     /**
      * Generate the empathetic chat system prompt, formatting and injecting the
@@ -38,6 +40,36 @@ public class LLMPromptHelper {
                 ? ""
                 : formatLoveTypeDefinitions(loveTypes);
         return withEnums.replace("{{LOVE_TYPES_DEFINITIONS}}", loveTypeDefs);
+    }
+
+    /**
+     * Generate the empathetic chat prompt with strict JSON structured output.
+     * Injects enum NAME → description mappings directly from enums.
+     */
+    public String generateEmpatheticChatStructuredPrompt() {
+        String template = readPromptFile(empatheticChatStructuredPromptFilePath);
+
+        String loveTypeDefs = Arrays.stream(LoveType.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        String journeyDefs = Arrays.stream(Journey.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        String relationalNeedsDefs = Arrays.stream(RelationalNeed.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        String relationshipStatusDefs = Arrays.stream(RelationshipStatus.values())
+                .map(e -> e.name() + " → " + e.getDescription())
+                .collect(Collectors.joining("\n"));
+
+        return template
+                .replace("{{LOVE_TYPES_ENUM}}", loveTypeDefs)
+                .replace("{{JOURNEY_ENUM}}", journeyDefs)
+                .replace("{{RELATIONAL_NEEDS_ENUM}}", relationalNeedsDefs)
+                .replace("{{RELATIONSHIP_STATUS_ENUM}}", relationshipStatusDefs);
     }
 
     /**

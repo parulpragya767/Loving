@@ -1,5 +1,6 @@
 package com.lovingapp.loving.config;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -7,11 +8,11 @@ import org.springframework.web.reactive.function.client.WebClient;
 import com.lovingapp.loving.client.LlmClient;
 import com.lovingapp.loving.client.OpenAiChatClient;
 import com.lovingapp.loving.client.PerplexityLlmClient;
-import com.lovingapp.loving.helpers.ai.LLMResponseParser;
 
 import lombok.RequiredArgsConstructor;
 
 @Configuration
+@EnableConfigurationProperties(LlmClientProperties.class)
 @RequiredArgsConstructor
 public class LlmClientConfig {
 
@@ -23,15 +24,10 @@ public class LlmClientConfig {
     }
 
     @Bean
-    public LLMResponseParser llmResponseParser() {
-        return new LLMResponseParser();
-    }
-
-    @Bean
-    public LlmClient llmClient(WebClient webClient, LLMResponseParser llmResponseParser) {
+    public LlmClient llmClient(WebClient webClient) {
         return switch (properties.getProvider().toLowerCase()) {
-            case "perplexity" -> new PerplexityLlmClient(properties, webClient, llmResponseParser);
-            case "openai" -> new OpenAiChatClient(properties, webClient, llmResponseParser);
+            case "perplexity" -> new PerplexityLlmClient(properties, webClient);
+            case "openai" -> new OpenAiChatClient(properties);
             default -> throw new IllegalArgumentException("Unsupported LLM provider: " + properties.getProvider());
         };
     }

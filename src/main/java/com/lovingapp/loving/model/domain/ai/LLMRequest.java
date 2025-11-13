@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LLMRequest {
+    private String model;
     private String systemPrompt;
     private List<LLMChatMessage> messages;
     private LLMResponseFormat responseFormat;

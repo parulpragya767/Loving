@@ -4,8 +4,6 @@ import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.stereotype.Component;
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,21 +18,13 @@ import lombok.extern.slf4j.Slf4j;
  * and responses with additional text before or after the JSON content.
  */
 @Slf4j
-@Component
-public class LLMResponseParser {
+public final class LLMResponseParser {
 
     private static final Pattern JSON_PATTERN = Pattern.compile(
-            "(?s)(?:```(?:json)?\\s*\\n)?" + // Optional code block with optional json language specifier
-                    "([\\s\\S]*?)" + // The actual JSON content (non-greedy)
-                    "(?:\\n```)?" + // Optional closing code block
-                    "$", // End of string
-            Pattern.MULTILINE);
+            "(?s)```(?:json)?\\s*(.*?)```",
+            Pattern.DOTALL);
 
-    private final ObjectMapper objectMapper;
-
-    public LLMResponseParser() {
-        this.objectMapper = new ObjectMapper();
-    }
+    private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /**
      * Parse the raw LLM response string into an LLMResponse object.
@@ -44,22 +34,22 @@ public class LLMResponseParser {
      * @param rawResponse The raw string response from the LLM
      * @return LLMResponse containing both raw content and parsed JSON (if any)
      */
-    public LLMResponse parseResponse(String rawResponse) {
-        if (rawResponse == null || rawResponse.trim().isEmpty()) {
-            return LLMResponse.builder()
-                    .rawContent("")
-                    .parsedJson(null)
+    public static <T> LLMResponse<T> parseResponse(String rawResponse, Class<T> responseClass) {
+        String original = rawResponse == null ? "" : rawResponse;
+        if (original.trim().isEmpty()) {
+            return LLMResponse.<T>builder()
+                    .rawText("")
+                    .parsed(null)
                     .build();
         }
 
         // Clean and normalize the response
-        String cleanedResponse = cleanResponse(rawResponse);
+        String cleanedResponse = cleanResponse(original);
 
         // Try to parse the full response as JSON first
         Optional<JsonNode> jsonNode = tryParseJson(cleanedResponse);
 
-        // If that fails, try to extract JSON from markdown code blocks or other
-        // patterns
+        // If that fails, try to extract JSON from markdown code blocks
         if (jsonNode.isEmpty()) {
             Matcher matcher = JSON_PATTERN.matcher(cleanedResponse);
             if (matcher.find() && matcher.group(1) != null) {
@@ -68,15 +58,23 @@ public class LLMResponseParser {
             }
         }
 
-        // If we still don't have valid JSON, try to find and extract a JSON object or
-        // array
+        // If still not found, try to find a JSON object/array within the text
         if (jsonNode.isEmpty()) {
             jsonNode = findAndExtractJson(cleanedResponse);
         }
 
-        return LLMResponse.builder()
-                .rawContent(rawResponse)
-                .parsedJson(jsonNode.orElse(null))
+        T parsed = null;
+        if (jsonNode.isPresent() && responseClass != null && !String.class.equals(responseClass)) {
+            try {
+                parsed = objectMapper.treeToValue(jsonNode.get(), responseClass);
+            } catch (Exception e) {
+                log.debug("Failed to map JSON to {}: {}", responseClass.getSimpleName(), e.getMessage());
+            }
+        }
+
+        return LLMResponse.<T>builder()
+                .rawText(original)
+                .parsed(parsed)
                 .build();
     }
 
@@ -87,7 +85,7 @@ public class LLMResponseParser {
      * @param response The raw response string to clean
      * @return The cleaned response string
      */
-    private String cleanResponse(String response) {
+    private static String cleanResponse(String response) {
         if (response == null) {
             return "";
         }
@@ -116,7 +114,7 @@ public class LLMResponseParser {
      * @return Optional containing the parsed JsonNode if successful, empty
      *         otherwise
      */
-    private Optional<JsonNode> tryParseJson(String jsonString) {
+    private static Optional<JsonNode> tryParseJson(String jsonString) {
         if (jsonString == null || jsonString.trim().isEmpty()) {
             return Optional.empty();
         }
@@ -138,7 +136,7 @@ public class LLMResponseParser {
      * @return Optional containing the parsed JsonNode if found and valid, empty
      *         otherwise
      */
-    private Optional<JsonNode> findAndExtractJson(String text) {
+    private static Optional<JsonNode> findAndExtractJson(String text) {
         if (text == null || text.trim().isEmpty()) {
             return Optional.empty();
         }

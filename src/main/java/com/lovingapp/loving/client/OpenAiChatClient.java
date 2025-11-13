@@ -1,90 +1,186 @@
 package com.lovingapp.loving.client;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.BodyInserters;
-import org.springframework.web.reactive.function.client.WebClient;
-
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.config.LlmClientProperties;
-import com.lovingapp.loving.helpers.ai.LLMResponseParser;
+import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
+import com.lovingapp.loving.model.domain.ai.LLMResponseFormat;
+import com.lovingapp.loving.model.enums.ChatMessageRole;
+import com.openai.client.OpenAIClient;
+import com.openai.client.okhttp.OpenAIOkHttpClient;
+import com.openai.models.responses.EasyInputMessage;
+import com.openai.models.responses.ResponseCreateParams;
+import com.openai.models.responses.ResponseInputItem;
+import com.openai.models.responses.StructuredResponseCreateParams;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
  * OpenAI implementation of the LlmClient interface.
  */
 @Slf4j
-@Component
 public class OpenAiChatClient implements LlmClient {
 
     private final LlmClientProperties.OpenAiProperties openAiProps;
-    private final WebClient webClient;
-    private final LLMResponseParser llmResponseParser;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public OpenAiChatClient(LlmClientProperties llmClientProperties,
-            WebClient webClient,
-            LLMResponseParser llmResponseParser) {
+    public OpenAiChatClient(LlmClientProperties llmClientProperties) {
         this.openAiProps = llmClientProperties.getOpenai();
-        this.webClient = webClient;
-        this.llmResponseParser = llmResponseParser;
     }
 
     @Override
-    public LLMResponse generate(LLMRequest request) {
-        OpenAiRequest openAiRequest = OpenAiRequest.builder()
-                .model(openAiProps.getModel())
-                .maxTokens(openAiProps.getMaxTokens())
-                .temperature(openAiProps.getTemperature())
-                .messages(List.of(OpenAiMessage.builder().role("user").content(request.getSystemPrompt()).build()))
-                .build();
-
+    public <T> LLMResponse<T> generate(LLMRequest request, Class<T> responseClass) {
         try {
-            String jsonResponse = webClient.post()
-                    .uri(openAiProps.getBaseUrl() + "/v1/chat/completions")
-                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + openAiProps.getApiKey())
-                    .body(BodyInserters.fromValue(openAiRequest))
-                    .retrieve()
-                    .bodyToMono(String.class)
-                    .block();
 
-            // Use the LLMResponseParser to parse the response
-            return llmResponseParser.parseResponse(jsonResponse);
+            OpenAIClient client = buildClientFromProps();
+
+            String rawText = "";
+            T parsed = null;
+
+            if (request.getResponseFormat() == LLMResponseFormat.JSON && responseClass != null
+                    && !String.class.equals(responseClass)) {
+                StructuredResponseCreateParams<T> params = buildResponseCreateParams(request)
+                        .text(responseClass)
+                        .build();
+
+                try {
+                    log.info("Sending request to OpenAI API: {}",
+                            objectMapper.writeValueAsString(buildRequestLog(request)));
+                } catch (Exception e) {
+                    log.error("Error logging request: " + e.getMessage());
+                }
+
+                var response = client.responses().create(params);
+
+                try {
+                    List<String> outputs = response.output().stream()
+                            .flatMap(item -> item.message().stream())
+                            .flatMap(message -> message.content().stream())
+                            .flatMap(content -> content.outputText().stream())
+                            .map(this::truncateObject)
+                            .collect(Collectors.toList());
+                    Map<String, Object> respLog = new HashMap<>();
+                    respLog.put("outputs", outputs);
+                    log.info("Response from OpenAI API: {}", objectMapper.writeValueAsString(respLog));
+                } catch (Exception e) {
+                    log.error("Error logging response: " + e.getMessage());
+                }
+
+                parsed = response.output().stream()
+                        .flatMap(item -> item.message().stream())
+                        .flatMap(message -> message.content().stream())
+                        .flatMap(content -> content.outputText().stream())
+                        .findFirst()
+                        .orElse(null);
+
+                if (parsed != null) {
+                    try {
+                        rawText = objectMapper.writeValueAsString(parsed);
+                    } catch (Exception e) {
+                        rawText = parsed.toString();
+                    }
+                } else {
+                    rawText = "";
+                }
+            }
+            return new LLMResponse<>(rawText, parsed);
+
         } catch (Exception e) {
-            log.error("Error calling OpenAI API", e);
-            throw new RuntimeException("Failed to get response from OpenAI", e);
+            throw new RuntimeException("Error generating LLM response", e);
         }
     }
 
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private static class OpenAiRequest {
-        private String model;
-        @JsonProperty("max_tokens")
-        private Integer maxTokens;
-        private Double temperature;
-        private List<OpenAiMessage> messages;
+    private ResponseCreateParams.Builder buildResponseCreateParams(LLMRequest request) {
+        return ResponseCreateParams.builder()
+                .model(request.getModel() != null && !request.getModel().isEmpty() ? request.getModel()
+                        : openAiProps.getModel())
+                .inputOfResponse(buildInputItems(request));
     }
 
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private static class OpenAiMessage {
-        private String role;
-        private String content;
+    private List<ResponseInputItem> buildInputItems(LLMRequest request) {
+        List<ResponseInputItem> inputItems = new ArrayList<>();
+
+        if (request.getSystemPrompt() != null && !request.getSystemPrompt().isBlank()) {
+            inputItems.add(ResponseInputItem.ofEasyInputMessage(EasyInputMessage.builder()
+                    .role(EasyInputMessage.Role.DEVELOPER)
+                    .content(request.getSystemPrompt())
+                    .build()));
+        }
+
+        if (request.getMessages() != null) {
+            for (LLMChatMessage msg : request.getMessages()) {
+                EasyInputMessage.Role role = switch (msg.getRole()) {
+                    case ChatMessageRole.USER -> EasyInputMessage.Role.USER;
+                    case ChatMessageRole.ASSISTANT -> EasyInputMessage.Role.ASSISTANT;
+                    case ChatMessageRole.SYSTEM -> EasyInputMessage.Role.DEVELOPER;
+                };
+                inputItems.add(ResponseInputItem.ofEasyInputMessage(EasyInputMessage.builder()
+                        .role(role)
+                        .content(msg.getContent())
+                        .build()));
+            }
+        }
+
+        return inputItems;
+    }
+
+    private OpenAIClient buildClientFromProps() {
+        OpenAIOkHttpClient.Builder builder = OpenAIOkHttpClient.builder().fromEnv();
+
+        if (openAiProps.getApiKey() != null && !openAiProps.getApiKey().isBlank()) {
+            builder.apiKey(openAiProps.getApiKey());
+        }
+
+        return builder.build();
+    }
+
+    private Map<String, Object> buildRequestLog(LLMRequest request) {
+        int messageCount = request.getMessages() == null ? 0 : request.getMessages().size();
+        List<Map<String, Object>> msgs = request.getMessages() == null ? List.of()
+                : request.getMessages().stream()
+                        .map(m -> {
+                            Map<String, Object> mm = new HashMap<>();
+                            if (m.getRole() != null)
+                                mm.put("role", m.getRole().name());
+                            if (m.getContent() != null)
+                                mm.put("content", truncate(m.getContent()));
+                            return mm;
+                        })
+                        .collect(Collectors.toList());
+        Map<String, Object> root = new HashMap<>();
+        if (request.getModel() != null)
+            root.put("model", request.getModel());
+        if (request.getResponseFormat() != null)
+            root.put("responseFormat", request.getResponseFormat().name());
+        if (request.getSystemPrompt() != null)
+            root.put("systemPrompt", truncate(request.getSystemPrompt()));
+        root.put("messageCount", messageCount);
+        root.put("messages", msgs);
+        return root;
+    }
+
+    private String truncate(String s) {
+        if (s == null)
+            return null;
+        int max = 4000;
+        return s.length() <= max ? s : s.substring(0, max);
+    }
+
+    private String truncateObject(Object o) {
+        if (o == null)
+            return null;
+        try {
+            String s = (o instanceof String) ? (String) o : objectMapper.writeValueAsString(o);
+            return truncate(s);
+        } catch (Exception ex) {
+            return truncate(String.valueOf(o));
+        }
     }
 }

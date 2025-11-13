@@ -5,5 +5,9 @@ import com.lovingapp.loving.model.domain.ai.LLMResponse;
 
 public interface LlmClient {
 
-    LLMResponse generate(LLMRequest request);
+    <T> LLMResponse<T> generate(LLMRequest request, Class<T> responseClass);
+
+    default LLMResponse<String> generate(LLMRequest request) {
+        return generate(request, String.class);
+    }
 }

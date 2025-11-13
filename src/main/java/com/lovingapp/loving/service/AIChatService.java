@@ -12,14 +12,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.client.LlmClient;
 import com.lovingapp.loving.helpers.ai.LLMPromptHelper;
-import com.lovingapp.loving.helpers.ai.LLMResponseParser;
 import com.lovingapp.loving.helpers.ai.UserContextExtractor;
 import com.lovingapp.loving.mapper.ChatMessageMapper;
 import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
+import com.lovingapp.loving.model.domain.ai.LLMEmpatheticResponse;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
 import com.lovingapp.loving.model.domain.ai.LLMResponseFormat;
@@ -51,7 +50,6 @@ public class AIChatService {
         private final ChatMessageRepository chatMessageRepository;
         private final LlmClient llmClient;
         private final LLMPromptHelper llmPromptHelper;
-        private final LLMResponseParser llmResponseParser;
         private final UserContextExtractor userContextExtractor;
         private final LoveTypeRepository loveTypeRepository;
         private final ObjectMapper objectMapper = new ObjectMapper();
@@ -99,21 +97,21 @@ public class AIChatService {
                 List<ChatMessage> messages = chatMessageRepository
                                 .findBySessionIdOrderByCreatedAtAsc(sessionId);
 
-                // 2.1 Get all love types for the prompt
-                List<LoveTypeInfo> loveTypes = loveTypeRepository.findAll();
-
                 // Build empathetic chat system prompt and request from conversation history
+                // (structured JSON)
                 LLMRequest llmRequest = LLMRequest.builder()
                                 .messages(messages.stream()
                                                 .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
                                                 .collect(Collectors.toList()))
-                                .systemPrompt(llmPromptHelper.generateEmpatheticChatResponsePrompt(loveTypes))
-                                .responseFormat(LLMResponseFormat.TEXT)
+                                .systemPrompt(llmPromptHelper.generateEmpatheticChatStructuredPrompt())
+                                .responseFormat(LLMResponseFormat.JSON)
                                 .build();
 
-                LLMResponse aiReply = llmClient.generate(llmRequest);
-                JsonNode node = aiReply.getParsedJson();
-                String response = node.path("response").asText();
+                LLMResponse<LLMEmpatheticResponse> aiReply = llmClient.generate(llmRequest,
+                                LLMEmpatheticResponse.class);
+                LLMEmpatheticResponse empatheticResponse = aiReply.getParsed();
+                String response = empatheticResponse.getResponse();
+                boolean ready = empatheticResponse.isReady_for_ritual_suggestion();
 
                 ChatMessage assistantMessage = ChatMessage.builder()
                                 .sessionId(sessionId)
@@ -124,7 +122,7 @@ public class AIChatService {
 
                 return ChatDTOs.SendMessageResponse.builder()
                                 .assistantMessage(ChatMessageMapper.toDto(savedAssistantMessage))
-                                .isReadyForRitualSuggestion(false)
+                                .isReadyForRitualSuggestion(ready)
                                 .build();
         }
 
