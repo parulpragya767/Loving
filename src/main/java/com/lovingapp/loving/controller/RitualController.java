@@ -17,8 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.model.dto.RitualDTO;
-import com.lovingapp.loving.model.dto.RitualFilterRequest;
-import com.lovingapp.loving.model.dto.RitualTagsDTO;
+import com.lovingapp.loving.model.dto.RitualFilterDTO;
+import com.lovingapp.loving.model.dto.RitualTagDTOs.RitualTags;
 import com.lovingapp.loving.service.RitualService;
 
 import lombok.RequiredArgsConstructor;
@@ -47,14 +47,14 @@ public class RitualController {
     }
 
     @GetMapping("/tags")
-    public RitualTagsDTO getAllTags() {
+    public RitualTags getAllTags() {
         return ritualService.getRitualTags();
     }
 
     @PostMapping("/search")
-    public Page<RitualDTO> search(@RequestBody(required = false) RitualFilterRequest filter, Pageable pageable) {
+    public Page<RitualDTO> search(@RequestBody(required = false) RitualFilterDTO filter, Pageable pageable) {
         if (filter == null) {
-            filter = new RitualFilterRequest();
+            filter = new RitualFilterDTO();
         }
         return ritualService.searchRituals(filter, pageable);
     }

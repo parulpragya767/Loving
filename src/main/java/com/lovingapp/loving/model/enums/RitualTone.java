@@ -20,9 +20,4 @@ public enum RitualTone {
 
     private final String displayName;
     private final String description;
-
-    @Override
-    public String toString() {
-        return displayName;
-    }
 }

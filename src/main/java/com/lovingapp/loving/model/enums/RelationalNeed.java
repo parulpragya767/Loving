@@ -28,9 +28,4 @@ public enum RelationalNeed {
 
         private final String displayName;
         private final String description;
-
-        @Override
-        public String toString() {
-                return displayName;
-        }
 }

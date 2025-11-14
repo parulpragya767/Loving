@@ -9,7 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
-import com.lovingapp.loving.model.dto.RitualFilterRequest;
+import com.lovingapp.loving.model.dto.RitualFilterDTO;
 import com.lovingapp.loving.model.entity.Ritual;
 
 import jakarta.persistence.EntityManager;
@@ -24,7 +24,7 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
 
     @Override
     @Transactional
-    public Page<Ritual> search(RitualFilterRequest filter, Pageable pageable) {
+    public Page<Ritual> search(RitualFilterDTO filter, Pageable pageable) {
         StringBuilder sql = new StringBuilder();
         sql.append("SELECT * FROM rituals r WHERE 1=1 ");
 

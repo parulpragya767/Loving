@@ -16,14 +16,16 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualMapper;
 import com.lovingapp.loving.model.dto.RitualDTO;
-import com.lovingapp.loving.model.dto.RitualFilterRequest;
-import com.lovingapp.loving.model.dto.RitualTagDTO;
-import com.lovingapp.loving.model.dto.RitualTagsDTO;
-import com.lovingapp.loving.model.dto.TagValueDTO;
+import com.lovingapp.loving.model.dto.RitualFilterDTO;
+import com.lovingapp.loving.model.dto.RitualTagDTOs.RitualTag;
+import com.lovingapp.loving.model.dto.RitualTagDTOs.RitualTags;
+import com.lovingapp.loving.model.dto.RitualTagDTOs.TagValue;
 import com.lovingapp.loving.model.entity.Ritual;
 import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.RelationalNeed;
 import com.lovingapp.loving.model.enums.RitualMode;
+import com.lovingapp.loving.model.enums.RitualTone;
+import com.lovingapp.loving.model.enums.TimeTaken;
 import com.lovingapp.loving.repository.RitualRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -59,54 +61,45 @@ public class RitualService {
     }
 
     @Transactional(readOnly = true)
-    public Page<RitualDTO> searchRituals(RitualFilterRequest filter, Pageable pageable) {
+    public Page<RitualDTO> searchRituals(RitualFilterDTO filter, Pageable pageable) {
         Page<Ritual> result = ritualRepository.search(filter, pageable);
         return result.map(RitualMapper::toDto);
     }
 
     @Transactional(readOnly = true)
-    public RitualTagsDTO getRitualTags() {
-        RitualTagDTO loveTypes = new RitualTagDTO(
+    public RitualTags getRitualTags() {
+        RitualTag loveTypes = new RitualTag(
                 "Love Types",
-                1,
-                toTagValues(LoveType.values()));
+                toTagValues(LoveType.values(), LoveType::getDisplayName));
 
-        RitualTagDTO ritualModes = new RitualTagDTO(
-                "Ritual Modes",
-                2,
-                toTagValues(RitualMode.values()));
+        RitualTag ritualModes = new RitualTag(
+                "Modes",
+                toTagValues(RitualMode.values(), RitualMode::getDisplayName));
 
-        RitualTagDTO relationalNeeds = new RitualTagDTO(
-                "Relational Needs",
-                3,
-                toTagValues(RelationalNeed.values()));
+        RitualTag timeTaken = new RitualTag(
+                "Time Taken",
+                toTagValues(TimeTaken.values(), TimeTaken::getDisplayName));
 
-        return new RitualTagsDTO(
+        RitualTag relationalNeeds = new RitualTag(
+                "Relationship Needs",
+                toTagValues(RelationalNeed.values(), RelationalNeed::getDisplayName));
+
+        RitualTag ritualTones = new RitualTag(
+                "Ritual Tones",
+                toTagValues(RitualTone.values(), RitualTone::getDisplayName));
+
+        return new RitualTags(
                 loveTypes,
                 ritualModes,
-                relationalNeeds);
+                timeTaken,
+                relationalNeeds,
+                ritualTones);
     }
 
-    private List<TagValueDTO> toTagValues(Enum<?>[] values) {
-        Class<?> declaring = values.length > 0 ? values[0].getDeclaringClass() : Enum.class;
-        boolean pretty = declaring == LoveType.class || declaring == RitualMode.class;
+    private <E extends Enum<E>> List<TagValue> toTagValues(E[] values, Function<E, String> displayNameFn) {
         return Arrays.stream(values)
-                .map(e -> new TagValueDTO(e.name(), pretty ? humanize(e.name()) : e.toString()))
+                .map(e -> new TagValue(e.name(), displayNameFn.apply(e)))
                 .collect(Collectors.toList());
-    }
-
-    private String humanize(String name) {
-        String[] parts = name.toLowerCase().split("_");
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < parts.length; i++) {
-            if (parts[i].isEmpty())
-                continue;
-            sb.append(Character.toUpperCase(parts[i].charAt(0)))
-                    .append(parts[i].substring(1));
-            if (i < parts.length - 1)
-                sb.append(' ');
-        }
-        return sb.toString();
     }
 
     @Transactional
