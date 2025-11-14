@@ -32,4 +32,7 @@ public class LLMUserContextExtraction {
 
     @JsonPropertyDescription("A concise, empathetic 2–4 sentence summary describing the user’s emotional state, what they’re experiencing in their relationship, and what they seem to long for or need.")
     private String semanticSummary;
+
+    @JsonPropertyDescription("A concise, emotionally aligned conversation title based on the core theme of the conversation so far.")
+    private String conversationTitle;
 }

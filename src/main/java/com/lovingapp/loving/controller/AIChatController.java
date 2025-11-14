@@ -1,17 +1,18 @@
 package com.lovingapp.loving.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -40,28 +41,28 @@ public class AIChatController {
                 }
         }
 
-        /**
-         * Start a new chat session or continue an existing one.
-         * 
-         * @param request The start session request
-         * @return The response entity with the session details
-         */
-        @PostMapping("/sessions")
-        public ResponseEntity<ChatDTOs.StartSessionResponse> startSession(
+        @GetMapping("/sessions/{sessionId}/messages")
+        public ResponseEntity<ChatDTOs.ChatSessionDTO> getChatHistory(
                         @AuthenticationPrincipal Jwt jwt,
-                        @Valid @RequestBody ChatDTOs.StartSessionRequest request) {
-                UUID userId = getAuthUserId(jwt);
-                request.setUserId(userId);
-                return ResponseEntity.ok(aiChatService.startSession(request));
+                        @PathVariable UUID sessionId) {
+                return ResponseEntity.ok(aiChatService.getChatSessionWithMessages(sessionId));
         }
 
-        /**
-         * Send a message in an existing chat session.
-         * 
-         * @param sessionId The ID of the chat session
-         * @param request   The message request
-         * @return The response entity with the assistant's reply
-         */
+        @GetMapping("/sessions")
+        public ResponseEntity<List<ChatDTOs.ChatSessionDTO>> listSessions(
+                        @AuthenticationPrincipal Jwt jwt) {
+                UUID userId = getAuthUserId(jwt);
+                return ResponseEntity.ok(aiChatService.listSessions(userId));
+        }
+
+        @PostMapping("/sessions")
+        public ResponseEntity<ChatDTOs.ChatSessionDTO> createSession(
+                        @AuthenticationPrincipal Jwt jwt,
+                        @Valid @RequestBody ChatDTOs.ChatSessionDTO request) {
+                UUID userId = getAuthUserId(jwt);
+                return ResponseEntity.ok(aiChatService.startSession(userId, request));
+        }
+
         @PostMapping("/sessions/{sessionId}/messages")
         public ResponseEntity<ChatDTOs.SendMessageResponse> sendMessage(
                         @AuthenticationPrincipal Jwt jwt,
@@ -71,46 +72,26 @@ public class AIChatController {
         }
 
         @PostMapping("/sessions/{sessionId}/recommend")
-        public ResponseEntity<ChatDTOs.SendMessageResponse> recommendRitualPack(
-                        @AuthenticationPrincipal Jwt jwt,
-                        @PathVariable UUID sessionId,
-                        @Valid @RequestBody ChatDTOs.SendMessageRequest request) {
-                UUID userId = getAuthUserId(jwt);
-                return ResponseEntity.ok(aiChatService.recommendRitualPack(sessionId, userId, request));
-        }
-
-        /**
-         * Get the chat history for a session.
-         * 
-         * @param sessionId The ID of the chat session
-         * @return The response entity with the chat history
-         */
-        @GetMapping("/sessions/{sessionId}/messages")
-        public ResponseEntity<ChatDTOs.GetHistoryResponse> getChatHistory(
+        public ResponseEntity<ChatDTOs.RecommendRitualPackResponse> recommendRitualPack(
                         @AuthenticationPrincipal Jwt jwt,
                         @PathVariable UUID sessionId) {
-                return ResponseEntity.ok(aiChatService.getChatHistory(sessionId));
+                UUID userId = getAuthUserId(jwt);
+                return ResponseEntity.ok(aiChatService.recommendRitualPack(userId, sessionId));
         }
 
-        /**
-         * Get sample prompts for a chat session.
-         * 
-         * @param jwt The authenticated user's JWT token
-         * @return List of sample prompts
-         */
         @GetMapping("/sample-prompts")
-        public ResponseEntity<ChatDTOs.SamplePromptsResponse> getSamplePrompts(
+        public ResponseEntity<List<String>> getSamplePrompts(
                         @AuthenticationPrincipal Jwt jwt) {
                 UUID userId = getAuthUserId(jwt);
                 return ResponseEntity.ok(aiChatService.getSamplePrompts(userId));
         }
 
-        @GetMapping("/sessions")
-        public ResponseEntity<ChatDTOs.ListSessionsResponse> listSessions(
+        @DeleteMapping("/sessions/{sessionId}")
+        public ResponseEntity<Void> deleteSession(
                         @AuthenticationPrincipal Jwt jwt,
-                        @RequestParam(name = "page", defaultValue = "0") int page,
-                        @RequestParam(name = "size", defaultValue = "20") int size) {
+                        @PathVariable UUID sessionId) {
                 UUID userId = getAuthUserId(jwt);
-                return ResponseEntity.ok(aiChatService.listSessions(userId, page, size));
+                aiChatService.deleteSession(userId, sessionId);
+                return ResponseEntity.noContent().build();
         }
 }

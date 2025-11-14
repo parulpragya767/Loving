@@ -5,15 +5,14 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.loving.client.LlmClient;
+import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.helpers.ai.LLMPromptHelper;
 import com.lovingapp.loving.mapper.ChatMessageMapper;
+import com.lovingapp.loving.mapper.ChatSessionMapper;
 import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
 import com.lovingapp.loving.model.domain.ai.LLMEmpatheticResponse;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
@@ -26,7 +25,6 @@ import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.entity.ChatSession;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
-import com.lovingapp.loving.model.enums.ChatSessionStatus;
 import com.lovingapp.loving.repository.ChatMessageRepository;
 import com.lovingapp.loving.repository.ChatSessionRepository;
 
@@ -49,28 +47,11 @@ public class AIChatService {
 	private final RitualRecommendationService ritualRecommendationService;
 
 	@Transactional
-	public ChatDTOs.StartSessionResponse startSession(ChatDTOs.StartSessionRequest request) {
-		UUID userId = request.getUserId();
-		UUID sessionId = request.getSessionId();
-		String conversationTitle = request.getConversationTitle();
-
-		// Get or create session
-		ChatSession session = (sessionId != null)
-				? chatSessionRepository.findById(sessionId)
-						.orElseGet(() -> createNewSession(userId, conversationTitle))
-				: createNewSession(userId, conversationTitle);
-
-		// Get existing messages for this session
-		List<ChatMessage> existingMessages = chatMessageRepository
-				.findBySessionIdOrderByCreatedAtAsc(session.getId());
-
-		return ChatDTOs.StartSessionResponse.builder()
-				.sessionId(session.getId())
-				.conversationTitle(session.getConversationTitle())
-				.messages(existingMessages.stream()
-						.map(ChatMessageMapper::toDto)
-						.collect(Collectors.toList()))
+	public ChatDTOs.ChatSessionDTO startSession(UUID userId, ChatDTOs.ChatSessionDTO request) {
+		ChatSession session = ChatSession.builder()
+				.userId(userId)
 				.build();
+		return ChatSessionMapper.toDto(chatSessionRepository.save(session));
 	}
 
 	@Transactional
@@ -113,15 +94,16 @@ public class AIChatService {
 		ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
 
 		return ChatDTOs.SendMessageResponse.builder()
-				.assistantMessage(ChatMessageMapper.toDto(savedAssistantMessage))
-				.isReadyForRitualSuggestion(ready)
+				.assistantResponse(ChatMessageMapper.toDto(savedAssistantMessage))
+				.isReadyForRitualPackRecommendation(ready)
 				.build();
 	}
 
-	public ChatDTOs.SendMessageResponse recommendRitualPack(
-			UUID sessionId,
+	public ChatDTOs.RecommendRitualPackResponse recommendRitualPack(
 			UUID userId,
-			ChatDTOs.SendMessageRequest request) {
+			UUID sessionId) {
+		ChatSession session = chatSessionRepository.findById(sessionId)
+				.orElseThrow(() -> new ResourceNotFoundException("Session not found"));
 
 		List<ChatMessage> messages = chatMessageRepository
 				.findBySessionIdOrderByCreatedAtAsc(sessionId);
@@ -149,11 +131,20 @@ public class AIChatService {
 				.build();
 
 		UserContextDTO savedUserContext = userContextService.createUserContext(userContext);
+		log.info("User context saved successfully : {}", savedUserContext.getId());
+
+		// Update session title if not already set
+		if (llmUserContext.getConversationTitle() != null && !llmUserContext.getConversationTitle().isBlank()
+				&& (session.getTitle() == null || session.getTitle().isBlank())) {
+			String suggestedTitle = llmUserContext.getConversationTitle().trim();
+			session.setTitle(suggestedTitle);
+			log.info("Session title updated via JPA dirty checking.");
+		}
 
 		RitualPackDTO recommendedPack = null;
 
 		// Get ritual pack recommendation
-		recommendedPack = ritualRecommendationService.recommendRitualPack(null)
+		recommendedPack = ritualRecommendationService.recommendRitualPack(savedUserContext)
 				.orElse(null);
 
 		// Build a contextual wrap-up via LLM that ties the pack to the user's situation
@@ -191,29 +182,25 @@ public class AIChatService {
 				.build();
 		ChatMessage savedAssistantMessage = chatMessageRepository.save(assistantMessage);
 
-		return ChatDTOs.SendMessageResponse.builder()
-				.assistantMessage(ChatMessageMapper.toDto(savedAssistantMessage))
-				.isReadyForRitualSuggestion(true)
-				.recommendedRitualPack(recommendedPack)
+		return ChatDTOs.RecommendRitualPackResponse.builder()
+				.ritualPack(recommendedPack)
+				.wrapUpResponse(ChatMessageMapper.toDto(savedAssistantMessage))
 				.build();
 	}
 
 	@Transactional(readOnly = true)
-	public ChatDTOs.GetHistoryResponse getChatHistory(UUID sessionId) {
+	public ChatDTOs.ChatSessionDTO getChatSessionWithMessages(UUID sessionId) {
+		ChatSession session = chatSessionRepository.findById(sessionId)
+				.orElseThrow(() -> new IllegalArgumentException("Session not found"));
 		List<ChatMessage> messages = chatMessageRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
-		return ChatDTOs.GetHistoryResponse.builder()
-				.sessionId(sessionId)
-				.messages(messages.stream()
-						.map(ChatMessageMapper::toDto)
-						.collect(Collectors.toList()))
-				.build();
+		ChatDTOs.ChatSessionDTO chatSessionDto = ChatSessionMapper.toDto(session);
+		chatSessionDto.setMessages(messages.stream().map(ChatMessageMapper::toDto).collect(Collectors.toList()));
+		return chatSessionDto;
 	}
 
 	@Transactional(readOnly = true)
-	public ChatDTOs.SamplePromptsResponse getSamplePrompts(UUID userId) {
-		return ChatDTOs.SamplePromptsResponse.builder()
-				.prompts(getFallbackPrompts())
-				.build();
+	public List<String> getSamplePrompts(UUID userId) {
+		return getFallbackPrompts();
 	}
 
 	/**
@@ -248,39 +235,25 @@ public class AIChatService {
 		return wrapUpMessage;
 	}
 
-	private ChatSession createNewSession(UUID userId, String conversationTitle) {
-		ChatSession session = ChatSession.builder()
-				.userId(userId)
-				.conversationTitle(conversationTitle)
-				.status(ChatSessionStatus.ACTIVE)
-				.build();
-		return chatSessionRepository.save(session);
-	}
-
 	@Transactional(readOnly = true)
-	public ChatDTOs.ListSessionsResponse listSessions(UUID userId, int page, int size) {
-		PageRequest pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.DESC, "updatedAt"));
-		Page<ChatSession> sessionsPage = chatSessionRepository.findByUserId(userId, pageRequest);
-
-		List<ChatDTOs.SessionSummaryDTO> items = sessionsPage.getContent().stream()
-				.map(s -> ChatDTOs.SessionSummaryDTO.builder()
-						.id(s.getId())
-						.conversationTitle(s.getConversationTitle())
-						.status(s.getStatus())
-						.createdAt(s.getCreatedAt())
-						.updatedAt(s.getUpdatedAt())
-						.build())
+	public List<ChatDTOs.ChatSessionDTO> listSessions(UUID userId) {
+		return chatSessionRepository.findByUserIdOrderByUpdatedAtDesc(userId).stream()
+				.map(ChatSessionMapper::toDto)
 				.collect(Collectors.toList());
-
-		return ChatDTOs.ListSessionsResponse.builder()
-				.sessions(items)
-				.page(sessionsPage.getNumber())
-				.size(sessionsPage.getSize())
-				.totalElements(sessionsPage.getTotalElements())
-				.totalPages(sessionsPage.getTotalPages())
-				.first(sessionsPage.isFirst())
-				.last(sessionsPage.isLast())
-				.build();
 	}
 
+	@Transactional
+	public void deleteSession(UUID userId, UUID sessionId) {
+		ChatSession session = chatSessionRepository.findById(sessionId)
+				.orElseThrow(() -> new ResourceNotFoundException("Session not found"));
+
+		if (!session.getUserId().equals(userId)) {
+			throw new ResourceNotFoundException("Session not found");
+		}
+
+		// Delete messages first to avoid FK constraints if any
+		chatMessageRepository.deleteBySessionId(sessionId);
+		// Then delete the session
+		chatSessionRepository.deleteById(sessionId);
+	}
 }

@@ -6,12 +6,8 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.lovingapp.loving.model.enums.ChatSessionStatus;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -35,13 +31,8 @@ public class ChatSession {
     @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
     private UUID userId;
 
-    @Column(name = "conversation_title", length = 120)
-    private String conversationTitle;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "status", length = 20, nullable = false)
-    @Builder.Default
-    private ChatSessionStatus status = ChatSessionStatus.ACTIVE;
+    @Column(name = "title", length = 120)
+    private String title;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "timestamptz", updatable = false)
