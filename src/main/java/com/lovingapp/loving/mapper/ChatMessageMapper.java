@@ -2,18 +2,18 @@ package com.lovingapp.loving.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.lovingapp.loving.model.dto.ChatDTOs;
+import com.lovingapp.loving.model.dto.ChatDTOs.ChatMessageDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
 
 @Component
 public final class ChatMessageMapper {
 
-    public static ChatDTOs.ChatMessageDTO toDto(ChatMessage message) {
+    public static ChatMessageDTO toDto(ChatMessage message) {
         if (message == null) {
             return null;
         }
 
-        return ChatDTOs.ChatMessageDTO.builder()
+        return ChatMessageDTO.builder()
                 .id(message.getId())
                 .sessionId(message.getSessionId())
                 .role(message.getRole())
@@ -22,7 +22,7 @@ public final class ChatMessageMapper {
                 .build();
     }
 
-    public static ChatMessage fromDto(ChatDTOs.ChatMessageDTO dto) {
+    public static ChatMessage fromDto(ChatMessageDTO dto) {
         if (dto == null) {
             return null;
         }

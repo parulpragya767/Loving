@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.lovingapp.loving.model.dto.ChatDTOs;
+import com.lovingapp.loving.model.dto.ChatDTOs.ChatSessionDTO;
+import com.lovingapp.loving.model.dto.ChatDTOs.RecommendRitualPackResponse;
+import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageRequest;
+import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageResponse;
 import com.lovingapp.loving.service.AIChatService;
 
 import jakarta.validation.Valid;
@@ -42,37 +45,37 @@ public class AIChatController {
         }
 
         @GetMapping("/sessions/{sessionId}/messages")
-        public ResponseEntity<ChatDTOs.ChatSessionDTO> getChatHistory(
+        public ResponseEntity<ChatSessionDTO> getChatHistory(
                         @AuthenticationPrincipal Jwt jwt,
                         @PathVariable UUID sessionId) {
                 return ResponseEntity.ok(aiChatService.getChatSessionWithMessages(sessionId));
         }
 
         @GetMapping("/sessions")
-        public ResponseEntity<List<ChatDTOs.ChatSessionDTO>> listSessions(
+        public ResponseEntity<List<ChatSessionDTO>> listSessions(
                         @AuthenticationPrincipal Jwt jwt) {
                 UUID userId = getAuthUserId(jwt);
                 return ResponseEntity.ok(aiChatService.listSessions(userId));
         }
 
         @PostMapping("/sessions")
-        public ResponseEntity<ChatDTOs.ChatSessionDTO> createSession(
+        public ResponseEntity<ChatSessionDTO> createSession(
                         @AuthenticationPrincipal Jwt jwt,
-                        @Valid @RequestBody ChatDTOs.ChatSessionDTO request) {
+                        @Valid @RequestBody ChatSessionDTO request) {
                 UUID userId = getAuthUserId(jwt);
                 return ResponseEntity.ok(aiChatService.startSession(userId, request));
         }
 
         @PostMapping("/sessions/{sessionId}/messages")
-        public ResponseEntity<ChatDTOs.SendMessageResponse> sendMessage(
+        public ResponseEntity<SendMessageResponse> sendMessage(
                         @AuthenticationPrincipal Jwt jwt,
                         @PathVariable UUID sessionId,
-                        @Valid @RequestBody ChatDTOs.SendMessageRequest request) {
+                        @Valid @RequestBody SendMessageRequest request) {
                 return ResponseEntity.ok(aiChatService.sendMessage(sessionId, request));
         }
 
         @PostMapping("/sessions/{sessionId}/recommend")
-        public ResponseEntity<ChatDTOs.RecommendRitualPackResponse> recommendRitualPack(
+        public ResponseEntity<RecommendRitualPackResponse> recommendRitualPack(
                         @AuthenticationPrincipal Jwt jwt,
                         @PathVariable UUID sessionId) {
                 UUID userId = getAuthUserId(jwt);

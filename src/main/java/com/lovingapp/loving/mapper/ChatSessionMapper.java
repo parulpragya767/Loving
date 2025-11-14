@@ -4,18 +4,18 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.lovingapp.loving.model.dto.ChatDTOs;
+import com.lovingapp.loving.model.dto.ChatDTOs.ChatSessionDTO;
 import com.lovingapp.loving.model.entity.ChatSession;
 
 @Component
 public final class ChatSessionMapper {
 
-    public static ChatDTOs.ChatSessionDTO toDto(ChatSession session) {
+    public static ChatSessionDTO toDto(ChatSession session) {
         if (session == null) {
             return null;
         }
 
-        return ChatDTOs.ChatSessionDTO.builder()
+        return ChatSessionDTO.builder()
                 .id(session.getId())
                 .title(session.getTitle())
                 .createdAt(session.getCreatedAt())
@@ -23,12 +23,12 @@ public final class ChatSessionMapper {
                 .build();
     }
 
-    public static ChatDTOs.ChatSessionDTO toSummaryDto(ChatSession session) {
+    public static ChatSessionDTO toSummaryDto(ChatSession session) {
         if (session == null) {
             return null;
         }
 
-        return ChatDTOs.ChatSessionDTO.builder()
+        return ChatSessionDTO.builder()
                 .id(session.getId())
                 .title(session.getTitle())
                 .createdAt(session.getCreatedAt())
@@ -36,7 +36,7 @@ public final class ChatSessionMapper {
                 .build();
     }
 
-    public static ChatSession fromDto(ChatDTOs.ChatSessionDTO dto, UUID userId) {
+    public static ChatSession fromDto(ChatSessionDTO dto, UUID userId) {
         if (dto == null) {
             return null;
         }
