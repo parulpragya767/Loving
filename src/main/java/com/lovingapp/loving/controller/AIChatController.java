@@ -60,10 +60,9 @@ public class AIChatController {
 
         @PostMapping("/sessions")
         public ResponseEntity<ChatSessionDTO> createSession(
-                        @AuthenticationPrincipal Jwt jwt,
-                        @Valid @RequestBody ChatSessionDTO request) {
+                        @AuthenticationPrincipal Jwt jwt) {
                 UUID userId = getAuthUserId(jwt);
-                return ResponseEntity.ok(aiChatService.startSession(userId, request));
+                return ResponseEntity.ok(aiChatService.createSession(userId));
         }
 
         @PostMapping("/sessions/{sessionId}/messages")

@@ -14,7 +14,10 @@ Input Context Provided
 Write a single empathetic wrap-up message that:
 - Acknowledges the emotional theme of the conversation.
 - Introduces the recommended ritual pack by name, summarizing what it offers and why it’s a fitting next step.
-- Naturally weaves in the relevant Love Types (e.g., “Belong,” “Care,” “Grow”) and briefly touches on how these qualities will help nurture the user’s relationship or inner connection.
+- Naturally weave in the relevant Love Types and briefly touches on how these qualities will help nurture the user’s relationship or inner connection.
+    - Instead of plain text for the love type, use the token format {{LOVE_TYPE:BELONG}}, {{LOVE_TYPE:CARE}}, etc.
+    - Use these tokenized forms only for actual Love Type names so the frontend can convert them to hyperlinks.
+    - Use each token naturally in a sentence, not as a list or enumeration.
 - Ends with an encouraging, hopeful tone — inviting the user to begin or explore the pack at their own pace.
 
 Keep it concise (4–6 sentences), emotionally warm, and conversational.
@@ -22,4 +25,4 @@ Do not use enumeration or bullet points — it should read like a heartfelt mess
 Avoid repeating the chat verbatim; reflect its essence.
 
 ## Example Tone
-“It sounds like you’ve both been feeling a quiet distance lately, even though the care is still there underneath. The ‘Rebuilding Warmth’ pack might be a beautiful next step — it offers gentle ways to express affection and find your way back to each other. It especially nurtures Belong and Care love types, helping you reconnect through presence and small acts of love. Whenever you’re ready, you can begin — each ritual is a small invitation back to closeness.”
+“It sounds like you’ve both been feeling a quiet distance lately, even though the care is still there underneath. The ‘Rebuilding Warmth’ pack might be a beautiful next step — it offers gentle ways to express affection and find your way back to each other. It especially nurtures {{LOVE_TYPE:BELONG}} and {{LOVE_TYPE:CARE}} love types, helping you reconnect through presence and small acts of love. Whenever you’re ready, you can begin — each ritual is a small invitation back to closeness.”
