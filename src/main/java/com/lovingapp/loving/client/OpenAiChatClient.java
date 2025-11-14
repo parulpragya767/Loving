@@ -1,10 +1,7 @@
 package com.lovingapp.loving.client;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.config.LlmClientProperties;
@@ -38,7 +35,6 @@ public class OpenAiChatClient implements LlmClient {
     @Override
     public <T> LLMResponse<T> generate(LLMRequest request, Class<T> responseClass) {
         try {
-
             OpenAIClient client = buildClientFromProps();
 
             String rawText = "";
@@ -50,28 +46,13 @@ public class OpenAiChatClient implements LlmClient {
                         .text(responseClass)
                         .build();
 
-                try {
-                    log.info("Sending request to OpenAI API: {}",
-                            objectMapper.writeValueAsString(buildRequestLog(request)));
-                } catch (Exception e) {
-                    log.error("Error logging request: " + e.getMessage());
-                }
+                log.info("LLM request: model={}, format={}, systemPrompt.len={}, messages.size={}",
+                        getLLMModel(request),
+                        request.getResponseFormat(),
+                        request.getSystemPrompt() == null ? 0 : request.getSystemPrompt().length(),
+                        request.getMessages() == null ? 0 : request.getMessages().size());
 
                 var response = client.responses().create(params);
-
-                try {
-                    List<String> outputs = response.output().stream()
-                            .flatMap(item -> item.message().stream())
-                            .flatMap(message -> message.content().stream())
-                            .flatMap(content -> content.outputText().stream())
-                            .map(this::truncateObject)
-                            .collect(Collectors.toList());
-                    Map<String, Object> respLog = new HashMap<>();
-                    respLog.put("outputs", outputs);
-                    log.info("Response from OpenAI API: {}", objectMapper.writeValueAsString(respLog));
-                } catch (Exception e) {
-                    log.error("Error logging response: " + e.getMessage());
-                }
 
                 parsed = response.output().stream()
                         .flatMap(item -> item.message().stream())
@@ -89,32 +70,22 @@ public class OpenAiChatClient implements LlmClient {
                 } else {
                     rawText = "";
                 }
+
+                log.info("LLM response(JSON): parsedClass={}, text.len={}, preview='{}'",
+                        (parsed == null ? null : parsed.getClass().getSimpleName()),
+                        rawText == null ? 0 : rawText.length(),
+                        shorten(rawText, 200));
             } else {
                 ResponseCreateParams params = buildResponseCreateParams(request)
                         .build();
 
-                try {
-                    log.info("Sending request to OpenAI API: {}",
-                            objectMapper.writeValueAsString(buildRequestLog(request)));
-                } catch (Exception e) {
-                    log.error("Error logging request: " + e.getMessage());
-                }
+                log.info("LLM request: model={}, format={}, systemPrompt.len={}, messages.size={}",
+                        getLLMModel(request),
+                        request.getResponseFormat(),
+                        request.getSystemPrompt() == null ? 0 : request.getSystemPrompt().length(),
+                        request.getMessages() == null ? 0 : request.getMessages().size());
 
                 var response = client.responses().create(params);
-
-                try {
-                    List<String> outputs = response.output().stream()
-                            .flatMap(item -> item.message().stream())
-                            .flatMap(message -> message.content().stream())
-                            .flatMap(content -> content.outputText().stream())
-                            .map(this::truncateObject)
-                            .collect(Collectors.toList());
-                    Map<String, Object> respLog = new HashMap<>();
-                    respLog.put("outputs", outputs);
-                    log.info("Response from OpenAI API: {}", objectMapper.writeValueAsString(respLog));
-                } catch (Exception e) {
-                    log.error("Error logging response: " + e.getMessage());
-                }
 
                 rawText = response.output().stream()
                         .flatMap(item -> item.message().stream())
@@ -123,6 +94,10 @@ public class OpenAiChatClient implements LlmClient {
                         .findFirst()
                         .map(outputText -> outputText.text())
                         .orElse("");
+
+                log.info("LLM response(TEXT): text.len={}, preview='{}'",
+                        rawText == null ? 0 : rawText.length(),
+                        shorten(rawText, 200));
             }
             return new LLMResponse<>(rawText, parsed);
 
@@ -133,8 +108,7 @@ public class OpenAiChatClient implements LlmClient {
 
     private ResponseCreateParams.Builder buildResponseCreateParams(LLMRequest request) {
         return ResponseCreateParams.builder()
-                .model(request.getModel() != null && !request.getModel().isEmpty() ? request.getModel()
-                        : openAiProps.getModel())
+                .model(getLLMModel(request))
                 .inputOfResponse(buildInputItems(request));
     }
 
@@ -175,46 +149,16 @@ public class OpenAiChatClient implements LlmClient {
         return builder.build();
     }
 
-    private Map<String, Object> buildRequestLog(LLMRequest request) {
-        int messageCount = request.getMessages() == null ? 0 : request.getMessages().size();
-        List<Map<String, Object>> msgs = request.getMessages() == null ? List.of()
-                : request.getMessages().stream()
-                        .map(m -> {
-                            Map<String, Object> mm = new HashMap<>();
-                            if (m.getRole() != null)
-                                mm.put("role", m.getRole().name());
-                            if (m.getContent() != null)
-                                mm.put("content", truncate(m.getContent()));
-                            return mm;
-                        })
-                        .collect(Collectors.toList());
-        Map<String, Object> root = new HashMap<>();
-        if (request.getModel() != null)
-            root.put("model", request.getModel());
-        if (request.getResponseFormat() != null)
-            root.put("responseFormat", request.getResponseFormat().name());
-        if (request.getSystemPrompt() != null)
-            root.put("systemPrompt", truncate(request.getSystemPrompt()));
-        root.put("messageCount", messageCount);
-        root.put("messages", msgs);
-        return root;
+    private String getLLMModel(LLMRequest request) {
+        return request.getModel() != null && !request.getModel().isEmpty() ? request.getModel()
+                : openAiProps.getModel();
     }
 
-    private String truncate(String s) {
+    private String shorten(String s, int max) {
         if (s == null)
             return null;
-        int max = 8000;
+        if (max <= 0)
+            return "";
         return s.length() <= max ? s : s.substring(0, max);
-    }
-
-    private String truncateObject(Object o) {
-        if (o == null)
-            return null;
-        try {
-            String s = (o instanceof String) ? (String) o : objectMapper.writeValueAsString(o);
-            return truncate(s);
-        } catch (Exception ex) {
-            return truncate(String.valueOf(o));
-        }
     }
 }
