@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import com.lovingapp.loving.model.dto.BulkRitualHistoryStatusUpdateRequest;
 import com.lovingapp.loving.model.dto.CurrentRitualsDTO;
-import com.lovingapp.loving.model.dto.RitualHistoryDTO;
-import com.lovingapp.loving.model.dto.RitualHistoryStatusUpdateRequest;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.BulkRitualHistoryStatusUpdateRequest;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryUpdateRequest;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.service.RitualHistoryService;
 
@@ -67,7 +67,7 @@ public class RitualHistoryController {
     public ResponseEntity<RitualHistoryDTO> create(@AuthenticationPrincipal Jwt jwt,
             @RequestBody RitualHistoryDTO request) {
         UUID userId = getAuthUserId(jwt);
-        RitualHistoryDTO savedDto = ritualHistoryService.save(userId, request);
+        RitualHistoryDTO savedDto = ritualHistoryService.create(userId, request);
         return new ResponseEntity<>(savedDto, HttpStatus.CREATED);
     }
 
@@ -84,26 +84,22 @@ public class RitualHistoryController {
     @PostMapping("/{id}/complete")
     public ResponseEntity<RitualHistoryDTO> complete(@AuthenticationPrincipal Jwt jwt,
             @PathVariable("id") UUID id,
-            @RequestBody RitualHistoryStatusUpdateRequest request) {
+            @RequestBody RitualHistoryUpdateRequest request) {
         UUID userId = getAuthUserId(jwt);
-        return ritualHistoryService
-                .updateStatusWithOwnership(id, userId, RitualHistoryStatus.COMPLETED, request.getFeedback())
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return ResponseEntity.ok(ritualHistoryService
+                .updateStatus(id, userId, RitualHistoryStatus.COMPLETED, request.getFeedback()));
     }
 
     @PutMapping("/{id}/status")
     public ResponseEntity<RitualHistoryDTO> updateStatus(@AuthenticationPrincipal Jwt jwt,
             @PathVariable("id") UUID id,
-            @RequestBody RitualHistoryStatusUpdateRequest request) {
+            @RequestBody RitualHistoryUpdateRequest request) {
         UUID userId = getAuthUserId(jwt);
         if (request.getStatus() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ritualHistoryService
-                .updateStatusWithOwnership(id, userId, request.getStatus(), null)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        return ResponseEntity.ok(ritualHistoryService
+                .updateStatus(id, userId, request.getStatus(), null));
     }
 
     @PutMapping("/bulk/status")
@@ -116,7 +112,7 @@ public class RitualHistoryController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        List<RitualHistoryDTO> updatedHistories = ritualHistoryService.bulkUpdateStatusWithOwnership(
+        List<RitualHistoryDTO> updatedHistories = ritualHistoryService.bulkUpdateStatus(
                 userId,
                 request.getUpdates());
 
@@ -126,9 +122,8 @@ public class RitualHistoryController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@AuthenticationPrincipal Jwt jwt, @PathVariable("id") UUID id) {
         UUID userId = getAuthUserId(jwt);
-        return ritualHistoryService
-                .updateStatusWithOwnership(id, userId, RitualHistoryStatus.ABANDONED, null)
-                .map(savedDto -> ResponseEntity.noContent().<Void>build())
-                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
+        ritualHistoryService
+                .updateStatus(id, userId, RitualHistoryStatus.ABANDONED, null);
+        return ResponseEntity.noContent().build();
     }
 }
