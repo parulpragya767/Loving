@@ -43,6 +43,9 @@ public class RitualHistory {
     @Column(name = "ritual_pack_id", columnDefinition = "uuid")
     private UUID ritualPackId;
 
+    @Column(name = "recommendation_id", columnDefinition = "uuid")
+    private UUID recommendationId;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     private RitualHistoryStatus status;

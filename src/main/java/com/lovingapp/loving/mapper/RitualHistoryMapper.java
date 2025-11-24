@@ -15,6 +15,7 @@ public final class RitualHistoryMapper {
                 .userId(entity.getUserId())
                 .ritualId(entity.getRitualId())
                 .ritualPackId(entity.getRitualPackId())
+                .recommendationId(entity.getRecommendationId())
                 .status(entity.getStatus())
                 .feedback(entity.getFeedback())
                 .createdAt(entity.getCreatedAt())
@@ -30,6 +31,7 @@ public final class RitualHistoryMapper {
                 .userId(dto.getUserId())
                 .ritualId(dto.getRitualId())
                 .ritualPackId(dto.getRitualPackId())
+                .recommendationId(dto.getRecommendationId())
                 .status(dto.getStatus())
                 .feedback(dto.getFeedback())
                 .build();
@@ -41,6 +43,7 @@ public final class RitualHistoryMapper {
         entity.setUserId(dto.getUserId());
         entity.setRitualId(dto.getRitualId());
         entity.setRitualPackId(dto.getRitualPackId());
+        entity.setRecommendationId(dto.getRecommendationId());
         entity.setStatus(dto.getStatus());
         entity.setFeedback(dto.getFeedback());
     }

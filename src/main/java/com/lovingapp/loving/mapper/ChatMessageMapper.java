@@ -18,6 +18,7 @@ public final class ChatMessageMapper {
                 .sessionId(message.getSessionId())
                 .role(message.getRole())
                 .content(message.getContent())
+                .metadata(message.getMetadata())
                 .createdAt(message.getCreatedAt())
                 .build();
     }
@@ -32,6 +33,7 @@ public final class ChatMessageMapper {
                 .sessionId(dto.getSessionId())
                 .role(dto.getRole())
                 .content(dto.getContent())
+                .metadata(dto.getMetadata())
                 .createdAt(dto.getCreatedAt())
                 .build();
     }

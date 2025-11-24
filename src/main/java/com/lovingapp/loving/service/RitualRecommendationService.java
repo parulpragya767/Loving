@@ -1,94 +1,67 @@
 package com.lovingapp.loving.service;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
-import com.lovingapp.loving.model.dto.RitualPackDTO;
-import com.lovingapp.loving.model.dto.UserContextDTO;
+import com.lovingapp.loving.exception.ResourceNotFoundException;
+import com.lovingapp.loving.mapper.RitualRecommendationMapper;
+import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationDTO;
+import com.lovingapp.loving.model.entity.RitualRecommendation;
+import com.lovingapp.loving.model.enums.RecommendationStatus;
+import com.lovingapp.loving.repository.RitualRecommendationRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class RitualRecommendationService {
 
-    private final RitualPackService ritualPackService;
+    private final RitualRecommendationRepository ritualRecommendationRepository;
 
-    /**
-     * Recommends a ritual pack based on the user's context.
-     * Uses a simple scoring system to rank ritual packs based on how well they
-     * match the user's preferences.
-     * 
-     * @param userContext The user's context containing preferences and needs
-     * @return An Optional containing the recommended RitualPackDTO if available,
-     *         empty otherwise
-     */
     @Transactional(readOnly = true)
-    public Optional<RitualPackDTO> recommendRitualPack(UserContextDTO userContext) {
-        // Get all available ritual packs
-        List<RitualPackDTO> allPacks = ritualPackService.findAll();
-
-        if (allPacks.isEmpty()) {
-            log.warn("No ritual packs available for recommendation");
-            // If no packs are available, return empty
-            return Optional.empty();
-        }
-
-        if (userContext == null) {
-            log.warn("Cannot recommend ritual pack: user context is null");
-            // return Optional.empty();
-            // If you want to return the first pack when no context is available, use:
-            return Optional.of(allPacks.get(0));
-        }
-
-        // Score and sort ritual packs based on user context
-        return allPacks.stream()
-                .map(pack -> {
-                    int score = calculateMatchScore(pack, userContext);
-                    log.debug("Pack '{}' score: {}", pack.getTitle(), score);
-                    return new ScoredPack(pack, score);
-                })
-                .sorted(Comparator.comparingInt(ScoredPack::getScore).reversed())
-                .findFirst()
-                .map(ScoredPack::getPack);
+    public List<RitualRecommendationDTO> getAll(UUID userId) {
+        return ritualRecommendationRepository.findByUserIdOrderByCreatedAtDesc(userId).stream()
+                .map(RitualRecommendationMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    /**
-     * Calculates a match score for a ritual pack based on user context.
-     * Higher scores indicate better matches.
-     */
-    private int calculateMatchScore(RitualPackDTO pack, UserContextDTO userContext) {
-        int score = 0;
-
-        // Match relational needs
-        if (userContext.getRelationalNeeds() != null && pack.getRelationalNeeds() != null) {
-            score += userContext.getRelationalNeeds().stream()
-                    .filter(need -> pack.getRelationalNeeds().contains(need))
-                    .count() * 3; // Higher weight for relational needs
-        }
-
-        // Match love languages
-        if (userContext.getLoveTypes() != null && pack.getLoveTypes() != null) {
-            score += userContext.getLoveTypes().stream()
-                    .filter(loveType -> pack.getLoveTypes().contains(loveType))
-                    .count() * 2;
-        }
-
-        return score;
+    @Transactional(readOnly = true)
+    public RitualRecommendationDTO getById(UUID id) {
+        return ritualRecommendationRepository.findById(id)
+                .map(RitualRecommendationMapper::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("RitualRecommendation not found with id: " + id));
     }
 
-    /**
-     * Helper class to associate ritual packs with their match scores
-     */
-    @lombok.Value
-    private static class ScoredPack {
-        RitualPackDTO pack;
-        int score;
+    @Transactional
+    public RitualRecommendationDTO create(UUID userId, RitualRecommendationDTO dto) {
+        RitualRecommendation entity = RitualRecommendationMapper.fromDto(dto);
+        entity.setUserId(userId);
+        RitualRecommendation saved = ritualRecommendationRepository.saveAndFlush(entity);
+        return RitualRecommendationMapper.toDto(saved);
+    }
+
+    @Transactional
+    public RitualRecommendationDTO updateStatus(UUID userId, UUID recommendationId, RecommendationStatus status) {
+        RitualRecommendation ritualRecommendation = ritualRecommendationRepository.findById(recommendationId)
+                .filter(history -> history.getUserId().equals(userId))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Ritual recommendation not found with id: " + recommendationId));
+
+        ritualRecommendation.setStatus(status);
+        RitualRecommendation saved = ritualRecommendationRepository.save(ritualRecommendation);
+        return RitualRecommendationMapper.toDto(saved);
+    }
+
+    @Transactional
+    public void delete(UUID id) {
+        RitualRecommendation entity = ritualRecommendationRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("RitualRecommendation not found with id: " + id));
+        ritualRecommendationRepository.delete(entity);
     }
 }

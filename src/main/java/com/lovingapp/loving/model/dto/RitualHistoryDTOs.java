@@ -28,6 +28,7 @@ public final class RitualHistoryDTOs {
         private UUID userId;
         private UUID ritualId;
         private UUID ritualPackId;
+        private UUID recommendationId;
         private RitualHistoryStatus status;
         private EmojiFeedback feedback;
         private OffsetDateTime createdAt;

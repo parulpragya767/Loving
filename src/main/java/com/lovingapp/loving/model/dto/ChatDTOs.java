@@ -2,10 +2,14 @@ package com.lovingapp.loving.model.dto;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
+import com.lovingapp.loving.model.domain.ChatMetadata;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +32,7 @@ public class ChatDTOs {
         private UUID sessionId;
         private ChatMessageRole role;
         private String content;
+        private ChatMetadata metadata;
         private OffsetDateTime createdAt;
     }
 
@@ -39,6 +44,7 @@ public class ChatDTOs {
     @AllArgsConstructor
     @Builder
     public static class ChatSessionDTO {
+        @NotNull
         private UUID id;
         private String title;
         private OffsetDateTime createdAt;
@@ -80,5 +86,6 @@ public class ChatDTOs {
     public static class RecommendRitualPackResponse {
         private RitualPackDTO ritualPack;
         private ChatMessageDTO wrapUpResponse;
+        private Map<UUID, RitualHistoryDTO> ritualHistoryMap;
     }
 }

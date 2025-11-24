@@ -21,17 +21,28 @@
   {
     "id": "b4dcd2d2-1fd0-4a84-a7b7-dcc7696fd536",
     "title": "Our Love’s Vow",
-    "description": "Renew a small promise to each other",
-    "steps": [],
+    "tagLine": "Light up your bond by revisiting a warm memory together.",
+    "description": "This ritual invites you and your partner to share a joyful moment from your early days — a story that still brings a smile. By revisiting these memories, you nurture a sense of warmth, nostalgia, and play between you.",
+    "steps": [
+      "**Settle In.** Find a comfortable, quiet spot to sit together, free from distractions.",
+      "**Take a Breath.** Pause for a few slow breaths, allowing yourselves to arrive in the present moment.",
+      "**Share Your Spark.** One partner goes first: recall and share a joyful memory from the early days of your relationship, focusing on details that still make you smile.",
+      "**Listen and Reflect.** The other partner listens fully, allowing the warmth of the memory to land. When it’s their turn, they share their own memory.",
+      "**Notice the Feeling.** Take a moment to notice any shift — perhaps lightness, closeness, or a renewed fondness — and thank each other for sharing."
+    ],
     "loveTypes": [
-      "BEYOND"
+      "BEYOND",
+      "BELONG",
+      "GRACE"
     ],
     "relationalNeeds": [
       "TRUST_AND_SAFETY",
       "CONNECTION"
     ],
+    "timeTaken": "MEDIUM",
     "ritualMode": "TOGETHER",
     "ritualTones": [],
+    "howItHelps": "By remembering and sharing joyful experiences from your past, you reconnect with the playful and loving foundation of your relationship. This lightens the atmosphere and renews your sense of closeness.",
     "mediaAssets": [],
     "status": "PUBLISHED"
   },

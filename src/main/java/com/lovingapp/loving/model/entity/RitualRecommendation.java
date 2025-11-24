@@ -4,11 +4,9 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.Type;
 
-import com.lovingapp.loving.model.domain.ChatMetadata;
-import com.lovingapp.loving.model.enums.ChatMessageRole;
-import com.vladmihalcea.hibernate.type.json.JsonType;
+import com.lovingapp.loving.model.enums.RecommendationSource;
+import com.lovingapp.loving.model.enums.RecommendationStatus;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,30 +21,33 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "chat_messages")
+@Table(name = "ritual_recommendations")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ChatMessage {
+public class RitualRecommendation {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "session_id", nullable = false, columnDefinition = "uuid")
-    private UUID sessionId;
+    @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
+    private UUID userId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "role", length = 20, nullable = false)
-    private ChatMessageRole role;
+    @Column(name = "source", length = 20, nullable = false)
+    private RecommendationSource source;
 
-    @Column(name = "content", columnDefinition = "text", nullable = false)
-    private String content;
+    @Column(name = "source_id", columnDefinition = "uuid")
+    private UUID sourceId;
 
-    @Type(JsonType.class)
-    @Column(name = "metadata", columnDefinition = "jsonb")
-    private ChatMetadata metadata;
+    @Column(name = "ritual_pack_id", nullable = false, columnDefinition = "uuid")
+    private UUID ritualPackId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", length = 20, nullable = false)
+    private RecommendationStatus status;
 
     @CreationTimestamp
     @Column(name = "created_at", columnDefinition = "timestamptz", updatable = false)

@@ -1,8 +1,10 @@
 package com.lovingapp.loving.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.helpers.ai.LLMPromptHelper;
 import com.lovingapp.loving.mapper.ChatMessageMapper;
 import com.lovingapp.loving.mapper.ChatSessionMapper;
+import com.lovingapp.loving.model.domain.ChatMetadata;
 import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
 import com.lovingapp.loving.model.domain.ai.LLMEmpatheticResponse;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
@@ -23,11 +26,16 @@ import com.lovingapp.loving.model.dto.ChatDTOs.ChatSessionDTO;
 import com.lovingapp.loving.model.dto.ChatDTOs.RecommendRitualPackResponse;
 import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageRequest;
 import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageResponse;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
+import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationDTO;
 import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.entity.ChatSession;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
+import com.lovingapp.loving.model.enums.RecommendationSource;
+import com.lovingapp.loving.model.enums.RecommendationStatus;
+import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.repository.ChatMessageRepository;
 import com.lovingapp.loving.repository.ChatSessionRepository;
 
@@ -47,7 +55,9 @@ public class AIChatService {
 	private final ChatMessageRepository chatMessageRepository;
 	private final LlmClient llmClient;
 	private final UserContextService userContextService;
+	private final RecommendationEngine recommendationEngine;
 	private final RitualRecommendationService ritualRecommendationService;
+	private final RitualHistoryService ritualHistoryService;
 
 	@Transactional
 	public ChatSessionDTO createSession(UUID userId) {
@@ -102,6 +112,7 @@ public class AIChatService {
 				.build();
 	}
 
+	@Transactional
 	public RecommendRitualPackResponse recommendRitualPack(
 			UUID userId,
 			UUID sessionId) {
@@ -147,11 +158,12 @@ public class AIChatService {
 		RitualPackDTO recommendedPack = null;
 
 		// Get ritual pack recommendation
-		recommendedPack = ritualRecommendationService.recommendRitualPack(savedUserContext)
+		recommendedPack = recommendationEngine.recommendRitualPack(savedUserContext)
 				.orElse(null);
 
 		// Build a contextual wrap-up via LLM that ties the pack to the user's situation
 		String wrapUpMessage = "";
+		List<RitualHistoryDTO> createdHistories = new ArrayList<>();
 
 		try {
 			if (recommendedPack != null) {
@@ -185,9 +197,59 @@ public class AIChatService {
 				.build();
 		ChatMessage savedAssistantMessage = chatMessageRepository.saveAndFlush(assistantMessage);
 
+		if (recommendedPack != null) {
+			// Create ritual recommendation record
+			RitualRecommendationDTO recommendation = RitualRecommendationDTO.builder()
+					.userId(userId)
+					.source(RecommendationSource.CHAT)
+					.sourceId(sessionId)
+					.ritualPackId(recommendedPack.getId())
+					.status(RecommendationStatus.SUGGESTED)
+					.build();
+			RitualRecommendationDTO savedRecommendation = ritualRecommendationService.create(userId, recommendation);
+
+			// Create and save system chat message with recommendation metadata
+			ChatMessage recommendationMessage = ChatMessage.builder()
+					.sessionId(sessionId)
+					.role(ChatMessageRole.SYSTEM)
+					.content("Recommended ritual pack")
+					.metadata(ChatMetadata.builder()
+							.recommendationId(savedRecommendation.getId())
+							.build())
+					.build();
+			chatMessageRepository.saveAndFlush(recommendationMessage);
+
+			// Bulk create ritual history records for the rituals inside recommended ritual
+			// pack
+			List<UUID> ritualIds = null;
+			if (recommendedPack.getRituals() != null && !recommendedPack.getRituals().isEmpty()) {
+				ritualIds = recommendedPack.getRituals().stream()
+						.map(r -> r.getId())
+						.collect(Collectors.toList());
+			} else if (recommendedPack.getRitualIds() != null && !recommendedPack.getRitualIds().isEmpty()) {
+				ritualIds = recommendedPack.getRitualIds();
+			}
+
+			if (ritualIds != null && !ritualIds.isEmpty()) {
+				UUID packId = recommendedPack.getId();
+				List<RitualHistoryDTO> histories = ritualIds.stream()
+						.map(ritualId -> RitualHistoryDTO.builder()
+								.ritualId(ritualId)
+								.ritualPackId(packId)
+								.recommendationId(savedRecommendation.getId())
+								.status(RitualHistoryStatus.SUGGESTED)
+								.build())
+						.collect(Collectors.toList());
+				createdHistories = ritualHistoryService.bulkCreateRitualHistories(userId,
+						histories);
+			}
+
+		}
 		return RecommendRitualPackResponse.builder()
 				.ritualPack(recommendedPack)
 				.wrapUpResponse(ChatMessageMapper.toDto(savedAssistantMessage))
+				.ritualHistoryMap(createdHistories.stream()
+						.collect(Collectors.toMap(RitualHistoryDTO::getRitualId, Function.identity())))
 				.build();
 	}
 
