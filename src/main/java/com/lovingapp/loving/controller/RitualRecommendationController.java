@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationDTO;
-import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.UpdateStatusRequest;
+import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationUpdateRequest;
 import com.lovingapp.loving.service.RitualRecommendationService;
 
 import lombok.RequiredArgsConstructor;
@@ -58,15 +58,15 @@ public class RitualRecommendationController {
         return ResponseEntity.ok(dto);
     }
 
-    @PutMapping("/{id}/status")
-    public ResponseEntity<RitualRecommendationDTO> updateStatus(@AuthenticationPrincipal Jwt jwt,
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateRecommendationAndRitualHistoryStatus(@AuthenticationPrincipal Jwt jwt,
             @PathVariable("id") UUID id,
-            @RequestBody UpdateStatusRequest request) {
+            @RequestBody RitualRecommendationUpdateRequest request) {
         UUID userId = getAuthUserId(jwt);
         if (request.getStatus() == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return ResponseEntity.ok(ritualRecommendationService
-                .updateStatus(userId, id, request.getStatus()));
+        ritualRecommendationService.updateRecommendationAndRitualHistoryStatus(userId, id, request);
+        return ResponseEntity.ok().build();
     }
 }

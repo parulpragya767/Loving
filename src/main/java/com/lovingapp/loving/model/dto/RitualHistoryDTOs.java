@@ -35,12 +35,18 @@ public final class RitualHistoryDTOs {
         private OffsetDateTime updatedAt;
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     @Data
     public static class RitualHistoryUpdateRequest {
         private RitualHistoryStatus status;
         private EmojiFeedback feedback;
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     @Data
     public static class BulkRitualHistoryStatusUpdateRequest {
         @NotNull
@@ -48,6 +54,9 @@ public final class RitualHistoryDTOs {
         private List<StatusUpdateEntry> updates;
     }
 
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
     @Data
     public static class StatusUpdateEntry {
         @NotNull

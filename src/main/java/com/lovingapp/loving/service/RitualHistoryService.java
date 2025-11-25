@@ -108,6 +108,13 @@ public class RitualHistoryService {
                                 .map(RitualHistoryMapper::toDto);
         }
 
+        public List<RitualHistoryDTO> findByUserAndRecommendationId(UUID userId, UUID recommendationId) {
+                return ritualHistoryRepository.findByUserIdAndRecommendationId(userId, recommendationId)
+                                .stream()
+                                .map(RitualHistoryMapper::toDto)
+                                .collect(Collectors.toList());
+        }
+
         @Transactional
         public RitualHistoryDTO create(UUID userId, RitualHistoryDTO entity) {
                 RitualHistory ritualHistory = RitualHistoryMapper.fromDto(entity);
