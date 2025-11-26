@@ -1,7 +1,6 @@
 package com.lovingapp.loving.service;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -17,7 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.mapper.RitualHistoryMapper;
-import com.lovingapp.loving.model.dto.CurrentRitualsDTO;
+import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualDTO;
+import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualPackDTO;
+import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualsDTO;
 import com.lovingapp.loving.model.dto.RitualDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.StatusUpdateEntry;
@@ -27,7 +28,6 @@ import com.lovingapp.loving.model.enums.EmojiFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.repository.RitualHistoryRepository;
 
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -35,194 +35,200 @@ import lombok.RequiredArgsConstructor;
 @Transactional(readOnly = true)
 public class RitualHistoryService {
 
-        private final RitualHistoryRepository ritualHistoryRepository;
-        private final RitualPackService ritualPackService;
-        private final RitualService ritualService;
+	private final RitualHistoryRepository ritualHistoryRepository;
+	private final RitualPackService ritualPackService;
+	private final RitualService ritualService;
 
-        public List<RitualHistoryDTO> listByUser(UUID userId) {
-                return ritualHistoryRepository.findByUserIdOrderByUpdatedAtDesc(userId)
-                                .stream()
-                                .map(RitualHistoryMapper::toDto)
-                                .collect(Collectors.toList());
-        }
+	public List<RitualHistoryDTO> listByUser(UUID userId) {
+		return ritualHistoryRepository.findByUserIdOrderByUpdatedAtDesc(userId)
+				.stream()
+				.map(RitualHistoryMapper::toDto)
+				.collect(Collectors.toList());
+	}
 
-        public CurrentRitualsDTO listCurrentByUser(UUID userId) {
-                List<RitualHistory> activeRituals = ritualHistoryRepository
-                                .findByUserIdAndStatusInOrderByUpdatedAtDesc(userId,
-                                                List.of(RitualHistoryStatus.ACTIVE, RitualHistoryStatus.STARTED));
+	public Optional<RitualHistoryDTO> findById(UUID id) {
+		return ritualHistoryRepository.findById(id)
+				.map(RitualHistoryMapper::toDto);
+	}
 
-                Map<UUID, List<RitualHistoryDTO>> ritualHistoryMap = activeRituals.stream()
-                                .map(RitualHistoryMapper::toDto)
-                                .collect(Collectors.groupingBy(RitualHistoryDTO::getRitualId));
+	public List<RitualHistoryDTO> findByUserAndRecommendationId(UUID userId, UUID recommendationId) {
+		return ritualHistoryRepository.findByUserIdAndRecommendationId(userId, recommendationId)
+				.stream()
+				.map(RitualHistoryMapper::toDto)
+				.collect(Collectors.toList());
+	}
 
-                Set<UUID> ritualPackIds = activeRituals.stream()
-                                .map(RitualHistory::getRitualPackId)
-                                .filter(Objects::nonNull)
-                                .collect(Collectors.toSet());
+	public CurrentRitualsDTO listCurrentByUser(UUID userId) {
+		// 1. Load all active histories
+		List<RitualHistory> histories = ritualHistoryRepository.findByUserIdAndStatusInOrderByUpdatedAtDesc(userId,
+				List.of(RitualHistoryStatus.ACTIVE, RitualHistoryStatus.STARTED));
 
-                Map<UUID, Set<UUID>> ritualPackToRituals = activeRituals.stream()
-                                .filter(rh -> rh.getRitualPackId() != null)
-                                .collect(Collectors.groupingBy(RitualHistory::getRitualPackId,
-                                                Collectors.mapping(RitualHistory::getRitualId, Collectors.toSet())));
+		if (histories.isEmpty()) {
+			return new CurrentRitualsDTO(List.of(), List.of());
+		}
 
-                Set<UUID> ritualIds = activeRituals.stream()
-                                .map(RitualHistory::getRitualId)
-                                .collect(Collectors.toSet());
+		// 2. Collect IDs for batch fetching rituals and ritual packs
+		Set<UUID> ritualIds = histories.stream()
+				.map(RitualHistory::getRitualId)
+				.collect(Collectors.toSet());
 
-                Map<UUID, RitualDTO> ritualsMap = ritualService.findAllById(new ArrayList<>(ritualIds)).stream()
-                                .collect(Collectors.toMap(RitualDTO::getId, Function.identity()));
+		Set<UUID> packIds = histories.stream()
+				.map(RitualHistory::getRitualPackId)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toSet());
 
-                Map<UUID, RitualPackDTO> ritualPacksMap = ritualPackService.findAllById(new ArrayList<>(ritualPackIds))
-                                .stream()
-                                .collect(Collectors.toMap(RitualPackDTO::getId, Function.identity()));
+		// 3. Batch fetch rituals and ritual packs
+		Map<UUID, RitualDTO> ritualMap = ritualService.findAllById(new ArrayList<>(ritualIds))
+				.stream().collect(Collectors.toMap(RitualDTO::getId, Function.identity()));
 
-                for (UUID packId : ritualPacksMap.keySet()) {
-                        RitualPackDTO ritualPack = ritualPacksMap.get(packId);
-                        List<RitualDTO> rituals = ritualPackToRituals.getOrDefault(packId, Collections.emptySet())
-                                        .stream()
-                                        .map(ritualsMap::get)
-                                        .filter(Objects::nonNull)
-                                        .collect(Collectors.toList());
-                        ritualPack.setRituals(rituals);
-                }
+		Map<UUID, RitualPackDTO> ritualPackMap = ritualPackService.findAllById(new ArrayList<>(packIds))
+				.stream().collect(Collectors.toMap(RitualPackDTO::getId, Function.identity()));
 
-                Set<UUID> standaloneRitualIds = activeRituals.stream()
-                                .filter(rh -> rh.getRitualPackId() == null)
-                                .map(RitualHistory::getRitualId)
-                                .collect(Collectors.toSet());
+		// 4. Group by recommendationId (pack instances)
+		Map<UUID, List<RitualHistory>> groupedByRecommendation = histories.stream()
+				.filter(h -> h.getRecommendationId() != null)
+				.collect(Collectors.groupingBy(RitualHistory::getRecommendationId));
 
-                List<RitualDTO> standaloneRituals = standaloneRitualIds.stream()
-                                .map(ritualsMap::get)
-                                .filter(Objects::nonNull)
-                                .collect(Collectors.toList());
+		// 5. Build pack DTOs
+		List<CurrentRitualPackDTO> packDTOs = groupedByRecommendation.entrySet()
+				.stream()
+				.map(entry -> buildCurrentRitualPack(
+						entry.getKey(),
+						entry.getValue(),
+						ritualPackMap,
+						ritualMap))
+				.collect(Collectors.toList());
 
-                return CurrentRitualsDTO.builder()
-                                .ritualHistoryMap(ritualHistoryMap)
-                                .ritualPacks(new ArrayList<>(ritualPacksMap.values()))
-                                .rituals(standaloneRituals)
-                                .build();
-        }
+		// 6. Build individual rituals
+		List<CurrentRitualDTO> individualRituals = histories.stream()
+				.filter(h -> h.getRecommendationId() == null)
+				.map(h -> buildCurrentRitual(h, ritualMap.get(h.getRitualId())))
+				.collect(Collectors.toList());
 
-        public Optional<RitualHistoryDTO> findById(UUID id) {
-                return ritualHistoryRepository.findById(id)
-                                .map(RitualHistoryMapper::toDto);
-        }
+		// 7. Done
+		CurrentRitualsDTO dto = new CurrentRitualsDTO();
+		dto.setRitualPacks(packDTOs);
+		dto.setIndividualRituals(individualRituals);
+		return dto;
+	}
 
-        public List<RitualHistoryDTO> findByUserAndRecommendationId(UUID userId, UUID recommendationId) {
-                return ritualHistoryRepository.findByUserIdAndRecommendationId(userId, recommendationId)
-                                .stream()
-                                .map(RitualHistoryMapper::toDto)
-                                .collect(Collectors.toList());
-        }
+	private CurrentRitualPackDTO buildCurrentRitualPack(
+			UUID recommendationId,
+			List<RitualHistory> histories,
+			Map<UUID, RitualPackDTO> ritualPackMap,
+			Map<UUID, RitualDTO> ritualMap) {
+		// All histories in one recommendation have same packId
+		UUID ritualPackId = histories.get(0).getRitualPackId();
+		RitualPackDTO ritualPack = ritualPackMap.get(ritualPackId);
 
-        @Transactional
-        public RitualHistoryDTO create(UUID userId, RitualHistoryDTO entity) {
-                RitualHistory ritualHistory = RitualHistoryMapper.fromDto(entity);
-                ritualHistory.setUserId(userId);
-                RitualHistory saved = ritualHistoryRepository.saveAndFlush(ritualHistory);
-                return RitualHistoryMapper.toDto(saved);
-        }
+		List<CurrentRitualDTO> rituals = histories.stream()
+				.map(h -> buildCurrentRitual(h, ritualMap.get(h.getRitualId())))
+				.collect(Collectors.toList());
 
-        @Transactional
-        public void delete(UUID ritualHistoryId) {
-                ritualHistoryRepository.deleteById(ritualHistoryId);
-        }
+		CurrentRitualPackDTO dto = new CurrentRitualPackDTO();
+		dto.setRitualPackId(ritualPackId);
+		dto.setRecommendationId(recommendationId);
+		dto.setRitualPack(ritualPack);
+		dto.setRituals(rituals);
+		return dto;
+	}
 
-        @Transactional
-        public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId, List<RitualHistoryDTO> ritualHistories) {
-                // Validate all ritual pack IDs exist if provided
-                Set<UUID> packIds = ritualHistories.stream()
-                                .map(RitualHistoryDTO::getRitualPackId)
-                                .filter(Objects::nonNull)
-                                .collect(Collectors.toSet());
+	private CurrentRitualDTO buildCurrentRitual(RitualHistory history, RitualDTO ritual) {
+		CurrentRitualDTO dto = new CurrentRitualDTO();
+		dto.setRitualId(history.getRitualId());
+		dto.setRitualHistoryId(history.getId());
+		dto.setStatus(history.getStatus());
+		dto.setRitual(ritual);
+		return dto;
+	}
 
-                if (!packIds.isEmpty()) {
-                        List<UUID> existingPacks = ritualPackService.findAllById(new ArrayList<>(packIds)).stream()
-                                        .map(RitualPackDTO::getId)
-                                        .collect(Collectors.toList());
+	@Transactional
+	public RitualHistoryDTO create(UUID userId, RitualHistoryDTO entity) {
+		RitualHistory ritualHistory = RitualHistoryMapper.fromDto(entity);
+		ritualHistory.setUserId(userId);
+		RitualHistory saved = ritualHistoryRepository.saveAndFlush(ritualHistory);
+		return RitualHistoryMapper.toDto(saved);
+	}
 
-                        List<UUID> missingPacks = packIds.stream()
-                                        .filter(id -> !existingPacks.contains(id))
-                                        .collect(Collectors.toList());
+	@Transactional
+	public void delete(UUID ritualHistoryId) {
+		ritualHistoryRepository.deleteById(ritualHistoryId);
+	}
 
-                        if (!missingPacks.isEmpty()) {
-                                throw new EntityNotFoundException(
-                                                "The following ritual pack IDs were not found: " + missingPacks);
-                        }
-                }
+	@Transactional
+	public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId, List<RitualHistoryDTO> ritualHistories) {
+		// Map DTOs to entities and set the user ID
+		List<RitualHistory> histories = ritualHistories.stream()
+				.map(dto -> {
+					RitualHistory history = RitualHistoryMapper.fromDto(dto);
+					history.setUserId(userId);
+					return history;
+				})
+				.collect(Collectors.toList());
 
-                // Map DTOs to entities and set the user ID
-                List<RitualHistory> histories = ritualHistories.stream()
-                                .map(dto -> {
-                                        RitualHistory history = RitualHistoryMapper.fromDto(dto);
-                                        history.setUserId(userId);
-                                        return history;
-                                })
-                                .collect(Collectors.toList());
+		// Save all in a single batch
+		List<RitualHistory> savedHistories = ritualHistoryRepository.saveAllAndFlush(histories);
 
-                // Save all in a single batch
-                List<RitualHistory> savedHistories = ritualHistoryRepository.saveAllAndFlush(histories);
+		// Convert back to DTOs and return
+		return savedHistories.stream()
+				.map(RitualHistoryMapper::toDto)
+				.collect(Collectors.toList());
+	}
 
-                // Convert back to DTOs and return
-                return savedHistories.stream()
-                                .map(RitualHistoryMapper::toDto)
-                                .collect(Collectors.toList());
-        }
+	@Transactional
+	public RitualHistoryDTO updateStatus(UUID ritualHistoryId, UUID userId, RitualHistoryStatus status,
+			EmojiFeedback feedback) {
+		RitualHistory ritualHistory = ritualHistoryRepository.findById(ritualHistoryId)
+				.filter(history -> history.getUserId().equals(userId))
+				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+						"Ritual history not found with id: " + ritualHistoryId));
 
-        @Transactional
-        public RitualHistoryDTO updateStatus(UUID ritualHistoryId, UUID userId, RitualHistoryStatus status,
-                        EmojiFeedback feedback) {
-                RitualHistory ritualHistory = ritualHistoryRepository.findById(ritualHistoryId)
-                                .filter(history -> history.getUserId().equals(userId))
-                                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                                                "Ritual history not found with id: " + ritualHistoryId));
+		ritualHistory.setStatus(status);
+		if (feedback != null) {
+			ritualHistory.setFeedback(feedback);
+		}
+		RitualHistory saved = ritualHistoryRepository.save(ritualHistory);
+		return RitualHistoryMapper.toDto(saved);
+	}
 
-                ritualHistory.setStatus(status);
-                if (feedback != null) {
-                        ritualHistory.setFeedback(feedback);
-                }
-                RitualHistory saved = ritualHistoryRepository.save(ritualHistory);
-                return RitualHistoryMapper.toDto(saved);
-        }
+	@Transactional
+	public List<RitualHistoryDTO> bulkUpdateStatus(UUID userId, List<StatusUpdateEntry> updates) {
 
-        @Transactional
-        public List<RitualHistoryDTO> bulkUpdateStatus(UUID userId, List<StatusUpdateEntry> updates) {
+		// Get all ritual history IDs from the updates
+		List<UUID> ritualHistoryIds = updates.stream()
+				.map(StatusUpdateEntry::getRitualHistoryId)
+				.collect(Collectors.toList());
 
-                // Get all ritual history IDs from the updates
-                List<UUID> ritualHistoryIds = updates.stream()
-                                .map(StatusUpdateEntry::getRitualHistoryId)
-                                .collect(Collectors.toList());
+		// Find all ritual histories that belong to the user
+		Map<UUID, RitualHistory> historyMap = ritualHistoryRepository.findAllById(ritualHistoryIds).stream()
+				.filter(rh -> rh.getUserId().equals(userId))
+				.collect(Collectors.toMap(RitualHistory::getId, rh -> rh));
 
-                // Find all ritual histories that belong to the user
-                Map<UUID, RitualHistory> historyMap = ritualHistoryRepository.findAllById(ritualHistoryIds).stream()
-                                .filter(rh -> rh.getUserId().equals(userId))
-                                .collect(Collectors.toMap(RitualHistory::getId, rh -> rh));
+		// Create a map of updates by ritual history ID for quick lookup
+		Map<UUID, StatusUpdateEntry> updatesMap = updates.stream()
+				.collect(Collectors.toMap(
+						StatusUpdateEntry::getRitualHistoryId,
+						update -> update));
 
-                // Create a map of updates by ritual history ID for quick lookup
-                Map<UUID, StatusUpdateEntry> updatesMap = updates.stream()
-                                .collect(Collectors.toMap(
-                                                StatusUpdateEntry::getRitualHistoryId,
-                                                update -> update));
+		// Update each history with its corresponding status and feedback
+		List<RitualHistory> historiesToUpdate = new ArrayList<>();
+		for (Map.Entry<UUID, RitualHistory> entry : historyMap.entrySet()) {
+			UUID historyId = entry.getKey();
+			RitualHistory history = entry.getValue();
+			StatusUpdateEntry update = updatesMap.get(historyId);
 
-                // Update each history with its corresponding status and feedback
-                List<RitualHistory> historiesToUpdate = new ArrayList<>();
-                for (Map.Entry<UUID, RitualHistory> entry : historyMap.entrySet()) {
-                        UUID historyId = entry.getKey();
-                        RitualHistory history = entry.getValue();
-                        StatusUpdateEntry update = updatesMap.get(historyId);
+			if (update != null) {
+				history.setStatus(update.getStatus());
+				historiesToUpdate.add(history);
+			}
+		}
 
-                        if (update != null) {
-                                history.setStatus(update.getStatus());
-                                historiesToUpdate.add(history);
-                        }
-                }
+		// Save all updates
+		List<RitualHistory> savedHistories = ritualHistoryRepository.saveAll(historiesToUpdate);
 
-                // Save all updates
-                List<RitualHistory> savedHistories = ritualHistoryRepository.saveAll(historiesToUpdate);
-
-                // Convert to DTOs and return
-                return savedHistories.stream()
-                                .map(RitualHistoryMapper::toDto)
-                                .collect(Collectors.toList());
-        }
+		// Convert to DTOs and return
+		return savedHistories.stream()
+				.map(RitualHistoryMapper::toDto)
+				.collect(Collectors.toList());
+	}
 }
