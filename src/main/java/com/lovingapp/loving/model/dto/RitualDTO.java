@@ -12,6 +12,7 @@ import com.lovingapp.loving.model.enums.RitualMode;
 import com.lovingapp.loving.model.enums.RitualTone;
 import com.lovingapp.loving.model.enums.TimeTaken;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,7 +23,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class RitualDTO {
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private UUID id;
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String title;
     private String tagLine;
     private String description;

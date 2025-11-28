@@ -7,6 +7,7 @@ import java.util.UUID;
 import com.lovingapp.loving.model.enums.EmojiFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -24,11 +25,14 @@ public final class RitualHistoryDTOs {
     @Builder
     @Data
     public static class RitualHistoryDTO {
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
         private UUID userId;
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID ritualId;
         private UUID ritualPackId;
         private UUID recommendationId;
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualHistoryStatus status;
         private EmojiFeedback feedback;
         private OffsetDateTime createdAt;
