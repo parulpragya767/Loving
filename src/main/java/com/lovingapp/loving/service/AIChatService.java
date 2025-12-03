@@ -26,6 +26,7 @@ import com.lovingapp.loving.model.dto.ChatDTOs.ChatSessionDTO;
 import com.lovingapp.loving.model.dto.ChatDTOs.RecommendRitualPackResponse;
 import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageRequest;
 import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageResponse;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryCreateRequest;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationDTO;
@@ -232,8 +233,8 @@ public class AIChatService {
 
 			if (ritualIds != null && !ritualIds.isEmpty()) {
 				UUID packId = recommendedPack.getId();
-				List<RitualHistoryDTO> histories = ritualIds.stream()
-						.map(ritualId -> RitualHistoryDTO.builder()
+				List<RitualHistoryCreateRequest> histories = ritualIds.stream()
+						.map(ritualId -> RitualHistoryCreateRequest.builder()
 								.ritualId(ritualId)
 								.ritualPackId(packId)
 								.recommendationId(savedRecommendation.getId())

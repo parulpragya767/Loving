@@ -20,6 +20,7 @@ import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualDTO;
 import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualPackDTO;
 import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualsDTO;
 import com.lovingapp.loving.model.dto.RitualDTO;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryCreateRequest;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.StatusUpdateEntry;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
@@ -143,9 +144,15 @@ public class RitualHistoryService {
 	}
 
 	@Transactional
-	public RitualHistoryDTO create(UUID userId, RitualHistoryDTO entity) {
-		RitualHistory ritualHistory = RitualHistoryMapper.fromDto(entity);
-		ritualHistory.setUserId(userId);
+	public RitualHistoryDTO create(UUID userId, RitualHistoryCreateRequest request) {
+		RitualHistory ritualHistory = RitualHistory.builder()
+				.userId(userId)
+				.ritualId(request.getRitualId())
+				.ritualPackId(request.getRitualPackId())
+				.recommendationId(request.getRecommendationId())
+				.status(request.getStatus())
+				.build();
+
 		RitualHistory saved = ritualHistoryRepository.saveAndFlush(ritualHistory);
 		return RitualHistoryMapper.toDto(saved);
 	}
@@ -156,14 +163,16 @@ public class RitualHistoryService {
 	}
 
 	@Transactional
-	public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId, List<RitualHistoryDTO> ritualHistories) {
-		// Map DTOs to entities and set the user ID
-		List<RitualHistory> histories = ritualHistories.stream()
-				.map(dto -> {
-					RitualHistory history = RitualHistoryMapper.fromDto(dto);
-					history.setUserId(userId);
-					return history;
-				})
+	public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId,
+			List<RitualHistoryCreateRequest> requests) {
+		List<RitualHistory> histories = requests.stream()
+				.map(request -> RitualHistory.builder()
+						.userId(userId)
+						.ritualId(request.getRitualId())
+						.ritualPackId(request.getRitualPackId())
+						.recommendationId(request.getRecommendationId())
+						.status(request.getStatus())
+						.build())
 				.collect(Collectors.toList());
 
 		// Save all in a single batch

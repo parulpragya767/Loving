@@ -20,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualsDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.BulkRitualHistoryStatusUpdateRequest;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryCreateRequest;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryUpdateRequest;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
@@ -65,7 +66,7 @@ public class RitualHistoryController {
 
     @PostMapping
     public ResponseEntity<RitualHistoryDTO> create(@AuthenticationPrincipal Jwt jwt,
-            @RequestBody RitualHistoryDTO request) {
+            @RequestBody RitualHistoryCreateRequest request) {
         UUID userId = getAuthUserId(jwt);
         RitualHistoryDTO savedDto = ritualHistoryService.create(userId, request);
         return new ResponseEntity<>(savedDto, HttpStatus.CREATED);
@@ -74,7 +75,7 @@ public class RitualHistoryController {
     @PostMapping("/bulk")
     public ResponseEntity<List<RitualHistoryDTO>> bulkCreate(
             @AuthenticationPrincipal Jwt jwt,
-            @Valid @RequestBody List<@Valid RitualHistoryDTO> ritualHistories) {
+            @Valid @RequestBody List<@Valid RitualHistoryCreateRequest> ritualHistories) {
         UUID userId = getAuthUserId(jwt);
 
         List<RitualHistoryDTO> result = ritualHistoryService.bulkCreateRitualHistories(userId, ritualHistories);

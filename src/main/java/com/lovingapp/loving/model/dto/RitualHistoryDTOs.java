@@ -43,6 +43,19 @@ public final class RitualHistoryDTOs {
     @AllArgsConstructor
     @Builder
     @Data
+    public static class RitualHistoryCreateRequest {
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+        private UUID ritualId;
+        private UUID ritualPackId;
+        private UUID recommendationId;
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+        private RitualHistoryStatus status;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @Data
     public static class RitualHistoryUpdateRequest {
         private RitualHistoryStatus status;
         private EmojiFeedback feedback;
