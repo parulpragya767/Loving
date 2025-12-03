@@ -9,7 +9,7 @@ import com.lovingapp.loving.model.domain.ChatMetadata;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
 
-import jakarta.validation.constraints.NotNull;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,8 +28,11 @@ public class ChatDTOs {
     @AllArgsConstructor
     @Builder
     public static class ChatMessageDTO {
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID sessionId;
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private ChatMessageRole role;
         private String content;
         private ChatMetadata metadata;
@@ -44,7 +47,7 @@ public class ChatDTOs {
     @AllArgsConstructor
     @Builder
     public static class ChatSessionDTO {
-        @NotNull
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
         private String title;
         private OffsetDateTime createdAt;

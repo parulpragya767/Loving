@@ -64,7 +64,7 @@ public class AIChatService {
 		ChatSession session = ChatSession.builder()
 				.userId(userId)
 				.build();
-		return ChatSessionMapper.toDto(chatSessionRepository.save(session));
+		return ChatSessionMapper.toDto(chatSessionRepository.saveAndFlush(session));
 	}
 
 	@Transactional
