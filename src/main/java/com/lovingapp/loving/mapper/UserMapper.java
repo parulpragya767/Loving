@@ -1,7 +1,5 @@
 package com.lovingapp.loving.mapper;
 
-import java.util.UUID;
-
 import org.springframework.stereotype.Component;
 
 import com.lovingapp.loving.model.dto.UserDTO;
@@ -16,16 +14,11 @@ public final class UserMapper {
         }
 
         return UserDTO.builder()
-                .id(entity.getId() != null ? entity.getId().toString() : null)
+                .id(entity.getId())
+                .authUserId(entity.getAuthUserId())
                 .email(entity.getEmail())
-                .firstName(entity.getFirstName())
-                .lastName(entity.getLastName())
                 .displayName(entity.getDisplayName())
-                .phoneNumber(entity.getPhoneNumber())
-                .dateOfBirth(entity.getDateOfBirth() != null ? entity.getDateOfBirth().toString() : null)
-                .gender(entity.getGender())
-                .isEmailVerified(entity.getIsEmailVerified())
-                .isActive(entity.getIsActive())
+                .onboardingCompleted(entity.getOnboardingCompleted())
                 .lastLoginAt(entity.getLastLoginAt())
                 .createdAt(entity.getCreatedAt())
                 .updatedAt(entity.getUpdatedAt())
@@ -38,15 +31,14 @@ public final class UserMapper {
         }
 
         return User.builder()
-                .id(dto.getId() != null ? UUID.fromString(dto.getId()) : null)
+                .id(dto.getId())
+                .authUserId(dto.getAuthUserId())
                 .email(dto.getEmail())
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
                 .displayName(dto.getDisplayName())
-                .phoneNumber(dto.getPhoneNumber())
-                .gender(dto.getGender())
-                .isEmailVerified(dto.getIsEmailVerified() != null ? dto.getIsEmailVerified() : false)
-                .isActive(dto.getIsActive() != null ? dto.getIsActive() : true)
+                .onboardingCompleted(dto.getOnboardingCompleted())
+                .lastLoginAt(dto.getLastLoginAt())
+                .createdAt(dto.getCreatedAt())
+                .updatedAt(dto.getUpdatedAt())
                 .build();
     }
 
@@ -58,26 +50,9 @@ public final class UserMapper {
         if (dto.getEmail() != null) {
             entity.setEmail(dto.getEmail());
         }
-        if (dto.getFirstName() != null) {
-            entity.setFirstName(dto.getFirstName());
-        }
-        if (dto.getLastName() != null) {
-            entity.setLastName(dto.getLastName());
-        }
+
         if (dto.getDisplayName() != null) {
             entity.setDisplayName(dto.getDisplayName());
-        }
-        if (dto.getPhoneNumber() != null) {
-            entity.setPhoneNumber(dto.getPhoneNumber());
-        }
-        if (dto.getGender() != null) {
-            entity.setGender(dto.getGender());
-        }
-        if (dto.getIsEmailVerified() != null) {
-            entity.setIsEmailVerified(dto.getIsEmailVerified());
-        }
-        if (dto.getIsActive() != null) {
-            entity.setIsActive(dto.getIsActive());
         }
     }
 }

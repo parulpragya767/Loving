@@ -1,19 +1,18 @@
 package com.lovingapp.loving.controller;
 
-import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.model.dto.UserDTO;
 import com.lovingapp.loving.service.UserService;
@@ -29,37 +28,32 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<UserDTO>> getAllUsers() {
-        return ResponseEntity.ok(userService.getAllUsers());
+    private UUID getAuthUserId(Jwt jwt) {
+        String sub = jwt.getSubject();
+        if (sub == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not present");
+        }
+        try {
+            return UUID.fromString(sub);
+        } catch (IllegalArgumentException e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user id in token");
+        }
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getUserById(@PathVariable String id) {
-        return ResponseEntity.ok(userService.getUserById(id));
+    @PostMapping("/sync")
+    public ResponseEntity<UserDTO> syncUser(@AuthenticationPrincipal Jwt jwt) {
+        UUID authUserId = getAuthUserId(jwt);
+        String email = jwt.getClaim("email");
+        String displayName = jwt.getClaim("name");
+        UserDTO dto = userService.syncUser(authUserId, email, displayName);
+        return ResponseEntity.ok(dto);
     }
 
-    @PostMapping
-    public ResponseEntity<UserDTO> createUser(@RequestBody UserDTO userDTO) {
-        UserDTO createdUser = userService.createUser(userDTO);
-        return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
-    }
-
-    @PutMapping("/{id}")
+    @PutMapping()
     public ResponseEntity<UserDTO> updateUser(
-            @PathVariable String id,
+            @AuthenticationPrincipal Jwt jwt,
             @RequestBody UserDTO userDTO) {
-        return ResponseEntity.ok(userService.updateUser(id, userDTO));
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable String id) {
-        userService.deleteUser(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/exists")
-    public ResponseEntity<Boolean> checkEmailExists(@RequestParam String email) {
-        return ResponseEntity.ok(userService.existsByEmail(email));
+        UUID authUserId = getAuthUserId(jwt);
+        return ResponseEntity.ok(userService.updateUser(authUserId, userDTO));
     }
 }
