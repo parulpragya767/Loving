@@ -25,6 +25,7 @@ import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryUpdateRequest;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.service.RitualHistoryService;
+import com.lovingapp.loving.service.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -36,6 +37,7 @@ import lombok.RequiredArgsConstructor;
 public class RitualHistoryController {
 
     private final RitualHistoryService ritualHistoryService;
+    private final UserService userService;
 
     private UUID getAuthUserId(Jwt jwt) {
         String sub = jwt.getSubject();
@@ -43,7 +45,8 @@ public class RitualHistoryController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not present");
         }
         try {
-            return UUID.fromString(sub);
+            UUID authUserId = UUID.fromString(sub);
+            return userService.getUserByAuthUserId(authUserId).getId();
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user id in token");
         }

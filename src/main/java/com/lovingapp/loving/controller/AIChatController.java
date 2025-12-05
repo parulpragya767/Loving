@@ -21,6 +21,7 @@ import com.lovingapp.loving.model.dto.ChatDTOs.RecommendRitualPackResponse;
 import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageRequest;
 import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageResponse;
 import com.lovingapp.loving.service.AIChatService;
+import com.lovingapp.loving.service.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 public class AIChatController {
 
         private final AIChatService aiChatService;
+        private final UserService userService;
 
         private UUID getAuthUserId(Jwt jwt) {
                 String sub = jwt.getSubject();
@@ -38,7 +40,8 @@ public class AIChatController {
                         throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not present");
                 }
                 try {
-                        return UUID.fromString(sub);
+                        UUID authUserId = UUID.fromString(sub);
+                        return userService.getUserByAuthUserId(authUserId).getId();
                 } catch (IllegalArgumentException e) {
                         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user id in token");
                 }

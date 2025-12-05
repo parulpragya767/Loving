@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.service.UserContextService;
+import com.lovingapp.loving.service.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 public class UserContextController {
 
     private final UserContextService userContextService;
+    private final UserService userService;
 
     private UUID getAuthUserId(Jwt jwt) {
         String sub = jwt.getSubject();
@@ -35,7 +37,8 @@ public class UserContextController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not present");
         }
         try {
-            return UUID.fromString(sub);
+            UUID authUserId = UUID.fromString(sub);
+            return userService.getUserByAuthUserId(authUserId).getId();
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user id in token");
         }

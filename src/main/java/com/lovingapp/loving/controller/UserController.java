@@ -34,7 +34,8 @@ public class UserController {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not present");
         }
         try {
-            return UUID.fromString(sub);
+            UUID authUserId = UUID.fromString(sub);
+            return userService.getUserByAuthUserId(authUserId).getId();
         } catch (IllegalArgumentException e) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid user id in token");
         }

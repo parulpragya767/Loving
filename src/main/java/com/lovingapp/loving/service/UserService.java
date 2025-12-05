@@ -46,6 +46,13 @@ public class UserService {
                 });
     }
 
+    @Transactional(readOnly = true)
+    public UserDTO getUserByAuthUserId(UUID authUserId) {
+        return userRepository.findByAuthUserId(authUserId)
+                .map(UserMapper::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with authUserId: " + authUserId));
+    }
+
     @Transactional
     public UserDTO updateUser(UUID authUserId, UserDTO userDTO) {
         return userRepository.findByAuthUserId(authUserId)
