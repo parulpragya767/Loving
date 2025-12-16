@@ -27,6 +27,10 @@ FIELD_MAP: Dict[str, str] = {
     "timeTaken": "Time Taken",
     "semanticSummary": "Semantic Summary",
     "status": "Status",
+}
+
+AIRTABLE_FIELD_MAP: Dict[str, str] = {
+    "airtable_record_id": "airtable_record_id",
     "last_updated_ts": "Last Updated Timestamp",
 }
 
@@ -57,19 +61,21 @@ class AirtableJsonSyncer:
 
         return mapped_data
 
-    def sanitize_steps(self, raw_steps: str | None) -> List[str]:
+    def sanitize_steps_text_to_array(self, raw_steps: str | None) -> List[str]:
+        """Sanitizes steps from Airtable (JSON string) to array format for JSON."""
         if not raw_steps:
             return []
         try:
             parsed = json.loads(raw_steps)
             if isinstance(parsed, list):
-                return [step.strip() for step in parsed]
+                return [step.strip() for step in parsed if step and step.strip()]
             return []
         except json.JSONDecodeError:
             print("Invalid steps JSON:", raw_steps)
         return []
 
     def steps_array_to_text(self, steps: List[str]) -> str:
+        """Converts steps array from JSON to JSON string format for Airtable."""
         if not isinstance(steps, list):
             return "[]"
 
@@ -93,7 +99,7 @@ class AirtableJsonSyncer:
             mapped_record = self._apply_map(fields, 'to_json')
             
             # The Airtable internal ID is crucial for updates
-            mapped_record['airtable_record_id'] = record['id']
+            mapped_record[AIRTABLE_FIELD_MAP["airtable_record_id"]] = record['id']
             
             # Ensure the common ID field exists for matching
             if self.id_field_name in mapped_record:
@@ -140,7 +146,7 @@ class AirtableJsonSyncer:
         
         # Index existing Airtable records by their common ID field
         airtable_index = {
-            record[self.id_field_name]: record['airtable_record_id']
+            record[self.id_field_name]: record[AIRTABLE_FIELD_MAP['airtable_record_id']]
             for record in airtable_data if self.id_field_name in record
         }
 
@@ -158,8 +164,12 @@ class AirtableJsonSyncer:
             # Apply mapping for Airtable structure
             airtable_fields = self._apply_map(json_record, 'to_airtable')
             
+            # Sanitize steps field for Airtable (convert array to JSON string)
+            if 'Steps' in airtable_fields:
+                airtable_fields['Steps'] = self.steps_array_to_text(airtable_fields['Steps'])
+            
             # Add a timestamp to track the sync time
-            airtable_fields[FIELD_MAP["last_updated_ts"]] = utc_timestamp
+            airtable_fields[AIRTABLE_FIELD_MAP["last_updated_ts"]] = utc_timestamp
 
             if common_id in airtable_index:
                 # Record exists, prepare for update
@@ -216,6 +226,10 @@ class AirtableJsonSyncer:
         for airtable_record in airtable_data:
             common_id = airtable_record.get(self.id_field_name)
 
+            # Sanitize steps from Airtable (JSON string to array) for JSON
+            if "steps" in airtable_record:
+                airtable_record["steps"] = self.sanitize_steps_text_to_array(airtable_record["steps"])
+
             if common_id in json_index:
                 # Record exists in JSON, update it
                 existing_json_record = json_index[common_id]
@@ -224,9 +238,6 @@ class AirtableJsonSyncer:
                 for key, value in airtable_record.items():
                     # Only update fields that are defined in the field map (JSON keys)
                     if key in self.field_map or key == self.id_field_name:
-                        if key == "steps":
-                            value = self.sanitize_steps(value)
-                            print("Updating key:", key, "with value:", value)                
                         existing_json_record[key] = value
 
                 new_json_data.append(existing_json_record)
@@ -242,14 +253,12 @@ class AirtableJsonSyncer:
         for record in json_index.values():
              new_json_data.append(record)
 
-        # Strip the temporary 'airtable_record_id' before saving the file
+        # Remove any fields present in AIRTABLE_FIELD_MAP keys before saving to JSON
         final_data_for_json = []
         for record in new_json_data:
             cleaned_record = record.copy()
-            if 'airtable_record_id' in cleaned_record:
-                del cleaned_record['airtable_record_id']
-            if 'last_updated_ts' in cleaned_record:
-                del cleaned_record['last_updated_ts']
+            for field in AIRTABLE_FIELD_MAP.keys():
+                cleaned_record.pop(field, None)
             final_data_for_json.append(cleaned_record)
         # ------------------------------------
 
