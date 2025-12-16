@@ -16,13 +16,16 @@ ID_FIELD_NAME: str = "id"
 FIELD_MAP: Dict[str, str] = {
     "id": ID_FIELD_NAME,
     "title": "Title",
+    "tagLine": "Tagline",
     "description": "Description",
+    "howItHelps": "How It Helps",
     "steps": "Steps",
     "loveTypes": "Love Types",
     "relationalNeeds": "Relational Needs",
     "ritualMode": "Ritual Mode",
     "ritualTones": "Ritual Tones",
     "timeTaken": "Time Taken",
+    "semanticSummary": "Semantic Summary",
     "status": "Status",
     "last_updated_ts": "Last Updated Timestamp",
 }
@@ -53,6 +56,25 @@ class AirtableJsonSyncer:
                 mapped_data[target_key] = source_data[source_key]
 
         return mapped_data
+
+    def sanitize_steps(self, raw_steps: str | None) -> List[str]:
+        if not raw_steps:
+            return []
+        try:
+            parsed = json.loads(raw_steps)
+            if isinstance(parsed, list):
+                return [step.strip() for step in parsed]
+            return []
+        except json.JSONDecodeError:
+            print("Invalid steps JSON:", raw_steps)
+        return []
+
+    def steps_array_to_text(self, steps: List[str]) -> str:
+        if not isinstance(steps, list):
+            return "[]"
+
+        cleaned = [step.strip() for step in steps if step and step.strip()]
+        return json.dumps(cleaned, indent=2, ensure_ascii=False)
 
     def load_airtable_data(self) -> List[Dict[str, Any]]:
         """Fetches all records from Airtable and formats them for processing."""   
@@ -202,6 +224,9 @@ class AirtableJsonSyncer:
                 for key, value in airtable_record.items():
                     # Only update fields that are defined in the field map (JSON keys)
                     if key in self.field_map or key == self.id_field_name:
+                        if key == "steps":
+                            value = self.sanitize_steps(value)
+                            print("Updating key:", key, "with value:", value)                
                         existing_json_record[key] = value
 
                 new_json_data.append(existing_json_record)
@@ -223,6 +248,8 @@ class AirtableJsonSyncer:
             cleaned_record = record.copy()
             if 'airtable_record_id' in cleaned_record:
                 del cleaned_record['airtable_record_id']
+            if 'last_updated_ts' in cleaned_record:
+                del cleaned_record['last_updated_ts']
             final_data_for_json.append(cleaned_record)
         # ------------------------------------
 
@@ -255,8 +282,9 @@ if __name__ == '__main__':
         formatter_class=argparse.RawTextHelpFormatter
     )
     parser.add_argument(
-        'sync_direction',
+        '--sync_direction',
         type=str,
+        required=True,
         choices=['to_airtable', 'to_json'],
         help="The direction of synchronization.\n"
              "  'to_airtable': JSON is source of truth (updates Airtable).\n"

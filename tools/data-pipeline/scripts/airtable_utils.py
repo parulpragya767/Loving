@@ -9,8 +9,8 @@ load_dotenv()
 # Airtable configuration - moved from individual scripts
 AIRTABLE_TOKEN: str = os.getenv('AIRTABLE_TOKEN')
 AIRTABLE_BASE_ID: str = "appt8THxSUPVnWkJk"
-AIRTABLE_TABLE_NAME: str = "Rituals Experiment"
-AIRTABLE_VIEW_NAME: Optional[str] = "g"
+AIRTABLE_TABLE_NAME: str = "Rituals"
+AIRTABLE_VIEW_NAME: Optional[str] = "View1"
 AIRTABLE_PAGE_SIZE: int = 100 # Airtable limits to 100
 
 def get_airtable_table():
