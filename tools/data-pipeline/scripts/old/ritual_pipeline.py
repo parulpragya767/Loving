@@ -1,9 +1,13 @@
 import requests
 import json
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ---- CONFIG ----
-AIRTABLE_TOKEN = "patvAXvsXoLKD6CVc.47809a79d4aaab40d8829259cf47d9083d2e81359bc626e3ed71f7128d011c06"
+AIRTABLE_TOKEN = os.getenv('AIRTABLE_TOKEN')
 BASE_ID = "appt8THxSUPVnWkJk"
 TABLE_NAME = "Rituals"
 JSON_PATH = "rituals_master.json"

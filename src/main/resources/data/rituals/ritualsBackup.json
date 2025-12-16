@@ -1,0 +1,926 @@
+[
+  {
+    "id": "bba70dda-4f2a-4e6b-b9fe-0e1dcbb0d97d",
+    "title": "Shared Stillness",
+    "description": "Sit together in silence, hands touching, breathing slow.",
+    "steps": [],
+    "loveTypes": [
+      "BEYOND",
+      "BELONG",
+      "GRACE"
+    ],
+    "relationalNeeds": [
+      "PRESENCE_AND_QUALITY_TIME"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "b4dcd2d2-1fd0-4a84-a7b7-dcc7696fd536",
+    "title": "Our Love’s Vow",
+    "tagLine": "Light up your bond by revisiting a warm memory together.",
+    "description": "This ritual invites you and your partner to share a joyful moment from your early days — a story that still brings a smile. By revisiting these memories, you nurture a sense of warmth, nostalgia, and play between you.",
+    "steps": [
+      "**Settle In.** Find a comfortable, quiet spot to sit together, free from distractions.",
+      "**Take a Breath.** Pause for a few slow breaths, allowing yourselves to arrive in the present moment.",
+      "**Share Your Spark.** One partner goes first: recall and share a joyful memory from the early days of your relationship, focusing on details that still make you smile.",
+      "**Listen and Reflect.** The other partner listens fully, allowing the warmth of the memory to land. When it’s their turn, they share their own memory.",
+      "**Notice the Feeling.** Take a moment to notice any shift — perhaps lightness, closeness, or a renewed fondness — and thank each other for sharing."
+    ],
+    "loveTypes": [
+      "BEYOND",
+      "BELONG",
+      "GRACE"
+    ],
+    "relationalNeeds": [
+      "TRUST_AND_SAFETY",
+      "CONNECTION"
+    ],
+    "timeTaken": "MEDIUM",
+    "ritualMode": "TOGETHER",
+    "ritualTones": [],
+    "howItHelps": "By remembering and sharing joyful experiences from your past, you reconnect with the playful and loving foundation of your relationship. This lightens the atmosphere and renews your sense of closeness.",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "4cf479f0-ef01-44d1-b775-c343a1246804",
+    "title": "Shared Wonder Walk",
+    "description": "Go on a walk in nature or city and share what sparks wonder.",
+    "steps": [],
+    "loveTypes": [
+      "SPARK",
+      "BEYOND"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "4988b0d0-8707-4772-a0a8-753cc468f5cc",
+    "title": "Create a Love Offering",
+    "description": "Cook, draw, or build something together that symbolizes your bond",
+    "steps": [],
+    "loveTypes": [
+      "SPARK",
+      "BEYOND"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "CONNECTION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [],
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "3f1b3c9a-2db8-4f3a-9a8f-2a7c8c6a1011",
+    "title": "Gentle Morning Check-In",
+    "description": "A brief morning ritual to share one feeling and one intention for the day.",
+    "steps": [],
+    "loveTypes": [
+      "CARE",
+      "BUILD"
+    ],
+    "relationalNeeds": [
+      "COMMUNICATION",
+      "PRESENCE_AND_QUALITY_TIME"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "WARM",
+      "CALM"
+    ],
+    "timeTaken": "MOMENT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "9e3d5a51-9b9f-42d5-9d74-6e2b8a0f2012",
+    "title": "Solo Gratitude Note",
+    "description": "Write a short note to your partner naming one thing you appreciate today.",
+    "steps": [],
+    "loveTypes": [
+      "GRACE",
+      "SELF"
+    ],
+    "relationalNeeds": [
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "REFLECTIVE",
+      "HEALING"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "f5b2ab76-2a9a-49d8-a3a7-0c8b0b7a3013",
+    "title": "Evening Presence Pause",
+    "description": "Sit together, phones away, and share a 2-minute presence gaze.",
+    "steps": [],
+    "loveTypes": [
+      "BELONG",
+      "SELF"
+    ],
+    "relationalNeeds": [
+      "PRESENCE_AND_QUALITY_TIME",
+      "CONNECTION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "CALM"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "a7b4f3c1-0e4a-4550-8b1a-4e6a0f8e4014",
+    "title": "Spark Walk Alone",
+    "description": "Take a solo walk noticing three beautiful things to share later.",
+    "steps": [],
+    "loveTypes": [
+      "SPARK",
+      "SELF"
+    ],
+    "relationalNeeds": [
+      "SPACE",
+      "GROWTH"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "REFLECTIVE",
+      "ADVENTUROUS"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "c2d4f7e9-4b6f-4a7e-9c01-8a2d6b5b5015",
+    "title": "Playful Compliment Swap",
+    "description": "Exchange quick, playful compliments to boost connection.",
+    "steps": [],
+    "loveTypes": [
+      "SPARK",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "PLAYFUL",
+      "ENERGETIC"
+    ],
+    "timeTaken": "MOMENT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "e8a1b2c3-d4e5-46f7-88a9-bc1d2e3f6016",
+    "title": "Trust Rebuild Breath",
+    "description": "A guided breath together with simple words of repair and trust.",
+    "steps": [],
+    "loveTypes": [
+      "GRACE",
+      "BUILD"
+    ],
+    "relationalNeeds": [
+      "TRUST_AND_SAFETY",
+      "ACCEPTANCE_AND_FORGIVENESS"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "HEALING",
+      "CALM"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "bb7d6e5f-4c3b-4a2a-9f01-2a3b4c5d7017",
+    "title": "Shared Learning Bite",
+    "description": "Watch a 5-minute clip and discuss one insight together.",
+    "steps": [],
+    "loveTypes": [
+      "GROW",
+      "BUILD"
+    ],
+    "relationalNeeds": [
+      "GROWTH",
+      "COMMUNICATION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "REFLECTIVE"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "d1a2f3b4-c5d6-47e8-9f01-234567890018",
+    "title": "Self-Compassion Reset",
+    "description": "A solo self-kindness script before re-engaging with your partner.",
+    "steps": [],
+    "loveTypes": [
+      "SELF",
+      "GRACE"
+    ],
+    "relationalNeeds": [
+      "SPACE",
+      "UNDERSTANDING"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "HEALING",
+      "CALM"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "aa1b2c3d-4e5f-4768-8a9b-0c1d2e3f0019",
+    "title": "Kitchen Dance Break",
+    "description": "Put on a song and dance together while cooking.",
+    "steps": [],
+    "loveTypes": [
+      "FIRE",
+      "SPARK"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "CONNECTION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "ENERGETIC",
+      "PLAYFUL"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "cc2d3e4f-5061-4a73-9b8c-1d2e3f4a1020",
+    "title": "Repair Words Practice",
+    "description": "Practice short repair phrases to use in tense moments.",
+    "steps": [],
+    "loveTypes": [
+      "GRACE",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "ACCEPTANCE_AND_FORGIVENESS",
+      "COMMUNICATION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "HEALING",
+      "REFLECTIVE"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "de3f4a5b-6172-4b84-9c0d-2e3f4a5b2021",
+    "title": "Solo Movement Burst",
+    "description": "A 10-minute solo movement to shift mood before reconnecting.",
+    "steps": [],
+    "loveTypes": [
+      "SELF",
+      "FIRE"
+    ],
+    "relationalNeeds": [
+      "SPACE"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "ENERGETIC"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "ARCHIVED"
+  },
+  {
+    "id": "ef4a5b6c-7283-4c95-8d0e-3f4a5b6c3022",
+    "title": "Weekly Planning Huddle",
+    "description": "A practical check-in to align on chores and calendars.",
+    "steps": [],
+    "loveTypes": [
+      "BUILD",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "BALANCE_AND_FAIRNESS",
+      "SUPPORT"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "REFLECTIVE",
+      "CALM"
+    ],
+    "timeTaken": "LONG",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "f05a6b7c-8394-4da6-9e1f-4a5b6c7d4023",
+    "title": "Curiosity Cards",
+    "description": "Draw two questions and explore each other’s inner world.",
+    "steps": [],
+    "loveTypes": [
+      "BELONG",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "UNDERSTANDING",
+      "INTIMACY"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "INTIMATE",
+      "REFLECTIVE"
+    ],
+    "timeTaken": "LONG",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "0a6b7c8d-94a5-4eb7-8f20-5b6c7d8e5024",
+    "title": "Shared Breath to Touch",
+    "description": "Breathe together and place a hand where touch feels welcome.",
+    "steps": [],
+    "loveTypes": [
+      "FIRE",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "INTIMACY",
+      "TRUST_AND_SAFETY"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "INTIMATE",
+      "CALM"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "1b7c8d9e-a5b6-4fc8-9f31-6c7d8e9f6025",
+    "title": "Solo Values Journal",
+    "description": "Journal on one personal value and how it shows up in love.",
+    "steps": [],
+    "loveTypes": [
+      "SELF",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "GROWTH",
+      "SPACE"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "REFLECTIVE"
+    ],
+    "timeTaken": "EXTENDED",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "2c8d9e0f-b6c7-40d9-8f42-7d8e9f0a7026",
+    "title": "Shared Awe Moment",
+    "description": "Step outside together to watch the sky and share a wonder.",
+    "steps": [],
+    "loveTypes": [
+      "BEYOND",
+      "SPARK"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "CONNECTION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "SACRED",
+      "REFLECTIVE"
+    ],
+    "timeTaken": "MOMENT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "3d9e0f1a-c7d8-41ea-9f53-8e9f0a1b8027",
+    "title": "Micro-Thank You",
+    "description": "Send a 30-second voice note of appreciation.",
+    "steps": [],
+    "loveTypes": [
+      "CARE",
+      "GRACE"
+    ],
+    "relationalNeeds": [
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "WARM"
+    ],
+    "timeTaken": "MOMENT",
+    "mediaAssets": [],
+    "status": "ARCHIVED"
+  },
+  {
+    "id": "4e0f1a2b-d8e9-42fb-8f64-9f0a1b2c9028",
+    "title": "Repair Letter",
+    "description": "Write a short repair letter and read it together.",
+    "steps": [],
+    "loveTypes": [
+      "GRACE",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "ACCEPTANCE_AND_FORGIVENESS",
+      "UNDERSTANDING"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "HEALING",
+      "INTIMATE"
+    ],
+    "timeTaken": "LONG",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "5f1a2b3c-e9f0-430c-9f75-0a1b2c3d0029",
+    "title": "Chore Challenge Sprint",
+    "description": "Set a timer and make chores playful and fast together.",
+    "steps": [],
+    "loveTypes": [
+      "BUILD",
+      "SPARK"
+    ],
+    "relationalNeeds": [
+      "BALANCE_AND_FAIRNESS",
+      "PLAY_AND_JOY"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "ENERGETIC",
+      "PLAYFUL"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "6a2b3c4d-f0a1-441d-8f86-1b2c3d4e1030",
+    "title": "Body Scan Together",
+    "description": "A calming body scan side by side to downshift stress.",
+    "steps": [],
+    "loveTypes": [
+      "CARE",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "SUPPORT",
+      "TRUST_AND_SAFETY"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "CALM",
+      "HEALING"
+    ],
+    "timeTaken": "EXTENDED",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "7b3c4d5e-0a1b-452e-9f97-2c3d4e5f2031",
+    "title": "Desire Mapping",
+    "description": "Name one desire for the week and one way to support it.",
+    "steps": [],
+    "loveTypes": [
+      "FIRE",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "INTIMACY",
+      "COMMUNICATION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "INTIMATE",
+      "REFLECTIVE"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "ARCHIVED"
+  },
+  {
+    "id": "8c4d5e6f-1a2b-463f-8fa8-3d4e5f6a3032",
+    "title": "Solo Breath & Write",
+    "description": "Breathe 3 minutes and write a message you’ll share later.",
+    "steps": [],
+    "loveTypes": [
+      "SELF",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "UNDERSTANDING"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "REFLECTIVE",
+      "CALM"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "9d5e6f70-2b3c-4740-9fb9-4e5f6a7b4033",
+    "title": "Memory Lane Photo",
+    "description": "Pick an old photo and share the story behind it.",
+    "steps": [],
+    "loveTypes": [
+      "BEYOND",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "CONNECTION",
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "WARM",
+      "REFLECTIVE"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "0e6f7081-3c4d-4851-8fca-5f6a7b8c5034",
+    "title": "Boundaries Tune-Up",
+    "description": "Each shares one boundary and one request.",
+    "steps": [],
+    "loveTypes": [
+      "SELF",
+      "BUILD"
+    ],
+    "relationalNeeds": [
+      "COMMUNICATION",
+      "TRUST_AND_SAFETY"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "REFLECTIVE",
+      "CALM"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "1f708192-4d5e-4962-9fdb-6a7b8c9d6035",
+    "title": "Gratitude Jar Drop",
+    "description": "Write one gratitude and place it in a shared jar.",
+    "steps": [],
+    "loveTypes": [
+      "GRACE",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "WARM"
+    ],
+    "timeTaken": "MOMENT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "208192a3-5e6f-4a73-8fec-7b8c9d0e7036",
+    "title": "Adventure Seed",
+    "description": "Plan a tiny novelty for the week together.",
+    "steps": [],
+    "loveTypes": [
+      "BEYOND",
+      "SPARK"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "GROWTH"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "ADVENTUROUS",
+      "ENERGETIC"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "3182a3b4-6f70-4b84-9fed-8c9d0e1f8037",
+    "title": "Listening Turns",
+    "description": "Two minutes each of uninterrupted sharing and reflection.",
+    "steps": [],
+    "loveTypes": [
+      "BELONG",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "UNDERSTANDING",
+      "COMMUNICATION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "REFLECTIVE",
+      "CALM"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "4283b4c5-7081-4c95-8ffe-9d0e1f209038",
+    "title": "Shared Stretch",
+    "description": "Stretch side by side and notice one sensation.",
+    "steps": [],
+    "loveTypes": [
+      "CARE",
+      "FIRE"
+    ],
+    "relationalNeeds": [
+      "SUPPORT",
+      "INTIMACY"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "CALM",
+      "INTIMATE"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "ARCHIVED"
+  },
+  {
+    "id": "5384c5d6-8192-4da6-9fff-0e1f220a0039",
+    "title": "Solo Nature Sit",
+    "description": "Sit quietly outdoors and notice three sounds.",
+    "steps": [],
+    "loveTypes": [
+      "SELF",
+      "BEYOND"
+    ],
+    "relationalNeeds": [
+      "SPACE"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "SACRED",
+      "CALM"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "6485d6e7-92a3-4eb7-8aa0-1f220a1b1040",
+    "title": "Couple’s Vision Sketch",
+    "description": "Sketch a tiny vision for the next month together.",
+    "steps": [],
+    "loveTypes": [
+      "GROW",
+      "BUILD"
+    ],
+    "relationalNeeds": [
+      "GROWTH",
+      "BALANCE_AND_FAIRNESS"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "REFLECTIVE",
+      "ADVENTUROUS"
+    ],
+    "timeTaken": "EXTENDED",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "7586e7f8-a3b4-4fc8-9bb1-2a1b203c2041",
+    "title": "Affection Micro-Moment",
+    "description": "Share a three-breath hug.",
+    "steps": [],
+    "loveTypes": [
+      "FIRE",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "INTIMACY",
+      "CONNECTION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "INTIMATE",
+      "WARM"
+    ],
+    "timeTaken": "MOMENT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "8697f809-b4c5-40d9-8cc2-3b2c314d3042",
+    "title": "Shared Book Snippet",
+    "description": "Read one paragraph aloud and reflect.",
+    "steps": [],
+    "loveTypes": [
+      "BELONG",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "PRESENCE_AND_QUALITY_TIME",
+      "UNDERSTANDING"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "REFLECTIVE",
+      "CALM"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "ARCHIVED"
+  },
+  {
+    "id": "97a8091a-c5d6-41ea-9dd3-4c3d425e4043",
+    "title": "Thank-You Text Chain",
+    "description": "Send three quick thank-you texts over a day.",
+    "steps": [],
+    "loveTypes": [
+      "GRACE",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "WARM"
+    ],
+    "timeTaken": "FLEXIBLE",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "a8b9c01b-d6e7-42fb-8ee4-5d4e536f5044",
+    "title": "Conflict Cool-Down",
+    "description": "A flexible cool-down protocol with reconnection cue.",
+    "steps": [],
+    "loveTypes": [
+      "GRACE",
+      "SELF"
+    ],
+    "relationalNeeds": [
+      "TRUST_AND_SAFETY",
+      "SPACE"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "CALM",
+      "HEALING"
+    ],
+    "timeTaken": "FLEXIBLE",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "b9c0122c-e7f8-430c-9ff5-6e5f64706045",
+    "title": "Weekly Appreciation Date",
+    "description": "Take turns naming three appreciations over a simple date.",
+    "steps": [],
+    "loveTypes": [
+      "BELONG",
+      "GRACE"
+    ],
+    "relationalNeeds": [
+      "GRATITUDE_AND_APPRECIATION",
+      "PRESENCE_AND_QUALITY_TIME"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "WARM",
+      "REFLECTIVE"
+    ],
+    "timeTaken": "EXTENDED",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "c0d1233d-f809-441d-8aa6-7f6075817046",
+    "title": "Micro-Adventure Walk",
+    "description": "Pick a random street and explore together.",
+    "steps": [],
+    "loveTypes": [
+      "SPARK",
+      "BEYOND"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "GROWTH"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "ADVENTUROUS",
+      "ENERGETIC"
+    ],
+    "timeTaken": "LONG",
+    "mediaAssets": [],
+    "status": "DRAFT"
+  },
+  {
+    "id": "d1e2344e-091a-452e-9bb7-806186928047",
+    "title": "Evening Reflection Solo",
+    "description": "Reflect on one learning from the day about love.",
+    "steps": [],
+    "loveTypes": [
+      "SELF",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "GROWTH"
+    ],
+    "ritualMode": "SOLO",
+    "ritualTones": [
+      "REFLECTIVE"
+    ],
+    "timeTaken": "SHORT",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "e2f3455f-1a2b-463f-8cc8-917297a39048",
+    "title": "Couple’s Breath Pyramid",
+    "description": "Build up and down a breath count together.",
+    "steps": [],
+    "loveTypes": [
+      "CARE",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "PRESENCE_AND_QUALITY_TIME",
+      "SUPPORT"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "CALM"
+    ],
+    "timeTaken": "MEDIUM",
+    "mediaAssets": [],
+    "status": "ARCHIVED"
+  },
+  {
+    "id": "f3045660-2b3c-4740-9dda-a283a8b4a049",
+    "title": "Curiosity Walk & Talk",
+    "description": "Walk and take turns asking open questions.",
+    "steps": [],
+    "loveTypes": [
+      "BELONG",
+      "SPARK"
+    ],
+    "relationalNeeds": [
+      "COMMUNICATION",
+      "CONNECTION"
+    ],
+    "ritualMode": "TOGETHER",
+    "ritualTones": [
+      "REFLECTIVE",
+      "PLAYFUL"
+    ],
+    "timeTaken": "LONG",
+    "mediaAssets": [],
+    "status": "PUBLISHED"
+  }
+]
