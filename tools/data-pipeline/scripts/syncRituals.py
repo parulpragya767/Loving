@@ -32,6 +32,7 @@ FIELD_MAP: Dict[str, str] = {
 AIRTABLE_FIELD_MAP: Dict[str, str] = {
     "airtable_record_id": "airtable_record_id",
     "last_updated_ts": "Last Updated Timestamp",
+    "sync_status": "Sync Status"
 }
 
 class AirtableJsonSyncer:
@@ -85,8 +86,9 @@ class AirtableJsonSyncer:
     def load_airtable_data(self) -> List[Dict[str, Any]]:
         """Fetches all records from Airtable and formats them for processing."""   
         try:
-            # Use the utility function to fetch records
-            airtable_records = read_from_airtable()
+            # Use the utility function to fetch only PUBLISHED records
+            filter_formula = f"{{{AIRTABLE_FIELD_MAP['sync_status']}}} = 'PUBLISHED'"
+            airtable_records = read_from_airtable(filter=filter_formula)
         except Exception as e:
             print(f"Error fetching Airtable data: {e}")
             return []
