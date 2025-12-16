@@ -2,17 +2,14 @@ import json
 import os
 import argparse
 from datetime import datetime, timezone
-from typing import List, Dict, Any, Literal, Optional
-import os
-from dotenv import load_dotenv
-from airtable_utils import read_from_airtable, AIRTABLE_TOKEN, AIRTABLE_BASE_ID, AIRTABLE_TABLE_NAME, AIRTABLE_VIEW_NAME, update_airtable
+from typing import List, Dict, Any, Literal
+from airtable_utils import read_from_airtable, update_airtable, create_airtable_records
 
 # The file path for the local JSON array.
 JSON_FILE_PATH: str = "rituals.json"
 
 # The unique field name used to link records across Airtable and JSON.
-# This field MUST exist in both data structures (after mapping for Airtable).
-ID_FIELD_NAME: str = "id" # Example: The common field holding a unique product ID
+ID_FIELD_NAME: str = "id"
 
 # Mapping of field names: {JSON_KEY: AIRTABLE_FIELD_NAME}
 # Only fields present in this map will be synced.
@@ -20,7 +17,7 @@ FIELD_MAP: Dict[str, str] = {
     "id": ID_FIELD_NAME,
     "title": "Title",
     "description": "Description",
-    # "steps": "Steps",
+    "steps": "Steps",
     "loveTypes": "Love Types",
     "relationalNeeds": "Relational Needs",
     "ritualMode": "Ritual Mode",
@@ -35,21 +32,14 @@ class AirtableJsonSyncer:
     Handles bidirectional synchronization between an Airtable table and a local JSON file.
     """
 
-    def __init__(self, id_field_name: str, field_map: Dict[str, str], view_name: Optional[str] = None):
+    def __init__(self, id_field_name: str, field_map: Dict[str, str]):
         """Initializes the syncer with mapping details."""
-        self.api_key = AIRTABLE_TOKEN
-        self.base_id = AIRTABLE_BASE_ID
-        self.table_name = AIRTABLE_TABLE_NAME
         self.id_field_name = id_field_name
         self.field_map = field_map
-        self.view_name = view_name
         
         # Invert the map for 'to_json' sync direction
         self.inverted_field_map = {v: k for k, v in field_map.items()}
-        print(f"Syncer initialized for table: {self.table_name}")
-        print(f"Matching records using common ID field: '{id_field_name}'")
-        if self.view_name:
-            print(f"Filtering Airtable records using view: '{self.view_name}'")
+        print(f"Syncer initialized.")
 
     # --- Utility Methods ---
 
@@ -65,15 +55,10 @@ class AirtableJsonSyncer:
         return mapped_data
 
     def load_airtable_data(self) -> List[Dict[str, Any]]:
-        """Fetches all records from Airtable and formats them for processing."""
-        view_info = f" using view '{self.view_name}'" if self.view_name else ""
-        print(f"Fetching all records from Airtable{view_info}...")
-        
+        """Fetches all records from Airtable and formats them for processing."""   
         try:
             # Use the utility function to fetch records
-            airtable_records = read_from_airtable(
-                view=self.view_name
-            )
+            airtable_records = read_from_airtable()
         except Exception as e:
             print(f"Error fetching Airtable data: {e}")
             return []
@@ -170,23 +155,20 @@ class AirtableJsonSyncer:
         # Process updates in batches (Airtable API limit is 10 records per request)
         if updates:
             print(f"Processing {len(updates)} records for update...")
-            try:
-                # Use the utility function for batch update
-                success = update_airtable(updates)
-                if success:
-                    print(f"Successfully updated {len(updates)} Airtable records.")
-            except Exception as e:
-                print(f"Error during Airtable batch update: {e}")
+            success = update_airtable(updates)
+            if success:
+                print(f"Successfully updated {len(updates)} Airtable records.")
+            else:
+                print(f"Failed to update {len(updates)} Airtable records.")
 
         # Process creations in batches
         if creations:
             print(f"Processing {len(creations)} records for creation...")
-            try:
-                # Use batch_create for efficient processing
-                table.batch_create([record['fields'] for record in creations])
+            success = create_airtable_records(creations)
+            if success:
                 print(f"Successfully created {len(creations)} Airtable records.")
-            except Exception as e:
-                print(f"Error during Airtable batch creation: {e}")
+            else:
+                print(f"Failed to create {len(creations)} Airtable records.")
 
         if not updates and not creations:
             print("No changes detected in JSON requiring Airtable modification.")
@@ -211,11 +193,6 @@ class AirtableJsonSyncer:
 
         for airtable_record in airtable_data:
             common_id = airtable_record.get(self.id_field_name)
-
-            if not common_id:
-                # This should be handled in load_airtable_data, but as a safeguard:
-                print(f"Warning: Skipping Airtable record due to missing ID field '{self.id_field_name}'.")
-                continue
 
             if common_id in json_index:
                 # Record exists in JSON, update it
@@ -269,8 +246,6 @@ class AirtableJsonSyncer:
             self.sync_to_airtable(json_data, airtable_data)
         elif direction == 'to_json':
             self.sync_to_json(json_data, airtable_data)
-        else:
-            print(f"Invalid sync direction: {direction}. Must be 'to_airtable' or 'to_json'.")
 
 if __name__ == '__main__':
     
@@ -293,7 +268,6 @@ if __name__ == '__main__':
         syncer = AirtableJsonSyncer(
             id_field_name=ID_FIELD_NAME,
             field_map=FIELD_MAP,
-            view_name=AIRTABLE_VIEW_NAME
         )
         # Pass the command-line argument to the sync method
         syncer.sync(args.sync_direction)
