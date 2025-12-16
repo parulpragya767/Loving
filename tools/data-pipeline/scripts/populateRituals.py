@@ -10,7 +10,7 @@ END_ROW = 500
 
 # Constants
 STEPS_FIELD = "Steps"
-STATUS_FIELD = "Status"
+SYNC_STATUS_FIELD = "Sync Status"
 UPDATE_BATCH_SIZE = 10
 
 def transform_airtable_record(record: dict) -> dict:
@@ -18,21 +18,19 @@ def transform_airtable_record(record: dict) -> dict:
     return {**record.get("fields", {}), 'airtable_id': record.get('id')}
 
 def fetch_rituals_from_airtable(start_row: int, end_row: int) -> list[dict]:
-    """Fetch and transform rituals from Airtable within the specified row range."""
+    """
+    Fetch and transform rituals from Airtable within the specified row range.
+    Only fetches records where Sync Status is 'GENERATE'.
+    """
     if start_row < 1 or end_row < start_row:
         raise ValueError("start_row must be >= 1 and <= end_row")
     
-    print(f"  > Fetching records from rows {start_row} to {end_row}...")
-    all_records = read_from_airtable(start=start_row - 1, end=end_row)
-    print(f"  > Fetched {len(all_records)} records.")
+    print(f"  > Fetching actionable records from rows {start_row} to {end_row}...")
+    filter_formula = f"{{{SYNC_STATUS_FIELD}}} = 'GENERATE'"
+    all_records = read_from_airtable(start=start_row - 1, end=end_row, filter=filter_formula)
+    print(f"  > Fetched {len(all_records)} actionable records.")
     
     return [transform_airtable_record(record) for record in all_records]
-
-def filter_actionable_rituals(airtable_records):
-    return [
-        record for record in airtable_records 
-        if not record.get(STEPS_FIELD)
-    ]
 
 def write_batch_to_airtable(batch: list[dict]) -> bool:
     """Write a batch of records to Airtable with minimal fields."""
@@ -47,7 +45,7 @@ def write_batch_to_airtable(batch: list[dict]) -> bool:
             
         fields = {
             field: ritual[field] 
-            for field in [STEPS_FIELD, STATUS_FIELD] 
+            for field in [STEPS_FIELD, SYNC_STATUS_FIELD] 
             if field in ritual and ritual[field] is not None
         }
         
@@ -73,7 +71,7 @@ def populate_missing_ritual_fields_batch(batch):
     for ritual in batch:
         if not ritual.get(STEPS_FIELD):
             ritual[STEPS_FIELD] = f'Sample Step: Generate steps for "{ritual.get("Title", "Description")}"'
-            ritual[STATUS_FIELD] = 'NEED_REVIEW'
+            ritual[SYNC_STATUS_FIELD] = 'REVIEW'
 
 def populate_and_update_rituals_to_airtable(rituals):
     """
@@ -127,16 +125,13 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
         
-    # 1. Fetch records
-    all_records = fetch_rituals_from_airtable(start_row=args.start_row, end_row=args.end_row)
-
-    # 2. Filter records
-    actionable_rituals = filter_actionable_rituals(all_records)
+    # 1. Fetch records which are actionable rituals with Sync Status == GENERATE
+    actionable_rituals = fetch_rituals_from_airtable(start_row=args.start_row, end_row=args.end_row)
     
-    # 3. Populate missing fields and write back to Airtable
+    # 2. Populate missing fields and write back to Airtable
     populate_and_update_rituals_to_airtable(actionable_rituals)
     
-    # 4. Output results 
+    # 3. Output results 
     if actionable_rituals:
         print(f"\n*** Processed {len(actionable_rituals)} Actionable Rituals ***")
     else:
