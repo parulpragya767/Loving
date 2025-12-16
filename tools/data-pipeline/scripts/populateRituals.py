@@ -13,37 +13,20 @@ STEPS_FIELD = "Steps"
 STATUS_FIELD = "Status"
 UPDATE_BATCH_SIZE = 10
 
-def transform_airtable_record(record):
-    flat_data = record.get("fields", {}).copy()
-    flat_data['airtable_id'] = record.get('id')
-    return flat_data
+def transform_airtable_record(record: dict) -> dict:
+    """Flatten Airtable record by merging fields with record ID."""
+    return {**record.get("fields", {}), 'airtable_id': record.get('id')}
 
-def fetch_rituals_from_airtable(start_row, end_row):
+def fetch_rituals_from_airtable(start_row: int, end_row: int) -> list[dict]:
+    """Fetch and transform rituals from Airtable within the specified row range."""
     if start_row < 1 or end_row < start_row:
-        print("ERROR: Invalid row range. start_row must be >= 1 and <= end_row.")
-        return []
+        raise ValueError("start_row must be >= 1 and <= end_row")
     
-    try:
-        print(f"  > Fetching records from rows {start_row} to {end_row}...")
-        
-        # Use the utility function to fetch records
-        all_records = read_from_airtable(
-            start=start_row - 1,  # Convert to 0-based index
-            end=end_row,
-        )
-        
-        print(f"  > Fetched {len(all_records)} records.")
-        
-        # Transform records to match expected format
-        flattened_records = [transform_airtable_record(record) for record in all_records]
-        
-        print(f"--- Finished fetching. Returning {len(flattened_records)} records. ---")
-        return flattened_records
-        
-    except Exception as e:
-        print(f"\n--- An error occurred during the API request ---")
-        print(f"Error: {e}")
-        return []
+    print(f"  > Fetching records from rows {start_row} to {end_row}...")
+    all_records = read_from_airtable(start=start_row - 1, end=end_row)
+    print(f"  > Fetched {len(all_records)} records.")
+    
+    return [transform_airtable_record(record) for record in all_records]
 
 def filter_actionable_rituals(airtable_records):
     return [
@@ -51,55 +34,39 @@ def filter_actionable_rituals(airtable_records):
         if not record.get(STEPS_FIELD)
     ]
 
-def write_batch_to_airtable(batch):
+def write_batch_to_airtable(batch: list[dict]) -> bool:
+    """Write a batch of records to Airtable with minimal fields."""
     if not batch:
         return True
-
-    # Restructure the flat Python dictionary back into the Airtable API format
+        
     airtable_records = []
     for ritual in batch:
-        record_id = ritual.get('airtable_id')
-        fields_to_update = [STEPS_FIELD, STATUS_FIELD]
-        fields = {}
-        
-        if not record_id:
-            print(f"Warning: Skipping record due to missing 'airtable_id'.")
+        if not (record_id := ritual.get('airtable_id')):
+            print(f"Warning: Skipping record due to missing 'airtable_id'")
             continue
-
-        # Dynamically build the 'fields' payload
-        for field_name in fields_to_update:
-            field_value = ritual.get(field_name)
             
-            # Only include the field in the update if its value is not None
-            if field_value is not None:
-                fields[field_name] = field_value
+        fields = {
+            field: ritual[field] 
+            for field in [STEPS_FIELD, STATUS_FIELD] 
+            if field in ritual and ritual[field] is not None
+        }
         
-        # Only append to the batch if there is at least one field to set
         if fields:
-            airtable_records.append({
-                "id": record_id,
-                "fields": fields
-            })
-        else:
-            print(f"Warning: Skipping record with ID {record_id}. No valid fields found in {fields_to_update} to update.")
-            
-    if not airtable_records:
-        print("Warning: No valid records to update in this batch.")
-        return False
-        
-    print(f"  > Attempting to update {len(airtable_records)} records...")
+            airtable_records.append({"id": record_id, "fields": fields})
     
-    try:
-        # Use the utility function for batch update
-        success = update_airtable(airtable_records)
-        if success:
-            print(f"  > Batch update successful.")
-        return success
-
-    except Exception as e:
-        print(f"\n--- ERROR during batch update to Airtable ---")
-        print(f"Error: {e}")
+    if not airtable_records:
+        print("Warning: No valid records to update in this batch")
         return False
+    
+    print(f"  > Updating {len(airtable_records)} records...")
+    success = update_airtable(airtable_records)
+    
+    if success:
+        print("  > Batch update successful")
+    else:
+        print("  > Batch update failed")
+        
+    return success
 
 def populate_missing_ritual_fields_batch(batch):
     print(f"  > Populating steps for {len(batch)} rituals...")
