@@ -3,6 +3,7 @@ import json
 from time import sleep
 import argparse
 from airtable_utils import read_from_airtable, update_airtable
+from ritual_llm_populator import RitualLLMPopulator
 
 # Initial parameters
 START_ROW = 1
@@ -12,6 +13,12 @@ END_ROW = 500
 STEPS_FIELD = "Steps"
 SYNC_STATUS_FIELD = "Sync Status"
 UPDATE_BATCH_SIZE = 10
+
+# Additional fields populated by LLM
+RITUAL_FIELDS = [
+    "Tagline", "Description", "Steps", "How It Helps", 
+    "Love Type", "Ritual Mode", "Time Taken", "Relational Need", "Tone"
+]
 
 def transform_airtable_record(record: dict) -> dict:
     """Flatten Airtable record by merging fields with record ID."""
@@ -33,7 +40,7 @@ def fetch_rituals_from_airtable(start_row: int, end_row: int) -> list[dict]:
     return [transform_airtable_record(record) for record in all_records]
 
 def write_batch_to_airtable(batch: list[dict]) -> bool:
-    """Write a batch of records to Airtable with minimal fields."""
+    """Write a batch of records to Airtable with ritual fields."""
     if not batch:
         return True
         
@@ -43,9 +50,10 @@ def write_batch_to_airtable(batch: list[dict]) -> bool:
             print(f"Warning: Skipping record due to missing 'airtable_id'")
             continue
             
+        # Include all ritual fields plus sync status
         fields = {
             field: ritual[field] 
-            for field in [STEPS_FIELD, SYNC_STATUS_FIELD] 
+            for field in RITUAL_FIELDS + [SYNC_STATUS_FIELD] 
             if field in ritual and ritual[field] is not None
         }
         
@@ -67,16 +75,22 @@ def write_batch_to_airtable(batch: list[dict]) -> bool:
     return success
 
 def populate_missing_ritual_fields_batch(batch):
-    print(f"  > Populating steps for {len(batch)} rituals...")
-    for ritual in batch:
-        if not ritual.get(STEPS_FIELD):
-            ritual[STEPS_FIELD] = f'Sample Step: Generate steps for "{ritual.get("Title", "Description")}"'
-            ritual[SYNC_STATUS_FIELD] = 'REVIEW'
+    """
+    Populate missing ritual fields using LLM-based generation.
+    Args:
+        batch: List of ritual dictionaries from Airtable
+    """
+    print(f"  > Populating ritual details for {len(batch)} rituals using LLM...")
+    llm_populator = RitualLLMPopulator()
+    return llm_populator.populate_missing_ritual_fields_batch(batch)
 
 def populate_and_update_rituals_to_airtable(rituals):
     """
     Processes a list of actionable rituals, populates the missing fields in batches,
     and writes the updated records back to Airtable.
+    
+    Args:
+        rituals: List of ritual dictionaries from Airtable
     """
     if not rituals:
         print("No rituals to populate. Skipping write process.")
@@ -88,7 +102,7 @@ def populate_and_update_rituals_to_airtable(rituals):
         
         print(f"\nProcessing batch {i // UPDATE_BATCH_SIZE + 1} of {len(rituals) // UPDATE_BATCH_SIZE + 1} ({len(batch)} records)")
         
-        # 1. Populate the missing steps (in-place modification of the 'batch' list)
+        # 1. Populate the missing fields using LLM (in-place modification of the 'batch' list)
         populate_missing_ritual_fields_batch(batch)
         
         # 2. Write the updated batch back to Airtable
@@ -128,7 +142,7 @@ if __name__ == "__main__":
     # 1. Fetch records which are actionable rituals with Sync Status == GENERATE
     actionable_rituals = fetch_rituals_from_airtable(start_row=args.start_row, end_row=args.end_row)
     
-    # 2. Populate missing fields and write back to Airtable
+    # 2. Populate missing fields using LLM and write back to Airtable
     populate_and_update_rituals_to_airtable(actionable_rituals)
     
     # 3. Output results 
