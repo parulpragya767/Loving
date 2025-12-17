@@ -2,6 +2,7 @@ import requests
 import json
 from time import sleep
 import argparse
+from datetime import datetime
 from airtable_utils import read_from_airtable, update_airtable
 from ritual_llm_populator import populate_missing_ritual_fields_batch
 
@@ -13,6 +14,7 @@ END_ROW = 500
 STEPS_FIELD = "Steps"
 SYNC_STATUS_FIELD = "Sync Status"
 UPDATE_BATCH_SIZE = 10
+CHANGELOG_PATH = "rituals_changelog.json"
 
 # Additional fields populated by LLM
 RITUAL_FIELDS = [
@@ -74,6 +76,37 @@ def write_batch_to_airtable(batch: list[dict]) -> bool:
         
     return success
 
+def dump_batch_to_changelog(batch: list[dict]):
+    """Dump the current rituals batch to the changelog JSON file."""
+    if not batch:
+        return
+    
+    # Create timestamp for this batch
+    timestamp = datetime.now().isoformat()
+    
+    # Prepare batch entry with metadata
+    batch_entry = {
+        "timestamp": timestamp,
+        "batch_size": len(batch),
+        "rituals": batch
+    }
+    
+    # Read existing changelog if it exists
+    try:
+        with open(CHANGELOG_PATH, 'r', encoding='utf-8') as f:
+            changelog_data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        changelog_data = []
+    
+    # Append new batch entry
+    changelog_data.append(batch_entry)
+    
+    # Write back to file
+    with open(CHANGELOG_PATH, 'w', encoding='utf-8') as f:
+        json.dump(changelog_data, f, indent=2, ensure_ascii=False)
+    
+    print(f"  > Dumped {len(batch)} rituals to changelog at {timestamp}")
+
 def populate_and_update_rituals_to_airtable(rituals):
     """
     Processes a list of actionable rituals, populates the missing fields in batches,
@@ -92,10 +125,13 @@ def populate_and_update_rituals_to_airtable(rituals):
         
         print(f"\nProcessing batch {i // UPDATE_BATCH_SIZE + 1} of {len(rituals) // UPDATE_BATCH_SIZE + 1} ({len(batch)} records)")
         
-        # 1. Populate the missing fields using LLM (in-place modification of the 'batch' list)
+        # 1. Dump the current batch to changelog before processing
+        dump_batch_to_changelog(batch)
+        
+        # 2. Populate the missing fields using LLM (in-place modification of the 'batch' list)
         populate_missing_ritual_fields_batch(batch)
         
-        # 2. Write the updated batch back to Airtable
+        # 3. Write the updated batch back to Airtable
         success = write_batch_to_airtable(batch)
         
         if not success:

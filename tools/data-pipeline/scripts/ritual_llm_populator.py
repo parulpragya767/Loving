@@ -14,7 +14,7 @@ def generate_ritual_data_prompt(rituals: List[Dict[str, Any]]) -> str:
         ritual_data_prompt += f"\nRitual {i+1}:\n"
         
         # Add title (always required)
-        ritual_data_prompt += f"  title: {ritual.get('Title', '')}\n"
+        ritual_data_prompt += f"  title: {ritual.get('Title')}\n"
         
         # Add other fields only if they have values
         if ritual.get('Description'):
