@@ -63,3 +63,7 @@ class RitualDetailsResponse(BaseModel):
     ritualMode: RitualMode = Field(description="The mode in which the ritual is performed — SOLO or TOGETHER")
     timeTaken: TimeTaken = Field(description="The estimated duration required to complete the ritual — e.g., MOMENT, SHORT, LONG. Choose the time category that best fits.")
     semanticSummary: str = Field(description="A concise, empathetic 2–4 sentence summary describing the ritual's purpose, emotional impact, and ideal use case.")
+
+class BatchRitualDetailsResponse(BaseModel):
+    """Model for handling multiple ritual responses in one batch"""
+    rituals: List[RitualDetailsResponse] = Field(description="List of ritual details, one for each input title")
