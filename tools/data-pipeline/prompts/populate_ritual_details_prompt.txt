@@ -129,10 +129,17 @@ Select the tone that best fits the ritual's emotional quality.
 
 ## Input You Will Receive
 
-- **Titles:** A list of ritual titles, one per line
-- Each title corresponds to one ritual you need to generate
+- **Ritual Data:** A list of rituals with existing information, including:
+  - title: The ritual title
+  - description: Current description (may be incomplete or need improvement)
+  - loveTypes: Current love type assignments
+  - ritualMode: Current ritual mode (SOLO/TOGETHER)
+  - relationalNeeds: Current relational need assignments
+  - timeTaken: Current time estimate
 
-Use each title to infer emotional intent and practical structure for that specific ritual.
+- Each ritual corresponds to one ritual you need to generate complete details for
+
+Use the provided information as hints and guidance, but feel free to modify or improve any fields that don't feel right. The existing data should inform your understanding but not constrain you from creating better, more coherent ritual details.
 
 ---
 
