@@ -63,15 +63,15 @@ Select enum values carefully and conservatively.
 ### LoveType
 Choose the emotional essence of the ritual.
 
-- BELONG — understanding, friendship, emotional closeness
-- FIRE — passion, attraction, sensual connection
-- SPARK — novelty, fun, lightness, curiosity
-- CARE — gentleness, nurturing, empathy, comfort
-- SELF — grounding, self-connection, inner reflection
-- BUILD — commitment, partnership, reliability
-- GROW — learning, emotional evolution, awareness
-- BEYOND — compassion, unconditional love, meaning beyond self
-- GRACE — acceptance, forgiveness, emotional release
+- BELONG — Feeling seen, understood, and accepted — the love of mutual understanding and emotional safety.
+- FIRE — Passionate, embodied love — the energy of desire, vitality, and physical connection.
+- SPARK — Playful attraction and curiosity — the first glimmers of excitement, discovery, and aliveness between two people.
+- CARE — Gentle, nurturing love — tending to each other's needs with warmth, patience, and kindness.
+- SELF — Rooted self-love — awareness, compassion, and respect for one's own needs and truth.
+- BUILD — Practical, committed love — the steady partnership that grows through shared effort, trust, and reliability.
+- GROW — Evolving love — encouraging each other's learning, transformation, and becoming over time.
+- BEYOND — Transcendent love — giving and receiving freely, connecting to something larger than oneself or the relationship.
+- GRACE — Forgiving, compassionate love — the quiet strength that softens conflict and makes repair possible.
 
 ---
 
@@ -84,46 +84,46 @@ Choose the emotional essence of the ritual.
 ### TimeTaken
 Estimate realistically.
 
-- MOMENT — under 2 minutes
-- SHORT — 5–10 minutes
-- MEDIUM — 10–20 minutes
-- LONG — 20–40 minutes
-- EXTENDED — over 40 minutes
-- FLEXIBLE — varies by context
+- MOMENT — < 1 minute
+- SHORT — 1-5 minutes
+- MEDIUM — 5-15 minutes
+- LONG — 15-30 minutes
+- EXTENDED — 30+ minutes
+- FLEXIBLE — Flexible / As long as you wish
 
 ---
 
 ### RelationalNeed
 Select the primary emotional need served.
 
-- CONNECTION
-- INTIMACY
-- UNDERSTANDING
-- ACCEPTANCE_AND_FORGIVENESS
-- TRUST_AND_SAFETY
-- SUPPORT
-- BALANCE_AND_FAIRNESS
-- COMMUNICATION
-- PLAY_AND_JOY
-- GROWTH
-- GRATITUDE_AND_APPRECIATION
-- PRESENCE_AND_QUALITY_TIME
-- SPACE
+- CONNECTION — Desire to feel emotionally close and present with each other.
+- INTIMACY — Need for closeness, vulnerability, and affection -- both emotional and physical.
+- UNDERSTANDING — Longing to be truly seen, heard, and empathized with.
+- ACCEPTANCE_AND_FORGIVENESS — Need to feel loved without judgment and to repair with compassion.
+- TRUST_AND_SAFETY — Desire for honesty, reliability, and a sense of emotional security.
+- SUPPORT — Desire for emotional or practical help during stress, change, or challenge.
+- BALANCE_AND_FAIRNESS — Need for shared responsibility, equality, and mutual respect in daily life.
+- COMMUNICATION — Desire for open, honest dialogue and emotional clarity.
+- PLAY_AND_JOY — Craving lightness, fun, and shared laughter to refresh the bond.
+- GROWTH — Desire to evolve individually and as a couple -- to keep learning and deepening.
+- GRATITUDE_AND_APPRECIATION — Longing to feel noticed, valued, and thanked for who one is and what one does.
+- PRESENCE_AND_QUALITY_TIME — Need to share undistracted, intentional moments together.
+- SPACE — Need for autonomy, breathing room, and personal reflection within the relationship.
 
 ---
 
 ### RitualTone
-The emotional atmosphere of the ritual.
+Select the tone that best fits the ritual's emotional quality.
 
-- WARM
-- PLAYFUL
-- INTIMATE
-- REFLECTIVE
-- CALM
-- ADVENTUROUS
-- ENERGETIC
-- HEALING
-- SACRED
+- WARM — Gentle, affectionate, emotionally open tone that evokes comfort and care.
+- PLAYFUL — Light, fun, and humorous tone that invites laughter and spontaneity.
+- INTIMATE — Tender, emotionally or physically close tone that fosters closeness and vulnerability.
+- REFLECTIVE — Thoughtful and sincere tone that encourages deeper understanding or insight.
+- CALM — Grounded, soothing tone that brings a sense of peace, slowness, or stillness.
+- ADVENTUROUS — Curious and bold tone that invites exploration, novelty, or shared discovery.
+- ENERGETIC — Lively and dynamic tone that inspires movement, excitement, or enthusiasm.
+- HEALING — Gentle, restorative tone that supports emotional repair, forgiveness, or tenderness.
+- SACRED — Reverent or soulful tone that evokes meaning, depth, or connection beyond the everyday.
 
 ---
 
@@ -135,30 +135,10 @@ Use it to infer emotional intent and practical structure.
 
 ---
 
-## Output Requirements (STRICT)
+## Output Rules
 
-Return **ONLY** a valid JSON object matching this schema:
-
-{
-  "tagline": "string",
-  "description": "string",
-  "steps": ["string", "string", "string"],
-  "howItHelps": "string",
-  "loveTypes": ["LOVE_TYPE_ENUM"],
-  "ritualMode": "RITUAL_MODE_ENUM",
-  "timeTaken": "TIME_TAKEN_ENUM",
-  "relationalNeeds": ["RELATIONAL_NEED_ENUM"],
-  "ritualTones": ["RITUAL_TONE_ENUM"],
-  "semanticSummary": "string"
-}
-
-Rules:
-- No additional keys
-- No explanatory text
-- No markdown outside string values
-- Enum values must match exactly
-- JSON must be syntactically valid
-
-If a value cannot be confidently inferred, use `null`.
-
-Begin now.
+- Generate values only for fields defined by the provided schema.
+- Use enum values exactly as defined.
+- Prefer 1–3 values for multi-select enum fields.
+- If a value cannot be confidently inferred, return null.
+- Do not include explanations, commentary, or formatting outside field values.
