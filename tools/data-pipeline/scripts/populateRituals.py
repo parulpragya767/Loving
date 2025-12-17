@@ -3,7 +3,7 @@ import json
 from time import sleep
 import argparse
 from airtable_utils import read_from_airtable, update_airtable
-from ritual_llm_populator import RitualLLMPopulator
+from ritual_llm_populator import populate_missing_ritual_fields_batch
 
 # Initial parameters
 START_ROW = 1
@@ -73,16 +73,6 @@ def write_batch_to_airtable(batch: list[dict]) -> bool:
         print("  > Batch update failed")
         
     return success
-
-def populate_missing_ritual_fields_batch(batch):
-    """
-    Populate missing ritual fields using LLM-based generation.
-    Args:
-        batch: List of ritual dictionaries from Airtable
-    """
-    print(f"  > Populating ritual details for {len(batch)} rituals using LLM...")
-    llm_populator = RitualLLMPopulator()
-    return llm_populator.populate_missing_ritual_fields_batch(batch)
 
 def populate_and_update_rituals_to_airtable(rituals):
     """
