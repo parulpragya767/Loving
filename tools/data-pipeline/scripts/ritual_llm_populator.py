@@ -1,21 +1,8 @@
 import json
-from typing import Dict, List, Optional, Any
-from dataclasses import dataclass
-from pydantic import BaseModel
+from typing import Dict, List, Any
 from LLMUtils import call_llm_json
 from PromptUtils import get_ritual_details_prompt
-
-class RitualDetailsResponse(BaseModel):
-    """Pydantic model for structured ritual details from LLM"""
-    tagline: str
-    description: str
-    steps: List[str]
-    howItHelps: str
-    loveType: List[str]
-    ritualMode: str
-    timeTaken: str
-    relationalNeed: List[str]
-    tone: str
+from data_models import RitualDetailsResponse
 
 def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
     """
@@ -40,15 +27,16 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
             print(details)
             
             # Update ritual with generated details
-            ritual["Tagline"] = details.tagline
+            ritual["Tagline"] = details.tagLine
             ritual["Description"] = details.description
             ritual["Steps"] = "\n".join(details.steps)
             ritual["How It Helps"] = details.howItHelps
-            ritual["Love Type"] = ", ".join(details.loveType)
-            ritual["Ritual Mode"] = details.ritualMode
-            ritual["Time Taken"] = details.timeTaken
-            ritual["Relational Need"] = ", ".join(details.relationalNeed)
-            ritual["Tone"] = details.tone
+            ritual["Love Type"] = ", ".join([l.value for l in details.loveTypes])
+            ritual["Ritual Mode"] = details.ritualMode.value
+            ritual["Time Taken"] = details.timeTaken.value
+            ritual["Relational Need"] = ", ".join([r.value for r in details.relationalNeeds])
+            ritual["Tone"] = ", ".join([t.value for t in details.ritualTones])
+            ritual["Semantic Summary"] = details.semanticSummary
             ritual["Sync Status"] = 'REVIEW'
             
             print(f"  > Successfully populated ritual {i+1}: {title}")
