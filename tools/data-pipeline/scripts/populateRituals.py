@@ -14,7 +14,7 @@ END_ROW = 500
 STEPS_FIELD = "Steps"
 SYNC_STATUS_FIELD = "Sync Status"
 UPDATE_BATCH_SIZE = 10
-CHANGELOG_PATH = "rituals_changelog.json"
+CHANGELOG_PATH = "../data/rituals_changelog.json"
 
 # Additional fields populated by LLM
 RITUAL_FIELDS = [
@@ -129,14 +129,14 @@ def populate_and_update_rituals_to_airtable(rituals):
         dump_batch_to_changelog(batch)
         
         # 2. Populate the missing fields using LLM (in-place modification of the 'batch' list)
-        populate_missing_ritual_fields_batch(batch)
+        # populate_missing_ritual_fields_batch(batch)
         
-        # 3. Write the updated batch back to Airtable
-        success = write_batch_to_airtable(batch)
+        # # 3. Write the updated batch back to Airtable
+        # success = write_batch_to_airtable(batch)
         
-        if not success:
-            print(f"Stopping ritual population due to write error on batch starting at index {i}.")
-            break
+        # if not success:
+        #     print(f"Stopping ritual population due to write error on batch starting at index {i}.")
+        #     break
 
         # Rate limit guard: Wait between write batches to respect the 5 req/sec limit.
         sleep(0.2)

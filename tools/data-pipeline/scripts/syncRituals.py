@@ -6,7 +6,7 @@ from typing import List, Dict, Any, Literal
 from airtable_utils import read_from_airtable, update_airtable, create_airtable_records
 
 # The file path for the local JSON array.
-JSON_FILE_PATH: str = "rituals.json"
+JSON_FILE_PATH: str = "../data/rituals.json"
 
 # The unique field name used to link records across Airtable and JSON.
 ID_FIELD_NAME: str = "id"
