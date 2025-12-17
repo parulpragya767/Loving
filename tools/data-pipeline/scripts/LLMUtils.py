@@ -1,6 +1,6 @@
 import json
 import os
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, TypeVar, Type
 from openai import OpenAI
 from pydantic import BaseModel
 
@@ -11,8 +11,10 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 # Initialize OpenAI client
 client = OpenAI(api_key=OPENAI_API_KEY)
 
-def call_llm_json(model_class: [BaseModel],prompt: str, system: Optional[str] = None, ) -> Dict[str, Any]:
-    """Call OpenAI responses API and return parsed JSON content."""
+T = TypeVar('T', bound=BaseModel)
+
+def call_llm_json(model_class: Type[T], prompt: str, system: Optional[str] = None) -> T:
+    """Call OpenAI responses API and return parsed model instance."""
     if not OPENAI_API_KEY:
         raise ValueError("OPENAI_API_KEY environment variable is not set")
     
