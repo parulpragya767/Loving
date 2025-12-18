@@ -40,8 +40,6 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
     system_prompt = get_ritual_details_prompt()
 
     try:
-        # Extract titles from the batch
-        titles = []
         valid_rituals = []
         
         for i, ritual in enumerate(batch):
@@ -49,10 +47,9 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
             if not title:
                 print(f"  > Warning: Skipping ritual {i+1} due to missing title")
                 continue
-            titles.append(title)
             valid_rituals.append(ritual)
         
-        if not titles:
+        if not valid_rituals:
             print("  > No valid rituals to process")
             return batch
         
@@ -77,7 +74,6 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
             ritual[AirtableFields.LOVE_TYPES] = [l.value for l in details.loveTypes]
             ritual[AirtableFields.RELATIONAL_NEEDS] = [r.value for r in details.relationalNeeds]
             ritual[AirtableFields.RITUAL_TONES] = [t.value for t in details.ritualTones]
-            ritual[AirtableFields.RITUAL_MODE] = details.ritualMode.value
             ritual[AirtableFields.TIME_TAKEN] = details.timeTaken.value
             ritual[AirtableFields.SEMANTIC_SUMMARY] = details.semanticSummary
             ritual[AirtableFields.SYNC_STATUS] = SyncStatus.REVIEW.value
