@@ -3,7 +3,7 @@ import json
 from time import sleep
 import argparse
 from datetime import datetime
-from airtable_utils import read_from_airtable, update_airtable, AirtableFields
+from airtable_utils import read_from_airtable, update_airtable, AirtableFields, SyncStatus
 from ritual_llm_populator import populate_missing_ritual_fields_batch
 
 # Initial parameters
@@ -21,13 +21,13 @@ def transform_airtable_record(record: dict) -> dict:
 def fetch_rituals_from_airtable(start_row: int, end_row: int) -> list[dict]:
     """
     Fetch and transform rituals from Airtable within the specified row range.
-    Only fetches records where Sync Status is 'GENERATE'.
+    Only fetches records where Sync Status is GENERATE.
     """
     if start_row < 1 or end_row < start_row:
         raise ValueError("start_row must be >= 1 and <= end_row")
     
     print(f"  > Fetching actionable records from rows {start_row} to {end_row}...")
-    filter_formula = f"{{{AirtableFields.SYNC_STATUS}}} = 'GENERATE'"
+    filter_formula = f"{{{AirtableFields.SYNC_STATUS}}} = '{SyncStatus.GENERATE.value}'"
     all_records = read_from_airtable(start=start_row - 1, end=end_row, filter=filter_formula)
     print(f"  > Fetched {len(all_records)} actionable records.")
     

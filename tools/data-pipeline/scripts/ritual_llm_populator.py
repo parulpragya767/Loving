@@ -3,7 +3,7 @@ from typing import Dict, List, Any
 from LLMUtils import call_llm_json
 from PromptUtils import get_ritual_details_prompt
 from data_models import BatchRitualDetailsResponse
-from airtable_utils import AirtableFields
+from airtable_utils import AirtableFields, SyncStatus
 
 def generate_ritual_data_prompt(rituals: List[Dict[str, Any]]) -> str:
     """
@@ -79,14 +79,11 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
             ritual[AirtableFields.RITUAL_MODE] = details.ritualMode.value
             ritual[AirtableFields.TIME_TAKEN] = details.timeTaken.value
             ritual[AirtableFields.SEMANTIC_SUMMARY] = details.semanticSummary
-            ritual[AirtableFields.SYNC_STATUS] = 'REVIEW'
+            ritual[AirtableFields.SYNC_STATUS] = SyncStatus.REVIEW.value
             
             print(f"  > Successfully populated ritual {i+1}: {ritual.get(AirtableFields.TITLE, 'Unknown')}")
         
     except Exception as e:
         print(f"  > Error populating batch: {str(e)}")
-        # Set status to indicate failure for all valid rituals
-        for ritual in valid_rituals:
-            ritual[AirtableFields.SYNC_STATUS] = 'ERROR'
     
     return batch

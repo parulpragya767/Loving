@@ -3,7 +3,7 @@ import os
 import argparse
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Literal
-from airtable_utils import read_from_airtable, update_airtable, create_airtable_records, AirtableFields
+from airtable_utils import read_from_airtable, update_airtable, create_airtable_records, AirtableFields, SyncStatus
 
 # The file path for the local JSON array.
 JSON_FILE_PATH: str = "../data/rituals.json"
@@ -81,7 +81,7 @@ class AirtableJsonSyncer:
         """Fetches all records from Airtable and formats them for processing."""   
         try:
             # Use the utility function to fetch only PUBLISHED records
-            filter_formula = f"{{{AirtableFields.SYNC_STATUS}}} = 'PUBLISHED'"
+            filter_formula = f"{{{AirtableFields.SYNC_STATUS}}} = '{SyncStatus.PUBLISHED.value}'"
             airtable_records = read_from_airtable(filter=filter_formula)
         except Exception as e:
             print(f"Error fetching Airtable data: {e}")

@@ -1,4 +1,5 @@
 import os
+from enum import Enum
 from typing import List, Dict, Any, Optional
 from pyairtable import Api
 from dotenv import load_dotenv
@@ -12,6 +13,13 @@ AIRTABLE_BASE_ID: str = "appt8THxSUPVnWkJk"
 AIRTABLE_TABLE_NAME: str = "Rituals"
 AIRTABLE_VIEW_NAME: Optional[str] = "View1"
 AIRTABLE_PAGE_SIZE: int = 100 # Airtable limits to 100
+
+# Sync Status enum for centralized status values
+class SyncStatus(Enum):
+    """Centralized sync status values to avoid hardcoded strings."""
+    GENERATE = "GENERATE"
+    REVIEW = "REVIEW"
+    PUBLISHED = "PUBLISHED"
 
 # Centralized Airtable field names for rituals
 class AirtableFields:
