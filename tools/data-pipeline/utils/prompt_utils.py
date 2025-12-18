@@ -4,7 +4,9 @@ from typing import Dict
 
 # Define all prompt file paths relative to the scripts directory
 _PROMPT_FILES = {
-    'populate_ritual_details': '../prompts/populate_ritual_details_prompt.txt',
+    'populate_ritual_details': '../prompts/populate_ritual_details_prompt_temp.txt',
+    'prompt_v1': '../prompts/prompt_v1.txt',
+    'prompt_v2': '../prompts/prompt_v2.txt',
     # Add more prompt files here as needed
 }
 

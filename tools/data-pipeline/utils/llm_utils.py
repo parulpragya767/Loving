@@ -33,6 +33,35 @@ def call_llm_json(model_class: Type[T], prompt: str, system: Optional[str] = Non
     except Exception as e:
         raise Exception(f"API request failed: {str(e)}")
 
+def call_llm_json_with_usage(model_class: Type[T], prompt: str, system: Optional[str] = None) -> tuple[T, Dict[str, Any]]:
+    """Call OpenAI responses API and return parsed model instance with usage information."""
+    if not OPENAI_API_KEY:
+        raise ValueError("OPENAI_API_KEY environment variable is not set")
+    
+    messages = []
+    if system:
+        messages.append({"role": "system", "content": system})
+    messages.append({"role": "user", "content": prompt})
+
+    try:
+        response = client.responses.parse(
+            model=OPENAI_API_MODEL,
+            input=messages,
+            text_format=model_class,
+        )
+        
+        # Extract usage information
+        usage_info = {
+            "model": OPENAI_API_MODEL,
+            "input_tokens": getattr(response.usage, 'input_tokens', None) if hasattr(response, 'usage') else None,
+            "output_tokens": getattr(response.usage, 'output_tokens', None) if hasattr(response, 'usage') else None,
+            "total_tokens": getattr(response.usage, 'total_tokens', None) if hasattr(response, 'usage') else None,
+        }
+        
+        return response.output_parsed, usage_info
+    except Exception as e:
+        raise Exception(f"API request failed: {str(e)}")
+
 def call_llm_text(prompt: str, system: Optional[str] = None) -> str:
     """Call OpenAI responses API and return plain text content."""
     if not OPENAI_API_KEY:

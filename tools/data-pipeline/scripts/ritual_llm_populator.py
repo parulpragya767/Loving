@@ -1,10 +1,43 @@
 import json
 from typing import Dict, List, Any
-from utils.llm_utils import call_llm_json
-from utils.prompt_utils import get_ritual_details_prompt
+from datetime import datetime
+from utils.llm_utils import call_llm_json_with_usage
+from utils.prompt_utils import load_prompt
 from model.ritual_models import BatchRitualDetailsResponse
 from utils.airtable_utils import AirtableFields, SyncStatus
 from utils.ritual_utils import steps_array_to_text
+
+LLM_OUTPUT_PATH = "data/llm_output_changelog.json"
+
+def dump_llm_batch_output(batch_details: BatchRitualDetailsResponse, usage_info: Dict[str, Any], 
+                         prompt_name: str, ritual_count: int):
+    """Dump the LLM output for a batch to the changelog file."""
+    timestamp = datetime.now().isoformat()
+    
+    # Prepare batch entry with metadata
+    batch_entry = {
+        "timestamp": timestamp,
+        "prompt_name": prompt_name,
+        "ritual_count": ritual_count,
+        "usage": usage_info,
+        "rituals": [ritual.dict() for ritual in batch_details.rituals]
+    }
+    
+    # Read existing changelog if it exists
+    try:
+        with open(LLM_OUTPUT_PATH, 'r', encoding='utf-8') as f:
+            changelog_data = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        changelog_data = []
+    
+    # Append new batch entry
+    changelog_data.append(batch_entry)
+    
+    # Write back to file
+    with open(LLM_OUTPUT_PATH, 'w', encoding='utf-8') as f:
+        json.dump(changelog_data, f, indent=2, ensure_ascii=False)
+    
+    print(f"  > Dumped LLM output for {ritual_count} rituals to changelog at {timestamp}")
 
 def generate_ritual_data_prompt(rituals: List[Dict[str, Any]]) -> str:
     """
@@ -32,12 +65,16 @@ def generate_ritual_data_prompt(rituals: List[Dict[str, Any]]) -> str:
     
     return ritual_data_prompt
 
-def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Dict[str, Any]]:
+def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]], prompt_name: str = "prompt_v1") -> List[Dict[str, Any]]:
     """
     Populate missing ritual fields for a batch of rituals using LLM in one call.
+    
+    Args:
+        batch: List of ritual dictionaries to process
+        prompt_name: Name of the prompt being used for processing
     """
-    print(f"  > Populating ritual details for {len(batch)} rituals using LLM...")
-    system_prompt = get_ritual_details_prompt()
+    print(f"  > Populating ritual details for {len(batch)} rituals using LLM with {prompt_name}...")
+    system_prompt = load_prompt(prompt_name)
 
     try:
         valid_rituals = []
@@ -57,13 +94,14 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
         ritual_data_prompt = generate_ritual_data_prompt(valid_rituals)
         
         # Generate ritual details for all rituals in one batch
-        batch_details = call_llm_json(
+        batch_details, usage_info = call_llm_json_with_usage(
             model_class=BatchRitualDetailsResponse,
             system=system_prompt,
             prompt=ritual_data_prompt,
         )
         
-        print(json.dumps([ritual.dict() for ritual in batch_details.rituals], indent=2, ensure_ascii=False))
+        # Dump LLM output to changelog
+        dump_llm_batch_output(batch_details, usage_info, prompt_name, len(valid_rituals))
         
         # Update each ritual with its corresponding details
         for i, (ritual, details) in enumerate(zip(valid_rituals, batch_details.rituals)):

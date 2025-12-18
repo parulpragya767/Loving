@@ -1,0 +1,126 @@
+[
+  {
+    "timestamp": "2025-12-18T17:09:10.423849",
+    "prompt_name": "prompt_v2",
+    "ritual_count": 2,
+    "usage": {
+      "model": "gpt-4.1-mini",
+      "input_tokens": 1516,
+      "output_tokens": 601,
+      "total_tokens": 2117
+    },
+    "rituals": [
+      {
+        "tagLine": "A quiet moment sharing warmth and presence through open palms.",
+        "description": "Palm Rest is a simple moment where you and your partner rest your palms together to feel each other's touch and warmth. This peaceful connection nurtures a sense of safety and closeness without needing words.",
+        "steps": [
+          "**1. Find a comfortable space.** Sit facing each other where you can easily reach out.",
+          "**2. Rest your palms together gently.** Press your hands lightly and feel the textures and warmth between you.",
+          "**3. Tune in quietly.** Close your eyes or soften your gaze, focusing on the shared touch and the calm it brings.",
+          "**4. Pause in stillness.** Hold this moment for a minute or two, letting the quiet presence deepen your connection."
+        ],
+        "howItHelps": "This ritual helps build a gentle sense of safety and intimacy by grounding you in shared, nonverbal touch. It encourages calm closeness and trust in the simple presence of each other.",
+        "loveTypes": [
+          "CARE"
+        ],
+        "relationalNeeds": [
+          "TRUST_AND_SAFETY",
+          "INTIMACY"
+        ],
+        "ritualTones": [
+          "CALM",
+          "INTIMATE",
+          "WARM"
+        ],
+        "timeTaken": "MOMENT",
+        "semanticSummary": "Palm Rest is best when you want a quiet, reassuring connection that doesn’t require words. It supports feelings of safety and gentle intimacy, offering a soothing pause together that can calm and ground your relationship."
+      },
+      {
+        "tagLine": "Sync your breath to find calm and connection together.",
+        "description": "Breath Check invites you and your partner to pause, notice your natural breathing, and then breathe slowly and deeply together. This shared rhythm creates calm and builds a sense of trust and emotional grounding between you.",
+        "steps": [
+          "**1. Sit facing each other comfortably.** Choose a quiet spot where you won’t be disturbed.",
+          "**2. Observe your individual breaths.** Spend a few breaths noticing the natural rhythm and sensation without changing it.",
+          "**3. Begin to breathe slowly.** Start deepening your inhales and exhales at a gentle pace.",
+          "**4. Synchronize your breath.** Gradually match your partner’s breathing pattern, inhaling and exhaling together slowly and evenly.",
+          "**5. Continue for a few minutes.** Stay present with the shared breath, letting calm and connection grow."
+        ],
+        "howItHelps": "This practice nurtures calmness and emotional grounding by aligning your breathing rhythms, which naturally builds a sense of trust and safety. It helps you feel more connected and present with each other in the moment.",
+        "loveTypes": [
+          "CARE"
+        ],
+        "relationalNeeds": [
+          "TRUST_AND_SAFETY"
+        ],
+        "ritualTones": [
+          "CALM",
+          "INTIMATE",
+          "REFLECTIVE"
+        ],
+        "timeTaken": "SHORT",
+        "semanticSummary": "Breath Check is useful when you want to create a calm, grounding moment with your partner. It supports building trust and emotional balance through the simple act of breathing together, helping you reconnect and slow down side by side."
+      }
+    ]
+  },
+  {
+    "timestamp": "2025-12-18T17:10:31.585492",
+    "prompt_name": "prompt_v1",
+    "ritual_count": 2,
+    "usage": {
+      "model": "gpt-4.1-mini",
+      "input_tokens": 2404,
+      "output_tokens": 577,
+      "total_tokens": 2981
+    },
+    "rituals": [
+      {
+        "tagLine": "Connect quietly through the simple touch of your palms.",
+        "description": "Palm Rest is a brief, soothing ritual where you and your partner place your palms gently together. By focusing on the warmth and texture of each other's hands, you create an immediate sense of safety and closeness without needing words.",
+        "steps": [
+          "**Settle together** — Face each other and take a comfortable seated or standing position where your hands can meet easily.",
+          "**Gentle palm touch** — Slowly bring the palms of your hands to rest against your partner's palms, feeling the texture and warmth of skin on skin.",
+          "**Tune into the moment** — Close your eyes or soften your gaze, breathing naturally and focusing on the shared sensation and quiet presence for about a minute or as long as feels right."
+        ],
+        "howItHelps": "This ritual helps couples feel a grounded, wordless connection, building trust and gentle intimacy through the shared experience of touch. It encourages presence and emotional safety in a calm, accessible way.",
+        "loveTypes": [
+          "CARE"
+        ],
+        "relationalNeeds": [
+          "TRUST_AND_SAFETY",
+          "INTIMACY"
+        ],
+        "ritualTones": [
+          "CALM",
+          "INTIMATE",
+          "WARM"
+        ],
+        "timeTaken": "MOMENT",
+        "semanticSummary": "Palm Rest is especially helpful when partners want a moment of closeness without words. It supports calm, quiet connection and emotional safety, fostering intimacy through simple, shared touch."
+      },
+      {
+        "tagLine": "Breathe together to find calm and strengthen trust.",
+        "description": "Breath Check invites you and your partner to pause and bring awareness to your breathing. By observing and then synchronizing your breaths, you foster emotional grounding and create a shared sense of calm and trust.",
+        "steps": [
+          "**Pause and notice** — Sit or stand comfortably facing each other and take a moment to notice your natural breath without trying to change it.",
+          "**Bring awareness to breath** — Focus on the sensations of each inhale and exhale, tuning into how your partner breathes as well.",
+          "**Synchronize your breathing** — Slowly deepen your breaths and coordinate the rhythm together, inhaling and exhaling in unison for several cycles.",
+          "**Gently end** — Let your breath return to its usual pace and take a moment to notice how you feel before resuming your day."
+        ],
+        "howItHelps": "Doing this ritual together cultivates calmness and a sense of emotional safety. Synchronizing breath helps partners align emotionally and physically, deepening trust and creating a peaceful shared space.",
+        "loveTypes": [
+          "CARE"
+        ],
+        "relationalNeeds": [
+          "TRUST_AND_SAFETY"
+        ],
+        "ritualTones": [
+          "CALM",
+          "WARM",
+          "INTIMATE"
+        ],
+        "timeTaken": "SHORT",
+        "semanticSummary": "Breath Check is helpful during busy or stressful moments, offering a way to pause and reconnect through shared breathing. It supports emotional grounding and strengthens trust between partners through intentional presence."
+      }
+    ]
+  }
+]

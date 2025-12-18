@@ -11,7 +11,7 @@ START_ROW = 1
 END_ROW = 500
 
 # Constants
-UPDATE_BATCH_SIZE = 10
+UPDATE_BATCH_SIZE = 5
 CHANGELOG_PATH = "data/rituals_changelog.json"
 
 def transform_airtable_record(record: dict) -> dict:
@@ -99,13 +99,14 @@ def dump_batch_to_changelog(batch: list[dict]):
     
     print(f"  > Dumped {len(batch)} rituals to changelog at {timestamp}")
 
-def populate_and_update_rituals_to_airtable(rituals):
+def populate_and_update_rituals_to_airtable(rituals, prompt_name="ritual_details_prompt"):
     """
     Processes a list of actionable rituals, populates the missing fields in batches,
     and writes the updated records back to Airtable.
     
     Args:
         rituals: List of ritual dictionaries from Airtable
+        prompt_name: Name of the prompt to use for LLM processing
     """
     if not rituals:
         print("No rituals to populate. Skipping write process.")
@@ -121,7 +122,7 @@ def populate_and_update_rituals_to_airtable(rituals):
         dump_batch_to_changelog(batch)
         
         # 2. Populate the missing fields using LLM (in-place modification of the 'batch' list)
-        populate_missing_ritual_fields_batch(batch)
+        populate_missing_ritual_fields_batch(batch, prompt_name)
         
         # # 3. Write the updated batch back to Airtable
         success = write_batch_to_airtable(batch)
@@ -154,6 +155,13 @@ if __name__ == "__main__":
         dest='end_row',
         help='The ending row number to read (e.g., 50).'
     )
+    parser.add_argument(
+        '--prompt-name',
+        type=str,
+        default='ritual_details_prompt',
+        dest='prompt_name',
+        help='The name of the prompt to use for LLM processing (default: ritual_details_prompt).'
+    )
 
     args = parser.parse_args()
         
@@ -161,7 +169,7 @@ if __name__ == "__main__":
     actionable_rituals = fetch_rituals_from_airtable(start_row=args.start_row, end_row=args.end_row)
     
     # 2. Populate missing fields using LLM and write back to Airtable
-    populate_and_update_rituals_to_airtable(actionable_rituals)
+    populate_and_update_rituals_to_airtable(actionable_rituals, args.prompt_name)
     
     # 3. Output results 
     if actionable_rituals:
