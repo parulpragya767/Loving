@@ -3,7 +3,7 @@ import json
 from time import sleep
 import argparse
 from datetime import datetime
-from airtable_utils import read_from_airtable, update_airtable
+from airtable_utils import read_from_airtable, update_airtable, AirtableFields
 from ritual_llm_populator import populate_missing_ritual_fields_batch
 
 # Initial parameters
@@ -11,16 +11,8 @@ START_ROW = 1
 END_ROW = 500
 
 # Constants
-STEPS_FIELD = "Steps"
-SYNC_STATUS_FIELD = "Sync Status"
 UPDATE_BATCH_SIZE = 10
 CHANGELOG_PATH = "../data/rituals_changelog.json"
-
-# Additional fields populated by LLM
-RITUAL_FIELDS = [
-    "Tagline", "Description", "Steps", "How It Helps", 
-    "Love Type", "Ritual Mode", "Time Taken", "Relational Need", "Tone"
-]
 
 def transform_airtable_record(record: dict) -> dict:
     """Flatten Airtable record by merging fields with record ID."""
@@ -35,7 +27,7 @@ def fetch_rituals_from_airtable(start_row: int, end_row: int) -> list[dict]:
         raise ValueError("start_row must be >= 1 and <= end_row")
     
     print(f"  > Fetching actionable records from rows {start_row} to {end_row}...")
-    filter_formula = f"{{{SYNC_STATUS_FIELD}}} = 'GENERATE'"
+    filter_formula = f"{{{AirtableFields.SYNC_STATUS}}} = 'GENERATE'"
     all_records = read_from_airtable(start=start_row - 1, end=end_row, filter=filter_formula)
     print(f"  > Fetched {len(all_records)} actionable records.")
     
@@ -55,7 +47,7 @@ def write_batch_to_airtable(batch: list[dict]) -> bool:
         # Include all ritual fields plus sync status
         fields = {
             field: ritual[field] 
-            for field in RITUAL_FIELDS + [SYNC_STATUS_FIELD] 
+            for field in AirtableFields.RITUAL_FIELDS + [AirtableFields.SYNC_STATUS] 
             if field in ritual and ritual[field] is not None
         }
         
@@ -129,7 +121,7 @@ def populate_and_update_rituals_to_airtable(rituals):
         dump_batch_to_changelog(batch)
         
         # 2. Populate the missing fields using LLM (in-place modification of the 'batch' list)
-        # populate_missing_ritual_fields_batch(batch)
+        populate_missing_ritual_fields_batch(batch)
         
         # # 3. Write the updated batch back to Airtable
         # success = write_batch_to_airtable(batch)
@@ -145,7 +137,7 @@ def populate_and_update_rituals_to_airtable(rituals):
 # --- MAIN EXECUTION ---
 if __name__ == "__main__":
     
-    parser = argparse.ArgumentParser(description="Airtable ritual processor. Reads, filters for missing steps, and writes generated steps back to Airtable.")
+    parser = argparse.ArgumentParser(description="Airtable ritual processor. Reads the actionable rituals, populates the missing fields using LLM, and updates the records back to Airtable.")
     
     # start_row and end_row are now mandatory
     parser.add_argument(

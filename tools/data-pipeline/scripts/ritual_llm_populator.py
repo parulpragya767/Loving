@@ -3,6 +3,7 @@ from typing import Dict, List, Any
 from LLMUtils import call_llm_json
 from PromptUtils import get_ritual_details_prompt
 from data_models import BatchRitualDetailsResponse
+from airtable_utils import AirtableFields
 
 def generate_ritual_data_prompt(rituals: List[Dict[str, Any]]) -> str:
     """
@@ -14,19 +15,19 @@ def generate_ritual_data_prompt(rituals: List[Dict[str, Any]]) -> str:
         ritual_data_prompt += f"\nRitual {i+1}:\n"
         
         # Add title (always required)
-        ritual_data_prompt += f"  title: {ritual.get('Title')}\n"
+        ritual_data_prompt += f"  title: {ritual.get(AirtableFields.TITLE)}\n"
         
         # Add other fields only if they have values
-        if ritual.get('Description'):
-            ritual_data_prompt += f"  description: {ritual.get('Description')}\n"
-        if ritual.get('Love Types'):
-            ritual_data_prompt += f"  loveTypes: {ritual.get('Love Types')}\n"
-        if ritual.get('Ritual Mode'):
-            ritual_data_prompt += f"  ritualMode: {ritual.get('Ritual Mode')}\n"
-        if ritual.get('Relational Needs'):
-            ritual_data_prompt += f"  relationalNeeds: {ritual.get('Relational Needs')}\n"
-        if ritual.get('Time Taken'):
-            ritual_data_prompt += f"  timeTaken: {ritual.get('Time Taken')}\n"
+        if ritual.get(AirtableFields.DESCRIPTION):
+            ritual_data_prompt += f"  description: {ritual.get(AirtableFields.DESCRIPTION)}\n"
+        if ritual.get(AirtableFields.LOVE_TYPES):
+            ritual_data_prompt += f"  loveTypes: {ritual.get(AirtableFields.LOVE_TYPES)}\n"
+        if ritual.get(AirtableFields.RITUAL_MODE):
+            ritual_data_prompt += f"  ritualMode: {ritual.get(AirtableFields.RITUAL_MODE)}\n"
+        if ritual.get(AirtableFields.RELATIONAL_NEEDS):
+            ritual_data_prompt += f"  relationalNeeds: {ritual.get(AirtableFields.RELATIONAL_NEEDS)}\n"
+        if ritual.get(AirtableFields.TIME_TAKEN):
+            ritual_data_prompt += f"  timeTaken: {ritual.get(AirtableFields.TIME_TAKEN)}\n"
     
     return ritual_data_prompt
 
@@ -43,7 +44,7 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
         valid_rituals = []
         
         for i, ritual in enumerate(batch):
-            title = ritual.get("Title", "")
+            title = ritual.get(AirtableFields.TITLE, "")
             if not title:
                 print(f"  > Warning: Skipping ritual {i+1} due to missing title")
                 continue
@@ -68,24 +69,24 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
         
         # Update each ritual with its corresponding details
         for i, (ritual, details) in enumerate(zip(valid_rituals, batch_details.rituals)):
-            ritual["Tagline"] = details.tagLine
-            ritual["Description"] = details.description
-            ritual["Steps"] = "\n".join(details.steps)
-            ritual["How It Helps"] = details.howItHelps
-            ritual["Love Types"] = ", ".join([l.value for l in details.loveTypes])
-            ritual["Ritual Mode"] = details.ritualMode.value
-            ritual["Time Taken"] = details.timeTaken.value
-            ritual["Relational Needs"] = ", ".join([r.value for r in details.relationalNeeds])
-            ritual["Tone"] = ", ".join([t.value for t in details.ritualTones])
-            ritual["Semantic Summary"] = details.semanticSummary
-            ritual["Sync Status"] = 'REVIEW'
+            ritual[AirtableFields.TAGLINE] = details.tagLine
+            ritual[AirtableFields.DESCRIPTION] = details.description
+            ritual[AirtableFields.STEPS] = "\n".join(details.steps)
+            ritual[AirtableFields.HOW_IT_HELPS] = details.howItHelps
+            ritual[AirtableFields.LOVE_TYPES] = ", ".join([l.value for l in details.loveTypes])
+            ritual[AirtableFields.RELATIONAL_NEEDS] = ", ".join([r.value for r in details.relationalNeeds])
+            ritual[AirtableFields.RITUAL_TONES] = ", ".join([t.value for t in details.ritualTones])
+            ritual[AirtableFields.RITUAL_MODE] = details.ritualMode.value
+            ritual[AirtableFields.TIME_TAKEN] = details.timeTaken.value
+            ritual[AirtableFields.SEMANTIC_SUMMARY] = details.semanticSummary
+            ritual[AirtableFields.SYNC_STATUS] = 'REVIEW'
             
-            print(f"  > Successfully populated ritual {i+1}: {ritual.get('Title', 'Unknown')}")
+            print(f"  > Successfully populated ritual {i+1}: {ritual.get(AirtableFields.TITLE, 'Unknown')}")
         
     except Exception as e:
         print(f"  > Error populating batch: {str(e)}")
         # Set status to indicate failure for all valid rituals
         for ritual in valid_rituals:
-            ritual["Sync Status"] = 'ERROR'
+            ritual[AirtableFields.SYNC_STATUS] = 'ERROR'
     
     return batch

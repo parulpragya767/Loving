@@ -3,7 +3,7 @@ import os
 import argparse
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Literal
-from airtable_utils import read_from_airtable, update_airtable, create_airtable_records
+from airtable_utils import read_from_airtable, update_airtable, create_airtable_records, AirtableFields
 
 # The file path for the local JSON array.
 JSON_FILE_PATH: str = "../data/rituals.json"
@@ -15,24 +15,18 @@ ID_FIELD_NAME: str = "id"
 # Only fields present in this map will be synced.
 FIELD_MAP: Dict[str, str] = {
     "id": ID_FIELD_NAME,
-    "title": "Title",
-    "tagLine": "Tagline",
-    "description": "Description",
-    "howItHelps": "How It Helps",
-    "steps": "Steps",
-    "loveTypes": "Love Types",
-    "relationalNeeds": "Relational Needs",
-    "ritualMode": "Ritual Mode",
-    "ritualTones": "Ritual Tones",
-    "timeTaken": "Time Taken",
-    "semanticSummary": "Semantic Summary",
-    "status": "Status",
-}
-
-AIRTABLE_FIELD_MAP: Dict[str, str] = {
-    "airtable_record_id": "airtable_record_id",
-    "last_updated_ts": "Last Updated Timestamp",
-    "sync_status": "Sync Status"
+    "title": AirtableFields.TITLE,
+    "tagLine": AirtableFields.TAGLINE,
+    "description": AirtableFields.DESCRIPTION,
+    "howItHelps": AirtableFields.HOW_IT_HELPS,
+    "steps": AirtableFields.STEPS,
+    "loveTypes": AirtableFields.LOVE_TYPES,
+    "relationalNeeds": AirtableFields.RELATIONAL_NEEDS,
+    "ritualMode": AirtableFields.RITUAL_MODE,
+    "ritualTones": AirtableFields.RITUAL_TONES,
+    "timeTaken": AirtableFields.TIME_TAKEN,
+    "semanticSummary": AirtableFields.SEMANTIC_SUMMARY,
+    "status": AirtableFields.STATUS,
 }
 
 class AirtableJsonSyncer:
@@ -87,7 +81,7 @@ class AirtableJsonSyncer:
         """Fetches all records from Airtable and formats them for processing."""   
         try:
             # Use the utility function to fetch only PUBLISHED records
-            filter_formula = f"{{{AIRTABLE_FIELD_MAP['sync_status']}}} = 'PUBLISHED'"
+            filter_formula = f"{{{AirtableFields.SYNC_STATUS}}} = 'PUBLISHED'"
             airtable_records = read_from_airtable(filter=filter_formula)
         except Exception as e:
             print(f"Error fetching Airtable data: {e}")
@@ -101,7 +95,7 @@ class AirtableJsonSyncer:
             mapped_record = self._apply_map(fields, 'to_json')
             
             # The Airtable internal ID is crucial for updates
-            mapped_record[AIRTABLE_FIELD_MAP["airtable_record_id"]] = record['id']
+            mapped_record[AirtableFields.AIRTABLE_RECORD_ID] = record['id']
             
             # Ensure the common ID field exists for matching
             if self.id_field_name in mapped_record:
@@ -148,7 +142,7 @@ class AirtableJsonSyncer:
         
         # Index existing Airtable records by their common ID field
         airtable_index = {
-            record[self.id_field_name]: record[AIRTABLE_FIELD_MAP['airtable_record_id']]
+            record[self.id_field_name]: record[AirtableFields.AIRTABLE_RECORD_ID]
             for record in airtable_data if self.id_field_name in record
         }
 
@@ -167,11 +161,11 @@ class AirtableJsonSyncer:
             airtable_fields = self._apply_map(json_record, 'to_airtable')
             
             # Sanitize steps field for Airtable (convert array to JSON string)
-            if 'Steps' in airtable_fields:
-                airtable_fields['Steps'] = self.steps_array_to_text(airtable_fields['Steps'])
+            if AirtableFields.STEPS in airtable_fields:
+                airtable_fields[AirtableFields.STEPS] = self.steps_array_to_text(airtable_fields[AirtableFields.STEPS])
             
             # Add a timestamp to track the sync time
-            airtable_fields[AIRTABLE_FIELD_MAP["last_updated_ts"]] = utc_timestamp
+            airtable_fields[AirtableFields.LAST_UPDATED_TS] = utc_timestamp
 
             if common_id in airtable_index:
                 # Record exists, prepare for update
@@ -255,11 +249,11 @@ class AirtableJsonSyncer:
         for record in json_index.values():
              new_json_data.append(record)
 
-        # Remove any fields present in AIRTABLE_FIELD_MAP keys before saving to JSON
+        # Remove any fields present in AIRTABLE_SPECIFIC_FIELDS before saving to JSON
         final_data_for_json = []
         for record in new_json_data:
             cleaned_record = record.copy()
-            for field in AIRTABLE_FIELD_MAP.keys():
+            for field in AirtableFields.AIRTABLE_SPECIFIC_FIELDS:
                 cleaned_record.pop(field, None)
             final_data_for_json.append(cleaned_record)
         # ------------------------------------

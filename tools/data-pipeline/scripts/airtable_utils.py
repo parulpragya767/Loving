@@ -13,6 +13,39 @@ AIRTABLE_TABLE_NAME: str = "Rituals"
 AIRTABLE_VIEW_NAME: Optional[str] = "View1"
 AIRTABLE_PAGE_SIZE: int = 100 # Airtable limits to 100
 
+# Centralized Airtable field names for rituals
+class AirtableFields:
+    """Centralized Airtable field names to avoid hardcoded strings and prevent errors."""
+    
+    TITLE = "Title"
+    TAGLINE = "Tagline"
+    DESCRIPTION = "Description"
+    STEPS = "Steps"
+    HOW_IT_HELPS = "How It Helps"
+    LOVE_TYPES = "Love Types"
+    RELATIONAL_NEEDS = "Relational Needs"
+    RITUAL_TONES = "Ritual Tones"
+    RITUAL_MODE = "Ritual Mode"
+    TIME_TAKEN = "Time Taken"
+    SEMANTIC_SUMMARY = "Semantic Summary"
+    STATUS = "Status"
+    
+    #Airtable specific fields
+    AIRTABLE_RECORD_ID = "airtable_record_id"
+    LAST_UPDATED_TS = "Last Updated Timestamp"
+    SYNC_STATUS = "Sync Status"
+
+    # All ritual fields for batch operations
+    RITUAL_FIELDS = [
+        TAGLINE, DESCRIPTION, STEPS, HOW_IT_HELPS, 
+        LOVE_TYPES, RELATIONAL_NEEDS, RITUAL_TONES, RITUAL_MODE, TIME_TAKEN, SEMANTIC_SUMMARY, STATUS
+    ]
+    
+    # Fields populated by LLM
+    AIRTABLE_SPECIFIC_FIELDS = [
+        AIRTABLE_RECORD_ID, LAST_UPDATED_TS, SYNC_STATUS
+    ]
+
 def get_airtable_table():
     """
     Creates and returns an Airtable table instance.
