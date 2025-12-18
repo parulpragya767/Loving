@@ -7,7 +7,7 @@ from utils.airtable_utils import read_from_airtable, update_airtable, create_air
 from utils.ritual_utils import RitualFields, sanitize_steps_text_to_array, steps_array_to_text
 
 # The file path for the local JSON array.
-JSON_FILE_PATH: str = "../data/rituals.json"
+JSON_FILE_PATH: str = "data/rituals.json"
 
 # The unique field name used to link records across Airtable and JSON.
 ID_FIELD_NAME: str = "id"

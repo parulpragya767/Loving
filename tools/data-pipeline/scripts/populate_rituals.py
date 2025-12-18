@@ -4,7 +4,7 @@ from time import sleep
 import argparse
 from datetime import datetime
 from utils.airtable_utils import read_from_airtable, update_airtable, AirtableFields, SyncStatus
-from ritual_llm_populator import populate_missing_ritual_fields_batch
+from scripts.ritual_llm_populator import populate_missing_ritual_fields_batch
 
 # Initial parameters
 START_ROW = 1
@@ -12,7 +12,7 @@ END_ROW = 500
 
 # Constants
 UPDATE_BATCH_SIZE = 10
-CHANGELOG_PATH = "../data/rituals_changelog.json"
+CHANGELOG_PATH = "data/rituals_changelog.json"
 
 def transform_airtable_record(record: dict) -> dict:
     """Flatten Airtable record by merging fields with record ID."""
