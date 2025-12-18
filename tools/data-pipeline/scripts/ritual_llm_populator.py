@@ -4,6 +4,7 @@ from LLMUtils import call_llm_json
 from PromptUtils import get_ritual_details_prompt
 from data_models import BatchRitualDetailsResponse
 from airtable_utils import AirtableFields, SyncStatus
+from ritual_utils import steps_array_to_text
 
 def generate_ritual_data_prompt(rituals: List[Dict[str, Any]]) -> str:
     """
@@ -71,11 +72,11 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]]) -> List[Di
         for i, (ritual, details) in enumerate(zip(valid_rituals, batch_details.rituals)):
             ritual[AirtableFields.TAGLINE] = details.tagLine
             ritual[AirtableFields.DESCRIPTION] = details.description
-            ritual[AirtableFields.STEPS] = "\n".join(details.steps)
+            ritual[AirtableFields.STEPS] = steps_array_to_text(details.steps)
             ritual[AirtableFields.HOW_IT_HELPS] = details.howItHelps
-            ritual[AirtableFields.LOVE_TYPES] = ", ".join([l.value for l in details.loveTypes])
-            ritual[AirtableFields.RELATIONAL_NEEDS] = ", ".join([r.value for r in details.relationalNeeds])
-            ritual[AirtableFields.RITUAL_TONES] = ", ".join([t.value for t in details.ritualTones])
+            ritual[AirtableFields.LOVE_TYPES] = [l.value for l in details.loveTypes]
+            ritual[AirtableFields.RELATIONAL_NEEDS] = [r.value for r in details.relationalNeeds]
+            ritual[AirtableFields.RITUAL_TONES] = [t.value for t in details.ritualTones]
             ritual[AirtableFields.RITUAL_MODE] = details.ritualMode.value
             ritual[AirtableFields.TIME_TAKEN] = details.timeTaken.value
             ritual[AirtableFields.SEMANTIC_SUMMARY] = details.semanticSummary

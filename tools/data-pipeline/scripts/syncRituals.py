@@ -4,6 +4,7 @@ import argparse
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Literal
 from airtable_utils import read_from_airtable, update_airtable, create_airtable_records, AirtableFields, SyncStatus
+from ritual_utils import sanitize_steps_text_to_array, steps_array_to_text
 
 # The file path for the local JSON array.
 JSON_FILE_PATH: str = "../data/rituals.json"
@@ -56,26 +57,6 @@ class AirtableJsonSyncer:
 
         return mapped_data
 
-    def sanitize_steps_text_to_array(self, raw_steps: str | None) -> List[str]:
-        """Sanitizes steps from Airtable (JSON string) to array format for JSON."""
-        if not raw_steps:
-            return []
-        try:
-            parsed = json.loads(raw_steps)
-            if isinstance(parsed, list):
-                return [step.strip() for step in parsed if step and step.strip()]
-            return []
-        except json.JSONDecodeError:
-            print("Invalid steps JSON:", raw_steps)
-        return []
-
-    def steps_array_to_text(self, steps: List[str]) -> str:
-        """Converts steps array from JSON to JSON string format for Airtable."""
-        if not isinstance(steps, list):
-            return "[]"
-
-        cleaned = [step.strip() for step in steps if step and step.strip()]
-        return json.dumps(cleaned, indent=2, ensure_ascii=False)
 
     def load_airtable_data(self) -> List[Dict[str, Any]]:
         """Fetches all records from Airtable and formats them for processing."""   
@@ -162,7 +143,7 @@ class AirtableJsonSyncer:
             
             # Sanitize steps field for Airtable (convert array to JSON string)
             if AirtableFields.STEPS in airtable_fields:
-                airtable_fields[AirtableFields.STEPS] = self.steps_array_to_text(airtable_fields[AirtableFields.STEPS])
+                airtable_fields[AirtableFields.STEPS] = steps_array_to_text(airtable_fields[AirtableFields.STEPS])
             
             # Add a timestamp to track the sync time
             airtable_fields[AirtableFields.LAST_UPDATED_TS] = utc_timestamp
@@ -224,7 +205,7 @@ class AirtableJsonSyncer:
 
             # Sanitize steps from Airtable (JSON string to array) for JSON
             if "steps" in airtable_record:
-                airtable_record["steps"] = self.sanitize_steps_text_to_array(airtable_record["steps"])
+                airtable_record["steps"] = sanitize_steps_text_to_array(airtable_record["steps"])
 
             if common_id in json_index:
                 # Record exists in JSON, update it

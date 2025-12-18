@@ -124,11 +124,11 @@ def populate_and_update_rituals_to_airtable(rituals):
         populate_missing_ritual_fields_batch(batch)
         
         # # 3. Write the updated batch back to Airtable
-        # success = write_batch_to_airtable(batch)
+        success = write_batch_to_airtable(batch)
         
-        # if not success:
-        #     print(f"Stopping ritual population due to write error on batch starting at index {i}.")
-        #     break
+        if not success:
+            print(f"Stopping ritual population due to write error on batch starting at index {i}.")
+            break
 
         # Rate limit guard: Wait between write batches to respect the 5 req/sec limit.
         sleep(0.2)
