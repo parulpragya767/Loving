@@ -1,10 +1,10 @@
 import json
 from typing import Dict, List, Any
-from LLMUtils import call_llm_json
-from PromptUtils import get_ritual_details_prompt
-from data_models import BatchRitualDetailsResponse
-from airtable_utils import AirtableFields, SyncStatus
-from ritual_utils import steps_array_to_text
+from utils.llm_utils import call_llm_json
+from utils.prompt_utils import get_ritual_details_prompt
+from model.ritual_models import BatchRitualDetailsResponse
+from utils.airtable_utils import AirtableFields, SyncStatus
+from utils.ritual_utils import steps_array_to_text
 
 def generate_ritual_data_prompt(rituals: List[Dict[str, Any]]) -> str:
     """

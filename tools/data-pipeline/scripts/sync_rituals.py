@@ -3,8 +3,8 @@ import os
 import argparse
 from datetime import datetime, timezone
 from typing import List, Dict, Any, Literal
-from airtable_utils import read_from_airtable, update_airtable, create_airtable_records, AirtableFields, SyncStatus
-from ritual_utils import sanitize_steps_text_to_array, steps_array_to_text
+from utils.airtable_utils import read_from_airtable, update_airtable, create_airtable_records, AirtableFields, SyncStatus
+from utils.ritual_utils import RitualFields, sanitize_steps_text_to_array, steps_array_to_text
 
 # The file path for the local JSON array.
 JSON_FILE_PATH: str = "../data/rituals.json"
@@ -15,19 +15,19 @@ ID_FIELD_NAME: str = "id"
 # Mapping of field names: {JSON_KEY: AIRTABLE_FIELD_NAME}
 # Only fields present in this map will be synced.
 FIELD_MAP: Dict[str, str] = {
-    "id": ID_FIELD_NAME,
-    "title": AirtableFields.TITLE,
-    "tagLine": AirtableFields.TAGLINE,
-    "description": AirtableFields.DESCRIPTION,
-    "howItHelps": AirtableFields.HOW_IT_HELPS,
-    "steps": AirtableFields.STEPS,
-    "loveTypes": AirtableFields.LOVE_TYPES,
-    "relationalNeeds": AirtableFields.RELATIONAL_NEEDS,
-    "ritualMode": AirtableFields.RITUAL_MODE,
-    "ritualTones": AirtableFields.RITUAL_TONES,
-    "timeTaken": AirtableFields.TIME_TAKEN,
-    "semanticSummary": AirtableFields.SEMANTIC_SUMMARY,
-    "status": AirtableFields.STATUS,
+    ID_FIELD_NAME: ID_FIELD_NAME,
+    RitualFields.TITLE: AirtableFields.TITLE,
+    RitualFields.TAGLINE: AirtableFields.TAGLINE,
+    RitualFields.DESCRIPTION: AirtableFields.DESCRIPTION,
+    RitualFields.HOW_IT_HELPS: AirtableFields.HOW_IT_HELPS,
+    RitualFields.STEPS: AirtableFields.STEPS,
+    RitualFields.LOVE_TYPES: AirtableFields.LOVE_TYPES,
+    RitualFields.RELATIONAL_NEEDS: AirtableFields.RELATIONAL_NEEDS,
+    RitualFields.RITUAL_MODE: AirtableFields.RITUAL_MODE,
+    RitualFields.RITUAL_TONES: AirtableFields.RITUAL_TONES,
+    RitualFields.TIME_TAKEN: AirtableFields.TIME_TAKEN,
+    RitualFields.SEMANTIC_SUMMARY: AirtableFields.SEMANTIC_SUMMARY,
+    RitualFields.STATUS: AirtableFields.STATUS,
 }
 
 class AirtableJsonSyncer:
@@ -204,8 +204,8 @@ class AirtableJsonSyncer:
             common_id = airtable_record.get(self.id_field_name)
 
             # Sanitize steps from Airtable (JSON string to array) for JSON
-            if "steps" in airtable_record:
-                airtable_record["steps"] = sanitize_steps_text_to_array(airtable_record["steps"])
+            if RitualFields.STEPS in airtable_record:
+                airtable_record[RitualFields.STEPS] = sanitize_steps_text_to_array(airtable_record[RitualFields.STEPS])
 
             if common_id in json_index:
                 # Record exists in JSON, update it

@@ -3,7 +3,7 @@ import json
 from time import sleep
 import argparse
 from datetime import datetime
-from airtable_utils import read_from_airtable, update_airtable, AirtableFields, SyncStatus
+from utils.airtable_utils import read_from_airtable, update_airtable, AirtableFields, SyncStatus
 from ritual_llm_populator import populate_missing_ritual_fields_batch
 
 # Initial parameters

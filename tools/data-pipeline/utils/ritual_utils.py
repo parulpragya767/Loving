@@ -1,5 +1,24 @@
 import json
-from typing import List
+from typing import List, Dict
+from utils.airtable_utils import AirtableFields
+
+# Centralized ritual field mapping for JSON to Airtable synchronization
+class RitualFields:
+    """Centralized ritual field names for JSON structure."""
+    
+    ID = "id"
+    TITLE = "title"
+    TAGLINE = "tagLine"
+    DESCRIPTION = "description"
+    STEPS = "steps"
+    HOW_IT_HELPS = "howItHelps"
+    LOVE_TYPES = "loveTypes"
+    RELATIONAL_NEEDS = "relationalNeeds"
+    RITUAL_MODE = "ritualMode"
+    RITUAL_TONES = "ritualTones"
+    TIME_TAKEN = "timeTaken"
+    SEMANTIC_SUMMARY = "semanticSummary"
+    STATUS = "status"
 
 def sanitize_steps_text_to_array(raw_steps: str | None) -> List[str]:
     """Sanitizes steps from Airtable (JSON string) to array format for JSON."""
