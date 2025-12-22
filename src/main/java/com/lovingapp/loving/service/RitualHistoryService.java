@@ -25,7 +25,7 @@ import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.StatusUpdateEntry;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.entity.RitualHistory;
-import com.lovingapp.loving.model.enums.EmojiFeedback;
+import com.lovingapp.loving.model.enums.RitualFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.repository.RitualHistoryRepository;
 
@@ -186,7 +186,7 @@ public class RitualHistoryService {
 
 	@Transactional
 	public RitualHistoryDTO updateStatus(UUID ritualHistoryId, UUID userId, RitualHistoryStatus status,
-			EmojiFeedback feedback) {
+			RitualFeedback feedback) {
 		RitualHistory ritualHistory = ritualHistoryRepository.findById(ritualHistoryId)
 				.filter(history -> history.getUserId().equals(userId))
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,

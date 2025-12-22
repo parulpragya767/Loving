@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import com.lovingapp.loving.model.enums.EmojiFeedback;
+import com.lovingapp.loving.model.enums.RitualFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -34,7 +34,7 @@ public final class RitualHistoryDTOs {
         private UUID recommendationId;
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualHistoryStatus status;
-        private EmojiFeedback feedback;
+        private RitualFeedback feedback;
         private OffsetDateTime createdAt;
         private OffsetDateTime updatedAt;
     }
@@ -58,7 +58,7 @@ public final class RitualHistoryDTOs {
     @Data
     public static class RitualHistoryUpdateRequest {
         private RitualHistoryStatus status;
-        private EmojiFeedback feedback;
+        private RitualFeedback feedback;
     }
 
     @NoArgsConstructor

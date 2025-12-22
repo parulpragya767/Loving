@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import com.lovingapp.loving.model.enums.EmojiFeedback;
+import com.lovingapp.loving.model.enums.RitualFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 
 import jakarta.persistence.Column;
@@ -52,7 +52,7 @@ public class RitualHistory {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "feedback", length = 30)
-    private EmojiFeedback feedback;
+    private RitualFeedback feedback;
 
     @CreationTimestamp
     @Column(name = "created_at", updatable = false, columnDefinition = "timestamptz")
