@@ -1,5 +1,7 @@
 package com.lovingapp.loving.auth;
 
+import java.util.UUID;
+
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
@@ -21,8 +23,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public boolean supportsParameter(@NonNull MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(CurrentUser.class)
-                && UserDTO.class.isAssignableFrom(parameter.getParameterType());
+        return parameter.hasParameterAnnotation(CurrentUser.class);
     }
 
     @Override
@@ -32,6 +33,18 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
             @NonNull NativeWebRequest webRequest,
             @Nullable WebDataBinderFactory binderFactory) {
 
-        return authContext.getAppUser();
+        Class<?> type = parameter.getParameterType();
+
+        UserDTO user = authContext.getAppUser();
+
+        if (UserDTO.class.isAssignableFrom(type)) {
+            return user;
+        }
+
+        if (UUID.class.isAssignableFrom(type)) {
+            return user.getId();
+        }
+
+        throw new IllegalArgumentException("Unsupported @CurrentUser parameter type: " + type.getName());
     }
 }
