@@ -114,6 +114,19 @@ public class AIChatService {
 	}
 
 	@Transactional
+	public SendMessageResponse sendMessage(UUID userId, UUID sessionId,
+			SendMessageRequest request) {
+		ChatSession session = chatSessionRepository.findById(sessionId)
+				.orElseThrow(() -> new ResourceNotFoundException("Session not found"));
+
+		if (!session.getUserId().equals(userId)) {
+			throw new ResourceNotFoundException("Session not found");
+		}
+
+		return sendMessage(sessionId, request);
+	}
+
+	@Transactional
 	public RecommendRitualPackResponse recommendRitualPack(
 			UUID userId,
 			UUID sessionId) {
@@ -262,6 +275,18 @@ public class AIChatService {
 		ChatSessionDTO chatSessionDto = ChatSessionMapper.toDto(session);
 		chatSessionDto.setMessages(messages.stream().map(ChatMessageMapper::toDto).collect(Collectors.toList()));
 		return chatSessionDto;
+	}
+
+	@Transactional(readOnly = true)
+	public ChatSessionDTO getChatSessionWithMessages(UUID userId, UUID sessionId) {
+		ChatSession session = chatSessionRepository.findById(sessionId)
+				.orElseThrow(() -> new IllegalArgumentException("Session not found"));
+
+		if (!session.getUserId().equals(userId)) {
+			throw new IllegalArgumentException("Session not found");
+		}
+
+		return getChatSessionWithMessages(sessionId);
 	}
 
 	@Transactional(readOnly = true)
