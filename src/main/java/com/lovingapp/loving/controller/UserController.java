@@ -28,7 +28,7 @@ public class UserController {
 
     @PostMapping("/sync")
     public ResponseEntity<UserDTO> syncUser(@AuthenticationPrincipal Jwt jwt) {
-        UUID authUserId = authContext.getAuthUserId(jwt);
+        UUID authUserId = authContext.getAuthUserId();
         String email = jwt.getClaim("email");
         String displayName = jwt.getClaim("name");
         UserDTO dto = userService.syncUser(authUserId, email, displayName);
