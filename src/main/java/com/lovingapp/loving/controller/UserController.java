@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.lovingapp.loving.auth.AuthContext;
 import com.lovingapp.loving.auth.CurrentUser;
-import com.lovingapp.loving.model.dto.UserDTO;
+import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
+import com.lovingapp.loving.model.dto.UserDTOs.UserUpdateRequest;
 import com.lovingapp.loving.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,15 +31,14 @@ public class UserController {
     public ResponseEntity<UserDTO> syncUser(@AuthenticationPrincipal Jwt jwt) {
         UUID authUserId = authContext.getAuthUserId();
         String email = jwt.getClaim("email");
-        String displayName = jwt.getClaim("name");
-        UserDTO dto = userService.syncUser(authUserId, email, displayName);
+        UserDTO dto = userService.syncUser(authUserId, email);
         return ResponseEntity.ok(dto);
     }
 
     @PutMapping()
     public ResponseEntity<UserDTO> updateUser(
             @CurrentUser UUID userId,
-            @RequestBody UserDTO dto) {
-        return ResponseEntity.ok(userService.updateUser(userId, dto));
+            @RequestBody UserUpdateRequest request) {
+        return ResponseEntity.ok(userService.updateUser(userId, request));
     }
 }

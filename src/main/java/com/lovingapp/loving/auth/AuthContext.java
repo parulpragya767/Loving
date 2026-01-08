@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.exception.ResourceNotFoundException;
-import com.lovingapp.loving.model.dto.UserDTO;
+import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
 import com.lovingapp.loving.service.UserService;
 
 import lombok.RequiredArgsConstructor;

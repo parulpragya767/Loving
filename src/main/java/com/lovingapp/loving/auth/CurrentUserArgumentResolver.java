@@ -11,7 +11,7 @@ import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
-import com.lovingapp.loving.model.dto.UserDTO;
+import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
 
 import lombok.RequiredArgsConstructor;
 

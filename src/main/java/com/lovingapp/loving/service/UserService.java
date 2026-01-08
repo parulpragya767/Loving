@@ -8,7 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.UserMapper;
-import com.lovingapp.loving.model.dto.UserDTO;
+import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
+import com.lovingapp.loving.model.dto.UserDTOs.UserUpdateRequest;
 import com.lovingapp.loving.model.entity.User;
 import com.lovingapp.loving.repository.UserRepository;
 
@@ -21,15 +22,12 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserDTO syncUser(UUID authUserId, String email, String displayName) {
+    public UserDTO syncUser(UUID authUserId, String email) {
         return userRepository.findByAuthUserId(authUserId)
                 .map(existing -> {
                     existing.setLastLoginAt(OffsetDateTime.now());
                     if (email != null && !email.equals(existing.getEmail())) {
                         existing.setEmail(email);
-                    }
-                    if (displayName != null && !displayName.equals(existing.getDisplayName())) {
-                        existing.setDisplayName(displayName);
                     }
                     User saved = userRepository.save(existing);
                     return UserMapper.toDto(saved);
@@ -38,7 +36,6 @@ public class UserService {
                     User newUser = User.builder()
                             .authUserId(authUserId)
                             .email(email)
-                            .displayName(displayName)
                             .lastLoginAt(OffsetDateTime.now())
                             .build();
                     User saved = userRepository.save(newUser);
@@ -54,10 +51,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO updateUser(UUID userId, UserDTO userDTO) {
+    public UserDTO updateUser(UUID userId, UserUpdateRequest request) {
         return userRepository.findById(userId)
                 .map(existingUser -> {
-                    UserMapper.updateEntityFromDto(userDTO, existingUser);
+                    UserMapper.updateEntity(request, existingUser);
                     User updatedUser = userRepository.save(existingUser);
                     return UserMapper.toDto(updatedUser);
                 })

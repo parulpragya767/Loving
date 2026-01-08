@@ -2,7 +2,8 @@ package com.lovingapp.loving.mapper;
 
 import org.springframework.stereotype.Component;
 
-import com.lovingapp.loving.model.dto.UserDTO;
+import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
+import com.lovingapp.loving.model.dto.UserDTOs.UserUpdateRequest;
 import com.lovingapp.loving.model.entity.User;
 
 @Component
@@ -42,17 +43,17 @@ public final class UserMapper {
                 .build();
     }
 
-    public static void updateEntityFromDto(UserDTO dto, User entity) {
-        if (dto == null || entity == null) {
+    public static void updateEntity(UserUpdateRequest request, User entity) {
+        if (request == null || entity == null) {
             return;
         }
 
-        if (dto.getEmail() != null) {
-            entity.setEmail(dto.getEmail());
+        if (request.getOnboardingCompleted() != null) {
+            entity.setOnboardingCompleted(request.getOnboardingCompleted());
         }
 
-        if (dto.getDisplayName() != null) {
-            entity.setDisplayName(dto.getDisplayName());
+        if (request.getDisplayName() != null) {
+            entity.setDisplayName(request.getDisplayName());
         }
     }
 }
