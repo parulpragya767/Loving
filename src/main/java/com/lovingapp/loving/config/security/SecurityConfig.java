@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -15,33 +16,37 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-	public static final String[] PUBLIC_ENDPOINTS = {
-			"/api/auth/login",
+	public static final String[] PUBLIC_INFRA_ENDPOINTS = {
 			"/swagger-ui/**",
 			"/v3/api-docs/**",
-			"/api-docs/**",
-			"/sayHello",
+			"/api-docs/**"
+	};
+
+	public static final String[] PUBLIC_API_ENDPOINTS = {
 			"/api/love-types/**",
 			"/api/rituals/**",
 			"/api/ritual-packs/**"
 	};
 
-	private final JwtDecoderConfig jwtDecoderConfig;
+	private final JwtDecoderConfig jwtConfig;
 	private final CorsConfig corsConfig;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		http
 				.cors(cors -> cors.configurationSource(corsConfig.corsConfigurationSource()))
-				.csrf(csrf -> csrf.disable())
-				.sessionManagement(session -> session
-						.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+				.csrf(AbstractHttpConfigurer::disable)
+				.httpBasic(AbstractHttpConfigurer::disable)
+				.formLogin(AbstractHttpConfigurer::disable)
+				.sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(auth -> auth
 						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-						.requestMatchers(PUBLIC_ENDPOINTS).permitAll()
+						.requestMatchers(PUBLIC_INFRA_ENDPOINTS).permitAll()
+						.requestMatchers(PUBLIC_API_ENDPOINTS).permitAll()
 						.anyRequest().authenticated())
-				.oauth2ResourceServer(oauth2 -> oauth2
-						.jwt(jwt -> jwt.decoder(jwtDecoderConfig.jwtDecoder())));
+				// Supabase JWTs are validated here
+				.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtConfig.jwtDecoder())));
+
 		return http.build();
 	}
 }
