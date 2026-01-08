@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lovingapp.loving.config.AuthContext;
-import com.lovingapp.loving.config.CurrentUser;
+import com.lovingapp.loving.auth.AuthContext;
+import com.lovingapp.loving.auth.CurrentUser;
 import com.lovingapp.loving.model.dto.UserDTO;
 import com.lovingapp.loving.service.UserService;
 

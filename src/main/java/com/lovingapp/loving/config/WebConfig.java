@@ -7,6 +7,8 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.lovingapp.loving.auth.CurrentUserArgumentResolver;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration

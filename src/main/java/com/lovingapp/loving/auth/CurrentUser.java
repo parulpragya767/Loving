@@ -1,4 +1,4 @@
-package com.lovingapp.loving.config;
+package com.lovingapp.loving.auth;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

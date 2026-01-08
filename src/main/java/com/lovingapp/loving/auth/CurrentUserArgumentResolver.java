@@ -1,4 +1,4 @@
-package com.lovingapp.loving.config;
+package com.lovingapp.loving.auth;
 
 import org.springframework.core.MethodParameter;
 import org.springframework.lang.NonNull;
