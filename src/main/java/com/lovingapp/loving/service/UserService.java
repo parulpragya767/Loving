@@ -54,13 +54,13 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO updateUser(UUID authUserId, UserDTO userDTO) {
-        return userRepository.findByAuthUserId(authUserId)
+    public UserDTO updateUser(UUID userId, UserDTO userDTO) {
+        return userRepository.findById(userId)
                 .map(existingUser -> {
                     UserMapper.updateEntityFromDto(userDTO, existingUser);
                     User updatedUser = userRepository.save(existingUser);
                     return UserMapper.toDto(updatedUser);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with authUserId: " + authUserId));
+                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
     }
 }

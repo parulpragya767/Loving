@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.exception.ResourceNotFoundException;
+import com.lovingapp.loving.model.dto.UserDTO;
 import com.lovingapp.loving.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -31,10 +32,10 @@ public class AuthContext {
         }
     }
 
-    public UUID getAppUserId(Jwt jwt) {
+    public UserDTO getAppUser(Jwt jwt) {
         UUID authUserId = getAuthUserId(jwt);
         try {
-            return userService.getUserByAuthUserId(authUserId).getId();
+            return userService.getUserByAuthUserId(authUserId);
         } catch (ResourceNotFoundException e) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found with authUserId");
         }

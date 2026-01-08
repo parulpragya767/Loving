@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lovingapp.loving.config.AuthContext;
+import com.lovingapp.loving.config.CurrentUser;
 import com.lovingapp.loving.model.dto.UserDTO;
 import com.lovingapp.loving.service.UserService;
 
@@ -36,9 +37,8 @@ public class UserController {
 
     @PutMapping()
     public ResponseEntity<UserDTO> updateUser(
-            @AuthenticationPrincipal Jwt jwt,
-            @RequestBody UserDTO userDTO) {
-        UUID appUserId = authContext.getAppUserId(jwt);
-        return ResponseEntity.ok(userService.updateUser(appUserId, userDTO));
+            @CurrentUser UserDTO user,
+            @RequestBody UserDTO dto) {
+        return ResponseEntity.ok(userService.updateUser(user.getId(), dto));
     }
 }
