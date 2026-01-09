@@ -7,7 +7,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.oauth2.server.resource.web.authentication.BearerTokenAuthenticationFilter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.SecurityContextHolderFilter;
 
 import com.lovingapp.loving.infra.security.DbCurrentUserContextFilter;
 
@@ -33,6 +35,8 @@ public class SecurityConfig {
 	private final JwtDecoderConfig jwtConfig;
 	private final CorsConfig corsConfig;
 	private final DbCurrentUserContextFilter dbAuthUserContextFilter;
+	private final RequestIdFilter requestIdFilter;
+	private final UserIdMdcFilter userIdMdcFilter;
 
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -48,9 +52,10 @@ public class SecurityConfig {
 						.requestMatchers(PUBLIC_API_ENDPOINTS).permitAll()
 						.anyRequest().authenticated())
 				// Supabase JWTs are validated here
-				.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtConfig.jwtDecoder())));
-		// .addFilterAfter(dbAuthUserContextFilter,
-		// BearerTokenAuthenticationFilter.class);
+				.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtConfig.jwtDecoder())))
+				.addFilterBefore(requestIdFilter, SecurityContextHolderFilter.class)
+				.addFilterAfter(dbAuthUserContextFilter, BearerTokenAuthenticationFilter.class)
+				.addFilterAfter(userIdMdcFilter, BearerTokenAuthenticationFilter.class);
 
 		return http.build();
 	}
