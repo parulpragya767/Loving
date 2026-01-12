@@ -1,47 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<property name="LOG_PATH" value="${LOG_PATH:-logs}" />
-	<property name="LOG_FILE" value="${LOG_FILE:-${LOG_PATH}/loving.log}" />
 
-	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
-		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-			<providers>
-				<timestamp>
-					<timeZone>UTC</timeZone>
-				</timestamp>
-				<logLevel />
-				<threadName />
-				<loggerName />
-				<message />
-				<stackTrace />
-				<mdc />
-			</providers>
-		</encoder>
-	</appender>
+  <!-- Common properties -->
+  <property name="APP_NAME" value="loving-app"/>
 
-	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>${LOG_FILE}</file>
-		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>${LOG_PATH}/loving.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
-			<maxHistory>14</maxHistory>
-		</rollingPolicy>
-		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
-			<providers>
-				<timestamp>
-					<timeZone>UTC</timeZone>
-				</timestamp>
-				<logLevel />
-				<threadName />
-				<loggerName />
-				<message />
-				<stackTrace />
-				<mdc />
-			</providers>
-		</encoder>
-	</appender>
+  <!-- Common appenders -->
 
-	<root level="INFO">
-		<appender-ref ref="CONSOLE" />
-		<appender-ref ref="FILE" />
-	</root>
+  <!-- Console logging -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>
+        %d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n
+      </pattern>
+    </encoder>
+  </appender>
+
+  <!-- Loki appender -->
+  <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
+    <http>
+      <url>${LOKI_URL}</url>
+
+      <auth>
+        <username>${LOKI_USERNAME}</username>
+        <password>${LOKI_API_KEY}</password>
+      </auth>
+    </http>
+
+    <format>
+      <label>
+        <pattern>
+          app=${APP_NAME},
+          env=${SPRING_PROFILES_ACTIVE:-local},
+          level=%level
+        </pattern>
+      </label>
+
+      <message>
+        <pattern>%msg</pattern>
+      </message>
+    </format>
+  </appender>
+  
+  <!-- Fallback root (used before Spring profiles resolve) -->
+  <root level="INFO">
+    <appender-ref ref="CONSOLE"/>
+  </root>
+  
+  <!-- LOCAL profile -->
+  <springProfile name="local">
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="LOKI"/>
+    </root>
+  </springProfile>
+
+  <!-- TEST profile-->
+  <springProfile name="test">
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+    </root>
+  </springProfile>
+
+  <!-- EVERYTHING ELSE -->
+  <springProfile name="!local &amp; !test">
+    <root level="INFO">
+      <appender-ref ref="CONSOLE"/>
+      <appender-ref ref="LOKI"/>
+    </root>
+  </springProfile>
+
 </configuration>
