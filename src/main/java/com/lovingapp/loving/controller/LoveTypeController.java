@@ -27,7 +27,9 @@ public class LoveTypeController {
     @GetMapping
     public ResponseEntity<List<LoveTypeInfo>> getAllLoveTypes() {
         log.info("Fetch love types request received");
+
         List<LoveTypeInfo> result = loveTypeService.findAll();
+
         log.info("Love types fetched successfully count={}", result == null ? 0 : result.size());
         return ResponseEntity.ok(result);
     }
@@ -35,10 +37,10 @@ public class LoveTypeController {
     @GetMapping("/{id}")
     public ResponseEntity<LoveTypeInfo> getLoveTypeById(@PathVariable Integer id) {
         log.info("Fetch love type request received id={}", id);
-        ResponseEntity<LoveTypeInfo> result = loveTypeService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-        log.info("Love type fetch completed id={} status={}", id, result.getStatusCode());
-        return result;
+
+        LoveTypeInfo loveTypeInfo = loveTypeService.findById(id);
+
+        log.info("Love type fetched successfully id={}", id);
+        return ResponseEntity.ok(loveTypeInfo);
     }
 }

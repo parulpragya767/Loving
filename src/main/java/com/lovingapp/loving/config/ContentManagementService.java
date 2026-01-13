@@ -139,9 +139,8 @@ public class ContentManagementService implements CommandLineRunner {
                     created++;
                 } else if (isDifferent(existing.getContentHash(), newHash)) {
                     dto.setContentHash(newHash);
-                    if (loveTypeService.update(dto.getId(), dto).isPresent()) {
-                        updated++;
-                    }
+                    loveTypeService.update(dto.getId(), dto);
+                    updated++;
                 }
             }
 

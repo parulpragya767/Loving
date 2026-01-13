@@ -341,5 +341,48 @@
         ]
       }
     ]
+  },
+  {
+    "id": 9,
+    "loveType": "GRACE",
+    "title": "Grace",
+    "subtitle": "The universal compassion and sense of greater love",
+    "description": "Grace is about **compassion**, forgiveness, and letting go.",
+    "sections": [
+      {
+        "order": 1,
+        "title": "In Practice",
+        "summary": "How Grace shows up",
+        "bullets": [
+          {
+            "title": "Altruism",
+            "text": "Helping others selflessly"
+          },
+          {
+            "title": "Spiritual Practice",
+            "text": "Meditation, prayer, or rituals."
+          },
+          {
+            "title": "Connection to Nature",
+            "text": "Feeling part of something larger."
+          }
+        ]
+      },
+      {
+        "order": 2,
+        "title": "Common Blocks",
+        "summary": "What blocks Grace",
+        "bullets": [
+          {
+            "title": "Ego",
+            "text": "Focus only on self-gain."
+          },
+          {
+            "title": "Disconnection",
+            "text": "Losing touch with larger meaning."
+          }
+        ]
+      }
+    ]
   }
 ]

@@ -1,11 +1,11 @@
 package com.lovingapp.loving.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.model.entity.LoveTypeInfo;
 import com.lovingapp.loving.repository.LoveTypeRepository;
 
@@ -25,37 +25,33 @@ public class LoveTypeService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<LoveTypeInfo> findById(Integer id) {
-        return loveTypeRepository.findById(id);
+    public LoveTypeInfo findById(Integer id) {
+        return loveTypeRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("LoveType", "id", id));
     }
 
     @Transactional
     public LoveTypeInfo save(LoveTypeInfo loveTypeInfo) {
-        log.info("Saving love type");
-        log.debug("Save love type payload: {}", loveTypeInfo);
-        return loveTypeRepository.save(loveTypeInfo);
+        log.info("Saving love type id={} : {}", loveTypeInfo.getId(), loveTypeInfo.getLoveType());
+
+        LoveTypeInfo savedLoveType = loveTypeRepository.save(loveTypeInfo);
+
+        log.info("Love type saved successfully id={} : {}", savedLoveType.getId(), savedLoveType.getLoveType());
+        return savedLoveType;
     }
 
     @Transactional
-    public Optional<LoveTypeInfo> update(Integer id, LoveTypeInfo loveTypeInfo) {
-        log.info("Updating love type loveTypeId={}", id);
-        log.debug("Update love type payload loveTypeId={} payload={}", id, loveTypeInfo);
-        return loveTypeRepository.findById(id)
+    public LoveTypeInfo update(Integer id, LoveTypeInfo loveTypeInfo) {
+        log.info("Updating love type id={} : {}", id, loveTypeInfo.getLoveType());
+
+        LoveTypeInfo updatedLoveType = loveTypeRepository.findById(id)
                 .map(existingLoveType -> {
                     loveTypeInfo.setId(id); // Ensure the ID is set to the path variable
                     return loveTypeRepository.save(loveTypeInfo);
-                });
-    }
+                })
+                .orElseThrow(() -> new ResourceNotFoundException("LoveType", "id", id));
 
-    @Transactional
-    public boolean deleteById(Integer id) {
-        log.info("Deleting love type loveTypeId={}", id);
-        if (loveTypeRepository.existsById(id)) {
-            loveTypeRepository.deleteById(id);
-            log.info("Love type deleted successfully loveTypeId={}", id);
-            return true;
-        }
-        log.info("Love type delete skipped: not found loveTypeId={}", id);
-        return false;
+        log.info("Love type updated successfully id={} : {}", updatedLoveType.getId(), updatedLoveType.getLoveType());
+        return updatedLoveType;
     }
 }
