@@ -1,6 +1,7 @@
 package com.lovingapp.loving.model.entity;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.hibernate.annotations.Type;
 
@@ -68,6 +69,24 @@ public class LoveTypeInfo {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private String summary;
         private List<InfoBullet> bullets;
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            InfoSection that = (InfoSection) o;
+            return order == that.order && Objects.equals(title, that.title) && Objects.equals(summary, that.summary)
+                    && Objects.equals(bullets, that.bullets);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(order, title, summary, bullets);
+        }
     }
 
     @Getter
@@ -79,5 +98,22 @@ public class LoveTypeInfo {
         private String title; // optional
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private String text; // markdown supported
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) {
+                return true;
+            }
+            if (o == null || getClass() != o.getClass()) {
+                return false;
+            }
+            InfoBullet that = (InfoBullet) o;
+            return Objects.equals(title, that.title) && Objects.equals(text, that.text);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(title, text);
+        }
     }
 }
