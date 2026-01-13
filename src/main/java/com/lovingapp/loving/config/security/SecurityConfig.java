@@ -54,7 +54,8 @@ public class SecurityConfig {
 				// Supabase JWTs are validated here
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtConfig.jwtDecoder())))
 				.addFilterBefore(requestIdFilter, SecurityContextHolderFilter.class)
-				.addFilterAfter(dbAuthUserContextFilter, BearerTokenAuthenticationFilter.class)
+				// .addFilterAfter(dbAuthUserContextFilter,
+				// BearerTokenAuthenticationFilter.class)
 				.addFilterAfter(userIdMdcFilter, BearerTokenAuthenticationFilter.class);
 
 		return http.build();

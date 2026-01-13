@@ -46,9 +46,9 @@ public class UserIdMdcFilter extends OncePerRequestFilter {
                 MDC.put("userId", userId.toString());
             }
             filterChain.doFilter(request, response);
-        } catch (Exception e) {
-            log.error("Failed to populate user context into MDC", e);
-            throw e;
+            // } catch (Exception e) {
+            // log.error("Failed to populate user context into MDC", e);
+            // throw e;
         } finally {
             MDC.remove("userId");
         }

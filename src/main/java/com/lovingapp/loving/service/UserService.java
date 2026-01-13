@@ -23,9 +23,13 @@ public class UserService {
 
     private final UserRepository userRepository;
 
+    /*
+     * Returns the user object associated with the authUserId (which is the external
+     * supabase user id).
+     * If there is no user found, it will create a new user object and return it.
+     */
     @Transactional
     public UserDTO syncUser(UUID authUserId, String email) {
-        log.info("Syncing user profile from auth context");
         return userRepository.findByAuthUserId(authUserId)
                 .map(existing -> {
                     existing.setLastLoginAt(OffsetDateTime.now());
@@ -33,39 +37,40 @@ public class UserService {
                         existing.setEmail(email);
                     }
                     User saved = userRepository.save(existing);
-                    log.info("User profile synced successfully");
                     return UserMapper.toDto(saved);
                 })
                 .orElseGet(() -> {
-                    log.info("Creating new user profile for first login");
+                    log.info("Creating new user profile for first login authUserId={}", authUserId);
                     User newUser = User.builder()
                             .authUserId(authUserId)
                             .email(email)
                             .lastLoginAt(OffsetDateTime.now())
                             .build();
                     User saved = userRepository.save(newUser);
-                    log.info("User profile created successfully");
                     return UserMapper.toDto(saved);
                 });
     }
 
+    /*
+     * Returns the user object associated with the authUserId (which is the external
+     * supabase user id).
+     * If there is no user found, it will throw a ResourceNotFoundException.
+     */
     @Transactional(readOnly = true)
     public UserDTO getUserByAuthUserId(UUID authUserId) {
         return userRepository.findByAuthUserId(authUserId)
                 .map(UserMapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with authUserId: " + authUserId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "authUserId", authUserId));
     }
 
     @Transactional
     public UserDTO updateUser(UUID userId, UserUpdateRequest request) {
-        log.info("Updating user profile");
         return userRepository.findById(userId)
                 .map(existingUser -> {
                     UserMapper.updateEntity(request, existingUser);
                     User updatedUser = userRepository.save(existingUser);
-                    log.info("User profile updated successfully");
                     return UserMapper.toDto(updatedUser);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 }
