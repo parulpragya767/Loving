@@ -23,7 +23,7 @@ public class RequestIdFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain) throws ServletException, IOException {
 
         String requestId = UUID.randomUUID().toString();
-        MDC.put("request_id", requestId);
+        MDC.put("requestId", requestId);
 
         try {
             filterChain.doFilter(request, response);

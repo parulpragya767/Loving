@@ -41,11 +41,11 @@ public class UserIdMdcFilter extends OncePerRequestFilter {
         try {
             UUID userId = authContext.getAppUser().getId();
             if (userId != null && !userId.toString().isBlank()) {
-                MDC.put("user_id", userId.toString());
+                MDC.put("userId", userId.toString());
             }
             filterChain.doFilter(request, response);
         } finally {
-            MDC.remove("user_id");
+            MDC.remove("userId");
         }
     }
 }
