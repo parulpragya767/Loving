@@ -35,20 +35,20 @@ public class RecommendationEngine {
         List<RitualPackDTO> allPacks = ritualPackService.findAll();
 
         if (allPacks.isEmpty()) {
-            log.warn("No ritual packs available for recommendation");
+            log.info("No ritual packs available for recommendation");
             // If no packs are available, return empty
             return Optional.empty();
         }
 
         if (userContext == null) {
-            log.warn("Cannot recommend ritual pack: user context is null");
+            log.info("Cannot score ritual packs: user context is null (falling back to first pack)");
             // return Optional.empty();
             // If you want to return the first pack when no context is available, use:
             return Optional.of(allPacks.get(0));
         }
 
         // Score and sort ritual packs based on user context
-        return allPacks.stream()
+        Optional<RitualPackDTO> result = allPacks.stream()
                 .map(pack -> {
                     int score = calculateMatchScore(pack, userContext);
                     log.debug("Pack '{}' score: {}", pack.getTitle(), score);
@@ -57,6 +57,10 @@ public class RecommendationEngine {
                 .sorted(Comparator.comparingInt(ScoredPack::getScore).reversed())
                 .findFirst()
                 .map(ScoredPack::getPack);
+
+        result.ifPresent(
+                pack -> log.info("Ritual pack recommended packId={} title='{}'", pack.getId(), pack.getTitle()));
+        return result;
     }
 
     /**

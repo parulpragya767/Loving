@@ -30,10 +30,12 @@ import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.repository.RitualHistoryRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class RitualHistoryService {
 
 	private final RitualHistoryRepository ritualHistoryRepository;
@@ -145,6 +147,9 @@ public class RitualHistoryService {
 
 	@Transactional
 	public RitualHistoryDTO create(UUID userId, RitualHistoryCreateRequest request) {
+		log.info("Creating ritual history entry ritualId={} status={} recommendationId={}",
+				request.getRitualId(), request.getStatus(), request.getRecommendationId());
+		log.debug("Create ritual history details ritualPackId={}", request.getRitualPackId());
 		RitualHistory ritualHistory = RitualHistory.builder()
 				.userId(userId)
 				.ritualId(request.getRitualId())
@@ -154,17 +159,24 @@ public class RitualHistoryService {
 				.build();
 
 		RitualHistory saved = ritualHistoryRepository.saveAndFlush(ritualHistory);
+		log.info("Ritual history entry created ritualHistoryId={}", saved.getId());
 		return RitualHistoryMapper.toDto(saved);
 	}
 
 	@Transactional
 	public void delete(UUID ritualHistoryId) {
+		log.info("Deleting ritual history entry ritualHistoryId={}", ritualHistoryId);
 		ritualHistoryRepository.deleteById(ritualHistoryId);
 	}
 
 	@Transactional
 	public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId,
 			List<RitualHistoryCreateRequest> requests) {
+		log.info("Bulk creating ritual history entries count={}", requests == null ? 0 : requests.size());
+		log.debug("Bulk create ritual history payload: {}", requests);
+		if (requests == null || requests.isEmpty()) {
+			return List.of();
+		}
 		List<RitualHistory> histories = requests.stream()
 				.map(request -> RitualHistory.builder()
 						.userId(userId)
@@ -179,14 +191,20 @@ public class RitualHistoryService {
 		List<RitualHistory> savedHistories = ritualHistoryRepository.saveAllAndFlush(histories);
 
 		// Convert back to DTOs and return
-		return savedHistories.stream()
+		List<RitualHistoryDTO> result = savedHistories.stream()
 				.map(RitualHistoryMapper::toDto)
 				.collect(Collectors.toList());
+		log.info("Bulk ritual history created successfully count={}", result.size());
+		return result;
 	}
 
 	@Transactional
 	public RitualHistoryDTO updateStatus(UUID ritualHistoryId, UUID userId, RitualHistoryStatus status,
 			RitualFeedback feedback) {
+		log.info("Updating ritual history status ritualHistoryId={} status={}", ritualHistoryId, status);
+		if (feedback != null) {
+			log.debug("Ritual feedback received ritualHistoryId={} feedback={}", ritualHistoryId, feedback);
+		}
 		RitualHistory ritualHistory = ritualHistoryRepository.findById(ritualHistoryId)
 				.filter(history -> history.getUserId().equals(userId))
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
@@ -197,11 +215,17 @@ public class RitualHistoryService {
 			ritualHistory.setFeedback(feedback);
 		}
 		RitualHistory saved = ritualHistoryRepository.save(ritualHistory);
+		log.info("Ritual history status updated successfully ritualHistoryId={}", saved.getId());
 		return RitualHistoryMapper.toDto(saved);
 	}
 
 	@Transactional
 	public List<RitualHistoryDTO> bulkUpdateStatus(UUID userId, List<StatusUpdateEntry> updates) {
+		log.info("Bulk updating ritual history status count={}", updates == null ? 0 : updates.size());
+		log.debug("Bulk status updates payload: {}", updates);
+		if (updates == null || updates.isEmpty()) {
+			return List.of();
+		}
 
 		// Get all ritual history IDs from the updates
 		List<UUID> ritualHistoryIds = updates.stream()
@@ -236,8 +260,10 @@ public class RitualHistoryService {
 		List<RitualHistory> savedHistories = ritualHistoryRepository.saveAll(historiesToUpdate);
 
 		// Convert to DTOs and return
-		return savedHistories.stream()
+		List<RitualHistoryDTO> result = savedHistories.stream()
 				.map(RitualHistoryMapper::toDto)
 				.collect(Collectors.toList());
+		log.info("Bulk ritual history status update completed successfully count={}", result.size());
+		return result;
 	}
 }

@@ -65,12 +65,15 @@ public class AIChatService {
 		ChatSession session = ChatSession.builder()
 				.userId(userId)
 				.build();
-		return ChatSessionMapper.toDto(chatSessionRepository.saveAndFlush(session));
+		ChatSession saved = chatSessionRepository.saveAndFlush(session);
+		log.info("Chat session created sessionId={}", saved.getId());
+		return ChatSessionMapper.toDto(saved);
 	}
 
 	@Transactional
 	public SendMessageResponse sendMessage(UUID sessionId,
 			SendMessageRequest request) {
+		log.info("Saving user chat message sessionId={}", sessionId);
 		// 1. Save user message
 		ChatMessage userMessage = ChatMessage.builder()
 				.sessionId(sessionId)
@@ -94,6 +97,7 @@ public class AIChatService {
 				.responseFormat(LLMResponseFormat.JSON)
 				.build();
 
+		log.info("Generating empathetic response via LLM sessionId={}", sessionId);
 		LLMResponse<LLMEmpatheticResponse> aiReply = llmClient.generate(llmRequest,
 				LLMEmpatheticResponse.class);
 		LLMEmpatheticResponse empatheticResponse = aiReply.getParsed();
@@ -106,6 +110,7 @@ public class AIChatService {
 				.content(response)
 				.build();
 		ChatMessage savedAssistantMessage = chatMessageRepository.saveAndFlush(assistantMessage);
+		log.info("Assistant message created sessionId={} readyForRecommendation={}", sessionId, ready);
 
 		return SendMessageResponse.builder()
 				.assistantResponse(ChatMessageMapper.toDto(savedAssistantMessage))
@@ -130,6 +135,7 @@ public class AIChatService {
 	public RecommendRitualPackResponse recommendRitualPack(
 			UUID userId,
 			UUID sessionId) {
+		log.info("Building ritual pack recommendation for chat session sessionId={}", sessionId);
 		ChatSession session = chatSessionRepository.findById(sessionId)
 				.orElseThrow(() -> new ResourceNotFoundException("Session not found"));
 
@@ -144,6 +150,7 @@ public class AIChatService {
 				.responseFormat(LLMResponseFormat.JSON)
 				.build();
 
+		log.info("Extracting user context from conversation via LLM sessionId={}", sessionId);
 		LLMResponse<LLMUserContextExtraction> llmUserContextResponse = llmClient.generate(extractionRequest,
 				LLMUserContextExtraction.class);
 		LLMUserContextExtraction llmUserContext = llmUserContextResponse.getParsed();
@@ -159,7 +166,6 @@ public class AIChatService {
 				.build();
 
 		UserContextDTO savedUserContext = userContextService.createUserContext(userContext);
-		log.info("User context saved successfully : {}", savedUserContext.getId());
 
 		// Update session title if not already set
 		if (llmUserContext.getConversationTitle() != null && !llmUserContext.getConversationTitle().isBlank()
@@ -174,6 +180,11 @@ public class AIChatService {
 		// Get ritual pack recommendation
 		recommendedPack = recommendationEngine.recommendRitualPack(savedUserContext)
 				.orElse(null);
+		if (recommendedPack == null) {
+			log.info("No ritual pack could be recommended for this session sessionId={}", sessionId);
+		} else {
+			log.info("Ritual pack recommended sessionId={} ritualPackId={}", sessionId, recommendedPack.getId());
+		}
 
 		// Build a contextual wrap-up via LLM that ties the pack to the user's situation
 		String wrapUpMessage = "";
@@ -210,6 +221,7 @@ public class AIChatService {
 				.content(wrapUpMessage)
 				.build();
 		ChatMessage savedAssistantMessage = chatMessageRepository.saveAndFlush(assistantMessage);
+		log.info("Recommendation wrap-up message saved sessionId={}", sessionId);
 
 		if (recommendedPack != null) {
 			// Create ritual recommendation record
@@ -221,6 +233,7 @@ public class AIChatService {
 					.status(RecommendationStatus.SUGGESTED)
 					.build();
 			RitualRecommendationDTO savedRecommendation = ritualRecommendationService.create(userId, recommendation);
+			log.info("Ritual recommendation saved recommendationId={}", savedRecommendation.getId());
 
 			// Create and save system chat message with recommendation metadata
 			ChatMessage recommendationMessage = ChatMessage.builder()
@@ -256,6 +269,7 @@ public class AIChatService {
 						.collect(Collectors.toList());
 				createdHistories = ritualHistoryService.bulkCreateRitualHistories(userId,
 						histories);
+				log.info("Ritual history records created for recommended pack count={}", createdHistories.size());
 			}
 
 		}

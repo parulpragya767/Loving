@@ -21,9 +21,11 @@ import com.lovingapp.loving.repository.RitualPackRepository;
 import com.lovingapp.loving.repository.RitualRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RitualPackService {
 
     private final RitualPackRepository ritualPackRepository;
@@ -53,17 +55,22 @@ public class RitualPackService {
 
     @Transactional
     public RitualPackDTO create(RitualPackDTO dto) {
+        log.info("Creating ritual pack");
+        log.debug("Create ritual pack payload: {}", dto);
         RitualPack entity = RitualPackMapper.fromDto(dto);
         if (dto.getRitualIds() != null) {
             List<Ritual> rituals = resolveRituals(dto.getRitualIds());
             entity.setRituals(rituals);
         }
         RitualPack saved = ritualPackRepository.save(entity);
+        log.info("Ritual pack created successfully ritualPackId={}", saved.getId());
         return RitualPackMapper.toDto(saved);
     }
 
     @Transactional
     public Optional<RitualPackDTO> update(UUID id, RitualPackDTO dto) {
+        log.info("Updating ritual pack ritualPackId={}", id);
+        log.debug("Update ritual pack payload ritualPackId={} payload={}", id, dto);
         return ritualPackRepository.findById(id).map(existing -> {
             RitualPackMapper.updateEntityFromDto(dto, existing);
             if (dto.getRitualIds() != null) {
@@ -71,12 +78,15 @@ public class RitualPackService {
                 existing.setRituals(rituals);
             }
             RitualPack saved = ritualPackRepository.save(existing);
+            log.info("Ritual pack updated successfully ritualPackId={}", saved.getId());
             return RitualPackMapper.toDto(saved);
         });
     }
 
     @Transactional
     public List<RitualPackDTO> bulkCreate(List<RitualPackDTO> dtos) {
+        log.info("Bulk creating ritual packs count={}", dtos == null ? 0 : dtos.size());
+        log.debug("Bulk create ritual packs payload: {}", dtos);
         if (dtos == null || dtos.isEmpty()) {
             return Collections.emptyList();
         }
@@ -94,13 +104,17 @@ public class RitualPackService {
                 .collect(Collectors.toList());
 
         List<RitualPack> savedEntities = ritualPackRepository.saveAll(entities);
-        return savedEntities.stream()
+        List<RitualPackDTO> result = savedEntities.stream()
                 .map(RitualPackMapper::toDto)
                 .collect(Collectors.toList());
+        log.info("Bulk ritual packs created successfully count={}", result.size());
+        return result;
     }
 
     @Transactional
     public List<RitualPackDTO> bulkUpdate(List<RitualPackDTO> dtos) {
+        log.info("Bulk updating ritual packs count={}", dtos == null ? 0 : dtos.size());
+        log.debug("Bulk update ritual packs payload: {}", dtos);
         if (dtos == null || dtos.isEmpty()) {
             return Collections.emptyList();
         }
@@ -139,17 +153,22 @@ public class RitualPackService {
         }
 
         List<RitualPack> updated = ritualPackRepository.saveAll(toUpdate);
-        return updated.stream()
+        List<RitualPackDTO> result = updated.stream()
                 .map(RitualPackMapper::toDto)
                 .collect(Collectors.toList());
+        log.info("Bulk ritual packs updated successfully count={}", result.size());
+        return result;
     }
 
     @Transactional
     public boolean deleteById(UUID id) {
+        log.info("Deleting ritual pack ritualPackId={}", id);
         if (ritualPackRepository.existsById(id)) {
             ritualPackRepository.deleteById(id);
+            log.info("Ritual pack deleted successfully ritualPackId={}", id);
             return true;
         }
+        log.info("Ritual pack delete skipped: not found ritualPackId={}", id);
         return false;
     }
 

@@ -29,9 +29,11 @@ import com.lovingapp.loving.model.enums.TimeTaken;
 import com.lovingapp.loving.repository.RitualRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class RitualService {
 
     private final RitualRepository ritualRepository;
@@ -104,18 +106,24 @@ public class RitualService {
 
     @Transactional
     public RitualDTO createRitual(RitualDTO ritualDTO) {
+        log.info("Creating ritual");
+        log.debug("Create ritual payload: {}", ritualDTO);
         Ritual ritual = RitualMapper.fromDto(ritualDTO);
         Ritual savedRitual = ritualRepository.save(ritual);
+        log.info("Ritual created successfully ritualId={}", savedRitual.getId());
         return RitualMapper.toDto(savedRitual);
     }
 
     @Transactional
     public RitualDTO updateRitual(UUID id, RitualDTO ritualDTO) {
+        log.info("Updating ritual ritualId={}", id);
+        log.debug("Update ritual payload ritualId={} payload={}", id, ritualDTO);
         return ritualRepository.findById(id)
                 .map(existingRitual -> {
                     ritualDTO.setId(id); // Ensure ID consistency
                     RitualMapper.updateEntityFromDto(ritualDTO, existingRitual);
                     Ritual updatedRitual = ritualRepository.save(existingRitual);
+                    log.info("Ritual updated successfully ritualId={}", updatedRitual.getId());
                     return RitualMapper.toDto(updatedRitual);
                 })
                 .orElseThrow(() -> new ResourceNotFoundException("Ritual not found with id: " + id));
@@ -123,13 +131,17 @@ public class RitualService {
 
     @Transactional
     public void deleteRitual(UUID id) {
+        log.info("Deleting ritual ritualId={}", id);
         Ritual ritual = ritualRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ritual not found with id: " + id));
         ritualRepository.delete(ritual);
+        log.info("Ritual deleted successfully ritualId={}", id);
     }
 
     @Transactional
     public List<RitualDTO> bulkCreate(List<RitualDTO> ritualDTOs) {
+        log.info("Bulk creating rituals count={}", ritualDTOs == null ? 0 : ritualDTOs.size());
+        log.debug("Bulk create rituals payload: {}", ritualDTOs);
         if (ritualDTOs == null || ritualDTOs.isEmpty()) {
             return Collections.emptyList();
         }
@@ -137,11 +149,15 @@ public class RitualService {
                 .map(RitualMapper::fromDto)
                 .collect(Collectors.toList());
         List<Ritual> saved = ritualRepository.saveAll(entities);
-        return saved.stream().map(RitualMapper::toDto).collect(Collectors.toList());
+        List<RitualDTO> result = saved.stream().map(RitualMapper::toDto).collect(Collectors.toList());
+        log.info("Bulk rituals created successfully count={}", result.size());
+        return result;
     }
 
     @Transactional
     public List<RitualDTO> bulkUpdate(List<RitualDTO> ritualDTOs) {
+        log.info("Bulk updating rituals count={}", ritualDTOs == null ? 0 : ritualDTOs.size());
+        log.debug("Bulk update rituals payload: {}", ritualDTOs);
         if (ritualDTOs == null || ritualDTOs.isEmpty()) {
             return Collections.emptyList();
         }
@@ -171,6 +187,8 @@ public class RitualService {
                 .collect(Collectors.toList());
 
         List<Ritual> saved = ritualRepository.saveAll(toSave);
-        return saved.stream().map(RitualMapper::toDto).collect(Collectors.toList());
+        List<RitualDTO> result = saved.stream().map(RitualMapper::toDto).collect(Collectors.toList());
+        log.info("Bulk rituals updated successfully count={}", result.size());
+        return result;
     }
 }

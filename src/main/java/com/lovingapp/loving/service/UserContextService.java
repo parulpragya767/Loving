@@ -14,17 +14,22 @@ import com.lovingapp.loving.model.entity.UserContext;
 import com.lovingapp.loving.repository.UserContextRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserContextService {
 
     private final UserContextRepository userContextRepository;
 
     @Transactional
     public UserContextDTO createUserContext(UserContextDTO userContextDTO) {
+        log.info("Saving user context snapshot conversationId={}", userContextDTO.getConversationId());
+        log.debug("User context payload: {}", userContextDTO);
         UserContext userContext = UserContextMapper.toEntity(userContextDTO);
         UserContext savedContext = userContextRepository.save(userContext);
+        log.info("User context saved successfully userContextId={}", savedContext.getId());
         return UserContextMapper.toDto(savedContext);
     }
 
@@ -51,17 +56,21 @@ public class UserContextService {
 
     @Transactional
     public UserContextDTO updateUserContext(String id, UserContextDTO userContextDTO) {
+        log.info("Updating user context userContextId={}", id);
+        log.debug("Update user context payload userContextId={} payload={}", id, userContextDTO);
         UserContext existingContext = userContextRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new RuntimeException("UserContext not found with id: " + id));
 
         UserContextMapper.updateEntityFromDto(existingContext, userContextDTO);
 
         UserContext updatedContext = userContextRepository.save(existingContext);
+        log.info("User context updated successfully userContextId={}", updatedContext.getId());
         return UserContextMapper.toDto(updatedContext);
     }
 
     @Transactional
     public void deleteUserContext(String id) {
+        log.info("Deleting user context userContextId={}", id);
         userContextRepository.deleteById(UUID.fromString(id));
     }
 }
