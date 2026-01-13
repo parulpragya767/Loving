@@ -71,10 +71,9 @@ public class OpenAiChatClient implements LlmClient {
                     rawText = "";
                 }
 
-                log.info("LLM response(JSON): parsedClass={}, text.len={}, preview='{}'",
+                log.info("LLM response(JSON): parsedClass={}, text.len={}",
                         (parsed == null ? null : parsed.getClass().getSimpleName()),
-                        rawText == null ? 0 : rawText.length(),
-                        shorten(rawText, 200));
+                        rawText == null ? 0 : rawText.length());
             } else {
                 ResponseCreateParams params = buildResponseCreateParams(request)
                         .build();
@@ -95,9 +94,8 @@ public class OpenAiChatClient implements LlmClient {
                         .map(outputText -> outputText.text())
                         .orElse("");
 
-                log.info("LLM response(TEXT): text.len={}, preview='{}'",
-                        rawText == null ? 0 : rawText.length(),
-                        shorten(rawText, 200));
+                log.info("LLM response(TEXT): text.len={}",
+                        rawText == null ? 0 : rawText.length());
             }
             return new LLMResponse<>(rawText, parsed);
 
@@ -156,13 +154,5 @@ public class OpenAiChatClient implements LlmClient {
     private String getLLMModel(LLMRequest request) {
         return request.getModel() != null && !request.getModel().isEmpty() ? request.getModel()
                 : openAiProps.getModel();
-    }
-
-    private String shorten(String s, int max) {
-        if (s == null)
-            return null;
-        if (max <= 0)
-            return "";
-        return s.length() <= max ? s : s.substring(0, max);
     }
 }

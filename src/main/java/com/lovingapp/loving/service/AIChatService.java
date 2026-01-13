@@ -70,9 +70,11 @@ public class AIChatService {
 	}
 
 	@Transactional
-	public SendMessageResponse sendMessage(UUID sessionId,
-			SendMessageRequest request) {
-		log.info("Saving user chat message sessionId={}", sessionId);
+	public SendMessageResponse sendMessage(UUID userId, UUID sessionId, SendMessageRequest request) {
+		// 0. Validate session exists and belongs to the user
+		chatSessionRepository.findByIdAndUserId(sessionId, userId)
+				.orElseThrow(() -> new ResourceNotFoundException("ChatSession", "id", sessionId));
+
 		// 1. Save user message
 		ChatMessage userMessage = ChatMessage.builder()
 				.sessionId(sessionId)
@@ -80,14 +82,14 @@ public class AIChatService {
 				.content(request.getContent())
 				.build();
 
-		chatMessageRepository.save(userMessage);
+		ChatMessage savedUserMessage = chatMessageRepository.saveAndFlush(userMessage);
+		log.info("User chat message saved successfully sessionId={} chatMessageId={}", sessionId,
+				savedUserMessage.getId());
 
 		// 2. Get conversation history
-		List<ChatMessage> messages = chatMessageRepository
-				.findBySessionIdOrderByCreatedAtAsc(sessionId);
+		List<ChatMessage> messages = chatMessageRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
 
-		// Build empathetic chat system prompt and request from conversation history
-		// (structured JSON)
+		// 3. Build empathetic chat system prompt and request from conversation history
 		LLMRequest llmRequest = LLMRequest.builder()
 				.messages(messages.stream()
 						.map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
@@ -96,20 +98,25 @@ public class AIChatService {
 				.responseFormat(LLMResponseFormat.JSON)
 				.build();
 
+		// 4. Call LLM to generate empathetic response
 		log.info("Generating empathetic response via LLM sessionId={}", sessionId);
-		LLMResponse<LLMEmpatheticResponse> aiReply = llmClient.generate(llmRequest,
-				LLMEmpatheticResponse.class);
+
+		LLMResponse<LLMEmpatheticResponse> aiReply = llmClient.generate(llmRequest, LLMEmpatheticResponse.class);
 		LLMEmpatheticResponse empatheticResponse = aiReply.getParsed();
 		String response = empatheticResponse.getResponse();
 		boolean ready = empatheticResponse.isReadyForRitualSuggestion();
 
+		log.info("Empathetic response via LLM generated successfully sessionId={}", sessionId);
+
+		// 5. Create and save assistant message
 		ChatMessage assistantMessage = ChatMessage.builder()
 				.sessionId(sessionId)
 				.role(ChatMessageRole.ASSISTANT)
 				.content(response)
 				.build();
 		ChatMessage savedAssistantMessage = chatMessageRepository.saveAndFlush(assistantMessage);
-		log.info("Assistant message created sessionId={} readyForRecommendation={}", sessionId, ready);
+		log.info("Assistant message created sessionId={} chatMessageId={} readyForRecommendation={}", sessionId,
+				savedAssistantMessage.getId(), ready);
 
 		return SendMessageResponse.builder()
 				.assistantResponse(ChatMessageMapper.toDto(savedAssistantMessage))
@@ -118,25 +125,12 @@ public class AIChatService {
 	}
 
 	@Transactional
-	public SendMessageResponse sendMessage(UUID userId, UUID sessionId,
-			SendMessageRequest request) {
-		ChatSession session = chatSessionRepository.findById(sessionId)
-				.orElseThrow(() -> new ResourceNotFoundException("Session not found"));
-
-		if (!session.getUserId().equals(userId)) {
-			throw new ResourceNotFoundException("Session not found");
-		}
-
-		return sendMessage(sessionId, request);
-	}
-
-	@Transactional
 	public RecommendRitualPackResponse recommendRitualPack(
 			UUID userId,
 			UUID sessionId) {
 		log.info("Building ritual pack recommendation for chat session sessionId={}", sessionId);
-		ChatSession session = chatSessionRepository.findById(sessionId)
-				.orElseThrow(() -> new ResourceNotFoundException("Session not found"));
+		ChatSession session = chatSessionRepository.findByIdAndUserId(sessionId, userId)
+				.orElseThrow(() -> new ResourceNotFoundException("ChatSession", "id", sessionId));
 
 		List<ChatMessage> messages = chatMessageRepository
 				.findBySessionIdOrderByCreatedAtAsc(sessionId);

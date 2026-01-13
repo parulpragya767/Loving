@@ -70,8 +70,9 @@ public class AIChatController {
             @PathVariable UUID sessionId,
             @Valid @RequestBody SendMessageRequest request) {
         log.info("Send message request received sessionId={}", sessionId);
-        log.debug("Send message payload sessionId={} payload={}", sessionId, request);
+
         SendMessageResponse result = aiChatService.sendMessage(userId, sessionId, request);
+
         log.info("Message sent successfully sessionId={}", sessionId);
         return ResponseEntity.ok(result);
     }
