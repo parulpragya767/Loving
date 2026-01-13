@@ -2,8 +2,6 @@ package com.lovingapp.loving.controller;
 
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,28 +19,28 @@ import com.lovingapp.loving.model.dto.UserDTOs.UserUpdateRequest;
 import com.lovingapp.loving.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/users")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
     private final AuthContext authContext;
-
-    private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/sync")
     public ResponseEntity<UserDTO> syncUser(@AuthenticationPrincipal Jwt jwt) {
         UUID authUserId = authContext.getAuthUserId();
         String email = jwt.getClaim("email");
 
-        log.info("User sync call received");
+        log.info("User sync request received authUserId={}", authUserId);
 
         UserDTO dto = userService.syncUser(authUserId, email);
-        MDC.put("user_id", dto.getId().toString());
+        MDC.put("userId", dto.getId().toString());
 
-        log.info("User synced successfully");
+        log.info("User synced successfully authUserId={}", authUserId);
         return ResponseEntity.ok(dto);
     }
 
@@ -50,6 +48,10 @@ public class UserController {
     public ResponseEntity<UserDTO> updateUser(
             @CurrentUser UUID userId,
             @RequestBody UserUpdateRequest request) {
-        return ResponseEntity.ok(userService.updateUser(userId, request));
+        log.info("User update request received");
+        log.debug("User update payload payload={}", request);
+        UserDTO result = userService.updateUser(userId, request);
+        log.info("User updated successfully");
+        return ResponseEntity.ok(result);
     }
 }

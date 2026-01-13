@@ -14,24 +14,32 @@ import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.service.RitualPackService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/ritual-packs")
+@Slf4j
 public class RitualPackController {
 
     private final RitualPackService ritualPackService;
 
     @GetMapping
     public List<RitualPackDTO> getAll() {
-        return ritualPackService.findAll();
+        log.info("Fetch ritual packs request received");
+        List<RitualPackDTO> result = ritualPackService.findAll();
+        log.info("Ritual packs fetched successfully count={}", result == null ? 0 : result.size());
+        return result;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RitualPackDTO> getById(@PathVariable("id") UUID id) {
-        return ritualPackService.findById(id)
+        log.info("Fetch ritual pack request received ritualPackId={}", id);
+        ResponseEntity<RitualPackDTO> result = ritualPackService.findById(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
+        log.info("Ritual pack fetch completed ritualPackId={} status={}", id, result.getStatusCode());
+        return result;
     }
 }

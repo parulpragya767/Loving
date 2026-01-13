@@ -22,40 +22,55 @@ import com.lovingapp.loving.model.dto.RitualTagDTOs.RitualTags;
 import com.lovingapp.loving.service.RitualService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/rituals")
+@Slf4j
 public class RitualController {
 
     private final RitualService ritualService;
 
     @GetMapping
     public List<RitualDTO> getAll() {
-        return ritualService.getAllRituals();
+        log.info("Fetch rituals request received");
+        List<RitualDTO> result = ritualService.getAllRituals();
+        log.info("Rituals fetched successfully count={}", result == null ? 0 : result.size());
+        return result;
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<RitualDTO> getById(@PathVariable("id") UUID id) {
+        log.info("Fetch ritual request received ritualId={}", id);
         try {
             RitualDTO ritual = ritualService.getRitualById(id);
+            log.info("Ritual fetched successfully ritualId={}", id);
             return ResponseEntity.ok(ritual);
         } catch (Exception e) {
+            log.error("Failed to fetch ritual ritualId={} message={}", id, e.getMessage(), e);
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
         }
     }
 
     @GetMapping("/tags")
     public RitualTags getAllTags() {
-        return ritualService.getRitualTags();
+        log.info("Fetch ritual tags request received");
+        RitualTags result = ritualService.getRitualTags();
+        log.info("Ritual tags fetched successfully");
+        return result;
     }
 
     @PostMapping("/search")
     public Page<RitualDTO> search(@RequestBody(required = false) RitualFilterDTO filter, Pageable pageable) {
+        log.info("Ritual search request received");
+        log.debug("Ritual search payload filter={} pageable={}", filter, pageable);
         if (filter == null) {
             filter = new RitualFilterDTO();
         }
-        return ritualService.searchRituals(filter, pageable);
+        Page<RitualDTO> result = ritualService.searchRituals(filter, pageable);
+        log.info("Ritual search completed successfully count={}", result == null ? 0 : result.getNumberOfElements());
+        return result;
     }
 }
