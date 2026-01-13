@@ -66,7 +66,6 @@ public class AIChatService {
 				.userId(userId)
 				.build();
 		ChatSession saved = chatSessionRepository.saveAndFlush(session);
-		log.info("Chat session created sessionId={}", saved.getId());
 		return ChatSessionMapper.toDto(saved);
 	}
 
@@ -282,40 +281,44 @@ public class AIChatService {
 	}
 
 	@Transactional(readOnly = true)
-	public ChatSessionDTO getChatSessionWithMessages(UUID sessionId) {
-		ChatSession session = chatSessionRepository.findById(sessionId)
-				.orElseThrow(() -> new IllegalArgumentException("Session not found"));
+	public ChatSessionDTO getChatSessionWithMessages(UUID userId, UUID sessionId) {
+		ChatSession session = chatSessionRepository.findByIdAndUserId(sessionId, userId)
+				.orElseThrow(() -> new ResourceNotFoundException("ChatSession", "id", sessionId));
+
 		List<ChatMessage> messages = chatMessageRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
+		log.info("Chat messages fetched successfully sessionId={}, messagesCount={}", sessionId,
+				messages.size());
+
 		ChatSessionDTO chatSessionDto = ChatSessionMapper.toDto(session);
-		chatSessionDto.setMessages(messages.stream().map(ChatMessageMapper::toDto).collect(Collectors.toList()));
+		chatSessionDto.setMessages(messages.stream()
+				.map(ChatMessageMapper::toDto)
+				.collect(Collectors.toList()));
 		return chatSessionDto;
 	}
 
-	@Transactional(readOnly = true)
-	public ChatSessionDTO getChatSessionWithMessages(UUID userId, UUID sessionId) {
-		ChatSession session = chatSessionRepository.findById(sessionId)
-				.orElseThrow(() -> new IllegalArgumentException("Session not found"));
-
-		if (!session.getUserId().equals(userId)) {
-			throw new IllegalArgumentException("Session not found");
-		}
-
-		return getChatSessionWithMessages(sessionId);
-	}
-
-	@Transactional(readOnly = true)
-	public List<String> getSamplePrompts(UUID userId) {
-		return getFallbackPrompts();
-	}
-
-	/**
-	 * Get fallback prompts in case the LLM call fails.
-	 */
-	private List<String> getFallbackPrompts() {
+	public List<String> getSamplePrompts() {
 		return Arrays.asList(
 				"What's one small thing I can do today to make my partner feel appreciated?",
 				"How can we improve our communication when we disagree?",
 				"What's a fun activity we could try together this weekend?");
+	}
+
+	@Transactional(readOnly = true)
+	public List<ChatSessionDTO> listSessions(UUID userId) {
+		return chatSessionRepository.findByUserIdOrderByUpdatedAtDesc(userId).stream()
+				.map(ChatSessionMapper::toDto)
+				.collect(Collectors.toList());
+	}
+
+	@Transactional
+	public void deleteSession(UUID userId, UUID sessionId) {
+		chatSessionRepository.findByIdAndUserId(sessionId, userId)
+				.orElseThrow(() -> new ResourceNotFoundException("ChatSession", "id", sessionId));
+
+		// Delete messages first to avoid FK constraints if any
+		chatMessageRepository.deleteBySessionId(sessionId);
+		// Then delete the session
+		chatSessionRepository.deleteById(sessionId);
 	}
 
 	/**
@@ -338,27 +341,5 @@ public class AIChatService {
 		// something that fits as soon as I have enough context.";
 
 		return wrapUpMessage;
-	}
-
-	@Transactional(readOnly = true)
-	public List<ChatSessionDTO> listSessions(UUID userId) {
-		return chatSessionRepository.findByUserIdOrderByUpdatedAtDesc(userId).stream()
-				.map(ChatSessionMapper::toDto)
-				.collect(Collectors.toList());
-	}
-
-	@Transactional
-	public void deleteSession(UUID userId, UUID sessionId) {
-		ChatSession session = chatSessionRepository.findById(sessionId)
-				.orElseThrow(() -> new ResourceNotFoundException("Session not found"));
-
-		if (!session.getUserId().equals(userId)) {
-			throw new ResourceNotFoundException("Session not found");
-		}
-
-		// Delete messages first to avoid FK constraints if any
-		chatMessageRepository.deleteBySessionId(sessionId);
-		// Then delete the session
-		chatSessionRepository.deleteById(sessionId);
 	}
 }

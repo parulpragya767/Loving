@@ -29,72 +29,82 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class AIChatController {
 
-        private final AIChatService aiChatService;
+    private final AIChatService aiChatService;
 
-        @GetMapping("/sessions/{sessionId}/messages")
-        public ResponseEntity<ChatSessionDTO> getChatHistory(
-                        @CurrentUser UUID userId,
-                        @PathVariable UUID sessionId) {
-                log.info("Chat history request received sessionId={}", sessionId);
-                ChatSessionDTO result = aiChatService.getChatSessionWithMessages(userId, sessionId);
-                log.info("Chat history fetched successfully sessionId={}", sessionId);
-                return ResponseEntity.ok(result);
-        }
+    @GetMapping("/sessions/{sessionId}/messages")
+    public ResponseEntity<ChatSessionDTO> getChatSessionWithHistory(
+            @CurrentUser UUID userId,
+            @PathVariable UUID sessionId) {
+        log.info("Fetch chat session with messages request received sessionId={}", sessionId);
 
-        @GetMapping("/sessions")
-        public ResponseEntity<List<ChatSessionDTO>> listSessions(@CurrentUser UUID userId) {
-                log.info("List chat sessions request received");
-                List<ChatSessionDTO> result = aiChatService.listSessions(userId);
-                log.info("Chat sessions fetched successfully count={}", result == null ? 0 : result.size());
-                return ResponseEntity.ok(result);
-        }
+        ChatSessionDTO result = aiChatService.getChatSessionWithMessages(userId, sessionId);
 
-        @PostMapping("/sessions")
-        public ResponseEntity<ChatSessionDTO> createSession(@CurrentUser UUID userId) {
-                log.info("Create chat session request received");
-                ChatSessionDTO result = aiChatService.createSession(userId);
-                log.info("Chat session created successfully sessionId={}", result.getId());
-                return ResponseEntity.ok(result);
-        }
+        log.info("Chat session with messages fetched successfully sessionId={}, messagesCount={}", sessionId,
+                result.getMessages().size());
+        return ResponseEntity.ok(result);
+    }
 
-        @PostMapping("/sessions/{sessionId}/messages")
-        public ResponseEntity<SendMessageResponse> sendMessage(
-                        @CurrentUser UUID userId,
-                        @PathVariable UUID sessionId,
-                        @Valid @RequestBody SendMessageRequest request) {
-                log.info("Send message request received sessionId={}", sessionId);
-                log.debug("Send message payload sessionId={} payload={}", sessionId, request);
-                SendMessageResponse result = aiChatService.sendMessage(userId, sessionId, request);
-                log.info("Message sent successfully sessionId={}", sessionId);
-                return ResponseEntity.ok(result);
-        }
+    @GetMapping("/sessions")
+    public ResponseEntity<List<ChatSessionDTO>> listSessions(@CurrentUser UUID userId) {
+        log.info("List chat sessions request received");
 
-        @PostMapping("/sessions/{sessionId}/recommend")
-        public ResponseEntity<RecommendRitualPackResponse> recommendRitualPack(
-                        @CurrentUser UUID userId,
-                        @PathVariable UUID sessionId) {
-                log.info("Ritual pack recommendation request received sessionId={}", sessionId);
-                RecommendRitualPackResponse result = aiChatService.recommendRitualPack(userId, sessionId);
-                log.info("Ritual pack recommended successfully sessionId={}", sessionId);
-                return ResponseEntity.ok(result);
-        }
+        List<ChatSessionDTO> result = aiChatService.listSessions(userId);
 
-        @GetMapping("/sample-prompts")
-        public ResponseEntity<List<String>> getSamplePrompts(
-                        @CurrentUser UUID userId) {
-                log.info("Sample prompts request received");
-                List<String> result = aiChatService.getSamplePrompts(userId);
-                log.info("Sample prompts fetched successfully count={}", result == null ? 0 : result.size());
-                return ResponseEntity.ok(result);
-        }
+        log.info("Chat sessions fetched successfully count={}", result == null ? 0 : result.size());
+        return ResponseEntity.ok(result);
+    }
 
-        @DeleteMapping("/sessions/{sessionId}")
-        public ResponseEntity<Void> deleteSession(
-                        @CurrentUser UUID userId,
-                        @PathVariable UUID sessionId) {
-                log.info("Delete chat session request received sessionId={}", sessionId);
-                aiChatService.deleteSession(userId, sessionId);
-                log.info("Chat session deleted successfully sessionId={}", sessionId);
-                return ResponseEntity.noContent().build();
-        }
+    @PostMapping("/sessions")
+    public ResponseEntity<ChatSessionDTO> createSession(@CurrentUser UUID userId) {
+        log.info("Create chat session request received");
+
+        ChatSessionDTO result = aiChatService.createSession(userId);
+
+        log.info("Chat session created successfully sessionId={}", result.getId());
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/sessions/{sessionId}/messages")
+    public ResponseEntity<SendMessageResponse> sendMessage(
+            @CurrentUser UUID userId,
+            @PathVariable UUID sessionId,
+            @Valid @RequestBody SendMessageRequest request) {
+        log.info("Send message request received sessionId={}", sessionId);
+        log.debug("Send message payload sessionId={} payload={}", sessionId, request);
+        SendMessageResponse result = aiChatService.sendMessage(userId, sessionId, request);
+        log.info("Message sent successfully sessionId={}", sessionId);
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/sessions/{sessionId}/recommend")
+    public ResponseEntity<RecommendRitualPackResponse> recommendRitualPack(
+            @CurrentUser UUID userId,
+            @PathVariable UUID sessionId) {
+        log.info("Ritual pack recommendation request received sessionId={}", sessionId);
+        RecommendRitualPackResponse result = aiChatService.recommendRitualPack(userId, sessionId);
+        log.info("Ritual pack recommended successfully sessionId={}", sessionId);
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/sample-prompts")
+    public ResponseEntity<List<String>> getSamplePrompts() {
+        log.info("Sample prompts request received");
+
+        List<String> result = aiChatService.getSamplePrompts();
+
+        log.info("Sample prompts fetched successfully count={}", result == null ? 0 : result.size());
+        return ResponseEntity.ok(result);
+    }
+
+    @DeleteMapping("/sessions/{sessionId}")
+    public ResponseEntity<Void> deleteSession(
+            @CurrentUser UUID userId,
+            @PathVariable UUID sessionId) {
+        log.info("Delete chat session request received sessionId={}", sessionId);
+
+        aiChatService.deleteSession(userId, sessionId);
+
+        log.info("Chat session deleted successfully sessionId={}", sessionId);
+        return ResponseEntity.noContent().build();
+    }
 }

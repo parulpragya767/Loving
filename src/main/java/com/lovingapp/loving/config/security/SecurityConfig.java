@@ -29,7 +29,8 @@ public class SecurityConfig {
 	public static final String[] PUBLIC_API_ENDPOINTS = {
 			"/api/love-types/**",
 			"/api/rituals/**",
-			"/api/ritual-packs/**"
+			"/api/ritual-packs/**",
+			"/api/ai-chat/sample-prompts"
 	};
 
 	private final JwtDecoderConfig jwtConfig;
