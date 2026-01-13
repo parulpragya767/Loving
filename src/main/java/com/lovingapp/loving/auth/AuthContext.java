@@ -15,9 +15,11 @@ import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
 import com.lovingapp.loving.service.UserService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class AuthContext {
 
     private final UserService userService;
@@ -26,6 +28,7 @@ public class AuthContext {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(authentication instanceof JwtAuthenticationToken jwtAuth)) {
+            log.info("Request is not authenticated with JWT");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Expected JWT authentication");
         }
         return jwtAuth.getToken();
@@ -34,12 +37,14 @@ public class AuthContext {
     public UUID getAuthUserId() {
         String sub = currentJwt().getSubject();
         if (sub == null) {
+            log.info("JWT subject is missing");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Missing subject in token");
         }
 
         try {
             return UUID.fromString(sub);
         } catch (IllegalArgumentException e) {
+            log.info("JWT subject is not a valid UUID");
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid auth user id");
         }
     }
@@ -49,6 +54,7 @@ public class AuthContext {
         try {
             return userService.getUserByAuthUserId(authUserId);
         } catch (ResourceNotFoundException e) {
+            log.info("Authenticated user is not present in application database");
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found with authUserId");
         }
     }

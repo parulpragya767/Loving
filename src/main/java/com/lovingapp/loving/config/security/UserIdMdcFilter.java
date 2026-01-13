@@ -18,9 +18,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class UserIdMdcFilter extends OncePerRequestFilter {
 
     private final AuthContext authContext;
@@ -44,6 +46,9 @@ public class UserIdMdcFilter extends OncePerRequestFilter {
                 MDC.put("userId", userId.toString());
             }
             filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            log.error("Failed to populate user context into MDC", e);
+            throw e;
         } finally {
             MDC.remove("userId");
         }

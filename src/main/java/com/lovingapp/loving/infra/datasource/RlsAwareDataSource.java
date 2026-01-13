@@ -11,6 +11,9 @@ import org.springframework.jdbc.datasource.AbstractDataSource;
 
 import com.lovingapp.loving.infra.security.DbCurrentUserContext;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class RlsAwareDataSource extends AbstractDataSource {
 
     private static final String SET_RLS_SQL = "SET LOCAL app.current_user_id = ?";
@@ -39,6 +42,7 @@ public class RlsAwareDataSource extends AbstractDataSource {
         UUID currentUserId = DbCurrentUserContext.getCurrentUserId();
 
         if (currentUserId == null) {
+            log.error("Database access attempted without DbCurrentUserContext");
             throw new IllegalStateException(
                     "Missing DbCurrentUserContext: userId must be set before database access");
         }

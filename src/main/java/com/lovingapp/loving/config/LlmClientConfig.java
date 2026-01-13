@@ -10,10 +10,12 @@ import com.lovingapp.loving.client.OpenAiChatClient;
 import com.lovingapp.loving.client.PerplexityLlmClient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Configuration
 @EnableConfigurationProperties(LlmClientProperties.class)
 @RequiredArgsConstructor
+@Slf4j
 public class LlmClientConfig {
 
     private final LlmClientProperties properties;
@@ -25,10 +27,15 @@ public class LlmClientConfig {
 
     @Bean
     public LlmClient llmClient(WebClient webClient) {
-        return switch (properties.getProvider().toLowerCase()) {
+        String provider = properties.getProvider() == null ? "" : properties.getProvider().toLowerCase();
+        log.info("LLM client provider configured provider={}", provider);
+        return switch (provider) {
             case "perplexity" -> new PerplexityLlmClient(properties, webClient);
             case "openai" -> new OpenAiChatClient(properties);
-            default -> throw new IllegalArgumentException("Unsupported LLM provider: " + properties.getProvider());
+            default -> {
+                log.error("Unsupported LLM provider configured provider={}", properties.getProvider());
+                throw new IllegalArgumentException("Unsupported LLM provider: " + properties.getProvider());
+            }
         };
     }
 }

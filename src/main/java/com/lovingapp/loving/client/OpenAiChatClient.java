@@ -102,6 +102,10 @@ public class OpenAiChatClient implements LlmClient {
             return new LLMResponse<>(rawText, parsed);
 
         } catch (Exception e) {
+            log.error("OpenAI LLM request failed model={} format={}",
+                    getLLMModel(request),
+                    request == null ? null : request.getResponseFormat(),
+                    e);
             throw new RuntimeException("Error generating LLM response", e);
         }
     }

@@ -74,16 +74,13 @@ public class PerplexityLlmClient implements LlmClient {
                 .messages(perplexityMessages)
                 .build();
 
-        log.info("Sending request to Perplexity API:");
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            String requestBody = mapper.writeValueAsString(perplexityRequest);
-            log.info("URL: " + perplexityProps.getBaseUrl() + "/chat/completions");
-            log.info("Headers: {Authorization: 'Bearer ' + [REDACTED], Content-Type: application/json}");
-            log.info("Body: " + requestBody);
-        } catch (Exception e) {
-            log.error("Error logging request: " + e.getMessage());
-        }
+        log.info("Calling Perplexity LLM model={} format={} systemPrompt.len={} messages.size={}",
+                perplexityProps.getModel(),
+                request.getResponseFormat(),
+                request.getSystemPrompt() == null ? 0 : request.getSystemPrompt().length(),
+                request.getMessages() == null ? 0 : request.getMessages().size());
+        log.debug("Perplexity request: baseUrl={} maxTokens={} temperature={}",
+                perplexityProps.getBaseUrl(), perplexityProps.getMaxTokens(), perplexityProps.getTemperature());
 
         try {
             String response = webClient.post()
@@ -95,16 +92,10 @@ public class PerplexityLlmClient implements LlmClient {
                     .bodyToMono(String.class)
                     .block();
 
-            log.info("Response from Perplexity API:");
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                String requestBody = mapper.writeValueAsString(response);
-                log.info("Response: " + requestBody);
-            } catch (Exception e) {
-                log.error("Error logging response: " + e.getMessage());
-            }
+            log.debug("Perplexity raw response received len={}", response == null ? 0 : response.length());
 
             String content = extractContent(response);
+            log.info("Perplexity response parsed successfully content.len={}", content == null ? 0 : content.length());
             return LLMResponseParser.parseResponse(content, responseClass);
         } catch (Exception e) {
             log.error("Error calling Perplexity API", e);

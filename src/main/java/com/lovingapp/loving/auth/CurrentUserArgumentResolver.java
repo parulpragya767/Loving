@@ -14,9 +14,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final AuthContext authContext;
@@ -35,7 +37,13 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
 
         Class<?> type = parameter.getParameterType();
 
-        UserDTO user = authContext.getAppUser();
+        UserDTO user;
+        try {
+            user = authContext.getAppUser();
+        } catch (Exception e) {
+            log.error("Failed to resolve @CurrentUser from auth context");
+            throw e;
+        }
 
         if (UserDTO.class.isAssignableFrom(type)) {
             return user;
@@ -45,6 +53,7 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
             return user.getId();
         }
 
+        log.error("Unsupported @CurrentUser parameter type type={}", type.getName());
         throw new IllegalArgumentException("Unsupported @CurrentUser parameter type: " + type.getName());
     }
 }

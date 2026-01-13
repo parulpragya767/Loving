@@ -17,9 +17,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class DbCurrentUserContextFilter extends OncePerRequestFilter {
 
     private final AuthContext authContext;
@@ -40,6 +42,9 @@ public class DbCurrentUserContextFilter extends OncePerRequestFilter {
             UUID userId = authContext.getAppUser().getId();
             DbCurrentUserContext.setCurrentUserId(userId);
             filterChain.doFilter(request, response);
+        } catch (Exception e) {
+            log.error("Failed to establish DbCurrentUserContext for request", e);
+            throw e;
         } finally {
             DbCurrentUserContext.clear();
         }
