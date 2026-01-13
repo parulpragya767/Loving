@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.model.dto.RitualDTO;
 import com.lovingapp.loving.model.dto.RitualFilterDTO;
@@ -44,14 +42,9 @@ public class RitualController {
     @GetMapping("/{id}")
     public ResponseEntity<RitualDTO> getById(@PathVariable("id") UUID id) {
         log.info("Fetch ritual request received ritualId={}", id);
-        try {
-            RitualDTO ritual = ritualService.getRitualById(id);
-            log.info("Ritual fetched successfully ritualId={}", id);
-            return ResponseEntity.ok(ritual);
-        } catch (Exception e) {
-            log.error("Failed to fetch ritual ritualId={} message={}", id, e.getMessage(), e);
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage(), e);
-        }
+        RitualDTO ritual = ritualService.getRitualById(id);
+        log.info("Ritual fetched successfully ritualId={}", id);
+        return ResponseEntity.ok(ritual);
     }
 
     @GetMapping("/tags")
