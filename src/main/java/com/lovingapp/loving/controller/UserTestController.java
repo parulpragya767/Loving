@@ -19,12 +19,13 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+// @Profile("dev")
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/user-contexts")
 @RequiredArgsConstructor
 @Slf4j
-public class UserContextController {
+public class UserTestController {
 
     private final UserContextService userContextService;
 
