@@ -8,6 +8,7 @@ import com.lovingapp.loving.model.enums.RecommendationSource;
 import com.lovingapp.loving.model.enums.RecommendationStatus;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,8 +44,29 @@ public final class RitualRecommendationDTOs {
     @AllArgsConstructor
     @Builder
     @Data
-    public static class RitualRecommendationUpdateRequest {
+    public static class RitualRecommendationCreateRequest {
+        @NotNull(message = "source is required")
+        private RecommendationSource source;
+
+        @NotNull(message = "sourceId is required")
+        private UUID sourceId;
+
+        @NotNull(message = "ritualPackId is required")
+        private UUID ritualPackId;
+
+        @NotNull(message = "status is required")
         private RecommendationStatus status;
+    }
+
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    @Data
+    public static class RitualRecommendationUpdateRequest {
+        @NotNull(message = "status is required")
+        private RecommendationStatus status;
+
+        @Valid
         private List<RitualStatusUpdate> ritualStatusUpdates;
     }
 
@@ -53,9 +75,10 @@ public final class RitualRecommendationDTOs {
     @Builder
     @Data
     public static class RitualStatusUpdate {
-        @NotNull
+        @NotNull(message = "ritualId is required")
         private UUID ritualId;
-        @NotNull
+
+        @NotNull(message = "status is required")
         private RitualHistoryStatus status;
     }
 }

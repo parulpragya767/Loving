@@ -1,24 +1,19 @@
 package com.lovingapp.loving.service;
 
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualRecommendationMapper;
-import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.StatusUpdateEntry;
+import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationCreateRequest;
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationDTO;
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationUpdateRequest;
-import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualStatusUpdate;
 import com.lovingapp.loving.model.entity.RitualRecommendation;
-import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.repository.RitualRecommendationRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -40,17 +35,22 @@ public class RitualRecommendationService {
     }
 
     @Transactional(readOnly = true)
-    public RitualRecommendationDTO getById(UUID id) {
-        return ritualRecommendationRepository.findById(id)
+    public RitualRecommendationDTO getById(UUID userId, UUID id) {
+        return ritualRecommendationRepository.findByIdAndUserId(id, userId)
                 .map(RitualRecommendationMapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "RitualRecommendation not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("RitualRecommendation", "id", id));
     }
 
     @Transactional
-    public RitualRecommendationDTO create(UUID userId, RitualRecommendationDTO dto) {
-        RitualRecommendation entity = RitualRecommendationMapper.fromDto(dto);
-        entity.setUserId(userId);
+    public RitualRecommendationDTO create(UUID userId, RitualRecommendationCreateRequest request) {
+        RitualRecommendation entity = RitualRecommendation.builder()
+                .userId(userId)
+                .source(request.getSource())
+                .sourceId(request.getSourceId())
+                .ritualPackId(request.getRitualPackId())
+                .status(request.getStatus())
+                .build();
+
         RitualRecommendation saved = ritualRecommendationRepository.saveAndFlush(entity);
         return RitualRecommendationMapper.toDto(saved);
     }
@@ -58,53 +58,35 @@ public class RitualRecommendationService {
     @Transactional
     public void updateRecommendationAndRitualHistoryStatus(UUID userId, UUID recommendationId,
             RitualRecommendationUpdateRequest request) {
-        log.info("Updating recommendation status recommendationId={} status={}", recommendationId,
-                request.getStatus());
-        RitualRecommendation ritualRecommendation = ritualRecommendationRepository.findById(recommendationId)
-                .filter(recommendation -> recommendation.getUserId().equals(userId))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Ritual recommendation not found with id: " + recommendationId));
+        RitualRecommendation ritualRecommendation = ritualRecommendationRepository
+                .findByIdAndUserId(recommendationId, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("RitualRecommendation", "id", recommendationId));
 
         ritualRecommendation.setStatus(request.getStatus());
         ritualRecommendationRepository.save(ritualRecommendation);
 
+        log.info("Ritual recommendation status updated successfully recommendationId={} status={}", recommendationId,
+                request.getStatus());
+
         if (request.getRitualStatusUpdates() != null && !request.getRitualStatusUpdates().isEmpty()) {
-            log.debug("Updating related ritual history statuses recommendationId={} count={}",
-                    recommendationId,
-                    request.getRitualStatusUpdates().size());
-            List<RitualHistoryDTO> ritualHistories = ritualHistoryService.findByUserAndRecommendationId(
-                    userId,
-                    recommendationId);
+            List<StatusUpdateEntry> ritualHistoryStatusUpdates = request.getRitualStatusUpdates().stream()
+                    .map(update -> StatusUpdateEntry.builder()
+                            .ritualHistoryId(update.getRitualId())
+                            .status(update.getStatus())
+                            .build())
+                    .collect(Collectors.toList());
 
-            if (!ritualHistories.isEmpty()) {
-                Map<UUID, RitualHistoryStatus> statusUpdateMap = request.getRitualStatusUpdates()
-                        .stream()
-                        .collect(Collectors.toMap(
-                                RitualStatusUpdate::getRitualId,
-                                RitualStatusUpdate::getStatus));
+            // Bulk update all related ritual histories
+            ritualHistoryService.bulkUpdateStatus(userId, ritualHistoryStatusUpdates);
 
-                // Create update entries, looking up the status for each ritual
-                List<StatusUpdateEntry> updates = ritualHistories.stream()
-                        .filter(update -> statusUpdateMap.containsKey(update.getRitualId()))
-                        .map(history -> StatusUpdateEntry.builder()
-                                .ritualHistoryId(history.getId())
-                                .status(statusUpdateMap.get(history.getRitualId()))
-                                .build())
-                        .collect(Collectors.toList());
-
-                // Bulk update all related ritual histories
-                ritualHistoryService.bulkUpdateStatus(userId, updates);
-            }
+            log.info("Ritual history status updated successfully.");
         }
     }
 
     @Transactional
-    public void delete(UUID id) {
-        log.info("Deleting ritual recommendation recommendationId={}", id);
-        RitualRecommendation entity = ritualRecommendationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        "RitualRecommendation not found with id: " + id));
+    public void delete(UUID userId, UUID id) {
+        RitualRecommendation entity = ritualRecommendationRepository.findByIdAndUserId(id, userId)
+                .orElseThrow(() -> new ResourceNotFoundException("RitualRecommendation", "id", id));
         ritualRecommendationRepository.delete(entity);
-        log.info("Ritual recommendation deleted successfully recommendationId={}", id);
     }
 }

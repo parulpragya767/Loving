@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lovingapp.loving.auth.CurrentUser;
+import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationCreateRequest;
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationDTO;
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationUpdateRequest;
 import com.lovingapp.loving.service.RitualRecommendationService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -34,7 +36,9 @@ public class RitualRecommendationController {
     @GetMapping
     public ResponseEntity<List<RitualRecommendationDTO>> listAll(@CurrentUser UUID userId) {
         log.info("Fetch ritual recommendations request received");
+
         List<RitualRecommendationDTO> list = ritualRecommendationService.getAll(userId);
+
         log.info("Ritual recommendations fetched successfully count={}", list == null ? 0 : list.size());
         return ResponseEntity.ok(list);
     }
@@ -44,7 +48,9 @@ public class RitualRecommendationController {
             @CurrentUser UUID userId,
             @PathVariable("id") UUID id) {
         log.info("Fetch ritual recommendation request received recommendationId={}", id);
-        RitualRecommendationDTO dto = ritualRecommendationService.getById(id);
+
+        RitualRecommendationDTO dto = ritualRecommendationService.getById(userId, id);
+
         log.info("Ritual recommendation fetched successfully recommendationId={}", id);
         return ResponseEntity.ok(dto);
     }
@@ -52,26 +58,24 @@ public class RitualRecommendationController {
     @PostMapping
     public ResponseEntity<RitualRecommendationDTO> create(
             @CurrentUser UUID userId,
-            @RequestBody RitualRecommendationDTO request) {
+            @Valid @RequestBody RitualRecommendationCreateRequest request) {
         log.info("Create ritual recommendation request received");
-        log.debug("Create ritual recommendation payload={}", request);
+
         RitualRecommendationDTO savedDto = ritualRecommendationService.create(userId, request);
+
         log.info("Ritual recommendation created successfully recommendationId={}", savedDto.getId());
-        return new ResponseEntity<>(savedDto, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateRecommendationAndRitualHistoryStatus(
             @CurrentUser UUID userId,
             @PathVariable("id") UUID id,
-            @RequestBody RitualRecommendationUpdateRequest request) {
-        if (request.getStatus() == null) {
-            log.info("Update ritual recommendation rejected: missing status recommendationId={}", id);
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+            @Valid @RequestBody RitualRecommendationUpdateRequest request) {
         log.info("Update ritual recommendation request received recommendationId={}", id);
-        log.debug("Update ritual recommendation recommendationId={} payload={}", id, request);
+
         ritualRecommendationService.updateRecommendationAndRitualHistoryStatus(userId, id, request);
+
         log.info("Ritual recommendation updated successfully recommendationId={}", id);
         return ResponseEntity.ok().build();
     }

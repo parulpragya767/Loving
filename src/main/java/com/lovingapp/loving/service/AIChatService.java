@@ -29,6 +29,7 @@ import com.lovingapp.loving.model.dto.ChatDTOs.SendMessageResponse;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryCreateRequest;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
+import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationCreateRequest;
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationDTO;
 import com.lovingapp.loving.model.dto.UserContextDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
@@ -370,15 +371,14 @@ public class AIChatService {
 
 		if (recommendedPack != null) {
 			// Create ritual recommendation record
-			RitualRecommendationDTO recommendation = RitualRecommendationDTO.builder()
-					.userId(userId)
+			RitualRecommendationCreateRequest recommendationCreateRequest = RitualRecommendationCreateRequest.builder()
 					.source(RecommendationSource.CHAT)
 					.sourceId(sessionId)
 					.ritualPackId(recommendedPack.getId())
 					.status(RecommendationStatus.SUGGESTED)
 					.build();
 			RitualRecommendationDTO savedRecommendation = ritualRecommendationService.create(userId,
-					recommendation);
+					recommendationCreateRequest);
 
 			log.info("Ritual recommendation saved successfully sessionId={} recommendationId={}", sessionId,
 					savedRecommendation.getId());
