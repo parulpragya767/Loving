@@ -53,7 +53,7 @@ public class RitualHistoryService {
 				.orElseThrow(() -> new ResourceNotFoundException("RitualHistory", "id", id));
 	}
 
-	public Map<UUID, RitualHistory> validateByIds(UUID userId, List<UUID> ids) {
+	public Map<UUID, RitualHistory> validateRitualHistoryByIds(UUID userId, List<UUID> ids) {
 		Map<UUID, RitualHistory> historiesById = ritualHistoryRepository.findAllByIdInAndUserId(ids, userId)
 				.stream()
 				.collect(Collectors.toMap(RitualHistory::getId, Function.identity()));
@@ -190,7 +190,7 @@ public class RitualHistoryService {
 
 	@Transactional
 	public void delete(UUID ritualHistoryId) {
-		log.info("Deleting ritual history entry ritualHistoryId={}", ritualHistoryId);
+		findById(ritualHistoryId);
 		ritualHistoryRepository.deleteById(ritualHistoryId);
 	}
 
@@ -247,7 +247,7 @@ public class RitualHistoryService {
 				.map(StatusUpdateEntry::getRitualHistoryId)
 				.toList();
 
-		Map<UUID, RitualHistory> historiesById = validateByIds(userId, ids);
+		Map<UUID, RitualHistory> historiesById = validateRitualHistoryByIds(userId, ids);
 
 		// Create a map of updates by ritual history ID for quick lookup
 		Map<UUID, StatusUpdateEntry> updatesMap = updates.stream()

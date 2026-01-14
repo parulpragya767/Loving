@@ -129,10 +129,14 @@ public class RitualHistoryController {
     public ResponseEntity<Void> delete(
             @CurrentUser UUID userId,
             @PathVariable("id") UUID id) {
-        log.info("Abandon ritual request received ritualHistoryId={}", id);
-        ritualHistoryService
-                .updateStatus(id, userId, RitualHistoryStatus.ABANDONED, null);
-        log.info("Ritual abandoned successfully ritualHistoryId={}", id);
+
+        log.info("Delete ritual history request received ritualHistoryId={}", id);
+
+        // Doing a soft delete currently. Need to evaluate in future if a hard delete is
+        // needed.
+        ritualHistoryService.updateStatus(id, userId, RitualHistoryStatus.ABANDONED, null);
+
+        log.info("Ritual history deleted successfully ritualHistoryId={}", id);
         return ResponseEntity.noContent().build();
     }
 }
