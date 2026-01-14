@@ -1,9 +1,11 @@
 package com.lovingapp.loving.service;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -48,6 +50,23 @@ public class RitualService {
     @Transactional(readOnly = true)
     public boolean existsById(UUID id) {
         return ritualRepository.existsById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public boolean validateRitualIds(List<UUID> ids) {
+        List<UUID> existingRitualIds = findAllById(new ArrayList<>(ids))
+                .stream()
+                .map(RitualDTO::getId)
+                .collect(Collectors.toList());
+
+        Set<UUID> missingRitualIds = ids.stream()
+                .filter(id -> !existingRitualIds.contains(id))
+                .collect(Collectors.toSet());
+
+        if (!missingRitualIds.isEmpty()) {
+            throw new ResourceNotFoundException("Ritual", "ids", missingRitualIds);
+        }
+        return true;
     }
 
     @Transactional(readOnly = true)

@@ -182,11 +182,14 @@ public class RitualHistoryService {
 	}
 
 	@Transactional
-	public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId,
-			List<RitualHistoryCreateRequest> requests) {
+	public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId, List<RitualHistoryCreateRequest> requests) {
 		if (requests == null || requests.isEmpty()) {
 			return List.of();
 		}
+
+		// Validate all ritual IDs and ritual pack IDs in bulk
+		validateRitualHistoriesBulk(requests);
+
 		List<RitualHistory> histories = requests.stream()
 				.map(request -> RitualHistory.builder()
 						.userId(userId)
@@ -274,5 +277,49 @@ public class RitualHistoryService {
 				.collect(Collectors.toList());
 		log.info("Bulk ritual history status update completed successfully count={}", result.size());
 		return result;
+	}
+
+	private void validateRitualHistoriesBulk(List<RitualHistoryCreateRequest> requests) {
+		// Collect all unique ritual IDs
+		Set<UUID> ritualIds = requests.stream()
+				.map(RitualHistoryCreateRequest::getRitualId)
+				.collect(Collectors.toSet());
+
+		// Validate all ritual IDs exist in bulk
+		ritualService.validateRitualIds(new ArrayList<>(ritualIds));
+
+		// Collect all unique ritual pack IDs
+		Set<UUID> ritualPackIds = requests.stream()
+				.map(RitualHistoryCreateRequest::getRitualPackId)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toSet());
+
+		if (!ritualPackIds.isEmpty()) {
+			// Validate all ritual pack IDs exist in bulk
+
+			Map<UUID, RitualPackDTO> ritualPackMap = ritualPackService
+					.validateRitualPacks(new ArrayList<>(ritualPackIds))
+					.stream()
+					.collect(Collectors.toMap(RitualPackDTO::getId, Function.identity()));
+
+			// Validate that all rituals are associated with their respective packs
+			List<String> invalidPairs = new ArrayList<>();
+			for (RitualHistoryCreateRequest request : requests) {
+				if (request.getRitualPackId() != null) {
+					RitualPackDTO ritualPack = ritualPackMap.get(request.getRitualPackId());
+					if (ritualPack != null && !ritualPack.getRitualIds().contains(request.getRitualId())) {
+						invalidPairs.add(String.format("ritualId=%s ritualPackId=%s",
+								request.getRitualId(),
+								request.getRitualPackId()));
+					}
+				}
+			}
+
+			// If there are any errors, throw an exception with all of them
+			if (!invalidPairs.isEmpty()) {
+				throw new IllegalArgumentException(
+						"Ritual not associated with ritual pack:" + String.join(" | ", invalidPairs));
+			}
+		}
 	}
 }

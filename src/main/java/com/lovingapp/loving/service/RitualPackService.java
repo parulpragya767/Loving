@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -53,6 +54,22 @@ public class RitualPackService {
         return ritualPackRepository.findAllById(ids).stream()
                 .map(RitualPackMapper::toDto)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<RitualPackDTO> validateRitualPacks(List<UUID> ids) {
+        Map<UUID, RitualPackDTO> ritualPackMap = findAllById(new ArrayList<>(ids))
+                .stream()
+                .collect(Collectors.toMap(RitualPackDTO::getId, Function.identity()));
+
+        Set<UUID> missingPackIds = ids.stream()
+                .filter(id -> !ritualPackMap.containsKey(id))
+                .collect(Collectors.toSet());
+
+        if (!missingPackIds.isEmpty()) {
+            throw new ResourceNotFoundException("RitualPack", "ids", missingPackIds);
+        }
+        return ritualPackMap.values().stream().collect(Collectors.toList());
     }
 
     @Transactional

@@ -2,7 +2,9 @@ package com.lovingapp.loving.controller;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -64,18 +66,20 @@ public class RitualHistoryController {
         RitualHistoryDTO savedDto = ritualHistoryService.create(userId, request);
 
         log.info("Ritual history created successfully ritualHistoryId={}", savedDto.getId());
-        return ResponseEntity.status(201).body(savedDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedDto);
     }
 
     @PostMapping("/bulk")
     public ResponseEntity<List<RitualHistoryDTO>> bulkCreate(
             @CurrentUser UUID userId,
-            @Valid @RequestBody List<@Valid RitualHistoryCreateRequest> ritualHistories) {
-        log.info("Bulk creating ritual history");
-        log.debug("Bulk create ritual history payload: {}", ritualHistories);
+            @RequestBody List<@Valid RitualHistoryCreateRequest> ritualHistories) {
+        log.info("Bulk creating ritual history request received ritualIds={}",
+                ritualHistories.stream().map(RitualHistoryCreateRequest::getRitualId).collect(Collectors.toList()));
+
         List<RitualHistoryDTO> result = ritualHistoryService.bulkCreateRitualHistories(userId, ritualHistories);
+
         log.info("Ritual history created successfully (bulk) with {} records", result.size());
-        return ResponseEntity.status(201).body(result);
+        return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
 
     @PostMapping("/{id}/complete")
