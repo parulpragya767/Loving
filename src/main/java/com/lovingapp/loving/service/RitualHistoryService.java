@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -15,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
+import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualHistoryMapper;
 import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualDTO;
 import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualPackDTO;
@@ -49,9 +49,10 @@ public class RitualHistoryService {
 				.collect(Collectors.toList());
 	}
 
-	public Optional<RitualHistoryDTO> findById(UUID id) {
+	public RitualHistoryDTO findById(UUID id) {
 		return ritualHistoryRepository.findById(id)
-				.map(RitualHistoryMapper::toDto);
+				.map(RitualHistoryMapper::toDto)
+				.orElseThrow(() -> new ResourceNotFoundException("RitualHistory", "id", id));
 	}
 
 	public List<RitualHistoryDTO> findByUserAndRecommendationId(UUID userId, UUID recommendationId) {
@@ -147,9 +148,21 @@ public class RitualHistoryService {
 
 	@Transactional
 	public RitualHistoryDTO create(UUID userId, RitualHistoryCreateRequest request) {
-		log.info("Creating ritual history entry ritualId={} status={} recommendationId={}",
-				request.getRitualId(), request.getStatus(), request.getRecommendationId());
-		log.debug("Create ritual history details ritualPackId={}", request.getRitualPackId());
+		if (!ritualService.existsById(request.getRitualId())) {
+			throw new ResourceNotFoundException("Ritual", "id", request.getRitualId());
+		}
+
+		if (request.getRitualPackId() != null) {
+			RitualPackDTO ritualPack = ritualPackService.findById(request.getRitualPackId());
+
+			if (!ritualPack.getRitualIds().contains(request.getRitualId())) {
+				throw new IllegalArgumentException(
+						String.format("Ritual not associated with ritual pack: ritualId=%s ritualPackId=%s",
+								request.getRitualId(),
+								request.getRitualPackId()));
+			}
+		}
+
 		RitualHistory ritualHistory = RitualHistory.builder()
 				.userId(userId)
 				.ritualId(request.getRitualId())
@@ -159,7 +172,6 @@ public class RitualHistoryService {
 				.build();
 
 		RitualHistory saved = ritualHistoryRepository.saveAndFlush(ritualHistory);
-		log.info("Ritual history entry created ritualHistoryId={}", saved.getId());
 		return RitualHistoryMapper.toDto(saved);
 	}
 

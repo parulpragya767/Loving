@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualPackMapper;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.entity.Ritual;
@@ -39,8 +40,9 @@ public class RitualPackService {
     }
 
     @Transactional(readOnly = true)
-    public Optional<RitualPackDTO> findById(UUID id) {
-        return ritualPackRepository.findById(id).map(RitualPackMapper::toDto);
+    public RitualPackDTO findById(UUID id) {
+        return ritualPackRepository.findById(id).map(RitualPackMapper::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("RitualPack", "id", id));
     }
 
     @Transactional(readOnly = true)

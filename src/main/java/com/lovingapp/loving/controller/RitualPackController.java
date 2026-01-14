@@ -28,7 +28,9 @@ public class RitualPackController {
     @GetMapping
     public List<RitualPackDTO> getAll() {
         log.info("Fetch ritual packs request received");
+
         List<RitualPackDTO> result = ritualPackService.findAll();
+
         log.info("Ritual packs fetched successfully count={}", result == null ? 0 : result.size());
         return result;
     }
@@ -36,10 +38,10 @@ public class RitualPackController {
     @GetMapping("/{id}")
     public ResponseEntity<RitualPackDTO> getById(@PathVariable("id") UUID id) {
         log.info("Fetch ritual pack request received ritualPackId={}", id);
-        ResponseEntity<RitualPackDTO> result = ritualPackService.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
-        log.info("Ritual pack fetch completed ritualPackId={} status={}", id, result.getStatusCode());
-        return result;
+
+        RitualPackDTO result = ritualPackService.findById(id);
+
+        log.info("Ritual pack fetch completed ritualPackId={}", id);
+        return ResponseEntity.ok(result);
     }
 }

@@ -39,7 +39,9 @@ public class RitualHistoryController {
     @GetMapping
     public ResponseEntity<List<RitualHistoryDTO>> list(@CurrentUser UUID userId) {
         log.info("Fetch ritual history request received");
+
         List<RitualHistoryDTO> list = ritualHistoryService.listByUser(userId);
+
         log.info("Ritual history fetched successfully count={}", list == null ? 0 : list.size());
         return ResponseEntity.ok(list);
     }
@@ -47,17 +49,20 @@ public class RitualHistoryController {
     @GetMapping("/current")
     public ResponseEntity<CurrentRitualsDTO> listCurrent(@CurrentUser UUID userId) {
         log.info("Fetch current rituals request received");
+
         CurrentRitualsDTO currentRituals = ritualHistoryService.listCurrentByUser(userId);
+
         log.info("Current rituals fetched successfully");
         return ResponseEntity.ok(currentRituals);
     }
 
     @PostMapping
     public ResponseEntity<RitualHistoryDTO> create(@CurrentUser UUID userId,
-            @RequestBody RitualHistoryCreateRequest request) {
-        log.info("Create ritual history request received");
-        log.debug("Create ritual history payload: {}", request);
+            @Valid @RequestBody RitualHistoryCreateRequest request) {
+        log.info("Create ritual history request received ritualId={}", request.getRitualId());
+
         RitualHistoryDTO savedDto = ritualHistoryService.create(userId, request);
+
         log.info("Ritual history created successfully ritualHistoryId={}", savedDto.getId());
         return ResponseEntity.status(201).body(savedDto);
     }

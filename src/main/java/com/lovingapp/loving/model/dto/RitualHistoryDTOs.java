@@ -45,10 +45,15 @@ public final class RitualHistoryDTOs {
     @Data
     public static class RitualHistoryCreateRequest {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+        @NotNull(message = "ritualId is required")
         private UUID ritualId;
+
         private UUID ritualPackId;
+
         private UUID recommendationId;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+        @NotNull(message = "status is required")
         private RitualHistoryStatus status;
     }
 

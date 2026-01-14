@@ -46,6 +46,11 @@ public class RitualService {
     }
 
     @Transactional(readOnly = true)
+    public boolean existsById(UUID id) {
+        return ritualRepository.existsById(id);
+    }
+
+    @Transactional(readOnly = true)
     public RitualDTO getRitualById(UUID id) {
         return ritualRepository.findById(id)
                 .map(RitualMapper::toDto)
