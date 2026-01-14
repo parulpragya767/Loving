@@ -53,6 +53,21 @@ public class RitualHistoryService {
 				.orElseThrow(() -> new ResourceNotFoundException("RitualHistory", "id", id));
 	}
 
+	public Map<UUID, RitualHistory> validateByIds(UUID userId, List<UUID> ids) {
+		Map<UUID, RitualHistory> historiesById = ritualHistoryRepository.findAllByIdInAndUserId(ids, userId)
+				.stream()
+				.collect(Collectors.toMap(RitualHistory::getId, Function.identity()));
+
+		List<UUID> missingIds = ids.stream()
+				.filter(id -> !historiesById.containsKey(id))
+				.toList();
+
+		if (!missingIds.isEmpty()) {
+			throw new ResourceNotFoundException("RitualHistory", "ids", missingIds);
+		}
+		return historiesById;
+	}
+
 	public List<RitualHistoryDTO> findByUserAndRecommendationId(UUID userId, UUID recommendationId) {
 		return ritualHistoryRepository.findByUserIdAndRecommendationId(userId, recommendationId)
 				.stream()
@@ -223,51 +238,33 @@ public class RitualHistoryService {
 	}
 
 	@Transactional
-	public List<RitualHistoryDTO> bulkUpdateStatus(UUID userId, List<StatusUpdateEntry> updates) {
-		log.info("Bulk updating ritual history status count={}", updates == null ? 0 : updates.size());
-		log.debug("Bulk status updates payload: {}", updates);
+	public void bulkUpdateStatus(UUID userId, List<StatusUpdateEntry> updates) {
 		if (updates == null || updates.isEmpty()) {
-			return List.of();
+			return;
 		}
 
-		// Get all ritual history IDs from the updates
-		List<UUID> ritualHistoryIds = updates.stream()
+		List<UUID> ids = updates.stream()
 				.map(StatusUpdateEntry::getRitualHistoryId)
-				.collect(Collectors.toList());
+				.toList();
 
-		// Find all ritual histories that belong to the user
-		Map<UUID, RitualHistory> historyMap = ritualHistoryRepository.findAllById(ritualHistoryIds).stream()
-				.filter(rh -> rh.getUserId().equals(userId))
-				.collect(Collectors.toMap(RitualHistory::getId, rh -> rh));
+		Map<UUID, RitualHistory> historiesById = validateByIds(userId, ids);
 
 		// Create a map of updates by ritual history ID for quick lookup
 		Map<UUID, StatusUpdateEntry> updatesMap = updates.stream()
-				.collect(Collectors.toMap(
-						StatusUpdateEntry::getRitualHistoryId,
-						update -> update));
+				.collect(Collectors.toMap(StatusUpdateEntry::getRitualHistoryId, Function.identity()));
 
 		// Update each history with its corresponding status and feedback
-		List<RitualHistory> historiesToUpdate = new ArrayList<>();
-		for (Map.Entry<UUID, RitualHistory> entry : historyMap.entrySet()) {
+		for (Map.Entry<UUID, RitualHistory> entry : historiesById.entrySet()) {
 			UUID historyId = entry.getKey();
 			RitualHistory history = entry.getValue();
 			StatusUpdateEntry update = updatesMap.get(historyId);
 
 			if (update != null) {
 				history.setStatus(update.getStatus());
-				historiesToUpdate.add(history);
 			}
 		}
 
-		// Save all updates
-		List<RitualHistory> savedHistories = ritualHistoryRepository.saveAll(historiesToUpdate);
-
-		// Convert to DTOs and return
-		List<RitualHistoryDTO> result = savedHistories.stream()
-				.map(RitualHistoryMapper::toDto)
-				.collect(Collectors.toList());
-		log.info("Bulk ritual history status update completed successfully count={}", result.size());
-		return result;
+		ritualHistoryRepository.saveAll(historiesById.values());
 	}
 
 	private void validateRitualHistoriesBulk(List<RitualHistoryCreateRequest> requests) {

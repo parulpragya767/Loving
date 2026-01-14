@@ -73,7 +73,7 @@ public final class RitualHistoryDTOs {
     @Builder
     @Data
     public static class BulkRitualHistoryStatusUpdateRequest {
-        @NotNull
+        @NotNull(message = "updates is required")
         @Valid
         private List<StatusUpdateEntry> updates;
     }
@@ -83,10 +83,10 @@ public final class RitualHistoryDTOs {
     @Builder
     @Data
     public static class StatusUpdateEntry {
-        @NotNull
+        @NotNull(message = "ritualHistoryId is required")
         private UUID ritualHistoryId;
 
-        @NotNull
+        @NotNull(message = "status is required")
         private RitualHistoryStatus status;
     }
 }
