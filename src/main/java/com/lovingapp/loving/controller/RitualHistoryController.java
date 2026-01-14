@@ -22,6 +22,7 @@ import com.lovingapp.loving.model.dto.RitualHistoryDTOs.BulkRitualHistoryStatusU
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryCreateRequest;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryUpdateRequest;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.StatusUpdateEntry;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.service.RitualHistoryService;
 
@@ -111,24 +112,17 @@ public class RitualHistoryController {
     }
 
     @PutMapping("/bulk/status")
-    public ResponseEntity<List<RitualHistoryDTO>> bulkUpdateStatus(
+    public ResponseEntity<Void> bulkUpdateStatus(
             @CurrentUser UUID userId,
             @Valid @RequestBody BulkRitualHistoryStatusUpdateRequest request) {
-        if (request.getUpdates() == null || request.getUpdates().isEmpty()) {
-            log.info("Bulk status update rejected: no updates provided");
-            return ResponseEntity.badRequest().build();
-        }
 
-        log.info("Bulk status update request received count={}", request.getUpdates().size());
-        log.debug("Bulk status update payload: {}", request);
+        log.info("Bulk status update request received count={} ritualHistoryIds={}", request.getUpdates().size(),
+                request.getUpdates().stream().map(StatusUpdateEntry::getRitualHistoryId).collect(Collectors.toList()));
 
-        List<RitualHistoryDTO> updatedHistories = ritualHistoryService.bulkUpdateStatus(
-                userId,
-                request.getUpdates());
+        ritualHistoryService.bulkUpdateStatus(userId, request.getUpdates());
 
-        log.info("Bulk status update completed successfully count={}",
-                updatedHistories == null ? 0 : updatedHistories.size());
-        return ResponseEntity.ok(updatedHistories);
+        log.info("Bulk status update completed successfully.");
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
