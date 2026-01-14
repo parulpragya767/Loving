@@ -128,13 +128,15 @@ public class AIChatService {
 	public RecommendRitualPackResponse recommendRitualPack(
 			UUID userId,
 			UUID sessionId) {
-		log.info("Building ritual pack recommendation for chat session sessionId={}", sessionId);
+		// 0. Validate session exists and belongs to the user
 		ChatSession session = chatSessionRepository.findByIdAndUserId(sessionId, userId)
 				.orElseThrow(() -> new ResourceNotFoundException("ChatSession", "id", sessionId));
 
+		// 1. Get conversation history
 		List<ChatMessage> messages = chatMessageRepository
 				.findBySessionIdOrderByCreatedAtAsc(sessionId);
 
+		// 2. Build user context extraction LLM request from conversation history
 		LLMRequest extractionRequest = LLMRequest.builder()
 				.messages(messages.stream()
 						.map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
@@ -143,11 +145,16 @@ public class AIChatService {
 				.responseFormat(LLMResponseFormat.JSON)
 				.build();
 
+		// 3. Call LLM to extract user context from conversation
 		log.info("Extracting user context from conversation via LLM sessionId={}", sessionId);
+
 		LLMResponse<LLMUserContextExtraction> llmUserContextResponse = llmClient.generate(extractionRequest,
 				LLMUserContextExtraction.class);
 		LLMUserContextExtraction llmUserContext = llmUserContextResponse.getParsed();
 
+		log.info("User context extracted successfully via LLM sessionId={}", sessionId);
+
+		// 4. Create and save user context
 		UserContextDTO userContext = UserContextDTO.builder()
 				.userId(userId)
 				.conversationId(sessionId)
@@ -159,18 +166,19 @@ public class AIChatService {
 				.build();
 
 		UserContextDTO savedUserContext = userContextService.createUserContext(userContext);
+		log.info("User context saved successfully sessionId={} userContextId={}", sessionId, savedUserContext.getId());
 
-		// Update session title if not already set
+		// 5. Update session title if not already set
 		if (llmUserContext.getConversationTitle() != null && !llmUserContext.getConversationTitle().isBlank()
 				&& (session.getTitle() == null || session.getTitle().isBlank())) {
 			String suggestedTitle = llmUserContext.getConversationTitle().trim();
 			session.setTitle(suggestedTitle);
-			log.info("Session title updated via JPA dirty checking.");
+			log.info("Session title updated via JPA dirty checking sessionId={}", sessionId);
 		}
 
 		RitualPackDTO recommendedPack = null;
 
-		// Get ritual pack recommendation
+		// 6. Get ritual pack recommendation from recommendation engine
 		recommendedPack = recommendationEngine.recommendRitualPack(savedUserContext)
 				.orElse(null);
 		if (recommendedPack == null) {
@@ -179,45 +187,52 @@ public class AIChatService {
 			log.info("Ritual pack recommended sessionId={} ritualPackId={}", sessionId, recommendedPack.getId());
 		}
 
-		// Build a contextual wrap-up via LLM that ties the pack to the user's situation
+		// 7. Build a contextual wrap-up via LLM that ties the pack to the user's
+		// situation
 		String wrapUpMessage = "";
-		List<RitualHistoryDTO> createdHistories = new ArrayList<>();
 
 		try {
 			if (recommendedPack != null) {
 				LLMRequest wrapUpRequest = LLMRequest.builder()
 						.messages(messages.stream()
-								.map(m -> new LLMChatMessage(m.getRole(),
-										m.getContent()))
+								.map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
 								.collect(Collectors.toList()))
-						.systemPrompt(LLMPromptHelper
-								.generateWrapUpChatResponsePrompt(recommendedPack))
+						.systemPrompt(LLMPromptHelper.generateWrapUpChatResponsePrompt(recommendedPack))
 						.responseFormat(LLMResponseFormat.TEXT)
 						.build();
 
+				log.info("Generating contextual wrap-up message via LLM sessionId={}", sessionId);
+
 				LLMResponse<String> wrapUpResponse = llmClient.generate(wrapUpRequest);
 				wrapUpMessage = wrapUpResponse.getRawText();
+
+				log.info("Contextual wrap-up message generated successfully sessionId={}", sessionId);
 			}
 
 			if (wrapUpMessage == null || wrapUpMessage.trim().isEmpty()) {
 				wrapUpMessage = getFallbackWrapUpMessage(recommendedPack);
 			}
 		} catch (Exception ex) {
-			log.warn("Ritual wrap-up LLM generation failed: {}", ex.getMessage());
+			log.warn("Ritual wrap-up message LLM generation failed sessionId={}: {}", sessionId, ex.getMessage());
 			wrapUpMessage = getFallbackWrapUpMessage(recommendedPack);
 		}
 
-		// Create and save assistant message
+		// 8. Create and save assistant message with wrap-up
 		ChatMessage assistantMessage = ChatMessage.builder()
 				.sessionId(sessionId)
 				.role(ChatMessageRole.ASSISTANT)
 				.content(wrapUpMessage)
 				.build();
 		ChatMessage savedAssistantMessage = chatMessageRepository.saveAndFlush(assistantMessage);
-		log.info("Recommendation wrap-up message saved sessionId={}", sessionId);
+
+		log.info("Recommendation wrap-up message saved successfully sessionId={} chatMessageId={}", sessionId,
+				savedAssistantMessage.getId());
+
+		// 9. Create ritual recommendation and history records if pack was recommended
+		List<RitualHistoryDTO> createdHistories = new ArrayList<>();
 
 		if (recommendedPack != null) {
-			// Create ritual recommendation record
+			// 9.1. Create ritual recommendation record
 			RitualRecommendationDTO recommendation = RitualRecommendationDTO.builder()
 					.userId(userId)
 					.source(RecommendationSource.CHAT)
@@ -226,9 +241,11 @@ public class AIChatService {
 					.status(RecommendationStatus.SUGGESTED)
 					.build();
 			RitualRecommendationDTO savedRecommendation = ritualRecommendationService.create(userId, recommendation);
-			log.info("Ritual recommendation saved recommendationId={}", savedRecommendation.getId());
 
-			// Create and save system chat message with recommendation metadata
+			log.info("Ritual recommendation saved successfully sessionId={} recommendationId={}", sessionId,
+					savedRecommendation.getId());
+
+			// 9.2. Create and save system chat message with recommendation metadata
 			ChatMessage recommendationMessage = ChatMessage.builder()
 					.sessionId(sessionId)
 					.role(ChatMessageRole.SYSTEM)
@@ -237,10 +254,15 @@ public class AIChatService {
 							.recommendationId(savedRecommendation.getId())
 							.build())
 					.build();
-			chatMessageRepository.saveAndFlush(recommendationMessage);
+			ChatMessage savedRecommendationMessage = chatMessageRepository.saveAndFlush(recommendationMessage);
 
-			// Bulk create ritual history records for the rituals inside recommended ritual
-			// pack
+			log.info(
+					"System chat message with recommendation metadata saved successfully sessionId={} chatMessageId={}",
+					sessionId,
+					savedRecommendationMessage.getId());
+
+			// 9.3. Bulk create ritual history records for the rituals inside recommended
+			// ritual pack
 			List<UUID> ritualIds = null;
 			if (recommendedPack.getRituals() != null && !recommendedPack.getRituals().isEmpty()) {
 				ritualIds = recommendedPack.getRituals().stream()
@@ -260,9 +282,11 @@ public class AIChatService {
 								.status(RitualHistoryStatus.SUGGESTED)
 								.build())
 						.collect(Collectors.toList());
-				createdHistories = ritualHistoryService.bulkCreateRitualHistories(userId,
-						histories);
-				log.info("Ritual history records created for recommended pack count={}", createdHistories.size());
+				createdHistories = ritualHistoryService.bulkCreateRitualHistories(userId, histories);
+
+				log.info(
+						"Ritual history records created for recommended pack sessionId={} recommendationId={} count={}",
+						sessionId, savedRecommendation.getId(), createdHistories.size());
 			}
 
 		}

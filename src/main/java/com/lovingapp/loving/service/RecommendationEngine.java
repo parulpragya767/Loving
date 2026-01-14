@@ -51,7 +51,7 @@ public class RecommendationEngine {
         Optional<RitualPackDTO> result = allPacks.stream()
                 .map(pack -> {
                     int score = calculateMatchScore(pack, userContext);
-                    log.debug("Pack '{}' score: {}", pack.getTitle(), score);
+                    // log.debug("Pack '{}' score: {}", pack.getTitle(), score);
                     return new ScoredPack(pack, score);
                 })
                 .sorted(Comparator.comparingInt(ScoredPack::getScore).reversed())

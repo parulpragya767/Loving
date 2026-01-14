@@ -172,8 +172,6 @@ public class RitualHistoryService {
 	@Transactional
 	public List<RitualHistoryDTO> bulkCreateRitualHistories(UUID userId,
 			List<RitualHistoryCreateRequest> requests) {
-		log.info("Bulk creating ritual history entries count={}", requests == null ? 0 : requests.size());
-		log.debug("Bulk create ritual history payload: {}", requests);
 		if (requests == null || requests.isEmpty()) {
 			return List.of();
 		}
@@ -194,7 +192,6 @@ public class RitualHistoryService {
 		List<RitualHistoryDTO> result = savedHistories.stream()
 				.map(RitualHistoryMapper::toDto)
 				.collect(Collectors.toList());
-		log.info("Bulk ritual history created successfully count={}", result.size());
 		return result;
 	}
 

@@ -82,8 +82,11 @@ public class AIChatController {
             @CurrentUser UUID userId,
             @PathVariable UUID sessionId) {
         log.info("Ritual pack recommendation request received sessionId={}", sessionId);
+
         RecommendRitualPackResponse result = aiChatService.recommendRitualPack(userId, sessionId);
-        log.info("Ritual pack recommended successfully sessionId={}", sessionId);
+
+        log.info("Ritual pack recommended successfully sessionId={} ritualPackId={}", sessionId,
+                result != null && result.getRitualPack() != null ? result.getRitualPack().getId() : null);
         return ResponseEntity.ok(result);
     }
 

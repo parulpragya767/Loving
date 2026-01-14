@@ -25,11 +25,8 @@ public class UserContextService {
 
     @Transactional
     public UserContextDTO createUserContext(UserContextDTO userContextDTO) {
-        log.info("Saving user context snapshot conversationId={}", userContextDTO.getConversationId());
-        log.debug("User context payload: {}", userContextDTO);
         UserContext userContext = UserContextMapper.toEntity(userContextDTO);
-        UserContext savedContext = userContextRepository.save(userContext);
-        log.info("User context saved successfully userContextId={}", savedContext.getId());
+        UserContext savedContext = userContextRepository.saveAndFlush(userContext);
         return UserContextMapper.toDto(savedContext);
     }
 
