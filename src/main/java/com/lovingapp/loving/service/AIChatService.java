@@ -89,26 +89,12 @@ public class AIChatService {
 		// 2. Get conversation history
 		List<ChatMessage> messages = chatMessageRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
 
-		// 3. Build empathetic chat system prompt and request from conversation history
-		LLMRequest llmRequest = LLMRequest.builder()
-				.messages(messages.stream()
-						.map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
-						.collect(Collectors.toList()))
-				.systemPrompt(LLMPromptHelper.generateEmpatheticChatResponsePrompt())
-				.responseFormat(LLMResponseFormat.JSON)
-				.build();
-
-		// 4. Call LLM to generate empathetic response
-		log.info("Generating empathetic response via LLM sessionId={}", sessionId);
-
-		LLMResponse<LLMEmpatheticResponse> aiReply = llmClient.generate(llmRequest, LLMEmpatheticResponse.class);
-		LLMEmpatheticResponse empatheticResponse = aiReply.getParsed();
+		// 3. Generate empathetic response from the conversation history using LLM
+		LLMEmpatheticResponse empatheticResponse = generateEmpatheticResponse(sessionId, messages);
 		String response = empatheticResponse.getResponse();
 		boolean ready = empatheticResponse.isReadyForRitualSuggestion();
 
-		log.info("Empathetic response via LLM generated successfully sessionId={}", sessionId);
-
-		// 5. Create and save assistant message
+		// 4. Create and save assistant message
 		ChatMessage assistantMessage = ChatMessage.builder()
 				.sessionId(sessionId)
 				.role(ChatMessageRole.ASSISTANT)
@@ -223,6 +209,29 @@ public class AIChatService {
 		// something that fits as soon as I have enough context.";
 
 		return wrapUpMessage;
+	}
+
+	/**
+	 * Generate empathetic response from conversation using LLM.
+	 */
+	private LLMEmpatheticResponse generateEmpatheticResponse(UUID sessionId, List<ChatMessage> messages) {
+		LLMRequest llmRequest = LLMRequest.builder()
+				.messages(messages.stream()
+						.map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
+						.collect(Collectors.toList()))
+				.systemPrompt(LLMPromptHelper.generateEmpatheticChatResponsePrompt())
+				.responseFormat(LLMResponseFormat.JSON)
+				.build();
+
+		// 4. Call LLM to generate empathetic response
+		log.info("Generating empathetic response via LLM sessionId={}", sessionId);
+
+		LLMResponse<LLMEmpatheticResponse> aiReply = llmClient.generate(llmRequest, LLMEmpatheticResponse.class);
+		LLMEmpatheticResponse empatheticResponse = aiReply.getParsed();
+
+		log.info("Empathetic response via LLM generated successfully sessionId={}", sessionId);
+
+		return empatheticResponse;
 	}
 
 	/**
