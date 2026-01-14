@@ -83,28 +83,31 @@ public class RitualHistoryController {
     }
 
     @PostMapping("/{id}/complete")
-    public ResponseEntity<RitualHistoryDTO> complete(
+    public ResponseEntity<Void> complete(
             @CurrentUser UUID userId,
             @PathVariable("id") UUID id,
             @RequestBody RitualHistoryUpdateRequest request) {
+
         log.info("Complete ritual request received ritualHistoryId={}", id);
-        log.debug("Complete ritual payload ritualHistoryId={} payload={}", id, request);
-        return ResponseEntity.ok(ritualHistoryService
-                .updateStatus(id, userId, RitualHistoryStatus.COMPLETED, request.getFeedback()));
+
+        ritualHistoryService.updateStatus(id, userId, RitualHistoryStatus.COMPLETED, request.getFeedback());
+
+        log.info("Ritual completed successfully ritualHistoryId={}", id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{id}/status")
-    public ResponseEntity<RitualHistoryDTO> updateStatus(
+    public ResponseEntity<Void> updateStatus(
             @CurrentUser UUID userId,
             @PathVariable("id") UUID id,
-            @RequestBody RitualHistoryUpdateRequest request) {
-        if (request.getStatus() == null) {
-            log.info("Update ritual status rejected: missing status ritualHistoryId={}", id);
-            return ResponseEntity.badRequest().build();
-        }
+            @Valid @RequestBody RitualHistoryUpdateRequest request) {
+
         log.info("Update ritual status request received ritualHistoryId={} status={}", id, request.getStatus());
-        return ResponseEntity.ok(ritualHistoryService
-                .updateStatus(id, userId, request.getStatus(), null));
+
+        ritualHistoryService.updateStatus(id, userId, request.getStatus(), null);
+
+        log.info("Ritual status updated successfully ritualHistoryId={}", id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/bulk/status")

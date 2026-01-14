@@ -9,10 +9,8 @@ import java.util.UUID;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualHistoryMapper;
@@ -211,24 +209,17 @@ public class RitualHistoryService {
 	}
 
 	@Transactional
-	public RitualHistoryDTO updateStatus(UUID ritualHistoryId, UUID userId, RitualHistoryStatus status,
+	public void updateStatus(UUID ritualHistoryId, UUID userId, RitualHistoryStatus status,
 			RitualFeedback feedback) {
-		log.info("Updating ritual history status ritualHistoryId={} status={}", ritualHistoryId, status);
-		if (feedback != null) {
-			log.debug("Ritual feedback received ritualHistoryId={} feedback={}", ritualHistoryId, feedback);
-		}
-		RitualHistory ritualHistory = ritualHistoryRepository.findById(ritualHistoryId)
-				.filter(history -> history.getUserId().equals(userId))
-				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-						"Ritual history not found with id: " + ritualHistoryId));
+
+		RitualHistory ritualHistory = ritualHistoryRepository.findByIdAndUserId(ritualHistoryId, userId)
+				.orElseThrow(() -> new ResourceNotFoundException("RitualHistory", "id", ritualHistoryId));
 
 		ritualHistory.setStatus(status);
 		if (feedback != null) {
 			ritualHistory.setFeedback(feedback);
 		}
-		RitualHistory saved = ritualHistoryRepository.save(ritualHistory);
-		log.info("Ritual history status updated successfully ritualHistoryId={}", saved.getId());
-		return RitualHistoryMapper.toDto(saved);
+		ritualHistoryRepository.save(ritualHistory);
 	}
 
 	@Transactional

@@ -62,7 +62,9 @@ public final class RitualHistoryDTOs {
     @Builder
     @Data
     public static class RitualHistoryUpdateRequest {
+        @NotNull(message = "status is required")
         private RitualHistoryStatus status;
+
         private RitualFeedback feedback;
     }
 
