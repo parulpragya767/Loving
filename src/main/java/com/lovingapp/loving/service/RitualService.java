@@ -14,6 +14,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lovingapp.loving.exception.BulkResourceAlreadyExistsException;
+import com.lovingapp.loving.exception.ResourceAlreadyExistsException;
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualMapper;
 import com.lovingapp.loving.model.dto.RitualDTO;
@@ -122,6 +124,10 @@ public class RitualService {
     public RitualDTO createRitual(RitualDTO ritualDTO) {
         log.info("Creating ritual ritualId={}", ritualDTO.getId());
 
+        if (ritualDTO.getId() != null && ritualRepository.existsById(ritualDTO.getId())) {
+            throw new ResourceAlreadyExistsException("Ritual", "id", ritualDTO.getId());
+        }
+
         Ritual ritual = RitualMapper.fromDto(ritualDTO);
         Ritual savedRitual = ritualRepository.save(ritual);
 
@@ -161,6 +167,19 @@ public class RitualService {
 
         if (ritualDTOs == null || ritualDTOs.isEmpty()) {
             return Collections.emptyList();
+        }
+
+        List<UUID> ids = ritualDTOs.stream()
+                .map(RitualDTO::getId)
+                .toList();
+
+        List<UUID> existingIds = ritualRepository.findByIdIn(ids)
+                .stream()
+                .map(Ritual::getId)
+                .toList();
+
+        if (!existingIds.isEmpty()) {
+            throw new BulkResourceAlreadyExistsException("Ritual", existingIds.size());
         }
 
         List<Ritual> entities = ritualDTOs.stream()

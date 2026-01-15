@@ -58,6 +58,18 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().build();
     }
 
+    @ExceptionHandler(ResourceAlreadyExistsException.class)
+    public ResponseEntity<Void> handleResourceAlreadyExists(ResourceAlreadyExistsException ex) {
+        log.warn("Resource already exists: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
+
+    @ExceptionHandler(BulkResourceAlreadyExistsException.class)
+    public ResponseEntity<Void> handleBulkResourceAlreadyExists(BulkResourceAlreadyExistsException ex) {
+        log.warn("Bulk create conflict resource={} existingCount={}", ex.getResource(), ex.getCount());
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<Void> handleGeneric(Exception ex) {
         log.error("Unhandled exception", ex);
