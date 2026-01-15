@@ -161,9 +161,7 @@ public class RitualHistoryService {
 
 	@Transactional
 	public RitualHistoryDTO create(UUID userId, RitualHistoryCreateRequest request) {
-		if (!ritualService.existsById(request.getRitualId())) {
-			throw new ResourceNotFoundException("Ritual", "id", request.getRitualId());
-		}
+		ritualService.findById(request.getRitualId());
 
 		if (request.getRitualPackId() != null) {
 			RitualPackDTO ritualPack = ritualPackService.findById(request.getRitualPackId());
@@ -274,7 +272,7 @@ public class RitualHistoryService {
 				.collect(Collectors.toSet());
 
 		// Validate all ritual IDs exist in bulk
-		ritualService.validateRitualIds(new ArrayList<>(ritualIds));
+		ritualService.findAllById(new ArrayList<>(ritualIds));
 
 		// Collect all unique ritual pack IDs
 		Set<UUID> ritualPackIds = requests.stream()

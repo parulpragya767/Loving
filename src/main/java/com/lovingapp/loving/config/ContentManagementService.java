@@ -60,7 +60,7 @@ public class ContentManagementService implements CommandLineRunner {
             });
 
             // Get existing rituals and map by ID
-            Map<UUID, RitualDTO> dbById = ritualService.getAllRituals().stream()
+            Map<UUID, RitualDTO> dbById = ritualService.findAll().stream()
                     .collect(Collectors.toMap(RitualDTO::getId, r -> r));
 
             List<RitualDTO> toCreate = new ArrayList<>();

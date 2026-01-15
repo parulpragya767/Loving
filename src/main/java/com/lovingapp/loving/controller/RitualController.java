@@ -34,7 +34,9 @@ public class RitualController {
     @GetMapping
     public List<RitualDTO> getAll() {
         log.info("Fetch rituals request received");
-        List<RitualDTO> result = ritualService.getAllRituals();
+
+        List<RitualDTO> result = ritualService.findAll();
+
         log.info("Rituals fetched successfully count={}", result == null ? 0 : result.size());
         return result;
     }
@@ -42,7 +44,9 @@ public class RitualController {
     @GetMapping("/{id}")
     public ResponseEntity<RitualDTO> getById(@PathVariable("id") UUID id) {
         log.info("Fetch ritual request received ritualId={}", id);
-        RitualDTO ritual = ritualService.getRitualById(id);
+
+        RitualDTO ritual = ritualService.findById(id);
+
         log.info("Ritual fetched successfully ritualId={}", id);
         return ResponseEntity.ok(ritual);
     }
@@ -50,19 +54,22 @@ public class RitualController {
     @GetMapping("/tags")
     public RitualTags getAllTags() {
         log.info("Fetch ritual tags request received");
+
         RitualTags result = ritualService.getRitualTags();
+
         log.info("Ritual tags fetched successfully");
         return result;
     }
 
     @PostMapping("/search")
     public Page<RitualDTO> search(@RequestBody(required = false) RitualFilterDTO filter, Pageable pageable) {
-        log.info("Ritual search request received");
-        log.debug("Ritual search payload filter={} pageable={}", filter, pageable);
+        log.info("Ritual search request received pageable={}", pageable);
+
         if (filter == null) {
             filter = new RitualFilterDTO();
         }
         Page<RitualDTO> result = ritualService.searchRituals(filter, pageable);
+
         log.info("Ritual search completed successfully count={}", result == null ? 0 : result.getNumberOfElements());
         return result;
     }

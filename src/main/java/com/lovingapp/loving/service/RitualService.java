@@ -1,6 +1,5 @@
 package com.lovingapp.loving.service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -41,21 +40,29 @@ public class RitualService {
     private final RitualRepository ritualRepository;
 
     @Transactional(readOnly = true)
-    public List<RitualDTO> getAllRituals() {
+    public List<RitualDTO> findAll() {
         return ritualRepository.findAll().stream()
                 .map(RitualMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
-    public boolean existsById(UUID id) {
-        return ritualRepository.existsById(id);
+    public RitualDTO findById(UUID id) {
+        return ritualRepository.findById(id)
+                .map(RitualMapper::toDto)
+                .orElseThrow(() -> new ResourceNotFoundException("Ritual", "id", id));
     }
 
     @Transactional(readOnly = true)
-    public boolean validateRitualIds(List<UUID> ids) {
-        List<UUID> existingRitualIds = findAllById(new ArrayList<>(ids))
-                .stream()
+    public List<RitualDTO> findAllById(List<UUID> ids) {
+        if (ids == null || ids.isEmpty()) {
+            return Collections.emptyList();
+        }
+        List<RitualDTO> rituals = ritualRepository.findAllById(ids).stream()
+                .map(RitualMapper::toDto)
+                .collect(Collectors.toList());
+
+        List<UUID> existingRitualIds = rituals.stream()
                 .map(RitualDTO::getId)
                 .collect(Collectors.toList());
 
@@ -66,24 +73,7 @@ public class RitualService {
         if (!missingRitualIds.isEmpty()) {
             throw new ResourceNotFoundException("Ritual", "ids", missingRitualIds);
         }
-        return true;
-    }
-
-    @Transactional(readOnly = true)
-    public RitualDTO getRitualById(UUID id) {
-        return ritualRepository.findById(id)
-                .map(RitualMapper::toDto)
-                .orElseThrow(() -> new ResourceNotFoundException("Ritual not found with id: " + id));
-    }
-
-    @Transactional(readOnly = true)
-    public List<RitualDTO> findAllById(List<UUID> ids) {
-        if (ids == null || ids.isEmpty()) {
-            return Collections.emptyList();
-        }
-        return ritualRepository.findAllById(ids).stream()
-                .map(RitualMapper::toDto)
-                .collect(Collectors.toList());
+        return rituals;
     }
 
     @Transactional(readOnly = true)
@@ -130,10 +120,11 @@ public class RitualService {
 
     @Transactional
     public RitualDTO createRitual(RitualDTO ritualDTO) {
-        log.info("Creating ritual");
-        log.debug("Create ritual payload: {}", ritualDTO);
+        log.info("Creating ritual ritualId={}", ritualDTO.getId());
+
         Ritual ritual = RitualMapper.fromDto(ritualDTO);
         Ritual savedRitual = ritualRepository.save(ritual);
+
         log.info("Ritual created successfully ritualId={}", savedRitual.getId());
         return RitualMapper.toDto(savedRitual);
     }
@@ -141,7 +132,7 @@ public class RitualService {
     @Transactional
     public RitualDTO updateRitual(UUID id, RitualDTO ritualDTO) {
         log.info("Updating ritual ritualId={}", id);
-        log.debug("Update ritual payload ritualId={} payload={}", id, ritualDTO);
+
         return ritualRepository.findById(id)
                 .map(existingRitual -> {
                     ritualDTO.setId(id); // Ensure ID consistency
@@ -150,30 +141,38 @@ public class RitualService {
                     log.info("Ritual updated successfully ritualId={}", updatedRitual.getId());
                     return RitualMapper.toDto(updatedRitual);
                 })
-                .orElseThrow(() -> new ResourceNotFoundException("Ritual not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Ritual", "id", id));
     }
 
     @Transactional
     public void deleteRitual(UUID id) {
         log.info("Deleting ritual ritualId={}", id);
+
         Ritual ritual = ritualRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Ritual not found with id: " + id));
+                .orElseThrow(() -> new ResourceNotFoundException("Ritual", "id", id));
         ritualRepository.delete(ritual);
+
         log.info("Ritual deleted successfully ritualId={}", id);
     }
 
     @Transactional
     public List<RitualDTO> bulkCreate(List<RitualDTO> ritualDTOs) {
         log.info("Bulk creating rituals count={}", ritualDTOs == null ? 0 : ritualDTOs.size());
-        log.debug("Bulk create rituals payload: {}", ritualDTOs);
+
         if (ritualDTOs == null || ritualDTOs.isEmpty()) {
             return Collections.emptyList();
         }
+
         List<Ritual> entities = ritualDTOs.stream()
                 .map(RitualMapper::fromDto)
                 .collect(Collectors.toList());
+
         List<Ritual> saved = ritualRepository.saveAll(entities);
-        List<RitualDTO> result = saved.stream().map(RitualMapper::toDto).collect(Collectors.toList());
+
+        List<RitualDTO> result = saved.stream()
+                .map(RitualMapper::toDto)
+                .collect(Collectors.toList());
+
         log.info("Bulk rituals created successfully count={}", result.size());
         return result;
     }
@@ -181,7 +180,7 @@ public class RitualService {
     @Transactional
     public List<RitualDTO> bulkUpdate(List<RitualDTO> ritualDTOs) {
         log.info("Bulk updating rituals count={}", ritualDTOs == null ? 0 : ritualDTOs.size());
-        log.debug("Bulk update rituals payload: {}", ritualDTOs);
+
         if (ritualDTOs == null || ritualDTOs.isEmpty()) {
             return Collections.emptyList();
         }
@@ -211,7 +210,11 @@ public class RitualService {
                 .collect(Collectors.toList());
 
         List<Ritual> saved = ritualRepository.saveAll(toSave);
-        List<RitualDTO> result = saved.stream().map(RitualMapper::toDto).collect(Collectors.toList());
+
+        List<RitualDTO> result = saved.stream()
+                .map(RitualMapper::toDto)
+                .collect(Collectors.toList());
+
         log.info("Bulk rituals updated successfully count={}", result.size());
         return result;
     }
