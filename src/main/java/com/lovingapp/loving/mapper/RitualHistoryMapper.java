@@ -22,29 +22,4 @@ public final class RitualHistoryMapper {
                 .updatedAt(entity.getUpdatedAt())
                 .build();
     }
-
-    public static RitualHistory fromDto(RitualHistoryDTO dto) {
-        if (dto == null)
-            return null;
-        return RitualHistory.builder()
-                .id(dto.getId())
-                .userId(dto.getUserId())
-                .ritualId(dto.getRitualId())
-                .ritualPackId(dto.getRitualPackId())
-                .recommendationId(dto.getRecommendationId())
-                .status(dto.getStatus())
-                .feedback(dto.getFeedback())
-                .build();
-    }
-
-    public static void updateEntityFromDto(RitualHistoryDTO dto, RitualHistory entity) {
-        if (dto == null || entity == null)
-            return;
-        entity.setUserId(dto.getUserId());
-        entity.setRitualId(dto.getRitualId());
-        entity.setRitualPackId(dto.getRitualPackId());
-        entity.setRecommendationId(dto.getRecommendationId());
-        entity.setStatus(dto.getStatus());
-        entity.setFeedback(dto.getFeedback());
-    }
 }

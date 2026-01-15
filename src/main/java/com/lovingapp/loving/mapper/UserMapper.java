@@ -26,23 +26,6 @@ public final class UserMapper {
                 .build();
     }
 
-    public static User toEntity(UserDTO dto) {
-        if (dto == null) {
-            return null;
-        }
-
-        return User.builder()
-                .id(dto.getId())
-                .authUserId(dto.getAuthUserId())
-                .email(dto.getEmail())
-                .displayName(dto.getDisplayName())
-                .onboardingCompleted(dto.getOnboardingCompleted())
-                .lastLoginAt(dto.getLastLoginAt())
-                .createdAt(dto.getCreatedAt())
-                .updatedAt(dto.getUpdatedAt())
-                .build();
-    }
-
     public static void updateEntity(UserUpdateRequest request, User entity) {
         if (request == null || entity == null) {
             return;

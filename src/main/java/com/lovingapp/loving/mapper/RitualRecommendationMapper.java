@@ -20,26 +20,4 @@ public final class RitualRecommendationMapper {
                 .createdAt(entity.getCreatedAt())
                 .build();
     }
-
-    public static RitualRecommendation fromDto(RitualRecommendationDTO dto) {
-        if (dto == null)
-            return null;
-        return RitualRecommendation.builder()
-                .id(dto.getId())
-                .userId(dto.getUserId())
-                .source(dto.getSource())
-                .sourceId(dto.getSourceId())
-                .ritualPackId(dto.getRitualPackId())
-                .status(dto.getStatus())
-                .build();
-    }
-
-    public static void updateFromDto(RitualRecommendationDTO dto, RitualRecommendation entity) {
-        if (dto == null || entity == null)
-            return;
-        entity.setSource(dto.getSource());
-        entity.setSourceId(dto.getSourceId());
-        entity.setRitualPackId(dto.getRitualPackId());
-        entity.setStatus(dto.getStatus());
-    }
 }
