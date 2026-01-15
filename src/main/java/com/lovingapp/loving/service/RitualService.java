@@ -220,7 +220,7 @@ public class RitualService {
 
         if (existingById.size() != ids.size()) {
             int missingCount = ids.size() - existingById.size();
-            throw new BulkResourceAlreadyExistsException("Ritual", missingCount);
+            throw new ResourceNotFoundException("Ritual", "count", missingCount);
         }
 
         log.info("Bulk update validated existingCount={}", existingById.size());
