@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.loving.model.dto.RitualPackDTO;
-import com.lovingapp.loving.model.dto.UserContextDTO;
+import com.lovingapp.loving.model.dto.UserContextDTOs.UserContextDTO;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

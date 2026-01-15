@@ -31,7 +31,8 @@ import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationCreateRequest;
 import com.lovingapp.loving.model.dto.RitualRecommendationDTOs.RitualRecommendationDTO;
-import com.lovingapp.loving.model.dto.UserContextDTO;
+import com.lovingapp.loving.model.dto.UserContextDTOs.UserContextCreateRequest;
+import com.lovingapp.loving.model.dto.UserContextDTOs.UserContextDTO;
 import com.lovingapp.loving.model.entity.ChatMessage;
 import com.lovingapp.loving.model.entity.ChatSession;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
@@ -263,8 +264,7 @@ public class AIChatService {
 	 */
 	private UserContextDTO saveUserContext(UUID userId, UUID sessionId, LLMUserContextExtraction extractedUserContext) {
 		// Create and save user context
-		UserContextDTO userContext = UserContextDTO.builder()
-				.userId(userId)
+		UserContextCreateRequest userContextRequest = UserContextCreateRequest.builder()
 				.conversationId(sessionId)
 				.journey(extractedUserContext.getJourney())
 				.loveTypes(extractedUserContext.getLoveTypes())
@@ -273,7 +273,7 @@ public class AIChatService {
 				.semanticSummary(extractedUserContext.getSemanticSummary())
 				.build();
 
-		UserContextDTO savedUserContext = userContextService.createUserContext(userContext);
+		UserContextDTO savedUserContext = userContextService.create(userId, userContextRequest);
 		log.info("User context saved successfully sessionId={} userContextId={}", sessionId, savedUserContext.getId());
 
 		return savedUserContext;
