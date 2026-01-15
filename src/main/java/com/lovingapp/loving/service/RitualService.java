@@ -2,6 +2,7 @@ package com.lovingapp.loving.service;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -136,18 +137,16 @@ public class RitualService {
     }
 
     @Transactional
-    public RitualDTO updateRitual(UUID id, RitualDTO ritualDTO) {
+    public void updateRitual(UUID id, RitualDTO ritualDTO) {
         log.info("Updating ritual ritualId={}", id);
 
-        return ritualRepository.findById(id)
-                .map(existingRitual -> {
-                    ritualDTO.setId(id); // Ensure ID consistency
-                    RitualMapper.updateEntityFromDto(ritualDTO, existingRitual);
-                    Ritual updatedRitual = ritualRepository.save(existingRitual);
-                    log.info("Ritual updated successfully ritualId={}", updatedRitual.getId());
-                    return RitualMapper.toDto(updatedRitual);
-                })
+        Ritual ritual = ritualRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Ritual", "id", id));
+
+        RitualMapper.updateEntityFromDto(ritualDTO, ritual);
+        ritualRepository.save(ritual);
+
+        log.info("Ritual updated successfully ritualId={}", id);
     }
 
     @Transactional
@@ -197,11 +196,10 @@ public class RitualService {
     }
 
     @Transactional
-    public List<RitualDTO> bulkUpdate(List<RitualDTO> ritualDTOs) {
-        log.info("Bulk updating rituals count={}", ritualDTOs == null ? 0 : ritualDTOs.size());
-
+    public void bulkUpdate(List<RitualDTO> ritualDTOs) {
+        log.info("Bulk update requested for rituals count={}", ritualDTOs.size());
         if (ritualDTOs == null || ritualDTOs.isEmpty()) {
-            return Collections.emptyList();
+            return;
         }
 
         List<UUID> ids = ritualDTOs.stream()
@@ -210,31 +208,33 @@ public class RitualService {
                 .collect(Collectors.toList());
 
         if (ids.isEmpty()) {
-            return Collections.emptyList();
+            return;
         }
 
-        Map<UUID, Ritual> existingById = ritualRepository.findAllById(ids).stream()
+        if (ids.size() != new HashSet<>(ids).size()) {
+            throw new IllegalArgumentException("Duplicate ritual IDs in bulk update request");
+        }
+
+        Map<UUID, Ritual> existingById = ritualRepository.findByIdIn(ids).stream()
                 .collect(Collectors.toMap(Ritual::getId, Function.identity()));
+
+        if (existingById.size() != ids.size()) {
+            int missingCount = ids.size() - existingById.size();
+            throw new BulkResourceAlreadyExistsException("Ritual", missingCount);
+        }
+
+        log.info("Bulk update validated existingCount={}", existingById.size());
 
         List<Ritual> toSave = ritualDTOs.stream()
                 .map(dto -> {
                     Ritual existing = existingById.get(dto.getId());
-                    if (existing == null) {
-                        // If not found, treat as new entity to be saved
-                        return RitualMapper.fromDto(dto);
-                    }
                     RitualMapper.updateEntityFromDto(dto, existing);
                     return existing;
                 })
                 .collect(Collectors.toList());
 
-        List<Ritual> saved = ritualRepository.saveAll(toSave);
+        ritualRepository.saveAll(toSave);
 
-        List<RitualDTO> result = saved.stream()
-                .map(RitualMapper::toDto)
-                .collect(Collectors.toList());
-
-        log.info("Bulk rituals updated successfully count={}", result.size());
-        return result;
+        log.info("Bulk rituals updated successfully.");
     }
 }

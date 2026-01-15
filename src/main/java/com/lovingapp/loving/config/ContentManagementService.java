@@ -96,15 +96,17 @@ public class ContentManagementService implements CommandLineRunner {
                     })
                     .collect(Collectors.toList());
 
-            // Bulk operations
-            int created = ritualService.bulkCreate(toCreate).size();
             // merge updates and deletions into a single bulk update
-            toUpdate.addAll(toDelete);
-            int updated = ritualService.bulkUpdate(toUpdate).size();
-            int archived = toDelete.size();
+            List<RitualDTO> toUpdateAndDelete = new ArrayList<>();
+            toUpdateAndDelete.addAll(toUpdate);
+            toUpdateAndDelete.addAll(toDelete);
+
+            // Bulk operations
+            ritualService.bulkCreate(toCreate);
+            ritualService.bulkUpdate(toUpdateAndDelete);
 
             log.info("Ritual synchronization completed - Created: {}, Updated: {}, Archived: {}",
-                    created, updated, archived);
+                    toCreate.size(), toUpdate.size(), toDelete.size());
 
         } catch (Exception e) {
             log.error("Failed to synchronize rituals", e);
