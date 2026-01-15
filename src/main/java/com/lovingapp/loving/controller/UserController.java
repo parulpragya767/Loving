@@ -45,15 +45,14 @@ public class UserController {
     }
 
     @PutMapping()
-    public ResponseEntity<UserDTO> updateUser(
+    public ResponseEntity<Void> updateUser(
             @CurrentUser UUID userId,
             @RequestBody UserUpdateRequest request) {
         log.info("User update request received");
-        log.debug("User update payload payload={}", request);
 
-        UserDTO result = userService.updateUser(userId, request);
+        userService.updateUser(userId, request);
 
         log.info("User updated successfully");
-        return ResponseEntity.ok(result);
+        return ResponseEntity.ok().build();
     }
 }

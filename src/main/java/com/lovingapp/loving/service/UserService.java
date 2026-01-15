@@ -64,13 +64,11 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO updateUser(UUID userId, UserUpdateRequest request) {
-        return userRepository.findById(userId)
-                .map(existingUser -> {
-                    UserMapper.updateEntity(request, existingUser);
-                    User updatedUser = userRepository.save(existingUser);
-                    return UserMapper.toDto(updatedUser);
-                })
+    public void updateUser(UUID userId, UserUpdateRequest request) {
+        User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        UserMapper.updateEntity(request, existingUser);
+        userRepository.save(existingUser);
     }
 }
