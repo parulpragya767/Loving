@@ -21,8 +21,10 @@ public final class UserDTOs {
     public static class UserDTO {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID authUserId;
+
         private String email;
         private String displayName;
         private Boolean onboardingCompleted;

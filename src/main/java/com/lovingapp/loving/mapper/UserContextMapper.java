@@ -17,7 +17,6 @@ public final class UserContextMapper {
 
         return UserContextDTO.builder()
                 .id(entity.getId())
-                .userId(entity.getUserId())
                 .conversationId(entity.getConversationId())
                 .journey(entity.getJourney())
                 .loveTypes(Objects.requireNonNullElse(entity.getLoveTypes(), Collections.emptyList()))

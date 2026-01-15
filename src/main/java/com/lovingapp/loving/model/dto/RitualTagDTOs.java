@@ -7,17 +7,14 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Data Transfer Objects for Ritual Tags.
- */
 public class RitualTagDTOs {
-
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     public static class TagValue {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private String key;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private String displayName;
     }
@@ -28,6 +25,7 @@ public class RitualTagDTOs {
     public static class RitualTag {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private String displayName;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private List<TagValue> values;
     }
@@ -38,12 +36,16 @@ public class RitualTagDTOs {
     public static class RitualTags {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualTag loveTypes;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualTag ritualModes;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualTag timeTaken;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualTag relationalNeeds;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualTag ritualTones;
     }

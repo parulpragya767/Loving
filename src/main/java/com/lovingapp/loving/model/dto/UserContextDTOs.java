@@ -26,8 +26,7 @@ public final class UserContextDTOs {
     public static class UserContextDTO {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
-        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-        private UUID userId;
+
         private UUID conversationId;
         private Journey journey;
         private List<LoveType> loveTypes;

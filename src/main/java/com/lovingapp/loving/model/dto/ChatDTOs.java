@@ -15,14 +15,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * Data Transfer Objects for AI chat functionality.
- */
 public class ChatDTOs {
 
-    /**
-     * Represents a chat message in the system.
-     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -30,18 +24,18 @@ public class ChatDTOs {
     public static class ChatMessageDTO {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID sessionId;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private ChatMessageRole role;
+
         private String content;
         private ChatMetadata metadata;
         private OffsetDateTime createdAt;
     }
 
-    /**
-     * Represents a chat session in the system.
-     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -49,15 +43,13 @@ public class ChatDTOs {
     public static class ChatSessionDTO {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
+
         private String title;
         private OffsetDateTime createdAt;
         private OffsetDateTime updatedAt;
         private List<ChatMessageDTO> messages; // optional, nullable
     }
 
-    /**
-     * Request to send a message in a chat session.
-     */
     @Data
     @NoArgsConstructor
     @AllArgsConstructor

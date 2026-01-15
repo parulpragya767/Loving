@@ -25,8 +25,10 @@ import lombok.NoArgsConstructor;
 public class RitualDTO {
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private UUID id;
+
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String title;
+
     private String tagLine;
     private String description;
     private String howItHelps;

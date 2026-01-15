@@ -12,7 +12,6 @@ public final class RitualHistoryMapper {
             return null;
         return RitualHistoryDTO.builder()
                 .id(entity.getId())
-                .userId(entity.getUserId())
                 .ritualId(entity.getRitualId())
                 .ritualPackId(entity.getRitualPackId())
                 .recommendationId(entity.getRecommendationId())

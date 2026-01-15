@@ -27,13 +27,16 @@ public final class RitualHistoryDTOs {
     public static class RitualHistoryDTO {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
-        private UUID userId;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID ritualId;
+
         private UUID ritualPackId;
         private UUID recommendationId;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualHistoryStatus status;
+
         private RitualFeedback feedback;
         private OffsetDateTime createdAt;
         private OffsetDateTime updatedAt;
@@ -63,6 +66,7 @@ public final class RitualHistoryDTOs {
     @Data
     public static class RitualHistoryUpdateRequest {
         @NotNull(message = "status is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualHistoryStatus status;
 
         private RitualFeedback feedback;
@@ -74,6 +78,7 @@ public final class RitualHistoryDTOs {
     @Data
     public static class BulkRitualHistoryStatusUpdateRequest {
         @NotNull(message = "updates is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         @Valid
         private List<StatusUpdateEntry> updates;
     }
@@ -84,9 +89,11 @@ public final class RitualHistoryDTOs {
     @Data
     public static class StatusUpdateEntry {
         @NotNull(message = "ritualHistoryId is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID ritualHistoryId;
 
         @NotNull(message = "status is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualHistoryStatus status;
     }
 }

@@ -10,6 +10,7 @@ import com.lovingapp.loving.model.enums.LoveType;
 import com.lovingapp.loving.model.enums.PublicationStatus;
 import com.lovingapp.loving.model.enums.RelationalNeed;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,8 +21,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class RitualPackDTO {
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private UUID id;
+
+    @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
     private String title;
+
     private String tagLine;
     private String description;
     private String howItHelps;

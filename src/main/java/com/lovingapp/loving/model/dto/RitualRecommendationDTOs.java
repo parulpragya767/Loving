@@ -8,6 +8,7 @@ import com.lovingapp.loving.model.enums.RecommendationSource;
 import com.lovingapp.loving.model.enums.RecommendationStatus;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -25,18 +26,24 @@ public final class RitualRecommendationDTOs {
     @Builder
     @Data
     public static class RitualRecommendationDTO {
-        @NotNull
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID id;
-        @NotNull
+
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID userId;
-        @NotNull
+
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RecommendationSource source;
-        @NotNull
+
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID sourceId;
-        @NotNull
+
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID ritualPackId;
-        @NotNull
+
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RecommendationStatus status;
+
         private OffsetDateTime createdAt;
     }
 
@@ -46,15 +53,19 @@ public final class RitualRecommendationDTOs {
     @Data
     public static class RitualRecommendationCreateRequest {
         @NotNull(message = "source is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RecommendationSource source;
 
         @NotNull(message = "sourceId is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID sourceId;
 
         @NotNull(message = "ritualPackId is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID ritualPackId;
 
         @NotNull(message = "status is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RecommendationStatus status;
     }
 
@@ -64,6 +75,7 @@ public final class RitualRecommendationDTOs {
     @Data
     public static class RitualRecommendationUpdateRequest {
         @NotNull(message = "status is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RecommendationStatus status;
 
         @Valid
@@ -76,9 +88,11 @@ public final class RitualRecommendationDTOs {
     @Data
     public static class RitualStatusUpdate {
         @NotNull(message = "ritualId is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID ritualId;
 
         @NotNull(message = "status is required")
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualHistoryStatus status;
     }
 }
