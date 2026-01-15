@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.exception.BulkResourceAlreadyExistsException;
 import com.lovingapp.loving.exception.ResourceAlreadyExistsException;
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualPackMapper;
@@ -134,7 +133,7 @@ public class RitualPackService {
                 .toList();
 
         if (!existingIds.isEmpty()) {
-            throw new BulkResourceAlreadyExistsException("RitualPack", existingIds.size());
+            throw new ResourceAlreadyExistsException("RitualPack", existingIds.size());
         }
 
         // Resolve all rituals in one batch

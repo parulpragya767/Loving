@@ -15,7 +15,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.exception.BulkResourceAlreadyExistsException;
 import com.lovingapp.loving.exception.ResourceAlreadyExistsException;
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualMapper;
@@ -178,7 +177,7 @@ public class RitualService {
                 .toList();
 
         if (!existingIds.isEmpty()) {
-            throw new BulkResourceAlreadyExistsException("Ritual", existingIds.size());
+            throw new ResourceAlreadyExistsException("Ritual", existingIds.size());
         }
 
         List<Ritual> entities = ritualDTOs.stream()
