@@ -26,6 +26,7 @@ public final class RitualPackMapper {
                         .stream()
                         .map(ritual -> RitualMapper.toDto(ritual))
                         .collect(Collectors.toList()))
+                // setting ritualIds for quick lookup
                 .ritualIds((pack.getRituals() != null ? pack.getRituals() : Collections.<Ritual>emptyList())
                         .stream()
                         .map(Ritual::getId)
@@ -58,6 +59,7 @@ public final class RitualPackMapper {
         entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
         entity.setRelationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
         entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
+        // rituals are set in the service layer by fetching using ritualIds
         return entity;
     }
 
@@ -75,5 +77,6 @@ public final class RitualPackMapper {
         entity.setLoveTypes(Objects.requireNonNullElse(dto.getLoveTypes(), Collections.emptyList()));
         entity.setRelationalNeeds(Objects.requireNonNullElse(dto.getRelationalNeeds(), Collections.emptyList()));
         entity.setMediaAssets(Objects.requireNonNullElse(dto.getMediaAssets(), Collections.emptyList()));
+        // rituals are set in the service layer by fetching using ritualIds
     }
 }

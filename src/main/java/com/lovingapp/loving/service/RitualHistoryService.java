@@ -284,7 +284,7 @@ public class RitualHistoryService {
 			// Validate all ritual pack IDs exist in bulk
 
 			Map<UUID, RitualPackDTO> ritualPackMap = ritualPackService
-					.validateRitualPacks(new ArrayList<>(ritualPackIds))
+					.findAllById(new ArrayList<>(ritualPackIds))
 					.stream()
 					.collect(Collectors.toMap(RitualPackDTO::getId, Function.identity()));
 

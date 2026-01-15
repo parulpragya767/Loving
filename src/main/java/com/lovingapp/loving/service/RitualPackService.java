@@ -2,10 +2,10 @@ package com.lovingapp.loving.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Function;
@@ -14,6 +14,8 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lovingapp.loving.exception.BulkResourceAlreadyExistsException;
+import com.lovingapp.loving.exception.ResourceAlreadyExistsException;
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualPackMapper;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
@@ -42,7 +44,8 @@ public class RitualPackService {
 
     @Transactional(readOnly = true)
     public RitualPackDTO findById(UUID id) {
-        return ritualPackRepository.findById(id).map(RitualPackMapper::toDto)
+        return ritualPackRepository.findById(id)
+                .map(RitualPackMapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException("RitualPack", "id", id));
     }
 
@@ -51,64 +54,89 @@ public class RitualPackService {
         if (ids == null || ids.isEmpty()) {
             return List.of();
         }
-        return ritualPackRepository.findAllById(ids).stream()
+
+        List<RitualPackDTO> ritualPacks = ritualPackRepository.findAllById(ids).stream()
                 .map(RitualPackMapper::toDto)
                 .collect(Collectors.toList());
-    }
 
-    @Transactional(readOnly = true)
-    public List<RitualPackDTO> validateRitualPacks(List<UUID> ids) {
-        Map<UUID, RitualPackDTO> ritualPackMap = findAllById(new ArrayList<>(ids))
-                .stream()
-                .collect(Collectors.toMap(RitualPackDTO::getId, Function.identity()));
+        List<UUID> existingRitualPackIds = ritualPacks.stream()
+                .map(RitualPackDTO::getId)
+                .collect(Collectors.toList());
 
-        Set<UUID> missingPackIds = ids.stream()
-                .filter(id -> !ritualPackMap.containsKey(id))
+        Set<UUID> missingRitualPackIds = ids.stream()
+                .filter(id -> !existingRitualPackIds.contains(id))
                 .collect(Collectors.toSet());
 
-        if (!missingPackIds.isEmpty()) {
-            throw new ResourceNotFoundException("RitualPack", "ids", missingPackIds);
+        if (!missingRitualPackIds.isEmpty()) {
+            throw new ResourceNotFoundException("RitualPack", "ids", missingRitualPackIds);
         }
-        return ritualPackMap.values().stream().collect(Collectors.toList());
+        return ritualPacks;
     }
 
     @Transactional
     public RitualPackDTO create(RitualPackDTO dto) {
-        log.info("Creating ritual pack");
-        log.debug("Create ritual pack payload: {}", dto);
+        if (dto == null) {
+            throw new IllegalArgumentException("RitualPackDTO cannot be null");
+        }
+
+        log.info("Creating ritual pack ritualPackId={}", dto.getId());
+
+        if (dto.getId() != null && ritualPackRepository.existsById(dto.getId())) {
+            throw new ResourceAlreadyExistsException("RitualPack", "id", dto.getId());
+        }
+
         RitualPack entity = RitualPackMapper.fromDto(dto);
         if (dto.getRitualIds() != null) {
             List<Ritual> rituals = resolveRituals(dto.getRitualIds());
             entity.setRituals(rituals);
         }
         RitualPack saved = ritualPackRepository.save(entity);
+
         log.info("Ritual pack created successfully ritualPackId={}", saved.getId());
         return RitualPackMapper.toDto(saved);
     }
 
     @Transactional
-    public Optional<RitualPackDTO> update(UUID id, RitualPackDTO dto) {
+    public void update(UUID id, RitualPackDTO dto) {
         log.info("Updating ritual pack ritualPackId={}", id);
-        log.debug("Update ritual pack payload ritualPackId={} payload={}", id, dto);
-        return ritualPackRepository.findById(id).map(existing -> {
-            RitualPackMapper.updateEntityFromDto(dto, existing);
-            if (dto.getRitualIds() != null) {
-                List<Ritual> rituals = resolveRituals(dto.getRitualIds());
-                existing.setRituals(rituals);
-            }
-            RitualPack saved = ritualPackRepository.save(existing);
-            log.info("Ritual pack updated successfully ritualPackId={}", saved.getId());
-            return RitualPackMapper.toDto(saved);
-        });
+        if (dto == null) {
+            throw new IllegalArgumentException("RitualPackDTO cannot be null");
+        }
+
+        RitualPack existing = ritualPackRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("RitualPack", "id", id));
+
+        RitualPackMapper.updateEntityFromDto(dto, existing);
+        if (dto.getRitualIds() != null) {
+            List<Ritual> rituals = resolveRituals(dto.getRitualIds());
+            existing.setRituals(rituals);
+        }
+
+        RitualPack saved = ritualPackRepository.save(existing);
+
+        log.info("Ritual pack updated successfully ritualPackId={}", saved.getId());
     }
 
     @Transactional
     public List<RitualPackDTO> bulkCreate(List<RitualPackDTO> dtos) {
         log.info("Bulk creating ritual packs count={}", dtos == null ? 0 : dtos.size());
-        log.debug("Bulk create ritual packs payload: {}", dtos);
         if (dtos == null || dtos.isEmpty()) {
             return Collections.emptyList();
         }
+
+        List<UUID> ids = dtos.stream()
+                .map(RitualPackDTO::getId)
+                .filter(Objects::nonNull)
+                .toList();
+
+        List<UUID> existingIds = ritualPackRepository.findAllById(ids).stream()
+                .map(RitualPack::getId)
+                .toList();
+
+        if (!existingIds.isEmpty()) {
+            throw new BulkResourceAlreadyExistsException("RitualPack", existingIds.size());
+        }
+
         // Resolve all rituals in one batch
         Map<UUID, List<Ritual>> ritualsByPackId = resolveRitualsAcrossPacks(dtos);
 
@@ -126,16 +154,16 @@ public class RitualPackService {
         List<RitualPackDTO> result = savedEntities.stream()
                 .map(RitualPackMapper::toDto)
                 .collect(Collectors.toList());
+
         log.info("Bulk ritual packs created successfully count={}", result.size());
         return result;
     }
 
     @Transactional
-    public List<RitualPackDTO> bulkUpdate(List<RitualPackDTO> dtos) {
+    public void bulkUpdate(List<RitualPackDTO> dtos) {
         log.info("Bulk updating ritual packs count={}", dtos == null ? 0 : dtos.size());
-        log.debug("Bulk update ritual packs payload: {}", dtos);
         if (dtos == null || dtos.isEmpty()) {
-            return Collections.emptyList();
+            return;
         }
 
         // Get all pack IDs for batch fetch
@@ -145,12 +173,23 @@ public class RitualPackService {
                 .collect(Collectors.toList());
 
         if (packIds.isEmpty()) {
-            return Collections.emptyList();
+            return;
+        }
+
+        if (packIds.size() != new HashSet<>(packIds).size()) {
+            throw new IllegalArgumentException("Duplicate ritual pack IDs in bulk update request");
         }
 
         // Fetch all existing entities in one query
         Map<UUID, RitualPack> existingPacks = ritualPackRepository.findAllById(packIds).stream()
                 .collect(Collectors.toMap(RitualPack::getId, Function.identity()));
+
+        if (existingPacks.size() != packIds.size()) {
+            int missingCount = packIds.size() - existingPacks.size();
+            throw new ResourceNotFoundException("RitualPack", "count", missingCount);
+        }
+
+        log.info("Bulk update validated existingCount={}", existingPacks.size());
 
         // Resolve all rituals in one batch
         Map<UUID, List<Ritual>> ritualsByPackId = resolveRitualsAcrossPacks(dtos);
@@ -160,41 +199,47 @@ public class RitualPackService {
         for (RitualPackDTO dto : dtos) {
             if (dto.getId() != null) {
                 RitualPack existing = existingPacks.get(dto.getId());
-                if (existing != null) {
-                    RitualPackMapper.updateEntityFromDto(dto, existing);
-                    if (dto.getRitualIds() != null) {
-                        List<Ritual> rituals = ritualsByPackId.get(dto.getId());
-                        existing.setRituals(rituals);
-                    }
-                    toUpdate.add(existing);
+                RitualPackMapper.updateEntityFromDto(dto, existing);
+                if (dto.getRitualIds() != null) {
+                    List<Ritual> rituals = ritualsByPackId.get(dto.getId());
+                    existing.setRituals(rituals);
                 }
+                toUpdate.add(existing);
             }
         }
 
-        List<RitualPack> updated = ritualPackRepository.saveAll(toUpdate);
-        List<RitualPackDTO> result = updated.stream()
-                .map(RitualPackMapper::toDto)
-                .collect(Collectors.toList());
-        log.info("Bulk ritual packs updated successfully count={}", result.size());
-        return result;
+        ritualPackRepository.saveAll(toUpdate);
+        log.info("Bulk ritual packs updated successfully.");
     }
 
     @Transactional
-    public boolean deleteById(UUID id) {
+    public void deleteById(UUID id) {
         log.info("Deleting ritual pack ritualPackId={}", id);
-        if (ritualPackRepository.existsById(id)) {
-            ritualPackRepository.deleteById(id);
-            log.info("Ritual pack deleted successfully ritualPackId={}", id);
-            return true;
-        }
-        log.info("Ritual pack delete skipped: not found ritualPackId={}", id);
-        return false;
+
+        RitualPack ritualPack = ritualPackRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("RitualPack", "id", id));
+        ritualPackRepository.delete(ritualPack);
+
+        log.info("Ritual pack deleted successfully ritualPackId={}", id);
     }
 
     private List<Ritual> resolveRituals(List<UUID> ritualIds) {
         if (ritualIds == null || ritualIds.isEmpty())
             return Collections.emptyList();
-        return ritualRepository.findAllById(ritualIds);
+
+        List<Ritual> rituals = ritualRepository.findAllById(ritualIds);
+        List<UUID> existingRitualIds = rituals.stream()
+                .map(Ritual::getId).toList();
+
+        Set<UUID> missingRitualIds = ritualIds.stream()
+                .filter(id -> !existingRitualIds.contains(id))
+                .collect(Collectors.toSet());
+
+        if (!missingRitualIds.isEmpty()) {
+            throw new ResourceNotFoundException("Ritual", "ids", missingRitualIds);
+        }
+
+        return rituals;
     }
 
     private Map<UUID, List<Ritual>> resolveRitualsAcrossPacks(List<RitualPackDTO> dtos) {
