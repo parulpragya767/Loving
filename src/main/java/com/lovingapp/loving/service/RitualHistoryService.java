@@ -48,12 +48,6 @@ public class RitualHistoryService {
 				.collect(Collectors.toList());
 	}
 
-	public RitualHistoryDTO findById(UUID id) {
-		return ritualHistoryRepository.findById(id)
-				.map(RitualHistoryMapper::toDto)
-				.orElseThrow(() -> new ResourceNotFoundException("RitualHistory", "id", id));
-	}
-
 	public List<RitualHistory> findByIds(UUID userId, List<UUID> ids) {
 		Map<UUID, RitualHistory> historiesById = ritualHistoryRepository.findByIdInAndUserId(ids, userId)
 				.stream()
@@ -67,13 +61,6 @@ public class RitualHistoryService {
 			throw new ResourceNotFoundException("RitualHistory", "ids", missingIds);
 		}
 		return historiesById.values().stream().collect(Collectors.toList());
-	}
-
-	public List<RitualHistoryDTO> findByUserAndRecommendationId(UUID userId, UUID recommendationId) {
-		return ritualHistoryRepository.findByUserIdAndRecommendationId(userId, recommendationId)
-				.stream()
-				.map(RitualHistoryMapper::toDto)
-				.collect(Collectors.toList());
 	}
 
 	public CurrentRitualsDTO listCurrentByUser(UUID userId) {
@@ -179,7 +166,9 @@ public class RitualHistoryService {
 
 	@Transactional
 	public void delete(UUID ritualHistoryId) {
-		findById(ritualHistoryId);
+		ritualHistoryRepository.findById(ritualHistoryId)
+				.orElseThrow(() -> new ResourceNotFoundException("RitualHistory", "id", ritualHistoryId));
+
 		ritualHistoryRepository.deleteById(ritualHistoryId);
 	}
 
