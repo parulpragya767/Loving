@@ -1,6 +1,7 @@
 package com.lovingapp.loving.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -53,8 +54,8 @@ public class RitualHistoryService {
 				.orElseThrow(() -> new ResourceNotFoundException("RitualHistory", "id", id));
 	}
 
-	public Map<UUID, RitualHistory> validateRitualHistoryByIds(UUID userId, List<UUID> ids) {
-		Map<UUID, RitualHistory> historiesById = ritualHistoryRepository.findAllByIdInAndUserId(ids, userId)
+	public List<RitualHistory> findByIds(UUID userId, List<UUID> ids) {
+		Map<UUID, RitualHistory> historiesById = ritualHistoryRepository.findByIdInAndUserId(ids, userId)
 				.stream()
 				.collect(Collectors.toMap(RitualHistory::getId, Function.identity()));
 
@@ -65,7 +66,7 @@ public class RitualHistoryService {
 		if (!missingIds.isEmpty()) {
 			throw new ResourceNotFoundException("RitualHistory", "ids", missingIds);
 		}
-		return historiesById;
+		return historiesById.values().stream().collect(Collectors.toList());
 	}
 
 	public List<RitualHistoryDTO> findByUserAndRecommendationId(UUID userId, UUID recommendationId) {
@@ -161,18 +162,8 @@ public class RitualHistoryService {
 
 	@Transactional
 	public RitualHistoryDTO create(UUID userId, RitualHistoryCreateRequest request) {
-		ritualService.findById(request.getRitualId());
-
-		if (request.getRitualPackId() != null) {
-			RitualPackDTO ritualPack = ritualPackService.findById(request.getRitualPackId());
-
-			if (!ritualPack.getRitualIds().contains(request.getRitualId())) {
-				throw new IllegalArgumentException(
-						String.format("Ritual not associated with ritual pack: ritualId=%s ritualPackId=%s",
-								request.getRitualId(),
-								request.getRitualPackId()));
-			}
-		}
+		// Validate the ritual ID and ritual pack ID in request
+		validateRitualHistoriesCreateRequests(List.of(request));
 
 		RitualHistory ritualHistory = RitualHistory.builder()
 				.userId(userId)
@@ -199,7 +190,7 @@ public class RitualHistoryService {
 		}
 
 		// Validate all ritual IDs and ritual pack IDs in bulk
-		validateRitualHistoriesBulk(requests);
+		validateRitualHistoriesCreateRequests(requests);
 
 		List<RitualHistory> histories = requests.stream()
 				.map(request -> RitualHistory.builder()
@@ -245,7 +236,9 @@ public class RitualHistoryService {
 				.map(StatusUpdateEntry::getRitualHistoryId)
 				.toList();
 
-		Map<UUID, RitualHistory> historiesById = validateRitualHistoryByIds(userId, ids);
+		// Validate that all ritual history IDs exist
+		Map<UUID, RitualHistory> historiesById = findByIds(userId, ids).stream()
+				.collect(Collectors.toMap(RitualHistory::getId, Function.identity()));
 
 		// Create a map of updates by ritual history ID for quick lookup
 		Map<UUID, StatusUpdateEntry> updatesMap = updates.stream()
@@ -265,38 +258,38 @@ public class RitualHistoryService {
 		ritualHistoryRepository.saveAll(historiesById.values());
 	}
 
-	private void validateRitualHistoriesBulk(List<RitualHistoryCreateRequest> requests) {
+	private void validateRitualHistoriesCreateRequests(List<RitualHistoryCreateRequest> requests) {
 		// Collect all unique ritual IDs
-		Set<UUID> ritualIds = requests.stream()
+		List<UUID> ritualIds = requests.stream()
 				.map(RitualHistoryCreateRequest::getRitualId)
-				.collect(Collectors.toSet());
+				.filter(Objects::nonNull)
+				.distinct()
+				.collect(Collectors.toList());
 
 		// Validate all ritual IDs exist in bulk
-		ritualService.findAllById(new ArrayList<>(ritualIds));
+		ritualService.findAllById(ritualIds);
 
 		// Collect all unique ritual pack IDs
-		Set<UUID> ritualPackIds = requests.stream()
+		List<UUID> ritualPackIds = requests.stream()
 				.map(RitualHistoryCreateRequest::getRitualPackId)
 				.filter(Objects::nonNull)
-				.collect(Collectors.toSet());
+				.distinct()
+				.collect(Collectors.toList());
 
 		if (!ritualPackIds.isEmpty()) {
 			// Validate all ritual pack IDs exist in bulk
-
-			Map<UUID, RitualPackDTO> ritualPackMap = ritualPackService
-					.findAllById(new ArrayList<>(ritualPackIds))
+			Map<UUID, RitualPackDTO> ritualPackMap = ritualPackService.findAllById(ritualPackIds)
 					.stream()
 					.collect(Collectors.toMap(RitualPackDTO::getId, Function.identity()));
 
 			// Validate that all rituals are associated with their respective packs
-			List<String> invalidPairs = new ArrayList<>();
+			Map<UUID, UUID> invalidPairs = new HashMap<>(); // ritualId -> ritualPackId
+
 			for (RitualHistoryCreateRequest request : requests) {
 				if (request.getRitualPackId() != null) {
 					RitualPackDTO ritualPack = ritualPackMap.get(request.getRitualPackId());
 					if (ritualPack != null && !ritualPack.getRitualIds().contains(request.getRitualId())) {
-						invalidPairs.add(String.format("ritualId=%s ritualPackId=%s",
-								request.getRitualId(),
-								request.getRitualPackId()));
+						invalidPairs.put(request.getRitualId(), request.getRitualPackId());
 					}
 				}
 			}
@@ -304,7 +297,10 @@ public class RitualHistoryService {
 			// If there are any errors, throw an exception with all of them
 			if (!invalidPairs.isEmpty()) {
 				throw new IllegalArgumentException(
-						"Ritual not associated with ritual pack:" + String.join(" | ", invalidPairs));
+						"Ritual not associated with ritual pack (ritualId -> ritualPackId): " + String.join(", ",
+								invalidPairs.entrySet().stream()
+										.map(entry -> entry.getKey() + " -> " + entry.getValue())
+										.collect(Collectors.toList())));
 			}
 		}
 	}

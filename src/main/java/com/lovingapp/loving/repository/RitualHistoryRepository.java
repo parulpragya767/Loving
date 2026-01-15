@@ -14,7 +14,7 @@ public interface RitualHistoryRepository extends JpaRepository<RitualHistory, UU
 
     Optional<RitualHistory> findByIdAndUserId(UUID id, UUID userId);
 
-    List<RitualHistory> findAllByIdInAndUserId(List<UUID> ids, UUID userId);
+    List<RitualHistory> findByIdInAndUserId(List<UUID> ids, UUID userId);
 
     List<RitualHistory> findByUserIdAndRecommendationId(UUID userId, UUID recommendationId);
 
