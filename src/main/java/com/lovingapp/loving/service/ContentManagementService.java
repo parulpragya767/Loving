@@ -1,4 +1,4 @@
-package com.lovingapp.loving.config;
+package com.lovingapp.loving.service;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -11,10 +11,8 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StreamUtils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -23,30 +21,21 @@ import com.lovingapp.loving.model.dto.RitualDTO;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
 import com.lovingapp.loving.model.entity.LoveTypeInfo;
 import com.lovingapp.loving.model.enums.PublicationStatus;
-import com.lovingapp.loving.service.LoveTypeService;
-import com.lovingapp.loving.service.RitualPackService;
-import com.lovingapp.loving.service.RitualService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Component
+@Service
+@RequiredArgsConstructor
 @Slf4j
-public class ContentManagementService implements CommandLineRunner {
+public class ContentManagementService {
 
-    @Autowired
-    private RitualService ritualService;
+    private final RitualService ritualService;
+    private final RitualPackService ritualPackService;
+    private final LoveTypeService loveTypeService;
+    private final ObjectMapper objectMapper;
 
-    @Autowired
-    private RitualPackService ritualPackService;
-
-    @Autowired
-    private LoveTypeService loveTypeService;
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
-    @Override
-    public void run(String... args) throws Exception {
+    public void syncAll() {
         syncRituals();
         syncRitualPacks();
         syncLoveTypes();
