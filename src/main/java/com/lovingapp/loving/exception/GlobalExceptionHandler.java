@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<Void> handleUnauthorized(AccessDeniedException ex) {
-        log.info("Unauthorized access attempt");
+        log.info("Unauthorized access attempt: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 

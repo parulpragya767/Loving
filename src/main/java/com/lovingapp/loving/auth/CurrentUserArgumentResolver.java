@@ -53,7 +53,6 @@ public class CurrentUserArgumentResolver implements HandlerMethodArgumentResolve
             return user.getId();
         }
 
-        log.error("Unsupported @CurrentUser parameter type type={}", type.getName());
         throw new IllegalArgumentException("Unsupported @CurrentUser parameter type: " + type.getName());
     }
 }
