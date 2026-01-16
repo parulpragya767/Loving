@@ -78,10 +78,13 @@ public class LoveTypeInfo {
     public static class InfoSection {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private int order;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private String title;
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private String summary;
+
         private List<InfoBullet> bullets;
 
         @Override
@@ -110,6 +113,7 @@ public class LoveTypeInfo {
     @Builder
     public static class InfoBullet {
         private String title; // optional
+
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private String text; // markdown supported
 
