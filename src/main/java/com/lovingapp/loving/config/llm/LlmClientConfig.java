@@ -1,4 +1,4 @@
-package com.lovingapp.loving.config;
+package com.lovingapp.loving.config.llm;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

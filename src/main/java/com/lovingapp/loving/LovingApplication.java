@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.lovingapp.loving.config.LlmClientProperties;
-import com.lovingapp.loving.config.SupabaseProperties;
+import com.lovingapp.loving.config.database.SupabaseProperties;
+import com.lovingapp.loving.config.llm.LlmClientProperties;
 
 @SpringBootApplication
 @EnableConfigurationProperties({ LlmClientProperties.class, SupabaseProperties.class })

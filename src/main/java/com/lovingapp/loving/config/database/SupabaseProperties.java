@@ -1,4 +1,4 @@
-package com.lovingapp.loving.config;
+package com.lovingapp.loving.config.database;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

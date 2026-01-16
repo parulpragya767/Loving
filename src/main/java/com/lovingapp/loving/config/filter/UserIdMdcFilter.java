@@ -1,4 +1,4 @@
-package com.lovingapp.loving.config.security;
+package com.lovingapp.loving.config.filter;
 
 import java.io.IOException;
 import java.util.UUID;

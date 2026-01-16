@@ -1,4 +1,4 @@
-package com.lovingapp.loving.config.security;
+package com.lovingapp.loving.config.filter;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
-public class RequestIdFilter extends OncePerRequestFilter {
+public class RequestIdMdcFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(

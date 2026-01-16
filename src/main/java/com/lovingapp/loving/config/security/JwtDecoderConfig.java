@@ -12,7 +12,7 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
-import com.lovingapp.loving.config.SupabaseProperties;
+import com.lovingapp.loving.config.database.SupabaseProperties;
 
 import lombok.RequiredArgsConstructor;
 

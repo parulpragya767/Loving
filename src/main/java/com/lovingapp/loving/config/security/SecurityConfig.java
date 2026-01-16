@@ -11,6 +11,9 @@ import org.springframework.security.oauth2.server.resource.web.authentication.Be
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 
+import com.lovingapp.loving.config.filter.RequestIdMdcFilter;
+import com.lovingapp.loving.config.filter.UserIdMdcFilter;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -33,7 +36,7 @@ public class SecurityConfig {
 
 	private final JwtDecoderConfig jwtConfig;
 	private final CorsConfig corsConfig;
-	private final RequestIdFilter requestIdFilter;
+	private final RequestIdMdcFilter requestIdFilter;
 	private final UserIdMdcFilter userIdMdcFilter;
 
 	@Bean

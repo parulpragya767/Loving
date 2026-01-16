@@ -1,4 +1,4 @@
-package com.lovingapp.loving.config;
+package com.lovingapp.loving.config.web;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
     private final CurrentUserArgumentResolver currentUserArgumentResolver;
 

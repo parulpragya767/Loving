@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lovingapp.loving.config.LlmClientProperties.OpenAiProperties;
+import com.lovingapp.loving.config.llm.LlmClientProperties.OpenAiProperties;
 import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
