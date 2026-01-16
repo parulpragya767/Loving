@@ -15,8 +15,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -31,7 +33,8 @@ import lombok.NoArgsConstructor;
 public class ChatMessage {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, updatable = false)
     private UUID id;
 
     @Column(name = "session_id", nullable = false, columnDefinition = "uuid")
@@ -41,6 +44,7 @@ public class ChatMessage {
     @Column(name = "role", length = 20, nullable = false)
     private ChatMessageRole role;
 
+    @NotBlank
     @Column(name = "content", columnDefinition = "text", nullable = false)
     private String content;
 
@@ -49,6 +53,6 @@ public class ChatMessage {
     private ChatMetadata metadata;
 
     @CreationTimestamp
-    @Column(name = "created_at", columnDefinition = "timestamptz", updatable = false)
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "timestamptz")
     private OffsetDateTime createdAt;
 }

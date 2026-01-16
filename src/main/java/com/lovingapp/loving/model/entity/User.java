@@ -9,8 +9,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,19 +27,24 @@ import lombok.NoArgsConstructor;
 @Builder
 public class User {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, updatable = false)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @NotNull
+    @Column(name = "auth_user_id", nullable = false, unique = true, columnDefinition = "uuid")
     private UUID authUserId;
 
-    @Column(nullable = false, unique = true)
+    @NotNull
+    @Email
+    @Column(nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(name = "display_name")
+    @Column(name = "display_name", length = 120)
     private String displayName;
 
-    @Column(name = "onboarding_completed")
+    @NotNull
+    @Column(name = "onboarding_completed", nullable = false)
     @Builder.Default
     private Boolean onboardingCompleted = false;
 
@@ -44,10 +52,10 @@ public class User {
     private OffsetDateTime lastLoginAt;
 
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false, columnDefinition = "timestamptz")
+    @Column(name = "created_at", updatable = false, nullable = false, columnDefinition = "timestamptz")
     private OffsetDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition = "timestamptz")
+    @Column(name = "updated_at", columnDefinition = "timestamptz", nullable = false)
     private OffsetDateTime updatedAt;
 }

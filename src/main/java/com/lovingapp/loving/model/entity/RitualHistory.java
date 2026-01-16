@@ -14,8 +14,10 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -30,13 +32,15 @@ import lombok.NoArgsConstructor;
 public class RitualHistory {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(nullable = false, updatable = false)
     private UUID id;
 
-    // We store foreign keys as UUIDs to keep the entity decoupled.
+    @NotNull
     @Column(name = "user_id", nullable = false, columnDefinition = "uuid")
     private UUID userId;
 
+    @NotNull
     @Column(name = "ritual_id", nullable = false, columnDefinition = "uuid")
     private UUID ritualId;
 
@@ -46,6 +50,7 @@ public class RitualHistory {
     @Column(name = "recommendation_id", columnDefinition = "uuid")
     private UUID recommendationId;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false, length = 20)
     private RitualHistoryStatus status;
@@ -55,10 +60,10 @@ public class RitualHistory {
     private RitualFeedback feedback;
 
     @CreationTimestamp
-    @Column(name = "created_at", updatable = false, columnDefinition = "timestamptz")
+    @Column(name = "created_at", nullable = false, updatable = false, columnDefinition = "timestamptz")
     private OffsetDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "updated_at", columnDefinition = "timestamptz")
+    @Column(name = "updated_at", nullable = false, columnDefinition = "timestamptz")
     private OffsetDateTime updatedAt;
 }
