@@ -3,7 +3,6 @@ package com.lovingapp.loving.config;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lovingapp.loving.client.LlmClient;
 import com.lovingapp.loving.client.OpenAiChatClient;
@@ -20,21 +19,13 @@ public class LlmClientConfig {
     private final LlmClientProperties properties;
 
     @Bean
-    public WebClient webClient() {
-        return WebClient.builder().build();
-    }
+    public LlmClient llmClient() {
+        log.info("LLM provider configured provider={}", properties.getProvider());
 
-    @Bean
-    public LlmClient llmClient(WebClient webClient) {
-        String provider = properties.getProvider() == null ? "" : properties.getProvider().toLowerCase();
-        log.info("LLM client provider configured provider={}", provider);
-        return switch (provider) {
-            // register the different LLM proders here
-            case "openai" -> new OpenAiChatClient(properties);
-            default -> {
-                log.error("Unsupported LLM provider configured provider={}", properties.getProvider());
-                throw new IllegalArgumentException("Unsupported LLM provider: " + properties.getProvider());
-            }
+        return switch (properties.getProvider()) {
+            case OPENAI -> new OpenAiChatClient(properties.getOpenai());
+            default -> throw new IllegalArgumentException("Unsupported LLM provider: " + properties.getProvider());
+
         };
     }
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.lovingapp.loving.config.LlmClientProperties;
+import com.lovingapp.loving.config.LlmClientProperties.OpenAiProperties;
 import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
@@ -25,11 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class OpenAiChatClient implements LlmClient {
 
-    private final LlmClientProperties.OpenAiProperties openAiProps;
+    private final OpenAiProperties openAiProperties;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public OpenAiChatClient(LlmClientProperties llmClientProperties) {
-        this.openAiProps = llmClientProperties.getOpenai();
+    public OpenAiChatClient(OpenAiProperties openAiProperties) {
+        this.openAiProperties = openAiProperties;
     }
 
     @Override
@@ -144,8 +144,8 @@ public class OpenAiChatClient implements LlmClient {
     private OpenAIClient buildClientFromProps() {
         OpenAIOkHttpClient.Builder builder = OpenAIOkHttpClient.builder().fromEnv();
 
-        if (openAiProps.getApiKey() != null && !openAiProps.getApiKey().isBlank()) {
-            builder.apiKey(openAiProps.getApiKey());
+        if (openAiProperties.getApiKey() != null && !openAiProperties.getApiKey().isBlank()) {
+            builder.apiKey(openAiProperties.getApiKey());
         }
 
         return builder.build();
@@ -153,6 +153,6 @@ public class OpenAiChatClient implements LlmClient {
 
     private String getLLMModel(LLMRequest request) {
         return request.getModel() != null && !request.getModel().isEmpty() ? request.getModel()
-                : openAiProps.getModel();
+                : openAiProperties.getModel();
     }
 }
