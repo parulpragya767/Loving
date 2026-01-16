@@ -14,7 +14,6 @@ public class LlmClientProperties {
     private String provider = "openai";
 
     private OpenAiProperties openai = new OpenAiProperties();
-    private PerplexityProperties perplexity = new PerplexityProperties();
 
     @Data
     public static class OpenAiProperties {
@@ -44,31 +43,4 @@ public class LlmClientProperties {
         private Double temperature = 0.7;
     }
 
-    @Data
-    public static class PerplexityProperties {
-        /**
-         * Perplexity API key (required)
-         */
-        private String apiKey;
-
-        /**
-         * Base URL for Perplexity API
-         */
-        private String baseUrl = "https://api.perplexity.ai";
-
-        /**
-         * Model to use (e.g., pplx-70b-online, pplx-7b-online)
-         */
-        private String model = "pplx-7b-online";
-
-        /**
-         * Maximum number of tokens to generate
-         */
-        private Integer maxTokens = 2000;
-
-        /**
-         * Sampling temperature (0.0 to 1.0)
-         */
-        private Double temperature = 0.7;
-    }
 }

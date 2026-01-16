@@ -7,7 +7,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import com.lovingapp.loving.client.LlmClient;
 import com.lovingapp.loving.client.OpenAiChatClient;
-import com.lovingapp.loving.client.PerplexityLlmClient;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +29,7 @@ public class LlmClientConfig {
         String provider = properties.getProvider() == null ? "" : properties.getProvider().toLowerCase();
         log.info("LLM client provider configured provider={}", provider);
         return switch (provider) {
-            case "perplexity" -> new PerplexityLlmClient(properties, webClient);
+            // register the different LLM proders here
             case "openai" -> new OpenAiChatClient(properties);
             default -> {
                 log.error("Unsupported LLM provider configured provider={}", properties.getProvider());
