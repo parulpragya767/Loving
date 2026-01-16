@@ -11,8 +11,6 @@ import org.springframework.security.oauth2.server.resource.web.authentication.Be
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.context.SecurityContextHolderFilter;
 
-import com.lovingapp.loving.infra.security.DbCurrentUserContextFilter;
-
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -35,7 +33,6 @@ public class SecurityConfig {
 
 	private final JwtDecoderConfig jwtConfig;
 	private final CorsConfig corsConfig;
-	private final DbCurrentUserContextFilter dbAuthUserContextFilter;
 	private final RequestIdFilter requestIdFilter;
 	private final UserIdMdcFilter userIdMdcFilter;
 
@@ -55,8 +52,6 @@ public class SecurityConfig {
 				// Supabase JWTs are validated here
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtConfig.jwtDecoder())))
 				.addFilterBefore(requestIdFilter, SecurityContextHolderFilter.class)
-				// .addFilterAfter(dbAuthUserContextFilter,
-				// BearerTokenAuthenticationFilter.class)
 				.addFilterAfter(userIdMdcFilter, BearerTokenAuthenticationFilter.class);
 
 		return http.build();
