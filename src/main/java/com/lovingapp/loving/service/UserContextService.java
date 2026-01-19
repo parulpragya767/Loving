@@ -14,8 +14,8 @@ import com.lovingapp.loving.mapper.UserContextMapper;
 import com.lovingapp.loving.model.dto.UserContextDTOs.UserContextCreateRequest;
 import com.lovingapp.loving.model.dto.UserContextDTOs.UserContextDTO;
 import com.lovingapp.loving.model.entity.UserContext;
-import com.lovingapp.loving.repository.ChatSessionRepository;
 import com.lovingapp.loving.repository.UserContextRepository;
+import com.lovingapp.loving.service.chat.AIChatSessionPersistenceService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,7 +26,7 @@ import lombok.extern.slf4j.Slf4j;
 public class UserContextService {
 
     private final UserContextRepository userContextRepository;
-    private final ChatSessionRepository chatSessionRepository;
+    private final AIChatSessionPersistenceService chatSessionPersistenceService;
 
     @Transactional(readOnly = true)
     public List<UserContextDTO> findAll(UUID userId) {
@@ -47,8 +47,7 @@ public class UserContextService {
     public UserContextDTO create(UUID userId, UserContextCreateRequest request) {
 
         if (request.getConversationId() != null) {
-            chatSessionRepository.findByIdAndUserId(request.getConversationId(), userId)
-                    .orElseThrow(() -> new ResourceNotFoundException("ChatSession", "id", request.getConversationId()));
+            chatSessionPersistenceService.findSessionByIdAndUserId(request.getConversationId(), userId);
         }
 
         UserContext userContext = UserContext.builder()
