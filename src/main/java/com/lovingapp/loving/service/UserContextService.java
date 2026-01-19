@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.UserContextMapper;
 import com.lovingapp.loving.model.dto.UserContextDTOs.UserContextCreateRequest;
 import com.lovingapp.loving.model.dto.UserContextDTOs.UserContextDTO;
@@ -65,9 +64,7 @@ public class UserContextService {
     }
 
     @Transactional
-    public void delete(UUID id) {
-        userContextRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("UserContext", "id", id));
-        userContextRepository.deleteById(id);
+    public void deleteByUserIdAndConversationId(UUID userId, UUID conversationId) {
+        userContextRepository.deleteByUserIdAndConversationId(userId, conversationId);
     }
 }

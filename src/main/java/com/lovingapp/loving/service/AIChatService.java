@@ -146,6 +146,7 @@ public class AIChatService {
 	@Transactional
 	public void deleteSession(UUID userId, UUID sessionId) {
 		chatSessionPersistenceService.deleteSession(userId, sessionId);
+		userContextService.deleteByUserIdAndConversationId(userId, sessionId);
 	}
 
 	/**

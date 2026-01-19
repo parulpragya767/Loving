@@ -14,4 +14,6 @@ public interface UserContextRepository extends JpaRepository<UserContext, UUID> 
     List<UserContext> findByUserId(UUID userId);
 
     List<UserContext> findByUserIdAndConversationId(UUID userId, UUID conversationId);
+
+    void deleteByUserIdAndConversationId(UUID userId, UUID conversationId);
 }
