@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import com.lovingapp.loving.auth.AuthContext;
+import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -41,14 +42,12 @@ public class UserIdMdcFilter extends OncePerRequestFilter {
         }
 
         try {
-            UUID userId = authContext.getAppUser().getId();
-            if (userId != null && !userId.toString().isBlank()) {
-                MDC.put("userId", userId.toString());
-            }
+            authContext.resolveAppUser()
+                    .map(UserDTO::getId)
+                    .map(UUID::toString)
+                    .ifPresent(userId -> MDC.put("userId", userId));
+
             filterChain.doFilter(request, response);
-            // } catch (Exception e) {
-            // log.error("Failed to populate user context into MDC", e);
-            // throw e;
         } finally {
             MDC.remove("userId");
         }

@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2Error;
+import org.springframework.security.oauth2.core.OAuth2ErrorCodes;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidatorResult;
 import org.springframework.security.oauth2.jose.jws.SignatureAlgorithm;
@@ -37,7 +38,7 @@ public class JwtDecoderConfig {
                 return OAuth2TokenValidatorResult.success();
             }
             return OAuth2TokenValidatorResult.failure(
-                    new OAuth2Error("invalid_token", "Invalid token audience", null));
+                    new OAuth2Error(OAuth2ErrorCodes.INVALID_TOKEN, "JWT audience must contain 'authenticated'", null));
         };
 
         decoder.setJwtValidator(

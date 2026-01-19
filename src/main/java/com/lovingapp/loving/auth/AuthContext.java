@@ -1,5 +1,6 @@
 package com.lovingapp.loving.auth;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.security.access.AccessDeniedException;
@@ -27,30 +28,34 @@ public class AuthContext {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (!(authentication instanceof JwtAuthenticationToken jwtAuth)) {
-            throw new AccessDeniedException("Expected JWT authentication");
+            throw new AccessDeniedException("JWT authentication required");
         }
         return jwtAuth.getToken();
     }
 
     public UUID getAuthUserId() {
-        String sub = currentJwt().getSubject();
-        if (sub == null) {
-            throw new AccessDeniedException("Missing subject in token");
+        String subject = currentJwt().getSubject();
+        if (subject == null) {
+            throw new AccessDeniedException("JWT subject is missing");
         }
 
         try {
-            return UUID.fromString(sub);
+            return UUID.fromString(subject);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Invalid auth user id");
+            throw new AccessDeniedException("JWT subject is not a valid UUID");
         }
     }
 
     public UserDTO getAppUser() {
         UUID authUserId = getAuthUserId();
+        return userService.getUserByAuthUserId(authUserId);
+    }
+
+    public Optional<UserDTO> resolveAppUser() {
         try {
-            return userService.getUserByAuthUserId(authUserId);
+            return Optional.of(getAppUser());
         } catch (ResourceNotFoundException e) {
-            throw new AccessDeniedException("User not found with authUserId");
+            return Optional.empty();
         }
     }
 }
