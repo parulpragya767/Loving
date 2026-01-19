@@ -31,7 +31,7 @@ public class SecurityConfig {
 			"/api/love-types/**",
 			"/api/rituals/**",
 			"/api/ritual-packs/**",
-			"/api/ai-chat/sample-prompts"
+			"/api/chat/sample-prompts"
 	};
 
 	private final JwtDecoderConfig jwtConfig;
