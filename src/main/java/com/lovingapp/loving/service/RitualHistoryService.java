@@ -91,7 +91,7 @@ public class RitualHistoryService {
 
 		// 4. Group by recommendationId (pack instances)
 		Map<UUID, List<RitualHistory>> groupedByRecommendation = histories.stream()
-				.filter(h -> h.getRecommendationId() != null)
+				.filter(history -> history.getRecommendationId() != null)
 				.collect(Collectors.groupingBy(RitualHistory::getRecommendationId));
 
 		// 5. Build pack DTOs
@@ -106,14 +106,15 @@ public class RitualHistoryService {
 
 		// 6. Build individual rituals
 		List<CurrentRitualDTO> individualRituals = histories.stream()
-				.filter(h -> h.getRecommendationId() == null)
-				.map(h -> buildCurrentRitual(h, ritualMap.get(h.getRitualId())))
+				.filter(history -> history.getRecommendationId() == null)
+				.map(history -> buildCurrentRitual(history, ritualMap.get(history.getRitualId())))
 				.collect(Collectors.toList());
 
 		// 7. Done
-		CurrentRitualsDTO dto = new CurrentRitualsDTO();
-		dto.setRitualPacks(packDTOs);
-		dto.setIndividualRituals(individualRituals);
+		CurrentRitualsDTO dto = CurrentRitualsDTO.builder()
+				.ritualPacks(packDTOs)
+				.individualRituals(individualRituals)
+				.build();
 		return dto;
 	}
 
@@ -127,23 +128,25 @@ public class RitualHistoryService {
 		RitualPackDTO ritualPack = ritualPackMap.get(ritualPackId);
 
 		List<CurrentRitualDTO> rituals = histories.stream()
-				.map(h -> buildCurrentRitual(h, ritualMap.get(h.getRitualId())))
+				.map(history -> buildCurrentRitual(history, ritualMap.get(history.getRitualId())))
 				.collect(Collectors.toList());
 
-		CurrentRitualPackDTO dto = new CurrentRitualPackDTO();
-		dto.setRitualPackId(ritualPackId);
-		dto.setRecommendationId(recommendationId);
-		dto.setRitualPack(ritualPack);
-		dto.setRituals(rituals);
+		CurrentRitualPackDTO dto = CurrentRitualPackDTO.builder()
+				.ritualPackId(ritualPackId)
+				.recommendationId(recommendationId)
+				.ritualPack(ritualPack)
+				.rituals(rituals)
+				.build();
 		return dto;
 	}
 
 	private CurrentRitualDTO buildCurrentRitual(RitualHistory history, RitualDTO ritual) {
-		CurrentRitualDTO dto = new CurrentRitualDTO();
-		dto.setRitualId(history.getRitualId());
-		dto.setRitualHistoryId(history.getId());
-		dto.setStatus(history.getStatus());
-		dto.setRitual(ritual);
+		CurrentRitualDTO dto = CurrentRitualDTO.builder()
+				.ritualId(history.getRitualId())
+				.ritualHistoryId(history.getId())
+				.status(history.getStatus())
+				.ritual(ritual)
+				.build();
 		return dto;
 	}
 
