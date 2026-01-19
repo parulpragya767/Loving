@@ -1,10 +1,13 @@
 package com.lovingapp.loving.client;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.loving.config.llm.LlmClientProperties.OpenAiProperties;
+import com.lovingapp.loving.exception.LlmClientException;
+import com.lovingapp.loving.exception.LlmServiceUnavailableException;
 import com.lovingapp.loving.model.domain.ai.LLMChatMessage;
 import com.lovingapp.loving.model.domain.ai.LLMRequest;
 import com.lovingapp.loving.model.domain.ai.LLMResponse;
@@ -12,6 +15,7 @@ import com.lovingapp.loving.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.loving.model.enums.ChatMessageRole;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
+import com.openai.errors.UnauthorizedException;
 import com.openai.models.responses.EasyInputMessage;
 import com.openai.models.responses.ResponseCreateParams;
 import com.openai.models.responses.ResponseInputItem;
@@ -100,11 +104,12 @@ public class OpenAiChatClient implements LlmClient {
             return new LLMResponse<>(rawText, parsed);
 
         } catch (Exception e) {
-            log.error("OpenAI LLM request failed model={} format={}",
+            log.error("OpenAI LLM request failed model={} format={} responseClass={}",
                     getLLMModel(request),
                     request == null ? null : request.getResponseFormat(),
-                    e);
-            throw new RuntimeException("Error generating LLM response", e);
+                    responseClass == null ? null : responseClass.getSimpleName(),
+                    e.getMessage());
+            throw mapToDomainException(e);
         }
     }
 
@@ -154,5 +159,18 @@ public class OpenAiChatClient implements LlmClient {
     private String getLLMModel(LLMRequest request) {
         return request.getModel() != null && !request.getModel().isEmpty() ? request.getModel()
                 : openAiProperties.getModel();
+    }
+
+    private RuntimeException mapToDomainException(Exception e) {
+        if (e instanceof UnauthorizedException) {
+            // log.error("LLM auth failed debugInfo={}", debugInfo, e);
+            throw new LlmClientException("LLM authentication failed", e);
+        } else if (e instanceof IOException) {
+            // log.warn("LLM unavailable debugInfo={}", debugInfo, e);
+            throw new LlmServiceUnavailableException("LLM unavailable", e);
+        } else {
+            // log.error("LLM unexpected failure debugInfo={}", debugInfo, e);
+            throw new LlmClientException("LLM request failed", e);
+        }
     }
 }

@@ -69,4 +69,15 @@ public class GlobalExceptionHandler {
         log.error("Unhandled exception", ex);
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
+    // LLM exceptions handling
+    @ExceptionHandler(LlmServiceUnavailableException.class)
+    public ResponseEntity<Void> handleLlmUnavailable(LlmServiceUnavailableException e) {
+        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+    }
+
+    @ExceptionHandler(LlmClientException.class)
+    public ResponseEntity<Void> handleLlmClient(LlmClientException e) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+    }
 }
