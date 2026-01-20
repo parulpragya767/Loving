@@ -3,7 +3,6 @@ package com.lovingapp.loving.model.dto;
 import java.util.List;
 
 import com.lovingapp.loving.model.enums.LoveType;
-import com.lovingapp.loving.model.enums.PublicationStatus;
 import com.lovingapp.loving.model.enums.RelationalNeed;
 import com.lovingapp.loving.model.enums.RitualMode;
 import com.lovingapp.loving.model.enums.RitualTone;
@@ -24,5 +23,4 @@ public class RitualFilterDTO {
     private List<TimeTaken> timeTaken;
     private List<RelationalNeed> relationalNeeds;
     private List<RitualTone> ritualTones;
-    private PublicationStatus status;
 }
