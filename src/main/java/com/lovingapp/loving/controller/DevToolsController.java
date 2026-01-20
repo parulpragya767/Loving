@@ -3,6 +3,7 @@ package com.lovingapp.loving.controller;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,13 +21,13 @@ import com.lovingapp.loving.service.UserContextService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-// @Profile("dev")
+@Profile("dev")
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/api/test")
+@RequestMapping("/internal/dev-tools")
 @RequiredArgsConstructor
 @Slf4j
-public class UserTestController {
+public class DevToolsController {
 
     private final UserContextService userContextService;
 
