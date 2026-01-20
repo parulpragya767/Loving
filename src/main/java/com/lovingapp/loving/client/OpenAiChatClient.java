@@ -105,7 +105,7 @@ public class OpenAiChatClient implements LlmClient {
                     getLLMModel(request),
                     request == null ? null : request.getResponseFormat(),
                     responseClass == null ? null : responseClass.getSimpleName());
-            throw new LLMException("LLM request failed", e);
+            throw new LLMException(e);
         }
     }
 
