@@ -70,7 +70,8 @@ public class RitualController {
         }
         Page<RitualDTO> result = ritualService.searchRituals(filter, pageable);
 
-        log.info("Ritual search completed successfully count={}", result == null ? 0 : result.getNumberOfElements());
+        log.info("Ritual search completed successfully count={} total={}",
+                result == null ? 0 : result.getNumberOfElements(), result == null ? 0 : result.getTotalElements());
         return result;
     }
 }
