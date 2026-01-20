@@ -71,13 +71,35 @@ public class GlobalExceptionHandler {
     }
 
     // LLM exceptions handling
-    @ExceptionHandler(LlmServiceUnavailableException.class)
-    public ResponseEntity<Void> handleLlmUnavailable(LlmServiceUnavailableException e) {
-        return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
-    }
+    @ExceptionHandler(LLMException.class)
+    public ResponseEntity<Void> handleLlmException(LLMException e) {
+        LLMException.Type type = LLMException.classify(e);
 
-    @ExceptionHandler(LlmClientException.class)
-    public ResponseEntity<Void> handleLlmClient(LlmClientException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        return switch (type) {
+            case UNAUTHORIZED -> {
+                log.warn("LLM unauthorized: {}", e.getMessage(), e);
+                yield ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+            }
+            case RATE_LIMIT -> {
+                log.warn("LLM rate limited: {}", e.getMessage(), e);
+                yield ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+            }
+            case REQUEST_PARSING -> {
+                log.warn("LLM bad request: {}", e.getMessage(), e);
+                yield ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+            }
+            case RESPONSE_PARSING -> {
+                log.warn("LLM response parsing failed: {}", e.getMessage(), e);
+                yield ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+            }
+            case SERVICE_UNAVAILABLE -> {
+                log.warn("LLM service unavailable: {}", e.getMessage(), e);
+                yield ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).build();
+            }
+            case UNKNOWN -> {
+                log.error("LLM unknown error: {}", e.getMessage(), e);
+                yield ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        };
     }
 }
