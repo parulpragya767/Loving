@@ -26,6 +26,7 @@ public class CorsConfig {
         configuration.setAllowedHeaders(List.of(
                 "Authorization",
                 "Content-Type",
+                "Correlation-Id",
                 "Accept"));
 
         configuration.setMaxAge(3600L);
