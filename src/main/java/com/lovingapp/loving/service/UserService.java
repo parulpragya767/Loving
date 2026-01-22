@@ -1,11 +1,13 @@
 package com.lovingapp.loving.service;
 
 import java.time.OffsetDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.lovingapp.loving.exception.ResourceAlreadyExistsException;
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.UserMapper;
 import com.lovingapp.loving.model.dto.UserDTOs.UserDTO;
@@ -30,25 +32,31 @@ public class UserService {
      */
     @Transactional
     public UserDTO syncUser(UUID authUserId, String email) {
-        return userRepository.findByAuthUserId(authUserId)
-                .map(existing -> {
-                    existing.setLastLoginAt(OffsetDateTime.now());
-                    if (email != null && !email.equals(existing.getEmail())) {
-                        existing.setEmail(email);
-                    }
-                    User saved = userRepository.save(existing);
-                    return UserMapper.toDto(saved);
-                })
-                .orElseGet(() -> {
-                    log.info("Creating new user profile for first login authUserId={}", authUserId);
-                    User newUser = User.builder()
-                            .authUserId(authUserId)
-                            .email(email)
-                            .lastLoginAt(OffsetDateTime.now())
-                            .build();
-                    User saved = userRepository.save(newUser);
-                    return UserMapper.toDto(saved);
-                });
+        Optional<User> user = userRepository.findByAuthUserId(authUserId);
+
+        if (user.isEmpty()) {
+            if (userRepository.existsByEmail(email)) {
+                throw new ResourceAlreadyExistsException(
+                        "Email exists but is associated with a different auth identity");
+            }
+
+            log.info("Creating new user profile for first login authUserId={}", authUserId);
+            User newUser = User.builder()
+                    .authUserId(authUserId)
+                    .email(email)
+                    .lastLoginAt(OffsetDateTime.now())
+                    .build();
+            User saved = userRepository.save(newUser);
+            return UserMapper.toDto(saved);
+        }
+
+        User existing = user.get();
+        existing.setLastLoginAt(OffsetDateTime.now());
+        if (email != null && !email.equals(existing.getEmail())) {
+            existing.setEmail(email);
+        }
+        User saved = userRepository.save(existing);
+        return UserMapper.toDto(saved);
     }
 
     /*

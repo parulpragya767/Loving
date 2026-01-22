@@ -11,4 +11,6 @@ import com.lovingapp.loving.model.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
     Optional<User> findByAuthUserId(UUID authUserId);
+
+    Boolean existsByEmail(String email);
 }
