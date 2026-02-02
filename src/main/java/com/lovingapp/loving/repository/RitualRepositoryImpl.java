@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import com.lovingapp.loving.model.dto.RitualFilterDTO;
 import com.lovingapp.loving.model.entity.Ritual;
@@ -62,13 +63,34 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
         where.add("r.status = :status");
         params.put("status", PublicationStatus.PUBLISHED.name());
 
+        boolean hasKeywordSearch = false;
+        if (filter != null && StringUtils.hasText(filter.getKeyword())) {
+            hasKeywordSearch = true;
+            String[] words = filter.getKeyword().trim().split("\\s+");
+            List<String> keywordPredicates = new ArrayList<>();
+
+            for (int i = 0; i < words.length; i++) {
+                String param = "kw" + i;
+                keywordPredicates.add("""
+                            (
+                                r.title ILIKE :%s
+                                OR r.tag_line ILIKE :%s
+                                OR r.description ILIKE :%s
+                            )
+                        """.formatted(param, param, param));
+                params.put(param, "%" + words[i] + "%");
+            }
+
+            where.add("(" + String.join(" AND ", keywordPredicates) + ")");
+        }
+
         if (!where.isEmpty()) {
             String whereClause = " AND " + String.join(" AND ", where) + " ";
             sql.append(whereClause);
             countSql.append(whereClause);
         }
 
-        applySorting(sql, pageable);
+        applySorting(sql, pageable, hasKeywordSearch);
 
         sql.append("OFFSET :offset LIMIT :limit");
 
@@ -96,8 +118,12 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
             "updatedAt", "r.updated_at",
             "title", "r.title");
 
-    private static void applySorting(StringBuilder sql, Pageable pageable) {
+    private static void applySorting(StringBuilder sql, Pageable pageable, boolean hasKeywordSearch) {
         if (pageable == null || pageable.getSort().isUnsorted()) {
+            if (hasKeywordSearch) {
+                sql.append(" ORDER BY r.title ASC ");
+                return;
+            }
             sql.append(" ORDER BY r.created_at DESC ");
             return;
         }

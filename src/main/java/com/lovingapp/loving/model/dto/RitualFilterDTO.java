@@ -23,4 +23,5 @@ public class RitualFilterDTO {
     private List<TimeTaken> timeTaken;
     private List<RelationalNeed> relationalNeeds;
     private List<RitualTone> ritualTones;
+    private String keyword;
 }
