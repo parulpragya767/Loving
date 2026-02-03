@@ -41,8 +41,15 @@ public class RitualHistoryService {
 	private final RitualPackService ritualPackService;
 	private final RitualService ritualService;
 
-	public List<UserRitualDTO> listByUser(UUID userId) {
+	public List<UserRitualDTO> listByUser(UUID userId, RitualHistoryStatus status) {
 		List<RitualHistory> histories = ritualHistoryRepository.findByUserIdOrderByUpdatedAtDesc(userId);
+
+		if (status != null) {
+			histories = histories.stream()
+					.filter(h -> h.getStatus() == status)
+					.collect(Collectors.toList());
+		}
+
 		if (histories.isEmpty()) {
 			return List.of();
 		}

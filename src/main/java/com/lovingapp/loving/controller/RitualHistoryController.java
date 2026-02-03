@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.lovingapp.loving.auth.CurrentUser;
@@ -42,10 +43,12 @@ public class RitualHistoryController {
     private final RitualHistoryService ritualHistoryService;
 
     @GetMapping
-    public ResponseEntity<List<UserRitualDTO>> list(@CurrentUser UUID userId) {
+    public ResponseEntity<List<UserRitualDTO>> list(
+            @CurrentUser UUID userId,
+            @RequestParam(name = "status", required = false) RitualHistoryStatus status) {
         log.info("Fetch ritual history request received");
 
-        List<UserRitualDTO> list = ritualHistoryService.listByUser(userId);
+        List<UserRitualDTO> list = ritualHistoryService.listByUser(userId, status);
 
         log.info("Ritual history fetched successfully count={}", list == null ? 0 : list.size());
         return ResponseEntity.ok(list);
