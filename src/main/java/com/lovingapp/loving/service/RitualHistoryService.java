@@ -41,10 +41,15 @@ public class RitualHistoryService {
 	private final RitualPackService ritualPackService;
 	private final RitualService ritualService;
 
-	public List<RitualHistoryDTO> listByUser(UUID userId) {
-		return ritualHistoryRepository.findByUserIdOrderByUpdatedAtDesc(userId)
-				.stream()
-				.map(RitualHistoryMapper::toDto)
+	public List<UserRitualDTO> listByUser(UUID userId) {
+		List<RitualHistory> histories = ritualHistoryRepository.findByUserIdOrderByUpdatedAtDesc(userId);
+		if (histories.isEmpty()) {
+			return List.of();
+		}
+
+		RitualHistoryBuildContext ctx = buildContext(histories);
+		return histories.stream()
+				.map(history -> buildUserRitual(history, ctx.ritualMap().get(history.getRitualId())))
 				.collect(Collectors.toList());
 	}
 
@@ -64,7 +69,7 @@ public class RitualHistoryService {
 	}
 
 	public CurrentRitualsDTO listCurrentByUser(UUID userId) {
-		// 1. Load all active histories
+		// Load all active histories
 		List<RitualHistory> histories = ritualHistoryRepository.findByUserIdAndStatusInOrderByUpdatedAtDesc(userId,
 				List.of(RitualHistoryStatus.ACTIVE, RitualHistoryStatus.STARTED));
 
@@ -72,9 +77,65 @@ public class RitualHistoryService {
 			return new CurrentRitualsDTO(List.of(), List.of());
 		}
 
-		// 2. Collect IDs for batch fetching rituals and ritual packs
+		// Fetch the rituals and ritual pack context
+		RitualHistoryBuildContext ctx = buildContext(histories);
+
+		// Build pack DTOs
+		List<UserRitualPackDTO> packDTOs = ctx.historiesByRecommendationId().entrySet()
+				.stream()
+				.map(entry -> {
+					List<RitualHistory> ritualHistories = entry.getValue();
+					// All histories in one recommendation have same packId
+					UUID ritualPackId = ritualHistories.get(0).getRitualPackId();
+					RitualPackDTO ritualPack = ctx.ritualPackMap().get(ritualPackId);
+					UserRitualPackDTO dto = buildUserRitualPack(
+							entry.getKey(),
+							histories,
+							ritualPack,
+							ctx.ritualMap());
+					return dto;
+				})
+				.collect(Collectors.toList());
+
+		// Build individual rituals
+		List<UserRitualDTO> individualRituals = histories.stream()
+				.filter(history -> history.getRecommendationId() == null)
+				.map(history -> buildUserRitual(history, ctx.ritualMap().get(history.getRitualId())))
+				.collect(Collectors.toList());
+
+		CurrentRitualsDTO dto = CurrentRitualsDTO.builder()
+				.ritualPacks(packDTOs)
+				.individualRituals(individualRituals)
+				.build();
+		return dto;
+	}
+
+	public UserRitualPackDTO listByRecommendationId(UUID userId, UUID recommendationId) {
+		List<RitualHistory> histories = ritualHistoryRepository
+				.findByUserIdAndRecommendationIdOrderByUpdatedAtDesc(userId, recommendationId);
+		if (histories.isEmpty()) {
+			throw new ResourceNotFoundException("RitualHistory", "recommendationId", recommendationId);
+		}
+
+		RitualHistoryBuildContext ctx = buildContext(histories);
+
+		// All histories in one recommendation have same packId
+		UUID ritualPackId = histories.get(0).getRitualPackId();
+		RitualPackDTO ritualPack = ctx.ritualPackMap().get(ritualPackId);
+		return buildUserRitualPack(recommendationId, histories, ritualPack, ctx.ritualMap());
+	}
+
+	private record RitualHistoryBuildContext(
+			Map<UUID, RitualDTO> ritualMap,
+			Map<UUID, RitualPackDTO> ritualPackMap,
+			Map<UUID, List<RitualHistory>> historiesByRecommendationId) {
+	}
+
+	private RitualHistoryBuildContext buildContext(List<RitualHistory> histories) {
+		// Collect IDs for batch fetching rituals and ritual packs
 		Set<UUID> ritualIds = histories.stream()
 				.map(RitualHistory::getRitualId)
+				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
 
 		Set<UUID> packIds = histories.stream()
@@ -82,47 +143,19 @@ public class RitualHistoryService {
 				.filter(Objects::nonNull)
 				.collect(Collectors.toSet());
 
-		// 3. Batch fetch rituals and ritual packs
+		// Batch fetch rituals and ritual packs
 		Map<UUID, RitualDTO> ritualMap = ritualService.findAllById(new ArrayList<>(ritualIds))
 				.stream().collect(Collectors.toMap(RitualDTO::getId, Function.identity()));
 
 		Map<UUID, RitualPackDTO> ritualPackMap = ritualPackService.findAllById(new ArrayList<>(packIds))
 				.stream().collect(Collectors.toMap(RitualPackDTO::getId, Function.identity()));
 
-		// 4. Group by recommendationId (pack instances)
+		// Group by recommendationId (pack instances)
 		Map<UUID, List<RitualHistory>> groupedByRecommendation = histories.stream()
 				.filter(history -> history.getRecommendationId() != null)
 				.collect(Collectors.groupingBy(RitualHistory::getRecommendationId));
 
-		// 5. Build pack DTOs
-		List<UserRitualPackDTO> packDTOs = groupedByRecommendation.entrySet()
-				.stream()
-				.map(entry -> {
-					List<RitualHistory> ritualHistories = entry.getValue();
-					// All histories in one recommendation have same packId
-					UUID ritualPackId = ritualHistories.get(0).getRitualPackId();
-					RitualPackDTO ritualPack = ritualPackMap.get(ritualPackId);
-					UserRitualPackDTO dto = buildUserRitualPack(
-							entry.getKey(),
-							histories,
-							ritualPack,
-							ritualMap);
-					return dto;
-				})
-				.collect(Collectors.toList());
-
-		// 6. Build individual rituals
-		List<UserRitualDTO> individualRituals = histories.stream()
-				.filter(history -> history.getRecommendationId() == null)
-				.map(history -> buildUserRitual(history, ritualMap.get(history.getRitualId())))
-				.collect(Collectors.toList());
-
-		// 7. Done
-		CurrentRitualsDTO dto = CurrentRitualsDTO.builder()
-				.ritualPacks(packDTOs)
-				.individualRituals(individualRituals)
-				.build();
-		return dto;
+		return new RitualHistoryBuildContext(ritualMap, ritualPackMap, groupedByRecommendation);
 	}
 
 	private UserRitualPackDTO buildUserRitualPack(

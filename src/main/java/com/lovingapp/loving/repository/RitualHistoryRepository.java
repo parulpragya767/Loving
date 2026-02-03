@@ -12,6 +12,8 @@ import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 public interface RitualHistoryRepository extends JpaRepository<RitualHistory, UUID> {
     List<RitualHistory> findByUserIdOrderByUpdatedAtDesc(UUID userId);
 
+    List<RitualHistory> findByUserIdAndRecommendationIdOrderByUpdatedAtDesc(UUID userId, UUID recommendationId);
+
     Optional<RitualHistory> findByIdAndUserId(UUID id, UUID userId);
 
     List<RitualHistory> findByIdInAndUserId(List<UUID> ids, UUID userId);

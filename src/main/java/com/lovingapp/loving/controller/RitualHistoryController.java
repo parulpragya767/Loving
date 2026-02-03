@@ -23,6 +23,8 @@ import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryUpdateRequest;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.StatusUpdateEntry;
 import com.lovingapp.loving.model.dto.UserRitualsDTOs.CurrentRitualsDTO;
+import com.lovingapp.loving.model.dto.UserRitualsDTOs.UserRitualDTO;
+import com.lovingapp.loving.model.dto.UserRitualsDTOs.UserRitualPackDTO;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
 import com.lovingapp.loving.service.RitualHistoryService;
 
@@ -40,10 +42,10 @@ public class RitualHistoryController {
     private final RitualHistoryService ritualHistoryService;
 
     @GetMapping
-    public ResponseEntity<List<RitualHistoryDTO>> list(@CurrentUser UUID userId) {
+    public ResponseEntity<List<UserRitualDTO>> list(@CurrentUser UUID userId) {
         log.info("Fetch ritual history request received");
 
-        List<RitualHistoryDTO> list = ritualHistoryService.listByUser(userId);
+        List<UserRitualDTO> list = ritualHistoryService.listByUser(userId);
 
         log.info("Ritual history fetched successfully count={}", list == null ? 0 : list.size());
         return ResponseEntity.ok(list);
@@ -57,6 +59,17 @@ public class RitualHistoryController {
 
         log.info("Current rituals fetched successfully");
         return ResponseEntity.ok(currentRituals);
+    }
+
+    @GetMapping("/recommendation/{recommendationId}")
+    public ResponseEntity<UserRitualPackDTO> listByRecommendationId(@CurrentUser UUID userId,
+            @PathVariable("recommendationId") UUID recommendationId) {
+        log.info("Fetch ritual pack by recommendationId request received recommendationId={}", recommendationId);
+
+        UserRitualPackDTO ritualPack = ritualHistoryService.listByRecommendationId(userId, recommendationId);
+
+        log.info("Ritual pack by recommendationId fetched successfully");
+        return ResponseEntity.ok(ritualPack);
     }
 
     @PostMapping
