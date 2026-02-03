@@ -3,7 +3,7 @@ package com.lovingapp.loving.model.dto;
 import java.util.List;
 import java.util.UUID;
 
-import com.lovingapp.loving.model.enums.RitualHistoryStatus;
+import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
@@ -11,9 +11,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-public final class CurrentRitualDTOs {
+public final class UserRitualsDTOs {
 
-    private CurrentRitualDTOs() {
+    private UserRitualsDTOs() {
     }
 
     @Data
@@ -21,15 +21,15 @@ public final class CurrentRitualDTOs {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class CurrentRitualsDTO {
-        private List<CurrentRitualPackDTO> ritualPacks;
-        private List<CurrentRitualDTO> individualRituals;
+        private List<UserRitualPackDTO> ritualPacks;
+        private List<UserRitualDTO> individualRituals;
     }
 
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CurrentRitualPackDTO {
+    public static class UserRitualPackDTO {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID ritualPackId;
 
@@ -40,14 +40,14 @@ public final class CurrentRitualDTOs {
         private RitualPackDTO ritualPack;
 
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-        private List<CurrentRitualDTO> rituals;
+        private List<UserRitualDTO> rituals;
     }
 
     @Data
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CurrentRitualDTO {
+    public static class UserRitualDTO {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private UUID ritualHistoryId;
 
@@ -58,6 +58,6 @@ public final class CurrentRitualDTOs {
         private RitualDTO ritual;
 
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-        private RitualHistoryStatus status;
+        private RitualHistoryDTO ritualHistory;
     }
 }

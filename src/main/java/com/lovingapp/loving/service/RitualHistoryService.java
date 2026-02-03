@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.loving.exception.ResourceNotFoundException;
 import com.lovingapp.loving.mapper.RitualHistoryMapper;
-import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualDTO;
-import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualPackDTO;
-import com.lovingapp.loving.model.dto.CurrentRitualDTOs.CurrentRitualsDTO;
 import com.lovingapp.loving.model.dto.RitualDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryCreateRequest;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.RitualHistoryDTO;
 import com.lovingapp.loving.model.dto.RitualHistoryDTOs.StatusUpdateEntry;
 import com.lovingapp.loving.model.dto.RitualPackDTO;
+import com.lovingapp.loving.model.dto.UserRitualsDTOs.CurrentRitualsDTO;
+import com.lovingapp.loving.model.dto.UserRitualsDTOs.UserRitualDTO;
+import com.lovingapp.loving.model.dto.UserRitualsDTOs.UserRitualPackDTO;
 import com.lovingapp.loving.model.entity.RitualHistory;
 import com.lovingapp.loving.model.enums.RitualFeedback;
 import com.lovingapp.loving.model.enums.RitualHistoryStatus;
@@ -95,19 +95,26 @@ public class RitualHistoryService {
 				.collect(Collectors.groupingBy(RitualHistory::getRecommendationId));
 
 		// 5. Build pack DTOs
-		List<CurrentRitualPackDTO> packDTOs = groupedByRecommendation.entrySet()
+		List<UserRitualPackDTO> packDTOs = groupedByRecommendation.entrySet()
 				.stream()
-				.map(entry -> buildCurrentRitualPack(
-						entry.getKey(),
-						entry.getValue(),
-						ritualPackMap,
-						ritualMap))
+				.map(entry -> {
+					List<RitualHistory> ritualHistories = entry.getValue();
+					// All histories in one recommendation have same packId
+					UUID ritualPackId = ritualHistories.get(0).getRitualPackId();
+					RitualPackDTO ritualPack = ritualPackMap.get(ritualPackId);
+					UserRitualPackDTO dto = buildUserRitualPack(
+							entry.getKey(),
+							histories,
+							ritualPack,
+							ritualMap);
+					return dto;
+				})
 				.collect(Collectors.toList());
 
 		// 6. Build individual rituals
-		List<CurrentRitualDTO> individualRituals = histories.stream()
+		List<UserRitualDTO> individualRituals = histories.stream()
 				.filter(history -> history.getRecommendationId() == null)
-				.map(history -> buildCurrentRitual(history, ritualMap.get(history.getRitualId())))
+				.map(history -> buildUserRitual(history, ritualMap.get(history.getRitualId())))
 				.collect(Collectors.toList());
 
 		// 7. Done
@@ -118,21 +125,17 @@ public class RitualHistoryService {
 		return dto;
 	}
 
-	private CurrentRitualPackDTO buildCurrentRitualPack(
+	private UserRitualPackDTO buildUserRitualPack(
 			UUID recommendationId,
 			List<RitualHistory> histories,
-			Map<UUID, RitualPackDTO> ritualPackMap,
+			RitualPackDTO ritualPack,
 			Map<UUID, RitualDTO> ritualMap) {
-		// All histories in one recommendation have same packId
-		UUID ritualPackId = histories.get(0).getRitualPackId();
-		RitualPackDTO ritualPack = ritualPackMap.get(ritualPackId);
-
-		List<CurrentRitualDTO> rituals = histories.stream()
-				.map(history -> buildCurrentRitual(history, ritualMap.get(history.getRitualId())))
+		List<UserRitualDTO> rituals = histories.stream()
+				.map(history -> buildUserRitual(history, ritualMap.get(history.getRitualId())))
 				.collect(Collectors.toList());
 
-		CurrentRitualPackDTO dto = CurrentRitualPackDTO.builder()
-				.ritualPackId(ritualPackId)
+		UserRitualPackDTO dto = UserRitualPackDTO.builder()
+				.ritualPackId(ritualPack.getId())
 				.recommendationId(recommendationId)
 				.ritualPack(ritualPack)
 				.rituals(rituals)
@@ -140,11 +143,11 @@ public class RitualHistoryService {
 		return dto;
 	}
 
-	private CurrentRitualDTO buildCurrentRitual(RitualHistory history, RitualDTO ritual) {
-		CurrentRitualDTO dto = CurrentRitualDTO.builder()
+	private UserRitualDTO buildUserRitual(RitualHistory history, RitualDTO ritual) {
+		UserRitualDTO dto = UserRitualDTO.builder()
 				.ritualId(history.getRitualId())
 				.ritualHistoryId(history.getId())
-				.status(history.getStatus())
+				.ritualHistory(RitualHistoryMapper.toDto(history))
 				.ritual(ritual)
 				.build();
 		return dto;
