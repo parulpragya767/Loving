@@ -140,3 +140,61 @@ ALTER TABLE IF EXISTS ritual_pack_rituals
     FOREIGN KEY (ritual_id)
     REFERENCES rituals(id)
     ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS chat_sessions
+    ADD CONSTRAINT fk_chat_sessions_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS chat_messages
+    ADD CONSTRAINT fk_chat_messages_session
+    FOREIGN KEY (session_id)
+    REFERENCES chat_sessions(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS ritual_recommendations
+    ADD CONSTRAINT fk_ritual_recommendations_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS ritual_recommendations
+    ADD CONSTRAINT fk_ritual_recommendations_pack
+    FOREIGN KEY (ritual_pack_id)
+    REFERENCES ritual_packs(id);
+
+ALTER TABLE IF EXISTS ritual_history
+    ADD CONSTRAINT fk_ritual_history_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS ritual_history
+    ADD CONSTRAINT fk_ritual_history_ritual
+    FOREIGN KEY (ritual_id)
+    REFERENCES rituals(id);
+
+ALTER TABLE IF EXISTS ritual_history
+    ADD CONSTRAINT fk_ritual_history_pack
+    FOREIGN KEY (ritual_pack_id)
+    REFERENCES ritual_packs(id)
+    ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS ritual_history
+    ADD CONSTRAINT fk_ritual_history_recommendation
+    FOREIGN KEY (recommendation_id)
+    REFERENCES ritual_recommendations(id)
+    ON DELETE SET NULL;
+
+ALTER TABLE IF EXISTS user_contexts
+    ADD CONSTRAINT fk_user_contexts_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS user_contexts
+    ADD CONSTRAINT fk_user_contexts_conversation
+    FOREIGN KEY (conversation_id)
+    REFERENCES chat_sessions(id)
+    ON DELETE CASCADE;

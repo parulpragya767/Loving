@@ -71,13 +71,13 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
 
             for (int i = 0; i < words.length; i++) {
                 String param = "kw" + i;
-                keywordPredicates.add("""
-                            (
-                                r.title ILIKE :%s
-                                OR r.tag_line ILIKE :%s
-                                OR r.description ILIKE :%s
-                            )
-                        """.formatted(param, param, param));
+                keywordPredicates
+                        .add("""
+                                    (
+                                        (coalesce(r.title,'') || ' ' || coalesce(r.tag_line,'') || ' ' || coalesce(r.description,'')) ILIKE :%s
+                                    )
+                                """
+                                .formatted(param));
                 params.put(param, "%" + words[i] + "%");
             }
 
@@ -114,7 +114,6 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
     }
 
     private static final Map<String, String> SORT_COLUMN_MAP = Map.of(
-            "createdAt", "r.created_at",
             "updatedAt", "r.updated_at",
             "title", "r.title");
 
@@ -124,7 +123,7 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
                 sql.append(" ORDER BY r.title ASC ");
                 return;
             }
-            sql.append(" ORDER BY r.created_at DESC ");
+            sql.append(" ORDER BY r.updated_at DESC ");
             return;
         }
 
@@ -133,7 +132,7 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
 
         if (column == null) {
             // Fallback to a safe default if an unsupported sort field is requested
-            sql.append(" ORDER BY r.created_at DESC ");
+            sql.append(" ORDER BY r.updated_at DESC ");
             return;
         }
 
