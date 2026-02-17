@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS love_types (
     updated_at timestamptz NOT NULL,
     love_type varchar(20) NOT NULL UNIQUE CHECK (love_type IN ('BELONG','FIRE','SPARK','CARE','SELF','BUILD','GROW','BEYOND','GRACE')),
     title varchar(30) NOT NULL,
-    content_hash varchar(64) NOT NULL,
+    content_hash varchar(128) NOT NULL,
     description text,
     subtitle varchar(255) NOT NULL,
     sections jsonb NOT NULL,
@@ -125,12 +125,18 @@ CREATE TABLE IF NOT EXISTS users (
     PRIMARY KEY (id)
 );
 
-ALTER TABLE IF EXISTS ritual_pack_rituals 
-    ADD CONSTRAINT FKp2uni89q5h9crivovkrswx1n1 
-    FOREIGN KEY (ritual_id) 
-    REFERENCES rituals;
-    
-ALTER TABLE IF EXISTS ritual_pack_rituals 
-    ADD CONSTRAINT FK968dh5vg4k1fgmgs7km0p3q0f 
-    FOREIGN KEY (pack_id) 
-    REFERENCES ritual_packs;
+ALTER TABLE IF EXISTS ritual_pack_rituals
+    ADD CONSTRAINT ritual_pack_rituals_pk
+    PRIMARY KEY (pack_id, ritual_id);
+
+ALTER TABLE IF EXISTS ritual_pack_rituals
+    ADD CONSTRAINT fk_pack
+    FOREIGN KEY (pack_id)
+    REFERENCES ritual_packs(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE IF EXISTS ritual_pack_rituals
+    ADD CONSTRAINT fk_ritual
+    FOREIGN KEY (ritual_id)
+    REFERENCES rituals(id)
+    ON DELETE CASCADE;

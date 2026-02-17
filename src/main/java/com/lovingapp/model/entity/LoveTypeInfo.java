@@ -59,7 +59,7 @@ public class LoveTypeInfo {
     @Builder.Default
     private List<InfoSection> sections = new ArrayList<>();
 
-    @Column(name = "content_hash", length = 64, nullable = false)
+    @Column(name = "content_hash", length = 128, nullable = false)
     private String contentHash;
 
     @CreationTimestamp
