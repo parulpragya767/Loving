@@ -25,10 +25,12 @@ public class RitualRepositoryImpl implements RitualRepositoryCustom {
     @PersistenceContext
     private EntityManager em;
 
+    private static final String RITUALS_TABLE = "loving.rituals";
+
     @Override
     public Page<Ritual> search(RitualFilterDTO filter, Pageable pageable) {
-        StringBuilder sql = new StringBuilder("SELECT r.* FROM rituals r WHERE 1=1 ");
-        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM rituals r WHERE 1=1 ");
+        StringBuilder sql = new StringBuilder("SELECT r.* FROM " + RITUALS_TABLE + " r WHERE 1=1 ");
+        StringBuilder countSql = new StringBuilder("SELECT COUNT(*) FROM " + RITUALS_TABLE + " r WHERE 1=1 ");
 
         Map<String, Object> params = new HashMap<>();
         List<String> where = new ArrayList<>();
