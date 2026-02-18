@@ -28,13 +28,6 @@ management:
   endpoint:
     health:
       show-details: when-authorized
-
-  metrics:
-    tags:
-      application: loving-backend
-    export:
-      prometheus:
-        enabled: true
   
   health:
     db:
