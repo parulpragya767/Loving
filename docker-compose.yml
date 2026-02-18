@@ -8,7 +8,7 @@ services:
       - ./certs:/app/certs:ro
 
     environment:
-      SPRING_PROFILES_ACTIVE: dev
+      SPRING_PROFILES_ACTIVE: prod
       AI_OPENAI_API_KEY: ${AI_OPENAI_API_KEY}
       DB_HOST: ${DB_HOST}
       DB_PORT: ${DB_PORT}
@@ -27,3 +27,27 @@ services:
       GRAFANA_PROMETHEUS_URL: ${GRAFANA_PROMETHEUS_URL}
       GRAFANA_PROMETHEUS_USERNAME: ${GRAFANA_PROMETHEUS_USERNAME}
       GRAFANA_PROMETHEUS_API_KEY: ${GRAFANA_PROMETHEUS_API_KEY}
+    networks:
+      - monitoring
+
+  # Sidecar (Prometheus in Agent Mode)
+  prometheus-agent:
+    image: prom/prometheus:latest
+    command:
+      - "--config.file=/app/prometheus/prometheus.yml"
+      - "--agent"
+      - "--storage.agent.path=/prometheus" # This will now be accepted
+      # - "--enable-feature=agent" # This turns off local storage and enables 'pushing'
+    volumes:
+      - ./src/main/resources/prometheus.yml:/app/prometheus/prometheus.yml
+    networks:
+      - monitoring
+    depends_on:
+      - loving-backend
+    environment:
+      GRAFANA_PROMETHEUS_URL: ${GRAFANA_PROMETHEUS_URL}
+      GRAFANA_PROMETHEUS_USERNAME: ${GRAFANA_PROMETHEUS_USERNAME}
+      GRAFANA_PROMETHEUS_API_KEY: ${GRAFANA_PROMETHEUS_API_KEY}
+
+networks:
+  monitoring:
