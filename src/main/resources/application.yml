@@ -10,6 +10,7 @@ spring:
     hikari:
       connection-timeout: 30000
       data-source-properties:
+        prepareThreshold: 0
         ssl: true
         sslmode: require
 
