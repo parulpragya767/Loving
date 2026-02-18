@@ -17,12 +17,14 @@ spring:
   flyway:
     enabled: true
     locations: classpath:db/migration
+    default_schema: loving
 
   jpa:
     open-in-view: false
     show-sql: false
     properties:
       hibernate:
+        default_schema: loving
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
         ddl-auto: validate
