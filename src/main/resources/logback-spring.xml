@@ -39,9 +39,9 @@
     </root>
   </springProfile>
 
-  <!-- Prod / Non-Local -->
+  <!-- Prod -->
 
-  <springProfile name="!local &amp; !test">
+  <springProfile name="prod">
     <!-- Loki Appender (enabled only in non-local, non-test environments) -->
 
     <appender name="LOKI" class="com.github.loki4j.logback.Loki4jAppender">
