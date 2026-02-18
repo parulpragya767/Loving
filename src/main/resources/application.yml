@@ -20,6 +20,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
         format_sql: false
+        ddl-auto: validate
 
 server:
   address: 0.0.0.0

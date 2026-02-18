@@ -5,13 +5,6 @@ spring:
       minimum-idle: 0
       initialization-fail-timeout: 0
 
-  jpa:
-    hibernate:
-      ddl-auto: update
-    properties:
-      hibernate:
-        default_schema: dev
-
 springdoc:
   swagger-ui:
     enabled: true
