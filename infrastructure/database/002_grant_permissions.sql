@@ -1,3 +1,5 @@
+GRANT loving_migration TO postgres;
+
 -- Make migration role own schema
 ALTER SCHEMA loving OWNER TO loving_migration;
 
