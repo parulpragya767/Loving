@@ -4,10 +4,16 @@ services:
     ports:
       - "8080:8080"
 
+    volumes:
+      - ./certs:/app/certs:ro
+
     environment:
       SPRING_PROFILES_ACTIVE: dev
       AI_OPENAI_API_KEY: ${AI_OPENAI_API_KEY}
-      DB_URL: ${DB_URL}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_NAME: ${DB_NAME}
+      DB_SSL_CERT_PATH: ${DB_SSL_CERT_PATH:-/app/certs/supabase-ca.crt}
       DB_APP_USERNAME: ${DB_APP_USERNAME}
       DB_APP_PASSWORD: ${DB_APP_PASSWORD}
       DB_MIGRATION_USERNAME: ${DB_MIGRATION_USERNAME}
