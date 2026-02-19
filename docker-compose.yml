@@ -32,14 +32,10 @@ services:
 
   # Sidecar (Prometheus in Agent Mode)
   prometheus-agent:
-    image: prom/prometheus:latest
-    command:
-      - "--config.file=/app/prometheus/prometheus.yml"
-      - "--agent"
-      - "--storage.agent.path=/prometheus" # This will now be accepted
-      # - "--enable-feature=agent" # This turns off local storage and enables 'pushing'
+    build:
+      context: ./docker/prometheus
     volumes:
-      - ./src/main/resources/prometheus.yml:/app/prometheus/prometheus.yml
+      - ./docker/prometheus/prometheus.yml.tpl:/etc/prometheus/prometheus.yml.tpl:ro
     networks:
       - monitoring
     depends_on:
@@ -48,6 +44,7 @@ services:
       GRAFANA_PROMETHEUS_URL: ${GRAFANA_PROMETHEUS_URL}
       GRAFANA_PROMETHEUS_USERNAME: ${GRAFANA_PROMETHEUS_USERNAME}
       GRAFANA_PROMETHEUS_API_KEY: ${GRAFANA_PROMETHEUS_API_KEY}
+    restart: unless-stopped
 
 networks:
   monitoring:
