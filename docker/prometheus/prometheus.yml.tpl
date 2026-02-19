@@ -2,7 +2,7 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: "spring-boot-sidecar"
+  - job_name: "loving-backend"
     metrics_path: "/api/actuator/prometheus"
     static_configs:
       - targets: ["loving-backend:8080"]
