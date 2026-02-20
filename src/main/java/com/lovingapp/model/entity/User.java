@@ -6,8 +6,14 @@ import java.util.UUID;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.lovingapp.model.enums.SubscriptionSource;
+import com.lovingapp.model.enums.SubscriptionStatus;
+import com.lovingapp.model.enums.SubscriptionTier;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -47,6 +53,35 @@ public class User {
     @Column(name = "onboarding_completed", nullable = false)
     @Builder.Default
     private Boolean onboardingCompleted = false;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subscription_tier", nullable = false)
+    @Builder.Default
+    private SubscriptionTier subscriptionTier = SubscriptionTier.FREE;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subscription_status", nullable = false)
+    @Builder.Default
+    private SubscriptionStatus subscriptionStatus = SubscriptionStatus.INACTIVE;
+
+    @Column(name = "subscription_expires_at", columnDefinition = "timestamptz")
+    private OffsetDateTime subscriptionExpiresAt;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "subscription_source", nullable = false)
+    @Builder.Default
+    private SubscriptionSource subscriptionSource = SubscriptionSource.NONE;
+
+    @Column(name = "subscription_started_at", columnDefinition = "timestamptz")
+    private OffsetDateTime subscriptionStartedAt;
+
+    @NotNull
+    @Column(name = "is_beta_user", nullable = false)
+    @Builder.Default
+    private Boolean isBetaUser = false;
 
     @Column(name = "last_login_at", columnDefinition = "timestamptz")
     private OffsetDateTime lastLoginAt;
