@@ -96,9 +96,7 @@ Avoid metaphor-heavy language, vague instructions, or therapeutic jargon.
 ## input
 You will receive partial ritual data (title, description, tags like loveTypes, ritualMode, relationalNeeds, timeTaken).
 Use it as guidance, but feel free to adjust or improve fields to create a coherent, emotionally aligned ritual.
-Treat each ritual independently.
 
 ## Output Rules
-- Return a JSON array of ritual objects, one per input title, in the same order.
-- Each object must include all fields defined in the schema.
-- Do not include explanations, commentary, or formatting outside the JSON array.
+- Return the ritual object, including all fields defined in the schema.
+- Do not include explanations, commentary, or formatting outside the JSON object.
