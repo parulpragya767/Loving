@@ -1,5 +1,6 @@
 from typing import List
 from enum import Enum
+import json
 from pydantic import BaseModel, Field
 
 class LoveType(str, Enum):
@@ -85,10 +86,5 @@ class RitualDetailsResponse(BaseModel):
         description="A brief, compassionate summary (2–4 sentences) describing when this ritual is most helpful, what emotional state it supports, and what kind of shift it offers."
     )
 
-
-class BatchRitualDetailsResponse(BaseModel):
-    """Batch response for multiple rituals."""
-
-    rituals: List[RitualDetailsResponse] = Field(
-        description="One completed ritual object per input, in the same order."
-    )
+schema = RitualDetailsResponse.model_json_schema()
+print(json.dumps(schema, indent=2))

@@ -1,0 +1,137 @@
+{
+  "name": "ritual_detail_response",
+  "strict": true,
+  "schema": {
+    "$defs": {
+      "LoveType": {
+        "description": "Primary love types that a ritual can express or strengthen.",
+        "enum": [
+          "BELONG",
+          "FIRE",
+          "SPARK",
+          "CARE",
+          "SELF",
+          "BUILD",
+          "GROW",
+          "BEYOND",
+          "GRACE"
+        ],
+        "title": "LoveType",
+        "type": "string"
+      },
+      "RelationalNeed": {
+        "description": "Core relational needs that a ritual can support.",
+        "enum": [
+          "CONNECTION",
+          "INTIMACY",
+          "UNDERSTANDING",
+          "ACCEPTANCE_AND_FORGIVENESS",
+          "TRUST_AND_SAFETY",
+          "SUPPORT",
+          "BALANCE_AND_FAIRNESS",
+          "COMMUNICATION",
+          "PLAY_AND_JOY",
+          "GROWTH",
+          "GRATITUDE_AND_APPRECIATION",
+          "PRESENCE_AND_QUALITY_TIME",
+          "SPACE"
+        ],
+        "title": "RelationalNeed",
+        "type": "string"
+      },
+      "RitualTone": {
+        "description": "The emotional tone of a ritual experience.",
+        "enum": [
+          "WARM",
+          "PLAYFUL",
+          "INTIMATE",
+          "REFLECTIVE",
+          "CALM",
+          "ADVENTUROUS",
+          "ENERGETIC",
+          "HEALING",
+          "SACRED"
+        ],
+        "title": "RitualTone",
+        "type": "string"
+      },
+      "TimeTaken": {
+        "description": "Estimated duration categories for rituals.",
+        "enum": [
+          "MOMENT",
+          "SHORT",
+          "MEDIUM",
+          "LONG",
+          "EXTENDED",
+          "FLEXIBLE"
+        ],
+        "title": "TimeTaken",
+        "type": "string"
+      }
+    },
+    "additionalProperties": false,
+    "description": "Structured ritual content for the Loving App.",
+    "properties": {
+      "tagLine": {
+        "title": "Tagline",
+        "type": "string"
+      },
+      "description": {
+        "title": "Description",
+        "type": "string"
+      },
+      "steps": {
+        "items": {
+          "type": "string"
+        },
+        "title": "Steps",
+        "type": "array"
+      },
+      "howItHelps": {
+        "title": "Howithelps",
+        "type": "string"
+      },
+      "loveTypes": {
+        "items": {
+          "$ref": "#/$defs/LoveType"
+        },
+        "title": "Lovetypes",
+        "type": "array"
+      },
+      "relationalNeeds": {
+        "items": {
+          "$ref": "#/$defs/RelationalNeed"
+        },
+        "title": "Relationalneeds",
+        "type": "array"
+      },
+      "ritualTones": {
+        "items": {
+          "$ref": "#/$defs/RitualTone"
+        },
+        "title": "Ritualtones",
+        "type": "array"
+      },
+      "timeTaken": {
+        "$ref": "#/$defs/TimeTaken"
+      },
+      "semanticSummary": {
+        "title": "Semanticsummary",
+        "type": "string"
+      }
+    },
+    "required": [
+      "tagLine",
+      "description",
+      "steps",
+      "howItHelps",
+      "loveTypes",
+      "relationalNeeds",
+      "ritualTones",
+      "timeTaken",
+      "semanticSummary"
+    ],
+    "title": "RitualDetailsResponse",
+    "type": "object"
+  }
+}
