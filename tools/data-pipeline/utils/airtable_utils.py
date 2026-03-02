@@ -17,6 +17,7 @@ AIRTABLE_PAGE_SIZE: int = 100 # Airtable limits to 100
 # Sync Status enum for centralized status values
 class SyncStatus(Enum):
     """Centralized sync status values to avoid hardcoded strings."""
+    DRAFT = "DRAFT"
     GENERATE = "GENERATE"
     REVIEW = "REVIEW"
     PUBLISHED = "PUBLISHED"
