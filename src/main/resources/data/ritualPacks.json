@@ -6,8 +6,8 @@
     "description": "A collection of rituals designed to deepen your connection through presence and shared moments of wonder.",
     "howItHelps": "These rituals help couples create meaningful connections by being fully present with each other and sharing experiences that spark joy and wonder.",
     "ritualIds": [
-      "bba70dda-4f2a-4e6b-b9fe-0e1dcbb0d97d",
-      "b4dcd2d2-1fd0-4a84-a7b7-dcc7696fd536"
+      "81116a4a-6e3f-49a9-8216-5a643b9d9e44",
+      "16ed763a-9c96-431c-98fb-1615e35f799e"
     ],
     "journey": "FEELING_DISTANT",
     "loveTypes": [
@@ -22,29 +22,6 @@
     ],
     "mediaAssets": [],
     "semanticSummary": "A pack focused on deepening emotional connection through presence and shared experiences",
-    "status": "PUBLISHED"
-  },
-  {
-    "id": "2b3c4d5e-6f7a-8b9c-0d1e-2f3a4b5c6d7e",
-    "title": "Joyful Togetherness Pack",
-    "tagLine": "Tagline1",
-    "description": "A collection of rituals designed to bring playfulness and creative expression into your relationship.",
-    "howItHelps": "These rituals encourage couples to explore new experiences together, fostering joy and creativity in their relationship.",
-    "ritualIds": [
-      "4cf479f0-ef01-44d1-b775-c343a1246804",
-      "4988b0d0-8707-4772-a0a8-753cc468f5cc"
-    ],
-    "journey": "LOVE_FEELS_FLAT",
-    "loveTypes": [
-      "SPARK",
-      "BEYOND"
-    ],
-    "relationalNeeds": [
-      "PLAY_AND_JOY",
-      "CONNECTION"
-    ],
-    "mediaAssets": [],
-    "semanticSummary": "A pack focused on bringing joy and creativity into the relationship through shared experiences",
     "status": "PUBLISHED"
   }
 ]
