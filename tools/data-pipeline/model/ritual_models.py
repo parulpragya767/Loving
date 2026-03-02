@@ -51,40 +51,40 @@ class TimeTaken(str, Enum):
 class RitualDetailsResponse(BaseModel):
     """Structured ritual content for the Loving App."""
     tagLine: str = Field(
-        description="Short, clear one-line phrase capturing the ritual’s essence. Warm, grounded, and inviting."
+        description="A short one-line phrase capturing the core focus of the ritual."
     )
 
     description: str = Field(
-        description="Brief overview of what the ritual involves and its emotional intention, in plain language."
+        description="A brief overview explaining what the ritual involves and its emotional intention."
     )
 
     steps: List[str] = Field(
-        description="Chronological, actionable steps. Each step is concise, practical, and gently invitational."
+        description="An ordered list of clear, actionable steps describing how to practice the ritual."
     )
 
     howItHelps: str = Field(
-        description="Explains the emotional or relational shift this ritual supports, in natural, empathetic language."
+        description="A short explanation of the emotional or relational shift the ritual supports."
     )
 
     loveTypes: List[LoveType] = Field(
-        description="Primary love types this ritual expresses or strengthens (e.g., CARE, FIRE, BELONG). Select 1–3."
+        description="1–3 LoveType values representing the primary dimensions this ritual strengthens."
     )
 
     relationalNeeds: List[RelationalNeed] = Field(
-        description="Core relational needs this ritual supports (select 1–3)."
+        description="1–3 RelationalNeed values this ritual is designed to support."
     )
 
     ritualTones: List[RitualTone] = Field(
-        description="The felt emotional tone of the ritual experience (select 1–3)."
+        description="1–3 RitualTone values describing the dominant emotional atmosphere."
     )
 
     timeTaken: TimeTaken = Field(
-        description="Estimated duration category reflecting typical real-world use."
+        description="Estimated duration category for completing the ritual."
     )
 
     semanticSummary: str = Field(
-        description="A brief, compassionate summary (2–4 sentences) describing when this ritual is most helpful, what emotional state it supports, and what kind of shift it offers."
+        description="A concise summary describing when this ritual is most helpful and the shift it encourages."
     )
 
 schema = RitualDetailsResponse.model_json_schema()
-print(json.dumps(schema, indent=2))
+# print(json.dumps(schema, indent=2))
