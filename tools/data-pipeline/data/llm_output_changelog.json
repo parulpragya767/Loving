@@ -1,189 +1,185 @@
 [
   {
-    "timestamp": "2025-12-18T17:09:10.423849",
-    "prompt_name": "prompt_v2",
-    "ritual_count": 2,
+    "timestamp": "2026-03-02T15:29:08.067220",
     "usage": {
-      "model": "gpt-4.1-mini",
-      "input_tokens": 1516,
-      "output_tokens": 601,
-      "total_tokens": 2117
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_6979d318ddbc8196be589cc7f1e3b6010cfc7a973b8ec130",
+      "prompt_version": "6",
+      "input_tokens": 2721,
+      "output_tokens": 462,
+      "total_tokens": 3183
     },
-    "rituals": [
-      {
-        "tagLine": "A quiet moment sharing warmth and presence through open palms.",
-        "description": "Palm Rest is a simple moment where you and your partner rest your palms together to feel each other's touch and warmth. This peaceful connection nurtures a sense of safety and closeness without needing words.",
-        "steps": [
-          "**1. Find a comfortable space.** Sit facing each other where you can easily reach out.",
-          "**2. Rest your palms together gently.** Press your hands lightly and feel the textures and warmth between you.",
-          "**3. Tune in quietly.** Close your eyes or soften your gaze, focusing on the shared touch and the calm it brings.",
-          "**4. Pause in stillness.** Hold this moment for a minute or two, letting the quiet presence deepen your connection."
-        ],
-        "howItHelps": "This ritual helps build a gentle sense of safety and intimacy by grounding you in shared, nonverbal touch. It encourages calm closeness and trust in the simple presence of each other.",
-        "loveTypes": [
-          "CARE"
-        ],
-        "relationalNeeds": [
-          "TRUST_AND_SAFETY",
-          "INTIMACY"
-        ],
-        "ritualTones": [
-          "CALM",
-          "INTIMATE",
-          "WARM"
-        ],
-        "timeTaken": "MOMENT",
-        "semanticSummary": "Palm Rest is best when you want a quiet, reassuring connection that doesn’t require words. It supports feelings of safety and gentle intimacy, offering a soothing pause together that can calm and ground your relationship."
-      },
-      {
-        "tagLine": "Sync your breath to find calm and connection together.",
-        "description": "Breath Check invites you and your partner to pause, notice your natural breathing, and then breathe slowly and deeply together. This shared rhythm creates calm and builds a sense of trust and emotional grounding between you.",
-        "steps": [
-          "**1. Sit facing each other comfortably.** Choose a quiet spot where you won’t be disturbed.",
-          "**2. Observe your individual breaths.** Spend a few breaths noticing the natural rhythm and sensation without changing it.",
-          "**3. Begin to breathe slowly.** Start deepening your inhales and exhales at a gentle pace.",
-          "**4. Synchronize your breath.** Gradually match your partner’s breathing pattern, inhaling and exhaling together slowly and evenly.",
-          "**5. Continue for a few minutes.** Stay present with the shared breath, letting calm and connection grow."
-        ],
-        "howItHelps": "This practice nurtures calmness and emotional grounding by aligning your breathing rhythms, which naturally builds a sense of trust and safety. It helps you feel more connected and present with each other in the moment.",
-        "loveTypes": [
-          "CARE"
-        ],
-        "relationalNeeds": [
-          "TRUST_AND_SAFETY"
-        ],
-        "ritualTones": [
-          "CALM",
-          "INTIMATE",
-          "REFLECTIVE"
-        ],
-        "timeTaken": "SHORT",
-        "semanticSummary": "Breath Check is useful when you want to create a calm, grounding moment with your partner. It supports building trust and emotional balance through the simple act of breathing together, helping you reconnect and slow down side by side."
-      }
-    ]
+    "title": "Just Listen Back",
+    "ritual": {
+      "tagLine": "Trade turns listening and reflecting each other’s words",
+      "description": "Sometimes what matters most is simply feeling heard. In this ritual, you and your partner each get a moment to speak honestly, knowing you’ll be listened to without interruption or advice. It’s about letting understanding land, without pressure to solve anything.",
+      "steps": [
+        "1. **Settle In Together** Sit comfortably facing each other, with phones silenced and outside distractions set aside. Allow yourself to arrive and notice the signal that this is a moment just for the two of you.",
+        "2. **Speak Honestly** One of you takes a few minutes to share whatever’s on your mind or heart — big or small. The listener’s only role is to receive; there’s no need to respond yet.",
+        "3. **Reflect Back** The listener repeats, in their own words, what they understood — sticking closely to what they heard. Focus on getting the gist, not getting it perfect.",
+        "4. **Check and Thank** The speaker can gently clarify if anything was missed, then thank their partner for listening. Notice the small relief of being understood without fixing.",
+        "5. **Switch Roles** Now, trade places and repeat the process so both of you have time to speak and feel truly heard.",
+        "6. **Finish Warmly** End with a brief hug, a squeeze of hands, or a simple \"Thanks for listening.\" Let the sense of understanding linger between you."
+      ],
+      "howItHelps": "Strengthening CARE and BELONG, this ritual builds steady trust and the comfort of being truly heard. It creates a gentle pause where you can understand each other without needing to solve or fix anything.",
+      "loveTypes": [
+        "CARE",
+        "BELONG"
+      ],
+      "relationalNeeds": [
+        "UNDERSTANDING",
+        "TRUST_AND_SAFETY"
+      ],
+      "ritualTones": [
+        "HEALING"
+      ],
+      "timeTaken": "SHORT",
+      "semanticSummary": "Partners take turns speaking freely while the other listens and reflects back what was heard, trading roles so both feel truly understood. This practice gently builds CARE and BELONG, reinforcing trust, safety, and mutual understanding in everyday moments."
+    }
   },
   {
-    "timestamp": "2025-12-18T17:10:31.585492",
-    "prompt_name": "prompt_v1",
-    "ritual_count": 2,
+    "timestamp": "2026-03-02T15:29:13.705363",
     "usage": {
-      "model": "gpt-4.1-mini",
-      "input_tokens": 2404,
-      "output_tokens": 577,
-      "total_tokens": 2981
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_6979d318ddbc8196be589cc7f1e3b6010cfc7a973b8ec130",
+      "prompt_version": "6",
+      "input_tokens": 2723,
+      "output_tokens": 401,
+      "total_tokens": 3124
     },
-    "rituals": [
-      {
-        "tagLine": "Connect quietly through the simple touch of your palms.",
-        "description": "Palm Rest is a brief, soothing ritual where you and your partner place your palms gently together. By focusing on the warmth and texture of each other's hands, you create an immediate sense of safety and closeness without needing words.",
-        "steps": [
-          "**Settle together** — Face each other and take a comfortable seated or standing position where your hands can meet easily.",
-          "**Gentle palm touch** — Slowly bring the palms of your hands to rest against your partner's palms, feeling the texture and warmth of skin on skin.",
-          "**Tune into the moment** — Close your eyes or soften your gaze, breathing naturally and focusing on the shared sensation and quiet presence for about a minute or as long as feels right."
-        ],
-        "howItHelps": "This ritual helps couples feel a grounded, wordless connection, building trust and gentle intimacy through the shared experience of touch. It encourages presence and emotional safety in a calm, accessible way.",
-        "loveTypes": [
-          "CARE"
-        ],
-        "relationalNeeds": [
-          "TRUST_AND_SAFETY",
-          "INTIMACY"
-        ],
-        "ritualTones": [
-          "CALM",
-          "INTIMATE",
-          "WARM"
-        ],
-        "timeTaken": "MOMENT",
-        "semanticSummary": "Palm Rest is especially helpful when partners want a moment of closeness without words. It supports calm, quiet connection and emotional safety, fostering intimacy through simple, shared touch."
-      },
-      {
-        "tagLine": "Breathe together to find calm and strengthen trust.",
-        "description": "Breath Check invites you and your partner to pause and bring awareness to your breathing. By observing and then synchronizing your breaths, you foster emotional grounding and create a shared sense of calm and trust.",
-        "steps": [
-          "**Pause and notice** — Sit or stand comfortably facing each other and take a moment to notice your natural breath without trying to change it.",
-          "**Bring awareness to breath** — Focus on the sensations of each inhale and exhale, tuning into how your partner breathes as well.",
-          "**Synchronize your breathing** — Slowly deepen your breaths and coordinate the rhythm together, inhaling and exhaling in unison for several cycles.",
-          "**Gently end** — Let your breath return to its usual pace and take a moment to notice how you feel before resuming your day."
-        ],
-        "howItHelps": "Doing this ritual together cultivates calmness and a sense of emotional safety. Synchronizing breath helps partners align emotionally and physically, deepening trust and creating a peaceful shared space.",
-        "loveTypes": [
-          "CARE"
-        ],
-        "relationalNeeds": [
-          "TRUST_AND_SAFETY"
-        ],
-        "ritualTones": [
-          "CALM",
-          "WARM",
-          "INTIMATE"
-        ],
-        "timeTaken": "SHORT",
-        "semanticSummary": "Breath Check is helpful during busy or stressful moments, offering a way to pause and reconnect through shared breathing. It supports emotional grounding and strengthens trust between partners through intentional presence."
-      }
-    ]
+    "title": "Name the Weather",
+    "ritual": {
+      "tagLine": "Share the feeling forecast between you today",
+      "description": "It’s easy to move through the day without really knowing how each other is feeling. This ritual gives you both space to name your emotional “weather,” making it easier to feel seen and understood. Just a few honest words can shift the mood between you.",
+      "steps": [
+        "1. **Settle In Together** Sit down facing each other, leaving phones and distractions aside. Take a gentle breath, allowing yourselves to arrive for a quiet moment.",
+        "2. **Name Your Weather** Each take a turn to describe your emotional 'weather' with a simple word or image—maybe it’s clear skies, cloudy, or a bit of drizzle. Speak honestly, but keep it simple; there’s no need to explain or fix anything.",
+        "3. **Listen and Receive** When your partner shares, listen with soft attention. Let yourself just take in what they say, noticing what happens in you when you hear their inner forecast.",
+        "4. **Thank and Close** Offer a simple thank you for sharing, or even just a warm nod. Carry the sense of mutual understanding with you as you move back into your day."
+      ],
+      "howItHelps": "This ritual fosters BELONG by helping you feel seen and accepted in your emotional state. It supports the need to feel understood and brings gentle openness to your communication.",
+      "loveTypes": [
+        "BELONG"
+      ],
+      "relationalNeeds": [
+        "UNDERSTANDING",
+        "COMMUNICATION"
+      ],
+      "ritualTones": [
+        "REFLECTIVE"
+      ],
+      "timeTaken": "SHORT",
+      "semanticSummary": "Partners pause together to quietly share their current emotional “weather,” then listen with care. Naming feelings in this simple, reflective way supports BELONG by making space for real understanding and genuine communication, even on busy days."
+    }
   },
   {
-    "timestamp": "2025-12-18T17:52:01.073887",
-    "prompt_name": "prompt_v1",
-    "ritual_count": 2,
+    "timestamp": "2026-03-02T15:29:19.839780",
     "usage": {
-      "model": "gpt-4.1-mini",
-      "input_tokens": 2142,
-      "output_tokens": 566,
-      "total_tokens": 2708
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_6979d318ddbc8196be589cc7f1e3b6010cfc7a973b8ec130",
+      "prompt_version": "6",
+      "input_tokens": 2714,
+      "output_tokens": 422,
+      "total_tokens": 3136
     },
-    "rituals": [
-      {
-        "tagLine": "Find calm closeness in a simple touch.",
-        "description": "Palm Rest is a brief, grounding moment where you and your partner place your palms together to share warmth and calm. This gentle contact helps create a soft sense of safety and quiet intimacy without needing words.",
-        "steps": [
-          "1. Find a comfortable seated position facing each other.",
-          "2. Slowly raise your hands and gently press your palms together with your partner’s.",
-          "3. Close your eyes or soften your gaze and focus on the warmth and texture of your joined hands.",
-          "4. Take slow, natural breaths while remaining present with the shared touch for about a minute.",
-          "5. Gently release your hands when you feel ready, carrying the calm connection with you."
-        ],
-        "howItHelps": "By simply resting your palms together, this ritual helps you and your partner feel safer and more connected in a calm, quiet way. It invites gentle closeness and nurtures tenderness without needing words or action beyond presence.",
-        "loveTypes": [
-          "CARE"
-        ],
-        "relationalNeeds": [
-          "TRUST_AND_SAFETY",
-          "INTIMACY"
-        ],
-        "ritualTones": [
-          "CALM",
-          "INTIMATE",
-          "WARM"
-        ],
-        "timeTaken": "MOMENT",
-        "semanticSummary": "Palm Rest is best when you want to foster quiet intimacy and a sense of safety with your partner in just moments. It supports emotional closeness through gentle touch, inviting calm and a soothing connection that can soften your day."
-      },
-      {
-        "tagLine": "Breathe together to build calm and trust.",
-        "description": "Breath Check is a shared practice where you and your partner pause to notice and gently sync your breathing. This moment of mutual attunement fosters calm, emotional safety, and a feeling of being grounded together.",
-        "steps": [
-          "1. Sit comfortably facing each other and close your eyes or soften your gaze.",
-          "2. Begin by noticing your own natural breath without changing it.",
-          "3. Slowly start to breathe more deeply and deliberately, inviting your partner to match your pace.",
-          "4. Inhale and exhale together in unison for several breaths, feeling your shared rhythm.",
-          "5. When you feel complete, gently bring your attention back to the room and open your eyes."
-        ],
-        "howItHelps": "Synchronizing your breath with your partner’s helps create a shared sense of calm and emotional safety. This simple ritual encourages presence and trust by bringing you both into alignment in a gentle, embodied way.",
-        "loveTypes": [
-          "CARE"
-        ],
-        "relationalNeeds": [
-          "TRUST_AND_SAFETY"
-        ],
-        "ritualTones": [
-          "CALM",
-          "WARM"
-        ],
-        "timeTaken": "SHORT",
-        "semanticSummary": "Breath Check is a helpful ritual when you want to slow down together and cultivate calm confidence in your connection. It supports grounding and trust through the shared rhythm of breathing, creating a sense of emotional balance and closeness."
-      }
-    ]
+    "title": "Quiet Steps Together",
+    "ritual": {
+      "tagLine": "Take a gentle walk and simply enjoy being side by side",
+      "description": "When talk feels heavy or you're feeling distant, a quiet walk can reconnect you without needing words. This ritual encourages shared presence through easy movement and simple awareness. You’ll step out together, notice your surroundings, and let closeness return naturally.",
+      "steps": [
+        "1. **Set Out Together** Decide on a relaxed path or route. Step outside, side by side, with no pressure to talk or plan.",
+        "2. **Notice the World** Walk at a pace that feels easy. Quietly take in the sights and sounds around you, letting your senses settle without rushing.",
+        "3. **Feel Each Other’s Presence** Every so often, feel into the comfort of being together without having to fill the space with words. Let small gestures—like a shared glance or a gentle touch—be enough.",
+        "4. **Take a Pause, If You Like** If a spot feels inviting, stop for a moment. Stand or sit quietly together, simply breathing and noticing what it feels like to share the pause.",
+        "5. **Return and Acknowledge** Head back together. When you’re home or done, offer a simple acknowledgment, like \"Thanks for this walk\" or a gentle smile, letting the easy connection linger."
+      ],
+      "howItHelps": "This practice strengthens CARE by fostering gentle, steady attention to each other’s presence. It eases distance or tension and brings a subtle, reassuring closeness back into your day.",
+      "loveTypes": [
+        "CARE"
+      ],
+      "relationalNeeds": [
+        "PRESENCE_AND_QUALITY_TIME",
+        "CONNECTION"
+      ],
+      "ritualTones": [
+        "CALM"
+      ],
+      "timeTaken": "MEDIUM",
+      "semanticSummary": "Partners take a quiet walk together, focusing on shared presence and gentle awareness rather than conversation. The ritual practices CARE by offering nonverbal togetherness, helping ease distance and rebuild emotional connection through calm, steady company."
+    }
+  },
+  {
+    "timestamp": "2026-03-02T15:29:26.816064",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_6979d318ddbc8196be589cc7f1e3b6010cfc7a973b8ec130",
+      "prompt_version": "6",
+      "input_tokens": 2737,
+      "output_tokens": 401,
+      "total_tokens": 3138
+    },
+    "title": "Keeping the Thread Warm",
+    "ritual": {
+      "tagLine": "Share one small noticing to keep closeness steady",
+      "description": "It’s easy for days to pass without meaningful check-in, even when you care about each other. This ritual invites you to pause together and share just one thing you genuinely noticed or appreciated. The goal is to keep your connection gently alive, even on ordinary days.",
+      "steps": [
+        "1. **Pause and Face Each Other** Sit or stand together for a moment, turning your attention toward one another. Let the rest of the world fade into the background just for now.",
+        "2. **Share a True Noticing** Each person takes a turn sharing one small thing they noticed, appreciated, or felt about the other in the past day. Speak simply and honestly—let it be something real, not impressive.",
+        "3. **Let it Sink In** After each share, pause for a short moment before responding. Notice how it feels to be seen or to see your partnerʼs attention land on you.",
+        "4. **Offer Simple Thanks** End by quietly saying thank you, with a look or gentle touch if that feels right. Carry this subtle warmth with you as you move forward."
+      ],
+      "howItHelps": "Practicing BELONG and CARE in this way helps you both feel seen and nurtured, even during busy or ordinary stretches. The ritual deepens your sense of connection and keeps affection present day by day.",
+      "loveTypes": [
+        "BELONG",
+        "CARE"
+      ],
+      "relationalNeeds": [
+        "CONNECTION",
+        "PRESENCE_AND_QUALITY_TIME"
+      ],
+      "ritualTones": [
+        "WARM",
+        "CALM"
+      ],
+      "timeTaken": "SHORT",
+      "semanticSummary": "Partners take a short pause to share one thing they genuinely noticed or appreciated about each other. This warm and steady practice keeps connection alive and fosters a caring sense of belonging, even amid everyday busyness."
+    }
+  },
+  {
+    "timestamp": "2026-03-02T15:29:36.182387",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_6979d318ddbc8196be589cc7f1e3b6010cfc7a973b8ec130",
+      "prompt_version": "6",
+      "input_tokens": 2717,
+      "output_tokens": 464,
+      "total_tokens": 3181
+    },
+    "title": "Memory Sparks",
+    "ritual": {
+      "tagLine": "Bring a favorite shared memory back to life together",
+      "description": "When routine sets in, it’s easy to forget what makes your connection unique. This ritual invites you both to revisit a warm memory that made you feel close. You’ll recall, share, and linger in the feeling you created together.",
+      "steps": [
+        "1. **Settle In Together** Choose a comfortable spot and face each other with openness. Take a breath to land together, letting the outside world pause for a few moments.",
+        "2. **Pick Your Memory** Decide on one shared experience that feels especially meaningful or joyful to you both. It could be a big milestone or a small, cherished moment; let it be something that still feels alive when you think of it.",
+        "3. **Share the Details** Take turns describing what you each remember about that time. Mention a few sensory details, funny moments, or little things that made it special, focusing on how it felt rather than just what happened.",
+        "4. **Notice What’s Here Now** Pause to notice any emotions, warmth, or lightness that comes up as you revisit the memory together. Allow yourselves to enjoy, smile, or even laugh, soaking in the closeness it brings now.",
+        "5. **End with Appreciation** Thank each other for sharing and for having made that memory together. Let a simple word or gesture close the moment, carrying a bit of that spark back into your day."
+      ],
+      "howItHelps": "This ritual strengthens BELONG and SPARK by helping you relive moments that made you feel connected and appreciative of each other. It fosters a deeper sense of togetherness while bringing fresh warmth into your relationship.",
+      "loveTypes": [
+        "BELONG",
+        "SPARK"
+      ],
+      "relationalNeeds": [
+        "CONNECTION",
+        "GRATITUDE_AND_APPRECIATION"
+      ],
+      "ritualTones": [
+        "WARM"
+      ],
+      "timeTaken": "MEDIUM",
+      "semanticSummary": "Partners set aside time to revisit a meaningful shared memory, describing the details and feelings it brings up. This practice invites BELONG and SPARK by renewing connection, appreciation, and the warmth that brought you close in the first place."
+    }
   }
 ]

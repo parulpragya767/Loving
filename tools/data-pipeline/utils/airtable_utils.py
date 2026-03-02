@@ -11,7 +11,7 @@ load_dotenv()
 AIRTABLE_TOKEN: str = os.getenv('AIRTABLE_TOKEN')
 AIRTABLE_BASE_ID: str = "appt8THxSUPVnWkJk"
 AIRTABLE_TABLE_NAME: str = "Rituals"
-AIRTABLE_VIEW_NAME: Optional[str] = "View1"
+AIRTABLE_VIEW_NAME: Optional[str] = "Main"
 AIRTABLE_PAGE_SIZE: int = 100 # Airtable limits to 100
 
 # Sync Status enum for centralized status values

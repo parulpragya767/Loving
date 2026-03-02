@@ -1,124 +1,121 @@
 [
   {
-    "timestamp": "2025-12-17T16:24:17.827356",
-    "batch_size": 2,
+    "timestamp": "2026-03-02T15:29:01.003037",
+    "batch_size": 5,
     "rituals": [
       {
-        "Title": "Palm Rest ",
-        "Description": "Rest your palms together, noticing texture, feeling the warmth of shared presence.",
-        "Ritual Packs": [],
+        "Title": "Just Listen Back",
+        "Description": "Take turns speaking for a few minutes while the other simply reflects back what they heard. No fixing, no defending — just the relief of being understood.",
+        "Ritual Packs": [
+          "Finding Our Way Back"
+        ],
+        "Love Types": [
+          "CARE",
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "UNDERSTANDING",
+          "TRUST_AND_SAFETY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "HEALING"
+        ],
+        "id": "81116a4a-6e3f-49a9-8216-5a643b9d9e44",
+        "Sync Status": "GENERATE",
+        "airtable_id": "rec8uzGHSXPhUvXHp"
+      },
+      {
+        "Title": "Name the Weather",
+        "Description": "Share the emotional “weather” you’ve been carrying lately — sunny, foggy, stormy, or somewhere in between. It’s a simple way to be seen without needing to explain everything.\n",
+        "Ritual Packs": [
+          "Finding Our Way Back"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "UNDERSTANDING",
+          "COMMUNICATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "16ed763a-9c96-431c-98fb-1615e35f799e",
+        "Sync Status": "GENERATE",
+        "airtable_id": "recDPUrxuS1Tpn040"
+      },
+      {
+        "Title": "Quiet Steps Together",
+        "Description": "Go for a short walk together without heavy conversation — just noticing your surroundings and each other’s presence. Let connection rebuild through shared movement.",
+        "Ritual Packs": [
+          "Finding Our Way Back"
+        ],
         "Love Types": [
           "CARE"
         ],
-        "Time Taken": "MOMENT",
+        "Time Taken": "MEDIUM",
         "Relational Needs": [
-          "TRUST_AND_SAFETY",
-          "INTIMACY"
+          "PRESENCE_AND_QUALITY_TIME",
+          "CONNECTION"
         ],
         "Ritual Mode": "TOGETHER",
-        "id": "50f4b96f-4d15-48ee-a3ea-4608d2b72cc0",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "d1749db8-67a8-41ee-93a5-a57474152709",
         "Sync Status": "GENERATE",
-        "Last Updated Timestamp": "2025-12-16T10:47:20.000Z",
-        "airtable_id": "recGlWkZbIlNgKNS5"
+        "airtable_id": "recNzecs7YiLPK5Hq"
       },
       {
-        "Title": "Breath Check ",
-        "Description": "Ask each other, “How’s your breath right now?” Then take three slower ones together.",
-        "Ritual Packs": [],
+        "Title": "Keeping the Thread Warm",
+        "Description": "Once a day or a few times a week, pause for a brief moment of emotional tending. Share one small thing you noticed, appreciated, or felt with each other to keep the thread of connection gently warm.",
+        "Ritual Packs": [
+          "Finding Our Way Back"
+        ],
         "Love Types": [
+          "BELONG",
           "CARE"
         ],
         "Time Taken": "SHORT",
         "Relational Needs": [
-          "TRUST_AND_SAFETY"
+          "CONNECTION",
+          "PRESENCE_AND_QUALITY_TIME"
         ],
         "Ritual Mode": "TOGETHER",
-        "id": "a4fc9b9a-1da1-4ec1-8f89-24b9dc849e2c",
-        "Sync Status": "GENERATE",
-        "Last Updated Timestamp": "2025-12-16T10:47:20.000Z",
-        "airtable_id": "recRoCN8NA5mNWWaN"
-      }
-    ]
-  },
-  {
-    "timestamp": "2025-12-17T16:24:49.423373",
-    "batch_size": 2,
-    "rituals": [
-      {
-        "Title": "Palm Rest ",
-        "Description": "Rest your palms together, noticing texture, feeling the warmth of shared presence.",
-        "Ritual Packs": [],
-        "Love Types": [
-          "CARE"
+        "Ritual Tones": [
+          "WARM",
+          "CALM"
         ],
-        "Time Taken": "MOMENT",
-        "Relational Needs": [
-          "TRUST_AND_SAFETY",
-          "INTIMACY"
-        ],
-        "Ritual Mode": "TOGETHER",
-        "id": "50f4b96f-4d15-48ee-a3ea-4608d2b72cc0",
+        "id": "592f59bb-842b-43b0-9ea5-5caf37bfe459",
         "Sync Status": "GENERATE",
-        "Last Updated Timestamp": "2025-12-16T10:47:20.000Z",
-        "airtable_id": "recGlWkZbIlNgKNS5"
+        "airtable_id": "recmhL5lVlcWLW3p6"
       },
       {
-        "Title": "Breath Check ",
-        "Description": "Ask each other, “How’s your breath right now?” Then take three slower ones together.",
-        "Ritual Packs": [],
-        "Love Types": [
-          "CARE"
+        "Title": "Memory Sparks",
+        "Description": "Revisit one shared memory that still feels warm or meaningful. Let yourselves sit in that moment and remember what brought you close.",
+        "Ritual Packs": [
+          "Finding Our Way Back"
         ],
-        "Time Taken": "SHORT",
+        "Love Types": [
+          "BELONG",
+          "SPARK"
+        ],
+        "Time Taken": "MEDIUM",
         "Relational Needs": [
-          "TRUST_AND_SAFETY"
+          "CONNECTION",
+          "GRATITUDE_AND_APPRECIATION"
         ],
         "Ritual Mode": "TOGETHER",
-        "id": "a4fc9b9a-1da1-4ec1-8f89-24b9dc849e2c",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "c924356a-727e-4a7f-9cf7-b7d78ec06606",
         "Sync Status": "GENERATE",
-        "Last Updated Timestamp": "2025-12-16T10:47:20.000Z",
-        "airtable_id": "recRoCN8NA5mNWWaN"
-      }
-    ]
-  },
-  {
-    "timestamp": "2025-12-17T16:30:16.736137",
-    "batch_size": 2,
-    "rituals": [
-      {
-        "Title": "Palm Rest ",
-        "Description": "Rest your palms together, noticing texture, feeling the warmth of shared presence.",
-        "Ritual Packs": [],
-        "Love Types": [
-          "CARE"
-        ],
-        "Time Taken": "MOMENT",
-        "Relational Needs": [
-          "TRUST_AND_SAFETY",
-          "INTIMACY"
-        ],
-        "Ritual Mode": "TOGETHER",
-        "id": "50f4b96f-4d15-48ee-a3ea-4608d2b72cc0",
-        "Sync Status": "GENERATE",
-        "Last Updated Timestamp": "2025-12-16T10:47:20.000Z",
-        "airtable_id": "recGlWkZbIlNgKNS5"
-      },
-      {
-        "Title": "Breath Check ",
-        "Description": "Ask each other, “How’s your breath right now?” Then take three slower ones together.",
-        "Ritual Packs": [],
-        "Love Types": [
-          "CARE"
-        ],
-        "Time Taken": "SHORT",
-        "Relational Needs": [
-          "TRUST_AND_SAFETY"
-        ],
-        "Ritual Mode": "TOGETHER",
-        "id": "a4fc9b9a-1da1-4ec1-8f89-24b9dc849e2c",
-        "Sync Status": "GENERATE",
-        "Last Updated Timestamp": "2025-12-16T10:47:20.000Z",
-        "airtable_id": "recRoCN8NA5mNWWaN"
+        "airtable_id": "recq82LbkjABdwn5l"
       }
     ]
   }

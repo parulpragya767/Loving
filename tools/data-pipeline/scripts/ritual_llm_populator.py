@@ -52,8 +52,6 @@ def generate_ritual_data_prompt(ritual: Dict[str, Any]) -> str:
         ritual_data_prompt += f"ritualMode: {ritual.get(AirtableFields.RITUAL_MODE)}\n"
     if ritual.get(AirtableFields.RELATIONAL_NEEDS):
         ritual_data_prompt += f"relationalNeeds: {ritual.get(AirtableFields.RELATIONAL_NEEDS)}\n"
-    if ritual.get(AirtableFields.RITUAL_TONES):
-        ritual_data_prompt += f"ritualTones: {ritual.get(AirtableFields.RITUAL_TONES)}\n"
     if ritual.get(AirtableFields.TIME_TAKEN):
         ritual_data_prompt += f"timeTaken: {ritual.get(AirtableFields.TIME_TAKEN)}\n"
 
