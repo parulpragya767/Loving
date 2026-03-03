@@ -44,8 +44,8 @@ def generate_ritual_data_prompt(ritual: Dict[str, Any]) -> str:
     ritual_data_prompt = f"title: {ritual.get(AirtableFields.TITLE)}\n"
     
     # Add other fields only if they have values
-    if ritual.get(AirtableFields.DESCRIPTION):
-        ritual_data_prompt += f"description: {ritual.get(AirtableFields.DESCRIPTION)}\n"
+    if ritual.get(AirtableFields.SHORT_DESCRIPTION):
+        ritual_data_prompt += f"description: {ritual.get(AirtableFields.SHORT_DESCRIPTION)}\n"
     if ritual.get(AirtableFields.LOVE_TYPES):
         ritual_data_prompt += f"loveTypes: {ritual.get(AirtableFields.LOVE_TYPES)}\n"
     if ritual.get(AirtableFields.RITUAL_MODE):
