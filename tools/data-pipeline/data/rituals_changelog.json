@@ -118,5 +118,2681 @@
         "airtable_id": "recq82LbkjABdwn5l"
       }
     ]
+  },
+  {
+    "timestamp": "2026-03-03T17:20:12.593037",
+    "batch_size": 2,
+    "rituals": [
+      {
+        "Title": "What I Miss About Us",
+        "Ritual Packs": [
+          "Bridges of Understanding"
+        ],
+        "Love Types": [
+          "CARE",
+          "BELONG"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "41b3c5b5-0308-4608-af34-ec6c3009ec98",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Share one quality, moment, or feeling from your connection that you long for right now. Focus on the warmth of the memory, letting it remind you what still matters.",
+        "airtable_id": "recSVgNwbQbdhYRC2"
+      },
+      {
+        "Title": "One Truth, One Tenderness",
+        "Ritual Packs": [
+          "Bridges of Understanding"
+        ],
+        "Love Types": [
+          "BELONG",
+          "CARE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "COMMUNICATION",
+          "TRUST_AND_SAFETY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Tagline": "this is a sample tagline new",
+        "How It Helps": "this is a sample how it helps new",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "67df3e22-5876-4871-99ea-397a38913ea5",
+        "Semantic Summary": "this is a sample semantic summary",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Last Updated Timestamp": "2025-12-18T06:03:04.000Z",
+        "Short Description": "Each of you shares one honest thing you’ve been holding back — and one thing you genuinely appreciate about the other. Let honesty open the door, and care make it safe enough to stay open.",
+        "airtable_id": "reckdURyZnOIGmwAv"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:24:57.756658",
+    "batch_size": 3,
+    "rituals": [
+      {
+        "Title": "Staying Close Tomorrow",
+        "Ritual Packs": [
+          "Bridges of Understanding"
+        ],
+        "Love Types": [
+          "GROW",
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "8482f8a1-3738-45fb-9a09-73f7d460958b",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each says one intention for how they’ll stay connected tomorrow. Keep it simple — something you can truly follow through on.",
+        "airtable_id": "recoU5ixppWWd7r80"
+      },
+      {
+        "Title": "Breathe Together",
+        "Ritual Packs": [
+          "Bridges of Understanding"
+        ],
+        "Love Types": [
+          "SELF",
+          "BELONG",
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "2c10e0e3-5a0b-41a3-8356-beef5690d8d6",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit close and synchronize your breathing for one quiet minute before speaking. Let your bodies settle first, so your words come from steadiness instead of tension.",
+        "airtable_id": "recyIgw6pDWza8CJL"
+      },
+      {
+        "Title": "Step Into My World",
+        "Ritual Packs": [
+          "Bridges of Understanding"
+        ],
+        "Love Types": [
+          "BELONG",
+          "GROW"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "One partner shares a recent moment of distance or misunderstanding.\nThe other reflects back what that experience may have felt like emotionally, checking gently until it feels accurate.",
+        "airtable_id": "reccFDxH314IqDEGz"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:27:15.177309",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Evening Spark",
+        "Ritual Packs": [
+          "Rekindle the Spark"
+        ],
+        "Love Types": [
+          "SPARK",
+          "BELONG"
+        ],
+        "Time Taken": "FLEXIBLE",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "fcbe8193-c689-4ede-b365-77ff3859ae3b",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Choose one tiny gesture to repeat nightly this week — a lingering kiss, a whispered compliment, or a deliberate hug. Let this small ritual become a steady ember that reminds you: desire grows where attention returns.",
+        "airtable_id": "recBb2wCSMeLqdw3b"
+      },
+      {
+        "Title": "Light the Atmosphere",
+        "Ritual Packs": [
+          "Rekindle the Spark"
+        ],
+        "Love Types": [
+          "SPARK",
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE"
+        ],
+        "id": "b469774f-d4f0-4196-ae66-14fb12698a2c",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Dim the lights, light a candle, or change the music before you even speak.\nLet the shift in environment signal that this moment is different — something softer, slower, or more alive is beginning.",
+        "airtable_id": "recR4zLwcs02VykP8"
+      },
+      {
+        "Title": "Look at Me Like That",
+        "Ritual Packs": [
+          "Rekindle the Spark"
+        ],
+        "Love Types": [
+          "SPARK",
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE"
+        ],
+        "id": "75ce2859-801e-4b30-90a8-4c207e4a2681",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Stand or sit close and hold eye contact for 30–60 seconds without talking. Let the silence stretch slightly past comfort — noticing attraction, nervousness, or warmth as it rises.",
+        "airtable_id": "recUo5yNTkIdPJzTU"
+      },
+      {
+        "Title": "Turn Up the Energy",
+        "Ritual Packs": [
+          "Rekindle the Spark"
+        ],
+        "Love Types": [
+          "SPARK",
+          "FIRE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL",
+          "ENERGETIC"
+        ],
+        "id": "c67caa53-8158-430d-a23e-3ed5eb577136",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Play one song that feels bold or playful and move however your body wants — close, apart, silly, slow. Let movement wake something up in you, even if it starts awkward and ends in laughter.",
+        "airtable_id": "recx67JE9mPebhgBh"
+      },
+      {
+        "Title": "Slow Burn Touch",
+        "Ritual Packs": [
+          "Rekindle the Spark"
+        ],
+        "Love Types": [
+          "FIRE",
+          "CARE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "INTIMACY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Take turns tracing your partner’s arms, shoulders, or hands slowly and intentionally for two minutes. Let the focus be on sensation rather than outcome — noticing warmth, breath, and subtle shifts in desire.",
+        "airtable_id": "recnyyhfocvwBEFrc"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:28:52.946610",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Secret Act of Care",
+        "Ritual Packs": [
+          "Everyday Magic"
+        ],
+        "Love Types": [
+          "CARE"
+        ],
+        "Time Taken": "FLEXIBLE",
+        "Relational Needs": [
+          "SUPPORT",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "SOLO",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "489a143a-afd1-44aa-9cf5-e0e5472739d6",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Do one small thing that makes your partner’s day easier — tidy something, prep a snack, handle a task — without announcing it. Let them discover it and feel quietly supported.",
+        "airtable_id": "recE0zE8O7BnQEHgb"
+      },
+      {
+        "Title": "Morning Glimpse",
+        "Ritual Packs": [
+          "Everyday Magic"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM",
+          "ENERGETIC"
+        ],
+        "id": "797aef73-066c-4bf6-9021-239afaf1ba5b",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Before the day takes over, each share one thing you’re curious, hopeful, or looking forward to today — even something small. Let yourselves witness each other as becoming, not just managing.",
+        "airtable_id": "recFYwOt4gieEKT7q"
+      },
+      {
+        "Title": "Five-Second Reunion",
+        "Ritual Packs": [
+          "Everyday Magic"
+        ],
+        "Love Types": [
+          "CARE",
+          "BELONG"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "CONNECTION",
+          "INTIMACY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "122d3f80-078a-4cd4-beb5-9f973cd6204a",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each time you naturally cross paths during the day, pause for a full five-second hug. Let the pause feel intentional — not rushed — and notice the warmth of reconnecting.",
+        "airtable_id": "reccwYTo3tBaJQafy"
+      },
+      {
+        "Title": "Surprise Song Swap ",
+        "Ritual Packs": [
+          "Everyday Magic"
+        ],
+        "Love Types": [
+          "SPARK",
+          "FIRE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "6381e8bb-b309-4b98-b69c-e3d0a08f4455",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Send each other one song during the day that matches your mood or reminds you of them. Later, share why you chose it and what it carries for you.",
+        "airtable_id": "recrC1ll6S5Xef3tQ"
+      },
+      {
+        "Title": "Daily Spark Log",
+        "Ritual Packs": [
+          "Everyday Magic"
+        ],
+        "Love Types": [
+          "SPARK",
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE",
+          "WARM"
+        ],
+        "id": "44872cec-0150-424d-bcc8-8605d10e8785",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Keep a shared note where you record one small moment of delight from the day — a joke, a glance, a kind act. Over time, let it become proof that joy is already here.",
+        "airtable_id": "recsVIKmVlNT3hMHI"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:30:35.763514",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "What Touch Feels Good Now",
+        "Ritual Packs": [
+          "The Return of Warmth"
+        ],
+        "Love Types": [
+          "CARE",
+          "BELONG"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "TRUST_AND_SAFETY",
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE",
+          "WARM"
+        ],
+        "id": "5eebb144-8bd6-432c-b75c-346c6b7e3b95",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Last Updated Timestamp": "2025-12-16T10:47:20.000Z",
+        "Short Description": "Take turns sharing what kinds of touch feel comforting, neutral, or overwhelming lately. Speak gently in the present tense and listen without correcting or defending.",
+        "airtable_id": "recE58UnAiam6lYOD"
+      },
+      {
+        "Title": "Slow Dance in Silence",
+        "Ritual Packs": [
+          "The Return of Warmth"
+        ],
+        "Love Types": [
+          "FIRE",
+          "CARE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "INTIMACY",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE",
+          "CALM"
+        ],
+        "id": "ec43d06b-f82e-4f79-81d7-6060c202b7f6",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Put on a soft song and hold each other without speaking. Let your bodies sway naturally and notice what changes when you move together without words.",
+        "airtable_id": "recQLVhxodCb849Yp"
+      },
+      {
+        "Title": "Night Touch Anchor",
+        "Ritual Packs": [
+          "The Return of Warmth"
+        ],
+        "Love Types": [
+          "CARE",
+          "FIRE"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "INTIMACY",
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "c12e3d82-0304-4a16-ab72-0b0cd44f1a86",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Choose one small touch to repeat each night before sleep — a forehead kiss, hand on heart, or gentle back stroke. Let it become a quiet signal that closeness is welcome.",
+        "airtable_id": "recaNTAR8kSWvJKOk"
+      },
+      {
+        "Title": "Warmth Mapping",
+        "Ritual Packs": [
+          "The Return of Warmth"
+        ],
+        "Love Types": [
+          "CARE",
+          "FIRE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "INTIMACY",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE",
+          "HEALING"
+        ],
+        "id": "b1e5a755-dbbc-4ee5-9701-9e1215bf0cd7",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "With clothes on, slowly trace your partner’s arms, shoulders, or back with your fingertips. As you move, quietly say “thank you” for one thing you appreciate about that part of them.",
+        "airtable_id": "recrURbxOvyYCcpQC"
+      },
+      {
+        "Title": "Hand Rest Pause",
+        "Ritual Packs": [
+          "The Return of Warmth"
+        ],
+        "Love Types": [
+          "CARE"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "TRUST_AND_SAFETY",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM",
+          "WARM"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit close and place one hand softly on your partner’s arm, back, or knee. Breathe slowly together for a minute and simply notice the warmth under your palm.",
+        "airtable_id": "recMADoeMRYEXLvWE"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:31:55.502674",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Secret Signal",
+        "Ritual Packs": [
+          "Playful Sparks"
+        ],
+        "Love Types": [
+          "SPARK",
+          "FIRE"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "380ac629-0242-4ba8-8949-290634c7e26c",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Create a subtle, repeatable gesture that means “come here” or “I want you” — a certain look, touch at the waist, phrase, or emoji.",
+        "airtable_id": "rec4M6KOAwWcGvTp1"
+      },
+      {
+        "Title": "Tease & Imagine",
+        "Ritual Packs": [
+          "Playful Sparks"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PLAY_AND_JOY",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "ee949bde-dd9a-4dbc-b7ed-8b21c734b5f1",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Take turns finishing playful prompts like, “If you were a season… a song… a texture…” and explain why. Let it be imaginative and slightly teasing.",
+        "airtable_id": "recPFBh92Lyz3Etr5"
+      },
+      {
+        "Title": "Slow Burn Stare",
+        "Ritual Packs": [
+          "Playful Sparks"
+        ],
+        "Love Types": [
+          "FIRE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "INTIMACY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE",
+          "PLAYFUL"
+        ],
+        "id": "6df39cc4-3791-4345-889e-01b93a1aa73b",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Stand or sit facing each other. Hold eye contact — but this time, allow a slight smile, a raised eyebrow, or a subtle smirk. Don’t rush to laugh. Let the tension build before breaking it.",
+        "airtable_id": "recqSe0CRmIGHddN6"
+      },
+      {
+        "Title": "The Almost Touch",
+        "Ritual Packs": [
+          "Playful Sparks"
+        ],
+        "Love Types": [
+          "FIRE",
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "INTIMACY",
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE",
+          "PLAYFUL"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Stand close enough that you can feel each other’s presence, but don’t touch. Move your hands slowly around your partner’s arms, waist, or shoulders — stopping just before contact. Switch roles.",
+        "airtable_id": "recf2F0LYTkIU6Di7"
+      },
+      {
+        "Title": "Music & Pull",
+        "Ritual Packs": [
+          "Playful Sparks"
+        ],
+        "Love Types": [
+          "FIRE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "INTIMACY",
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "ENERGETIC",
+          "INTIMATE"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Play one song. One partner gently pulls the other closer by the waist or hand and leads them into a slow, confident sway or spin. Switch roles halfway through.",
+        "airtable_id": "recVgEpZm9DxRphDt"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:33:15.876545",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Weekly Team Huddle",
+        "Ritual Packs": [
+          "Team Us"
+        ],
+        "Love Types": [
+          "BUILD"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "BALANCE_AND_FAIRNESS"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "7b6e237c-f269-4e85-98b5-4ddcf7ccde84",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Set aside 20 minutes once a week to ask: What’s working? What feels heavy? What’s one small adjustment? End with a simple “We’ve got this.”",
+        "airtable_id": "rec13eZyqhDXrwJQD"
+      },
+      {
+        "Title": "Load Lightener Pact",
+        "Ritual Packs": [
+          "Team Us"
+        ],
+        "Love Types": [
+          "BUILD",
+          "CARE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "SUPPORT"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "HEALING"
+        ],
+        "id": "a48c09f8-10e8-4c97-8f84-9e93f1ff557a",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each of you chooses one small, realistic way to ease the other’s load this week. Keep it specific and sustainable — something you can actually maintain.",
+        "airtable_id": "rec8kGrObjps6eSOt"
+      },
+      {
+        "Title": "Energy & Load Check-In",
+        "Ritual Packs": [
+          "Team Us"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "72fbb6d4-e912-4835-949c-1aad91b25413",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Pause and name where you actually are today — physically and mentally. The goal isn’t fixing; it’s understanding each other’s capacity before the day carries you away.",
+        "airtable_id": "reclSOyM95jl6I9ou"
+      },
+      {
+        "Title": "Effort Mirror",
+        "Ritual Packs": [
+          "Team Us"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "b0365bc5-808f-4732-bc8f-9cc5794a5fcd",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Name one effort your partner has been making lately that you hadn’t acknowledged before. Speak it directly and let them receive it without deflecting.",
+        "airtable_id": "recoLweEDXMxRJCyh"
+      },
+      {
+        "Title": "Who Holds What",
+        "Ritual Packs": [
+          "Team Us"
+        ],
+        "Love Types": [
+          "BUILD"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "BALANCE_AND_FAIRNESS"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "9bfe987d-1757-40c1-a09a-a5e196b6d7b2",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Draw four columns: Me / You / Shared / Dropped. Map your current responsibilities and gently observe where imbalance or overwhelm might be hiding.",
+        "airtable_id": "recpXWEAkLQhrMc2z"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:34:34.999104",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Weight Drop",
+        "Ritual Packs": [
+          "Soften the Edges"
+        ],
+        "Love Types": [
+          "SELF"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "SPACE"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "830416c5-7152-4298-83a8-d905bd67bdf8",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each of you says one thing you are putting down for the rest of the evening — a task, a worry, a mental loop. Let your partner witness it without offering solutions.",
+        "airtable_id": "recETTKbqB5cOluiJ"
+      },
+      {
+        "Title": "“Today Felt Heavy When…” ",
+        "Ritual Packs": [
+          "Soften the Edges"
+        ],
+        "Love Types": [
+          "CARE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "299487ee-723d-4bfe-a27c-feef1c9a4fa2",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each partner completes the sentence once, sharing one tender moment from the day. The other responds only with, “I hear you.”",
+        "airtable_id": "recRtyAcEpr0TyZfe"
+      },
+      {
+        "Title": "Tomorrow’s Soft Start",
+        "Ritual Packs": [
+          "Soften the Edges"
+        ],
+        "Love Types": [
+          "BUILD",
+          "CARE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "SUPPORT"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "760d1e5f-5ab3-4227-bf21-92f9a3feee00",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Before sleeping, choose one tiny way to make tomorrow gentler — preparing tea, setting clothes out, delaying a task. End by saying, “We’ll take it slowly.”",
+        "airtable_id": "recotRKj1yE1xpgMR"
+      },
+      {
+        "Title": "Five-Minute Care Swap",
+        "Ritual Packs": [
+          "Soften the Edges"
+        ],
+        "Love Types": [
+          "CARE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "SUPPORT",
+          "INTIMACY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "HEALING"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Set a timer and offer each other a simple shoulder or hand massage — slow, light, and unhurried. This is about comfort, not performance.",
+        "airtable_id": "recr5S3nd9JXyocD1"
+      },
+      {
+        "Title": "Head-on-Heart Rest",
+        "Ritual Packs": [
+          "Soften the Edges"
+        ],
+        "Love Types": [
+          "CARE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "TRUST_AND_SAFETY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Lie down together with one partner resting their head on the other’s chest. Stay quiet and feel the rhythm of breathing and heartbeat.",
+        "airtable_id": "recdxMsS3U6iCbD4D"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:36:17.240470",
+    "batch_size": 4,
+    "rituals": [
+      {
+        "Title": "Tiny Hope Plan ",
+        "Ritual Packs": [
+          "Shelter in Each Other"
+        ],
+        "Love Types": [
+          "BUILD",
+          "SELF"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "SUPPORT"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "4b68b5ef-f019-4eef-98a1-ccfdbdd2fe95",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each of you chooses one small, nurturing act you’ll do this week — for yourself or for the relationship. Keep it realistic and kind.",
+        "airtable_id": "rec0lQQLTr696T5gr"
+      },
+      {
+        "Title": "Name It Gently",
+        "Ritual Packs": [
+          "Shelter in Each Other"
+        ],
+        "Love Types": [
+          "CARE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "UNDERSTANDING",
+          "SUPPORT"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "HEALING"
+        ],
+        "id": "bae0188c-8b36-463e-aeab-f64f95971372",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Complete the sentence: “What’s been hardest for me lately is…” The listener responds only with, “Thank you for telling me.”",
+        "airtable_id": "recFm6YsJNjmigz9s"
+      },
+      {
+        "Title": "Our Team Statement",
+        "Ritual Packs": [
+          "Shelter in Each Other"
+        ],
+        "Love Types": [
+          "BUILD"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "TRUST_AND_SAFETY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "SACRED"
+        ],
+        "id": "4b7d0000-05d0-4f0a-87ef-4de40b2305e1",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Say aloud a simple sentence that affirms your unity — “We’re in this together,” or words that feel true to you. Let the statement be steady, not dramatic.",
+        "airtable_id": "recLnCdL3a54Zs0aP"
+      },
+      {
+        "Title": "Lean Back, Lean In",
+        "Ritual Packs": [
+          "Shelter in Each Other"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "SUPPORT"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "9578b7bd-9bcc-4dda-8d51-39c0cdd720bb",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit back-to-back and gently lean your weight into each other. Feel the quiet reminder that you don’t have to carry everything alone.",
+        "airtable_id": "rect0ff84uIj647VA"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:37:49.330327",
+    "batch_size": 4,
+    "rituals": [
+      {
+        "Title": "Evening Thank You",
+        "Ritual Packs": [
+          "Finding Calm in Chaos"
+        ],
+        "Love Types": [
+          "BUILD",
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "afd65bd9-8860-4416-b1e0-98543ee9e6b4",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Before bed, name one small thing you appreciated about your partner today. Keep it simple and specific.",
+        "airtable_id": "recAsxTpWeecycMl6"
+      },
+      {
+        "Title": "Shared Shakeout ",
+        "Ritual Packs": [
+          "Finding Calm in Chaos"
+        ],
+        "Love Types": [
+          "CARE",
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "b2a01934-0e3a-4acb-956e-1dc0606128cf",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Stand up and gently shake out your arms and legs for 30 seconds. Let your bodies release tension — laughter is welcome.",
+        "airtable_id": "recFfCL3kXanvo02y"
+      },
+      {
+        "Title": "Quiet Tea Time",
+        "Ritual Packs": [
+          "Finding Calm in Chaos"
+        ],
+        "Love Types": [
+          "CARE",
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "af63fa04-4627-41c5-b2b0-42fc06b2020d",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Make tea or a simple drink together and sit side by side in silence for a few minutes. No planning — just warm companionship.",
+        "airtable_id": "recHZitS3CQqz9eZS"
+      },
+      {
+        "Title": "The Pause Signal",
+        "Ritual Packs": [
+          "Finding Calm in Chaos"
+        ],
+        "Love Types": [
+          "BUILD"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "TRUST_AND_SAFETY",
+          "SUPPORT"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Choose a simple word that means “let’s reset.” When either says it, you both stop and share a slow 15-second hug or steady touch before continuing.",
+        "airtable_id": "recI3xauBD7NX60fs"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:38:55.321453",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Emotion Mirror",
+        "Ritual Packs": [
+          "From Hurt to Healing",
+          "The Art of Listening"
+        ],
+        "Love Types": [
+          "CARE",
+          "BELONG"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "UNDERSTANDING",
+          "COMMUNICATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "7779fc23-22d9-4ebc-8e1a-37c17bbca7dc",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "After your partner speaks, reflect back what you heard in your own words and ask, “Did I get that right?” Adjust until they feel accurately understood.",
+        "airtable_id": "recYyhHZYOMp1kuxo"
+      },
+      {
+        "Title": "One New Promise",
+        "Ritual Packs": [
+          "From Hurt to Healing"
+        ],
+        "Love Types": [
+          "CARE",
+          "GRACE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "TRUST_AND_SAFETY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "9fbaade3-0ebc-406a-867d-5a574a10ede3",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each of you names one small, realistic change you will practice next time tension rises to show care differently Keep it doable — this is about consistency, not perfection.",
+        "airtable_id": "recNOeLYefaIZR0z2"
+      },
+      {
+        "Title": "Bridge Words",
+        "Ritual Packs": [
+          "From Hurt to Healing"
+        ],
+        "Love Types": [
+          "CARE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "ACCEPTANCE_AND_FORGIVENESS"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "HEALING"
+        ],
+        "id": "f8ec90f8-3f72-4291-ad27-627df1dafbc2",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Say aloud: “I regret…” followed by one specific action or tone. Then add, “I want to make space for us to…” and name a way forward.",
+        "airtable_id": "recegQSc9WXZa6rBq"
+      },
+      {
+        "Title": "Silent Truce",
+        "Ritual Packs": [
+          "From Hurt to Healing"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "TRUST_AND_SAFETY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "93c02202-cd6f-4cb2-9397-1dff26df1fcb",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit together in silence for one minute before discussing anything further. If it feels okay, hold hands and let your breath slow down.",
+        "airtable_id": "reciF9KKIKGptUXji"
+      },
+      {
+        "Title": "Impact Words",
+        "Ritual Packs": [
+          "From Hurt to Healing"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "HEALING"
+        ],
+        "id": "44e055a1-043d-441d-877e-288b59caedb3",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each partner completes: “What hurt me was…” The listener responds only with, “I hear that,” without defending or explaining.",
+        "airtable_id": "recmoBnsvvT0bFx8z"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:40:05.818161",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "The “I Hear You” Ritual",
+        "Ritual Packs": [
+          "Softening the Distance"
+        ],
+        "Love Types": [
+          "BUILD",
+          "BELONG"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "COMMUNICATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "fd8900d7-0f55-4f66-9527-94979039576d",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Set a weekly ritual, ask: “Is there anything we didn’t get to say this week?” Listen without rushing to close the conversation.",
+        "airtable_id": "recIk2M3DZC9jnNMY"
+      },
+      {
+        "Title": "The Smile Return",
+        "Ritual Packs": [
+          "Softening the Distance"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "049193c2-f46d-4928-9626-dbcf9c4c1adf",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit facing each other and hold eye contact until a natural smile appears. Let the smile be small and real — no forcing.",
+        "airtable_id": "recZHnY4ZBHWC6U3L"
+      },
+      {
+        "Title": "What I Meant",
+        "Ritual Packs": [
+          "Softening the Distance"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "ACCEPTANCE_AND_FORGIVENESS"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "e73c177d-6e6c-4198-9264-48a6fa027a2f",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each partner completes: “What I was trying to express (but maybe didn’t well) was…” Speak slowly and assume good intent.",
+        "airtable_id": "reciirGbkCMh3i0Ds"
+      },
+      {
+        "Title": "Open Heart Minutes ",
+        "Ritual Packs": [
+          "Softening the Distance"
+        ],
+        "Love Types": [
+          "CARE",
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "HEALING"
+        ],
+        "id": "00ec9528-2573-47de-84f6-6046efd5d79a",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Set a timer for two minutes each. Speak about what’s still sitting on your heart while your partner listens without interruption.",
+        "airtable_id": "recsmdMZsp2sZvurI"
+      },
+      {
+        "Title": "The Warm Return",
+        "Ritual Packs": [
+          "Softening the Distance"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Prepare a simple drink or snack together and sit side by side for a few quiet minutes. Let this small act mark your gentle return to ease.",
+        "airtable_id": "recwVVAuNrl9o1mzj"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:41:18.684022",
+    "batch_size": 4,
+    "rituals": [
+      {
+        "Title": "Shared Silence Minute",
+        "Ritual Packs": [
+          "The Art of Listening"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "2d082740-5380-4696-b377-5680760550c0",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit quietly together for one full minute before beginning any meaningful conversation. Let your breath settle and your attention soften toward each other.",
+        "airtable_id": "recDnc2u53fwHAaIT"
+      },
+      {
+        "Title": "Ask Before You Open ",
+        "Ritual Packs": [
+          "The Art of Listening"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "TRUST_AND_SAFETY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "e3c3329c-6323-40fc-ac3b-f6aeef664d7c",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Before sharing something vulnerable or heavy, ask: “Is this a good moment to talk?” Wait for a clear yes so your words land with care.",
+        "airtable_id": "recVX4nit6201f67K"
+      },
+      {
+        "Title": "The Weekly Listening Ritual",
+        "Ritual Packs": [
+          "The Art of Listening"
+        ],
+        "Love Types": [
+          "BELONG",
+          "BUILD"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "CONNECTION",
+          "COMMUNICATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "6e50ecac-e650-4b10-b109-fc73e18fdf95",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Choose one evening each week for an intentional check-in. Ask: “What’s been living inside you lately?” and listen without rushing to respond.",
+        "airtable_id": "recucYCTukk7sma6p"
+      },
+      {
+        "Title": "Name the Feeling Beneath",
+        "Ritual Packs": [
+          "The Art of Listening"
+        ],
+        "Love Types": [
+          "GROW"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "After your partner shares, gently ask: “Is there a feeling underneath that?” Help each other move from surface reactions to deeper emotions.",
+        "airtable_id": "recheQTvUgjQpWkC5"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:42:21.940022",
+    "batch_size": 4,
+    "rituals": [
+      {
+        "Title": "Our Alternate Universe",
+        "Ritual Packs": [
+          "Conversations That Spark"
+        ],
+        "Love Types": [
+          "SPARK",
+          "BEYOND"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "ADVENTUROUS"
+        ],
+        "id": "c9088726-bb1d-4e65-833b-57139742eb24",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Imagine your life together in a parallel universe. What’s wildly different — and what still stays the same?",
+        "airtable_id": "rec7XSn30JxjQYCYC"
+      },
+      {
+        "Title": "Shake & Smile",
+        "Ritual Packs": [
+          "Conversations That Spark"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "c4dbf7b3-dca6-40c0-a2cf-202fe9e28cdb",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Stand up and shake out your arms and legs for 10 seconds to release the day. Then look at each other and let a real smile land.",
+        "airtable_id": "recV48Ls2bt9lModW"
+      },
+      {
+        "Title": "Three Curious Questions",
+        "Ritual Packs": [
+          "Conversations That Spark"
+        ],
+        "Love Types": [
+          "BELONG",
+          "GROW"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "1ac90e99-970f-4bbf-b937-c5c3d70191a1",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Take turns asking three light but meaningful questions — like “What surprised you this week?” or “What’s something small that’s made you smile recently?” Listen with genuine interest.",
+        "airtable_id": "reccDMHgmlqcGyVXp"
+      },
+      {
+        "Title": "The Curiosity Jar",
+        "Ritual Packs": [
+          "Conversations That Spark"
+        ],
+        "Love Types": [
+          "BELONG",
+          "SPARK",
+          "BUILD"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "COMMUNICATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "36e77fde-644c-4742-843a-5f9a458d53ae",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Write small, fun questions on slips of paper and place them in a jar. Once a day or week, pull one and explore it together.",
+        "airtable_id": "recnBVaqAMkTcWTji"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:43:24.137634",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Side-by-Side Quiet",
+        "Ritual Packs": [
+          "Finding Our Rhythm Again"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "bca0217c-f9ea-4e94-8e41-7ac309a78c3d",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Choose a simple activity (tea, reading, folding laundry) and do it next to each other for 15–20 minutes.\nNo pressure to talk — just shared space without performance.",
+        "airtable_id": "recA0Cyz0C2mCsO4r"
+      },
+      {
+        "Title": "Our Small Always",
+        "Ritual Packs": [
+          "Finding Our Rhythm Again"
+        ],
+        "Love Types": [
+          "BUILD",
+          "CARE"
+        ],
+        "Time Taken": "FLEXIBLE",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "ad13ca34-beef-4e80-b180-71af4d40ffc3",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Choose one small moment in the coming week that becomes “ours” — morning coffee, post-dinner stretch, or a nightly check-in. Protect it gently, even if it’s only five minutes.",
+        "airtable_id": "recMCX0xUtfa5roYF"
+      },
+      {
+        "Title": "The 10-Minute Adventure",
+        "Ritual Packs": [
+          "Finding Our Rhythm Again"
+        ],
+        "Love Types": [
+          "SPARK",
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "ADVENTUROUS"
+        ],
+        "id": "78651d2f-288b-4903-88d8-a929e3e46c92",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Take a spontaneous 10-minute outing — a short walk, a dessert run, watching the sky. The rule: no logistics talk. Just lightness.",
+        "airtable_id": "recNv1EyUCpP3arZX"
+      },
+      {
+        "Title": "Unplug Moment",
+        "Ritual Packs": [
+          "Finding Our Rhythm Again"
+        ],
+        "Love Types": [
+          "SELF",
+          "CARE"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "b2831a89-b78f-4006-9475-3e52c159b5ef",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Both partners place phones in another room, symbolically creating a small sanctuary. Stand or sit facing each other. Take three slow breaths, letting the exhale signal: “I’m stepping out of the day and into us.”",
+        "airtable_id": "recQsoW6rAroZazBt"
+      },
+      {
+        "Title": "Check-In Pulse",
+        "Ritual Packs": [
+          "Finding Our Rhythm Again"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Pause and each share one word that describes your inner state right now.\nNo explanations required — just presence and being witnessed.",
+        "airtable_id": "recCFEF8pb5t74gIL"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:44:39.432467",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Memory & Seal ",
+        "Ritual Packs": [
+          "The Soft Evenings"
+        ],
+        "Love Types": [
+          "FIRE",
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "1a8acdc1-316d-495d-b765-f0ba4d7817d9",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Recall a moment when you felt deeply close — say it aloud. Seal the memory with a slow kiss.",
+        "airtable_id": "recIW6jZ8NZFMEDjx"
+      },
+      {
+        "Title": "The Light Shift",
+        "Ritual Packs": [
+          "The Soft Evenings"
+        ],
+        "Love Types": [
+          "BELONG",
+          "SELF"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "8c90625b-ed68-4dfb-b2da-b5c5cf4f6783",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Dim the lights, light a candle, or switch on a warm lamp together.\nLet the change in atmosphere signal: “We’re entering softer time now.”",
+        "airtable_id": "recKpnu00nG7csiCX"
+      },
+      {
+        "Title": "Under One Blanket",
+        "Ritual Packs": [
+          "The Soft Evenings"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "INTIMACY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE"
+        ],
+        "id": "5ca6d157-04b0-40b1-a8b2-b4496a958334",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit wrapped under one blanket, letting your bodies naturally lean or settle together.\nNo conversation needed — just shared warmth and unhurried closeness.",
+        "airtable_id": "recQbQAmHGjqlZct5"
+      },
+      {
+        "Title": "Palm Play",
+        "Ritual Packs": [
+          "The Soft Evenings"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "INTIMACY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "INTIMATE"
+        ],
+        "id": "7c5033eb-f736-498a-b1a8-db61655b95ed",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Trace your partner’s palm slowly with your finger. Notice warmth, texture, small movements. Switch roles after a minute or two.",
+        "airtable_id": "recktAQgsAzwic8sD"
+      },
+      {
+        "Title": "Quiet Appreciation",
+        "Ritual Packs": [
+          "The Soft Evenings"
+        ],
+        "Love Types": [
+          "CARE",
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME",
+          "GRATITUDE_AND_APPRECIATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "06bdee4e-56f9-4a35-8ac9-97c77300992d",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Hold hands and each share one small thing you appreciated about your partner today. After each share, stay in silence for a few seconds — letting it land fully.",
+        "airtable_id": "rectQTEUyToCuBNe8"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:45:52.376538",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Our Word",
+        "Ritual Packs": [
+          "Little Lights of Love"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "92b98644-ae84-4b6c-88b3-41d78700eebc",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Create one word only you both use that means “I love you” or “I’m here.”\nUse it at least once a day — spoken, texted, or whispered.",
+        "airtable_id": "rec3Gg4TByBD62Bwz"
+      },
+      {
+        "Title": "Sunday Gratitude",
+        "Ritual Packs": [
+          "Little Lights of Love"
+        ],
+        "Love Types": [
+          "GRACE",
+          "BELONG"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "ace9e15e-c231-47fa-b2ee-cf0866a24d04",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Once a week, share three small moments from the past seven days that made you feel close, grateful, or proud of each other. Keep it simple — ordinary moments count.",
+        "airtable_id": "rec6Gfw2qQ71kIX6Y"
+      },
+      {
+        "Title": "Midday Signal",
+        "Ritual Packs": [
+          "Little Lights of Love"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "80212d43-1e6e-4484-9caa-d73619b05c2c",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Send one small message during the day — a sentence, emoji, or inside joke — that says, “You crossed my mind.” It doesn’t need depth. Just presence.",
+        "airtable_id": "recXd3kJMdpJhf9vP"
+      },
+      {
+        "Title": "Energy Check",
+        "Ritual Packs": [
+          "Little Lights of Love"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "a8a427f0-59ed-4432-a067-76c611a2c58d",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "In the evening, ask each other: “Where’s your energy right now?”\nListen without fixing — just understanding.",
+        "airtable_id": "recYeQ4XK5tc5fqnt"
+      },
+      {
+        "Title": "Morning Hug ",
+        "Ritual Packs": [
+          "Little Lights of Love"
+        ],
+        "Love Types": [
+          "CARE"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "2fca5f50-0c8b-4630-8be5-a329645bd6b0",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Before leaving in the morning, share a full ten-second hug — no multitasking, no rushing. Let your bodies fully arrive before the day pulls you apart.",
+        "airtable_id": "reccHI6u4hFzlgZ8v"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:47:12.896887",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "The Two-Minute Game",
+        "Ritual Packs": [
+          "Everyday Play & Wonder"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "b4775fe8-394c-4726-b559-13b49b3a95a9",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Set a two-minute timer and play something fast — “Would You Rather,” rapid compliments, or guessing favorites. Stop while it’s still fun.",
+        "airtable_id": "recEM91JaR6jukHnG"
+      },
+      {
+        "Title": "The Question Spark",
+        "Ritual Packs": [
+          "Everyday Play & Wonder"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PLAY_AND_JOY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "2c8daccf-b72f-40ff-8582-7af0e2bf35da",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Ask one unexpected or playful question today — “What would our movie title be?” or “What superpower fits you?” Answer lightly. No deep processing — just curiosity.",
+        "airtable_id": "recIgmKl7try0M5EJ"
+      },
+      {
+        "Title": "Playful Touch",
+        "Description": "Gentle tickle, playful chase, or quick touch-and-go. ",
+        "Ritual Packs": [
+          "Everyday Play & Wonder"
+        ],
+        "Love Types": [
+          "FIRE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "INTIMACY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "94a7c8ed-7806-44ae-a93b-5de54cfe77fa",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Initiate a brief, unexpected touch — a spin, a brush of fingers, a hug from behind.\nPull away with a smile, leaving just enough spark to linger.",
+        "airtable_id": "recTVFyAvekXkzGhB"
+      },
+      {
+        "Title": "Today I Loved…",
+        "Ritual Packs": [
+          "Everyday Play & Wonder"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "33f63d7f-bd34-43ee-b5a8-23a9418963b9",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Before bed, each name one small moment from the day that made you smile about “us.” Keep it brief — ordinary moments count.",
+        "airtable_id": "recjUGzaBAVYEDcYx"
+      },
+      {
+        "Title": "The Hidden Note",
+        "Ritual Packs": [
+          "Everyday Play & Wonder"
+        ],
+        "Love Types": [
+          "CARE",
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "283fa401-9e57-4e04-a485-f73cd1ccafc4",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Slip a short handwritten note into a pocket, bag, or on a desk. Keep it simple — sweet, funny, or slightly flirty.",
+        "airtable_id": "recyU9qmXNDAmnb1Y"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:48:44.102290",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "One-Year Horizon",
+        "Ritual Packs": [
+          "Seeds of Growth"
+        ],
+        "Love Types": [
+          "BEYOND",
+          "GROW"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "GROWTH",
+          "COMMUNICATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "f5d5742b-8e8b-47fb-9b8e-8fa1f0611c8f",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Talk about one hope you hold for yourself in the next year — and one for the relationship. Focus on direction, not outcomes.",
+        "airtable_id": "recHAOSlcZBaZsZHK"
+      },
+      {
+        "Title": "What’s Changing in Me",
+        "Ritual Packs": [
+          "Seeds of Growth"
+        ],
+        "Love Types": [
+          "SELF",
+          "GROW"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "3c5eda71-0441-4176-ba6a-e8e17c676707",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Share one way you’ve changed recently — in mindset, habits, desires, or priorities. Briefly name what sparked that shift.",
+        "airtable_id": "recOuIpb9JVDFTRf0"
+      },
+      {
+        "Title": "I’ve Got You",
+        "Ritual Packs": [
+          "Seeds of Growth"
+        ],
+        "Love Types": [
+          "CARE",
+          "BEYOND"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "SUPPORT"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "86599020-f6be-4b21-b537-81387adb401c",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Name one specific way you can support your partner’s next step. Keep it simple and realistic — small commitments count.",
+        "airtable_id": "recc65H1qwCkTNBAn"
+      },
+      {
+        "Title": "The Mirror of Growth",
+        "Ritual Packs": [
+          "Seeds of Growth"
+        ],
+        "Love Types": [
+          "GROW",
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "888c2f1a-dd27-46c6-9c0e-87cbf6b89419",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Tell your partner one area where you’ve noticed them growing lately.\nBe specific — name the behavior, not just the trait.",
+        "airtable_id": "recsugbKrSDsmRksv"
+      },
+      {
+        "Title": "Arriving as You Are",
+        "Ritual Packs": [
+          "Seeds of Growth"
+        ],
+        "Love Types": [
+          "SELF"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit together in silence for one minute before speaking. Then each share one word that captures how you’re arriving today.",
+        "airtable_id": "recS73oPAMZ7aaQXZ"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:50:04.492090",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Inspire Me",
+        "Ritual Packs": [
+          "Becoming Us"
+        ],
+        "Love Types": [
+          "BELONG",
+          "GROW"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "GROWTH"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "32341f41-933c-49b3-b6bb-7ca75c134c5e",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Share something that has recently inspired you — an idea, person, story, or realization. Explain why it moved you and what it awakens in you.",
+        "airtable_id": "rec8wsvrxQ9PF2GkI"
+      },
+      {
+        "Title": "Shadow & Light",
+        "Ritual Packs": [
+          "Becoming Us"
+        ],
+        "Love Types": [
+          "GROW"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "ACCEPTANCE_AND_FORGIVENESS"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "dd73c3ae-94ad-4532-b95a-72f86cb5912d",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each share one part of yourself you’re proud of — and one part you’re still working on. Listen without correcting, advising, or minimizing.",
+        "airtable_id": "recA8QsF92Z3mH5N9"
+      },
+      {
+        "Title": "Meeting in the Gaze",
+        "Ritual Packs": [
+          "Becoming Us"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "CONNECTION",
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "id": "f1e874b3-626e-4819-825b-4a7ffec11042",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit facing each other and hold gentle eye contact for 30 seconds. Let the silence remind you: we’re here as equals, learning side by side.",
+        "airtable_id": "recIZlmJxkVBrOwTU"
+      },
+      {
+        "Title": "Naming our Season",
+        "Ritual Packs": [
+          "Becoming Us"
+        ],
+        "Love Types": [
+          "BEYOND",
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "b06c24b3-5504-472e-8787-abba5612c2d4",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Define what season your relationship feels like now. Talk briefly about what this season asks of both of you.",
+        "airtable_id": "recNxK3rtqDOOWS95"
+      },
+      {
+        "Title": "I See Who You’re Becoming",
+        "Ritual Packs": [
+          "Becoming Us"
+        ],
+        "Love Types": [
+          "BEYOND",
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "SUPPORT"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "d53837c0-8f57-44f1-860d-1244b4484354",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Tell your partner one quality or direction you see emerging in them. Name it with encouragement — not expectation.",
+        "airtable_id": "recrH8SPRxqPlJqBt"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:51:16.521387",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Nature Reset",
+        "Ritual Packs": [
+          "Coming Home to Me"
+        ],
+        "Love Types": [
+          "GROW"
+        ],
+        "Time Taken": "LONG",
+        "Relational Needs": [
+          "SPACE"
+        ],
+        "Ritual Mode": "SOLO",
+        "Ritual Tones": [
+          "CALM",
+          "HEALING"
+        ],
+        "id": "a71027e6-f56b-4035-a2a7-293ef7b46309",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Step outside for at least 10–15 minutes with no phone or agenda. Walk slowly and name (silently or aloud) five things you see, three things you hear, and one thing you feel in your body.",
+        "airtable_id": "recB3eX1tF3vlL38l"
+      },
+      {
+        "Title": "Heart Journal",
+        "Ritual Packs": [
+          "Coming Home to Me"
+        ],
+        "Love Types": [
+          "SELF"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "SOLO",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "742c7626-b000-4505-b8eb-d95e3b04619c",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Write freely for 10 minutes about how your heart feels today.  End by completing: “What I need most in this moment is…”",
+        "airtable_id": "recNFwnfeemQ1idZr"
+      },
+      {
+        "Title": "End-of-Day Gratitude",
+        "Ritual Packs": [
+          "Coming Home to Me"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION"
+        ],
+        "Ritual Mode": "SOLO",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "535e2a8a-8393-472f-aaff-9088a7aea875",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Before ending your day, name one thing you handled — even imperfectly. Whisper to yourself: “That was enough.”",
+        "airtable_id": "recP2asXuSUnahEDR"
+      },
+      {
+        "Title": "Small Act of Restoration",
+        "Ritual Packs": [
+          "Coming Home to Me"
+        ],
+        "Love Types": [
+          "SELF"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "SUPPORT"
+        ],
+        "Ritual Mode": "SOLO",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "bd2a111d-0e6a-4ead-8b23-c4679068cc27",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Choose one small, intentional act that feels nourishing — stretch, step outside, make tea slowly. Do it without multitasking.",
+        "airtable_id": "recl80I0weF08Wqkh"
+      },
+      {
+        "Title": "Exhale Arrival",
+        "Ritual Packs": [
+          "Coming Home to Me"
+        ],
+        "Love Types": [
+          "SELF"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "SPACE"
+        ],
+        "Ritual Mode": "SOLO",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Take three slow breaths, longer on the exhale than the inhale. With each breath, silently release one layer of tension.",
+        "airtable_id": "rec9vnrqu13KCQrsg"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:52:30.483390",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Together-Apart Plan",
+        "Ritual Packs": [
+          "Space to Breathe"
+        ],
+        "Love Types": [
+          "SELF",
+          "CARE",
+          "GROW"
+        ],
+        "Time Taken": "LONG",
+        "Relational Needs": [
+          "SPACE",
+          "TRUST_AND_SAFETY"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "f285beec-0304-4d02-bf1e-efb99dd3f9b0",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Create a shared rhythm that protects both connection time and personal time.",
+        "airtable_id": "rec2U6ydES2w91q0u"
+      },
+      {
+        "Title": "Solo Nourishment Hour",
+        "Ritual Packs": [
+          "Space to Breathe"
+        ],
+        "Love Types": [
+          "SELF"
+        ],
+        "Time Taken": "FLEXIBLE",
+        "Relational Needs": [
+          "SPACE"
+        ],
+        "Ritual Mode": "SOLO",
+        "Ritual Tones": [
+          "HEALING"
+        ],
+        "id": "0bf89e51-309e-47c9-ac1b-bd738f87f505",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each partner intentionally takes an hour apart to do something restorative — alone and uninterrupted. No justification, no checking in — just agreed space.",
+        "airtable_id": "rec6pO4k1dulL7PWh"
+      },
+      {
+        "Title": "Soft Return",
+        "Ritual Packs": [
+          "Space to Breathe"
+        ],
+        "Love Types": [
+          "BELONG"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "077e924b-1bbd-4801-a588-7046ce198b2d",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "When you come back together, reconnect gently — sit close, share tea, or rest a hand on each other’s arm. No recap required unless offered.",
+        "airtable_id": "recpOIKdBgEpo198k"
+      },
+      {
+        "Title": "Calm Arrival & Space Check",
+        "Ritual Packs": [
+          "Space to Breathe"
+        ],
+        "Love Types": [
+          "SELF"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "SPACE",
+          "COMMUNICATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit beside each other in silence for one minute to settle. Then each share: “Right now, I need a little more ___ today.”",
+        "airtable_id": "reca0RJXtlVKU5wZG"
+      },
+      {
+        "Title": "Space Is Care",
+        "Ritual Packs": [
+          "Space to Breathe"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "MOMENT",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Name one thing you appreciate about how your partner honored space today — or how you honored your own. Let independence feel like trust, not distance.",
+        "airtable_id": "rectBtwf9QPqkDXWf"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:53:41.281061",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "Carry the Glow",
+        "Ritual Packs": [
+          "Radiant Together"
+        ],
+        "Love Types": [
+          "BEYOND",
+          "CARE"
+        ],
+        "Time Taken": "FLEXIBLE",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "e7159b41-7b18-4500-b2a4-32482a8d8176",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Choose one small weekly ritual of appreciation — a “thank you” moment, a shared check-in, or a love note habit. Commit to keeping celebration alive beyond special occasions.",
+        "airtable_id": "recJIRhpGX1QeCBCu"
+      },
+      {
+        "Title": "A Toast to Us",
+        "Ritual Packs": [
+          "Radiant Together"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "SACRED",
+          "WARM"
+        ],
+        "id": "889f1c85-f1e3-442c-968d-84ed47e1c0fb",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Create a short toast honoring your shared life — past, present, or future.\nSpeak it aloud as if marking something sacred.",
+        "airtable_id": "reclNeHE1wwBDE3tL"
+      },
+      {
+        "Title": "Mini Celebration Dance ",
+        "Ritual Packs": [
+          "Radiant Together"
+        ],
+        "Love Types": [
+          "SPARK"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PLAY_AND_JOY",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "PLAYFUL"
+        ],
+        "id": "9c8b281b-27bc-4054-859c-12cdd5761c34",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Play a song that feels like “you” and move together — dance, sway, laugh, no choreography needed. Let your bodies celebrate what words cannot.",
+        "airtable_id": "recr9KqSfAJnrUhZh"
+      },
+      {
+        "Title": "The Story of Us",
+        "Ritual Packs": [
+          "Radiant Together"
+        ],
+        "Love Types": [
+          "BEYOND"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "GROWTH",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "60577dd5-d995-4141-9364-96c999aa4c1c",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Recall five meaningful milestones in your journey — big or small. Notice how each moment shaped who you are today.",
+        "airtable_id": "recsdbKjKzOdxJshm"
+      },
+      {
+        "Title": "Circle of Gratitude",
+        "Ritual Packs": [
+          "Radiant Together"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM"
+        ],
+        "id": "c920e868-d871-4e26-8ede-6f3094f7e9b6",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Sit facing each other and take turns naming three things you’re grateful for — about your partner or your relationship. Let each one land before moving to the next.",
+        "airtable_id": "recubsKyoltsMDXqy"
+      }
+    ]
+  },
+  {
+    "timestamp": "2026-03-03T17:54:55.440122",
+    "batch_size": 5,
+    "rituals": [
+      {
+        "Title": "You Are My Gift",
+        "Ritual Packs": [
+          "Sacred Celebration"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "GRATITUDE_AND_APPRECIATION",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM",
+          "SACRED"
+        ],
+        "id": "37ca34a6-d8d0-4023-95f0-70fcfce5b507",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Take turns completing the sentence: “Because of you, my life has…” Speak slowly, letting each statement land fully.",
+        "airtable_id": "recK51hUp9ZfG4Smg"
+      },
+      {
+        "Title": "What We’ve Walked Through",
+        "Ritual Packs": [
+          "Sacred Celebration"
+        ],
+        "Love Types": [
+          "GROW",
+          "BEYOND"
+        ],
+        "Time Taken": "MEDIUM",
+        "Relational Needs": [
+          "GROWTH",
+          "UNDERSTANDING"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "REFLECTIVE"
+        ],
+        "id": "57c31140-7116-4a9a-b5ea-fcfbdff8813a",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Name three to five moments you’re proud you faced together — challenges included. Acknowledge not just the event, but who you became because of it.",
+        "airtable_id": "recZpdWxz8jQ0mwJ7"
+      },
+      {
+        "Title": "Carry the Blessing",
+        "Ritual Packs": [
+          "Sacred Celebration"
+        ],
+        "Love Types": [
+          "BEYOND"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "GROWTH",
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "WARM",
+          "CALM"
+        ],
+        "id": "63e47984-aad4-46d0-ba59-8847a96b7c4c",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Write one shared intention for the coming year and place it somewhere meaningful. Return to it together at a chosen future date.",
+        "airtable_id": "reccPKxRaiUtBfK9v"
+      },
+      {
+        "Title": "Renewal Promise",
+        "Ritual Packs": [
+          "Sacred Celebration"
+        ],
+        "Love Types": [
+          "BEYOND"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "CONNECTION"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "SACRED",
+          "WARM"
+        ],
+        "id": "b4dcd2d2-1fd0-4a84-a7b7-dcc7696fd536",
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Each offer one small promise for the next season of your love — specific and lived, not grand. Seal it with eye contact or a gentle touch.",
+        "airtable_id": "recfkcHIkyasGwQGf"
+      },
+      {
+        "Title": "Sacred Space",
+        "Ritual Packs": [
+          "Sacred Celebration"
+        ],
+        "Love Types": [
+          "GRACE"
+        ],
+        "Time Taken": "SHORT",
+        "Relational Needs": [
+          "PRESENCE_AND_QUALITY_TIME"
+        ],
+        "Ritual Mode": "TOGETHER",
+        "Ritual Tones": [
+          "CALM",
+          "WARM"
+        ],
+        "Status": "PUBLISHED",
+        "Sync Status": "GENERATE",
+        "Short Description": "Light a candle or dim the lights and take three slow breaths together.\nName aloud one intention for this moment — gratitude, remembrance, renewal.",
+        "airtable_id": "rec9q0gC9N04K6BXK"
+      }
+    ]
   }
 ]
