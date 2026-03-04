@@ -46,40 +46,91 @@
     "id": 2,
     "loveType": "SPARK",
     "title": "Spark",
-    "subtitle": "The energy of play, attraction, and lightheartedness",
-    "description": "Spark brings **fun**, curiosity, and excitement into the relationship.",
+    "subtitle": "The playful energy that keeps love light, curious, and alive.",
+    "description": "Spark is the lighthearted side of love — the teasing, the inside jokes, the shared laughter that makes being together feel easy. It shows up in small surprises, silly moments, playful banter, or simply choosing fun in the middle of ordinary days. Spark isn’t just about newness or attraction. It’s about staying curious about each other, even in long-term love. When Spark is alive, love feels vibrant and warm — not just steady, but enjoyable. Without it, connection can start to feel heavy or routine.",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Spark shows up",
+        "title": "Core Components",
+        "summary": "The elements that keep Spark alive",
         "bullets": [
           {
-            "title": "Playful Banter",
-            "text": "Jokes, teasing, and laughter."
+            "title": "Playfulness",
+            "text": "Silliness, teasing, and light mischief that bring a carefree energy to your connection."
           },
           {
-            "title": "Curiosity",
-            "text": "Exploring new hobbies or ideas together."
+            "title": "Shared Laughter",
+            "text": "Inside jokes, banter, and the ability to laugh together — even when things feel tense."
           },
           {
-            "title": "Flirtation",
-            "text": "Keeping the light energy alive."
+            "title": "Spontaneity & Novelty",
+            "text": "Saying yes to the unexpected and exploring new experiences that keep the relationship feeling fresh."
+          },
+          {
+            "title": "Joy",
+            "text": "A sense of lightness and delight in being together, even in ordinary moments."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "Why Spark fades",
+        "title": "In Practice",
+        "summary": "How Spark shows up in everyday love",
         "bullets": [
           {
-            "title": "Routine Overload",
-            "text": "Too much structure kills spontaneity."
+            "title": "Inside Language",
+            "text": "Shared jokes, playful teasing, and references that only the two of you understand."
           },
           {
-            "title": "Stress",
-            "text": "Exhaustion dampens playfulness."
+            "title": "Humor in the Ordinary",
+            "text": "Laughing about daily life — from memes to playful commentary while doing chores."
+          },
+          {
+            "title": "Lightness During Stress",
+            "text": "Using gentle humor to soften tension and find your way back to connection."
+          },
+          {
+            "title": "Turning Moments Into Fun",
+            "text": "Dancing while cooking, racing to the car, or adding play to routine tasks."
+          },
+          {
+            "title": "Spontaneous Joy",
+            "text": "Late-night drives, surprise treats, or saying yes to an unexpected adventure."
+          },
+          {
+            "title": "Permission to Be Silly",
+            "text": "Feeling safe enough to drop your guard and be goofy without judgment."
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "What can dim Spark in a relationship",
+        "bullets": [
+          {
+            "title": "Stress & Mental Load",
+            "text": "When work, responsibilities, or parenting feel overwhelming, playfulness is often the first thing to disappear."
+          },
+          {
+            "title": "Overfocus on Productivity",
+            "text": "If every moment is about efficiency or outcomes, there’s little space for spontaneity or lightness."
+          },
+          {
+            "title": "Fear of Looking Silly",
+            "text": "Self-consciousness or past criticism can make someone hold back their playful side."
+          },
+          {
+            "title": "Unresolved Tension",
+            "text": "Unspoken resentment or emotional distance can quietly block humor and ease."
+          },
+          {
+            "title": "Routine Without Novelty",
+            "text": "Doing the same things repeatedly without surprise or variation can make love feel flat."
+          },
+          {
+            "title": "Mismatch or Dismissal",
+            "text": "Different play styles — or mocking each other’s attempts at fun — can create disconnection instead of joy."
           }
         ]
       }
