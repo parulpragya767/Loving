@@ -3,40 +3,95 @@
     "id": 1,
     "loveType": "BELONG",
     "title": "Belong",
-    "subtitle": "The bond of trust, understanding, and feeling at home",
-    "description": "Belong is about being truly **seen** and _accepted_. Belong is about being truly **seen** and _accepted_. Belong is about being truly **seen** and _accepted_. Belong is about being truly **seen** and _accepted_. Belong is about being truly **seen** and _accepted_.",
+    "subtitle": "The steady love of being seen, accepted, and chosen — as you are.",
+    "description": "Belong is the love of being truly seen — imperfectly, unevenly, yet earnestly. It’s the commitment to **understand and accept**, even when full knowing is impossible. Belong makes space for flaws, contradictions, and growth without withdrawing care. It isn’t built on idealization, but on respect, patience, and the willingness to keep showing up. In Belong, love means saying, 'I see the real you — and I’m staying.'",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Belong shows up in daily life",
+        "title": "Core Components",
+        "summary": "The foundations that create a sense of belonging",
         "bullets": [
           {
-            "title": "Open Expression",
-            "text": "Sharing unfiltered thoughts openly."
+            "title": "Being Seen",
+            "text": "Allowing each other to be known — strengths, flaws, contradictions, and all."
           },
           {
-            "title": "Shared Rituals",
-            "text": "Having private jokes or recurring habits that **deepen trust**."
+            "title": "Effortful Understanding",
+            "text": "Choosing to listen and try to understand, even when full clarity isn’t possible."
           },
           {
-            "title": "Comfort in Silence",
-            "text": "Knowing you belong without needing constant words."
+            "title": "Mutual Respect",
+            "text": "Valuing each other as whole individuals, without idealizing or diminishing."
+          },
+          {
+            "title": "Acceptance",
+            "text": "Making space for imperfection and growth without withdrawing care."
+          },
+          {
+            "title": "Choosing to Stay",
+            "text": "A steady commitment to remain connected through discomfort, conflict, and change."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "What gets in the way of Belong",
+        "title": "In Practice",
+        "summary": "How Belong shows up in everyday love",
         "bullets": [
           {
-            "title": "Fear of Judgment",
-            "text": "Holding back feelings to avoid conflicts."
+            "title": "Honest Expression",
+            "text": "Sharing thoughts and feelings openly, even when they’re imperfect or unfinished."
           },
           {
-            "title": "Drifting Apart",
-            "text": "Less shared time or conversations, leading to disconnection."
+            "title": "Attentive Listening",
+            "text": "Trying to understand each other’s perspective, even when you don’t fully agree."
+          },
+          {
+            "title": "Respecting Individuality",
+            "text": "Supporting each other’s identity, interests, and growth without control or comparison."
+          },
+          {
+            "title": "Staying Through Discomfort",
+            "text": "Remaining engaged during conflict or misunderstanding instead of withdrawing."
+          },
+          {
+            "title": "Practicing Forgiveness",
+            "text": "Letting go of small hurts and repairing instead of keeping score."
+          },
+          {
+            "title": "Choosing Connection Daily",
+            "text": "Making time and effort to nurture the bond, even when enthusiasm naturally fluctuates."
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "What can weaken a sense of belonging",
+        "bullets": [
+          {
+            "title": "Emotional Withdrawal",
+            "text": "Avoiding vulnerability or difficult conversations can slowly erode the feeling of being truly seen."
+          },
+          {
+            "title": "Expectation of Perfect Understanding",
+            "text": "Believing your partner should always 'just get you' can create frustration when misunderstandings happen."
+          },
+          {
+            "title": "Fear of Being Fully Known",
+            "text": "Hiding flaws, doubts, or contradictions out of fear of rejection limits genuine closeness."
+          },
+          {
+            "title": "Avoiding Conflict to Keep Peace",
+            "text": "Choosing surface harmony over honest repair can create quiet emotional distance."
+          },
+          {
+            "title": "Feeling Unseen or Unchosen",
+            "text": "When appreciation, attention, or effort fades, belonging can begin to feel uncertain."
+          },
+          {
+            "title": "Rigid Expectations",
+            "text": "Holding tightly to who your partner used to be, instead of accepting who they’re becoming."
           }
         ]
       }
