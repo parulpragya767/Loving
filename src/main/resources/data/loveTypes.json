@@ -387,40 +387,99 @@
     "id": 5,
     "loveType": "GROW",
     "title": "Grow",
-    "subtitle": "The energy of learning and evolving together",
-    "description": "Grow is about **curiosity**, feedback, and shared transformation.",
+    "subtitle": "The love of evolving — individually and together.",
+    "description": "Grow is the love that embraces **change and evolution** — in yourself, your partner, and your relationship. It’s the commitment to keep learning from each other’s strengths and blind spots, even when it’s uncomfortable. Grow sees love as a living process, not a fixed state. Through **honest reflection**, open communication, and shared curiosity, it turns challenges into opportunities for growth. When Grow is alive, love stays dynamic, intentional, and open to becoming more.",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Grow shows up",
+        "title": "Core Components",
+        "summary": "The foundations that keep love evolving",
         "bullets": [
           {
-            "title": "Learning Together",
-            "text": "Trying new skills as a pair."
+            "title": "Mutual Curiosity",
+            "text": "Continuing to rediscover each other instead of assuming you already know."
           },
           {
-            "title": "Giving Feedback",
-            "text": "Helping each other improve."
+            "title": "Openness to Feedback",
+            "text": "Sharing honest reflections as tools for understanding, not criticism."
           },
           {
-            "title": "Shared Reflection",
-            "text": "Looking back to see how you’ve evolved."
+            "title": "Emotional Responsibility",
+            "text": "Owning your triggers and patterns instead of blaming your partner."
+          },
+          {
+            "title": "Flexibility Through Change",
+            "text": "Adapting roles, goals, and expectations as life evolves."
+          },
+          {
+            "title": "Shared Learning",
+            "text": "Exploring ideas, skills, and insights side by side."
+          },
+          {
+            "title": "Compassionate Challenge",
+            "text": "Encouraging each other toward growth, even when it’s uncomfortable."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "What stalls growth",
+        "title": "In Practice",
+        "summary": "How Grow shows up in everyday moments",
         "bullets": [
           {
-            "title": "Avoiding Change",
-            "text": "Staying in comfort zones."
+            "title": "Asking Deeper Questions",
+            "text": "Staying curious about each other’s inner world, not just daily updates."
           },
           {
-            "title": "Criticism",
-            "text": "Feedback without care becomes hurtful."
+            "title": "Turning Tension into Insight",
+            "text": "Using conflict as a chance to understand patterns, not just move on."
+          },
+          {
+            "title": "Supporting Personal Evolution",
+            "text": "Encouraging each other through identity shifts, risks, and change."
+          },
+          {
+            "title": "Learning Side by Side",
+            "text": "Exploring ideas, books, or reflections that shape who you’re becoming."
+          },
+          {
+            "title": "Updating the Relationship",
+            "text": "Revisiting expectations and needs instead of running on autopilot."
+          },
+          {
+            "title": "Naming Blind Spots Gently",
+            "text": "Pointing out stuck patterns with care, not criticism."
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "What can quietly stall shared growth",
+        "bullets": [
+          {
+            "title": "Love Should Be Effortless",
+            "text": "Believing real love shouldn’t require work, reflection, or change."
+          },
+          {
+            "title": "Avoiding Discomfort",
+            "text": "Dodging hard conversations to protect short-term comfort."
+          },
+          {
+            "title": "Fear of Change",
+            "text": "Resisting growth out of fear the relationship won’t survive it."
+          },
+          {
+            "title": "Exhaustion",
+            "text": "Lacking time and mental space for deeper engagement."
+          },
+          {
+            "title": "Imbalanced Effort",
+            "text": "When only one partner commits to growth."
+          },
+          {
+            "title": "Blaming Language",
+            "text": "Using criticism or attack instead of thoughtful, responsible feedback."
           }
         ]
       }
@@ -430,40 +489,99 @@
     "id": 6,
     "loveType": "BUILD",
     "title": "Build",
-    "subtitle": "The steady creation of shared life and partnership",
-    "description": "Build is about **stability**, reliability, and long-term commitment.",
+    "subtitle": "The steady love that builds a shared life together.",
+    "description": "Build is the grounded side of love that grows through **shared effort and long-term commitment**. It lives in the everyday — in routines, responsibilities, and the quiet work of showing up. It’s patience during tension, compromise in decision-making, and choosing each other even when things feel ordinary. Build turns affection into **structure** and connection into **partnership**. With Build, love feels **reliable enough to stand on**.",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Build shows up",
+        "title": "Core Components",
+        "summary": "The foundations that make Build steady and lasting",
         "bullets": [
           {
-            "title": "Shared Goals",
-            "text": "Planning the future together."
+            "title": "Commitment",
+            "text": "Choosing each other through every season — especially when things feel ordinary or hard."
           },
           {
-            "title": "Consistency",
-            "text": "Being reliable day to day."
+            "title": "Patience",
+            "text": "Understanding that lasting love takes time, effort, and the willingness to grow slowly."
           },
           {
-            "title": "Teamwork",
-            "text": "Solving challenges jointly."
+            "title": "Reliability",
+            "text": "Being consistent and dependable, creating a sense of security and trust."
+          },
+          {
+            "title": "Shared Responsibility",
+            "text": "Carrying daily tasks, decisions, and life duties together."
+          },
+          {
+            "title": "Compromise",
+            "text": "Balancing individual needs to find solutions that work for both."
+          },
+          {
+            "title": "Long-Term Vision",
+            "text": "Aligning on goals, values, and the future you’re building side by side."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "What undermines Build",
+        "title": "In Practice",
+        "summary": "How Build shows up in everyday partnership",
         "bullets": [
           {
-            "title": "Broken Promises",
-            "text": "Unreliability weakens trust."
+            "title": "Sharing the Load",
+            "text": "Managing finances, chores, and life logistics as a team."
           },
           {
-            "title": "Avoidance",
-            "text": "Dodging responsibility in partnership."
+            "title": "Deciding Together",
+            "text": "Balancing personal needs with shared goals."
+          },
+          {
+            "title": "Showing Up Consistently",
+            "text": "Being dependable through stressful, ordinary, and in-between days."
+          },
+          {
+            "title": "Working Through Challenges",
+            "text": "Staying committed during career shifts, health issues, or family strain."
+          },
+          {
+            "title": "Creating Stable Rituals",
+            "text": "Building habits and routines that anchor connection."
+          },
+          {
+            "title": "Planning the Future",
+            "text": "Dreaming and preparing for what you’re building side by side."
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "What can quietly weaken long-term partnership",
+        "bullets": [
+          {
+            "title": "Uneven Effort",
+            "text": "When one partner carries most responsibilities, resentment slowly builds."
+          },
+          {
+            "title": "Autopilot Assumption",
+            "text": "Believing love will sustain itself without ongoing care and maintenance."
+          },
+          {
+            "title": "Role Overload",
+            "text": "Performing duties without staying connected as partners."
+          },
+          {
+            "title": "Avoiding Hard Conversations",
+            "text": "Sidestepping talks about money, goals, or priorities."
+          },
+          {
+            "title": "Drifting Direction",
+            "text": "Losing sight of shared goals amid daily to-dos."
+          },
+          {
+            "title": "Taking Stability for Granted",
+            "text": "Overlooking the quiet loyalty and consistency that hold things together."
           }
         ]
       }
@@ -473,40 +591,99 @@
     "id": 7,
     "loveType": "SELF",
     "title": "Self",
-    "subtitle": "The love of one’s own being",
-    "description": "Self love is **self-respect**, compassion, and inner growth.",
+    "subtitle": "The grounded love that keeps you whole within togetherness.",
+    "description": "Self is the quiet relationship you hold with yourself — your **boundaries, truth, and inner steadiness**. It’s knowing you are a complete person, even as you deeply love another. Self lives in small acts of self-respect: resting when needed, naming what feels true, standing firm without withdrawing. It creates space between togetherness and individuality, so love doesn’t become self-erasure. With Self, you’re not here to complete each other — but to **witness and walk beside each other**, fully and freely.",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Self shows up",
+        "title": "Core Components",
+        "summary": "The foundations that keep you whole within love",
         "bullets": [
           {
-            "title": "Boundaries",
-            "text": "Knowing and expressing limits."
+            "title": "Inner Grounding",
+            "text": "Knowing who you are and how you feel, even while deeply connected."
           },
           {
-            "title": "Self-Care",
-            "text": "Taking time for rest and joy."
+            "title": "Compassionate Boundaries",
+            "text": "Saying no or asking for space without guilt or withdrawal."
           },
           {
-            "title": "Inner Dialogue",
-            "text": "Being kind to yourself."
+            "title": "Emotional Responsibility",
+            "text": "Owning your reactions and needs instead of blaming your partner."
+          },
+          {
+            "title": "Autonomy",
+            "text": "Maintaining your own interests, wellbeing, and personal goals."
+          },
+          {
+            "title": "Self-Compassion",
+            "text": "Treating yourself with kindness, especially when you fall short."
+          },
+          {
+            "title": "Wholeness",
+            "text": "Seeing love as a meeting of two complete, evolving individuals."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "What weakens Self love",
+        "title": "In Practice",
+        "summary": "How SELF shows up in everyday love and connection",
         "bullets": [
           {
-            "title": "Comparison",
-            "text": "Measuring worth by others."
+            "title": "Space without Distance",
+            "text": "Taking personal time to rest, reflect, create, or just be, without threatening closeness."
           },
           {
-            "title": "Neglect",
-            "text": "Ignoring personal needs."
+            "title": "Owning Your Emotions",
+            "text": "Sharing your feelings as your own experience, taking responsibility rather than blaming."
+          },
+          {
+            "title": "Respecting Differences",
+            "text": "Celebrating each other’s quirks, beliefs, and pace of growth without pressure."
+          },
+          {
+            "title": "Healthy Boundaries",
+            "text": "Being able to say what you need or don’t want safely, without guilt or fear."
+          },
+          {
+            "title": "Supporting Growth",
+            "text": "Encouraging learning, healing, and exploring passions within the relationship."
+          },
+          {
+            "title": "Secure Self-Esteem",
+            "text": "Being self-assured enough to reduce constant need for external validation."
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "Patterns that weaken SELF and make healthy love harder",
+        "bullets": [
+          {
+            "title": "Fear of Not Being Enough",
+            "text": "Seeking constant validation or hiding parts of yourself to feel lovable."
+          },
+          {
+            "title": "Enmeshment",
+            "text": "Losing individuality by over-sharing emotions, decisions, and daily life, creating pressure to constantly align."
+          },
+          {
+            "title": "Guilt Around Boundaries",
+            "text": "Feeling selfish or disloyal when protecting your energy or asking for space."
+          },
+          {
+            "title": "Comparison and Self-Judgment",
+            "text": "Measuring yourself against your partner or others, eroding self-worth and authenticity."
+          },
+          {
+            "title": "Overidentification with the Relationship Role",
+            "text": "Focusing too much on being the 'good partner,' neglecting your own needs and inner self."
+          },
+          {
+            "title": "External Validation",
+            "text": "Relying on your partner’s attention or approval to feel secure, causing emotional ups and downs."
           }
         ]
       }
@@ -516,40 +693,99 @@
     "id": 8,
     "loveType": "BEYOND",
     "title": "Beyond",
-    "subtitle": "The universal compassion and sense of greater love",
-    "description": "Beyond is about **service**, spirituality, and transcendence.",
+    "subtitle": "The purposeful love that moves you toward something greater together.",
+    "description": "Beyond is the shared sense of direction that gives love meaning over time. It lives in **aligned values, shared dreams, and the future you’re shaping side by side**. Beyond isn’t just about today’s connection — it’s about what you’re building toward, whether that’s family, growth, contribution, or a life vision that feels bigger than either of you alone. It grounds you in what matters and carries you forward through change. With Beyond, love feels **anchored in purpose and stretched toward possibility**.",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Beyond shows up",
+        "title": "Core Components",
+        "summary": "The foundations that make BEYOND expansive and purposeful",
         "bullets": [
           {
-            "title": "Altruism",
-            "text": "Helping others selflessly."
+            "title": "Shared Vision",
+            "text": "A unifying purpose that goes beyond the relationship — building a life or making a difference together."
           },
           {
-            "title": "Spiritual Practice",
-            "text": "Meditation, prayer, or rituals."
+            "title": "Aligned Values",
+            "text": "Respecting and understanding each other’s principles, finding overlap that supports your shared foundation."
           },
           {
-            "title": "Connection to Nature",
-            "text": "Feeling part of something larger."
+            "title": "Mutual Growth",
+            "text": "Encouraging each other’s dreams and evolution, both as individuals and as a couple."
+          },
+          {
+            "title": "Long-Term Thinking",
+            "text": "Making choices with the future and sustainability of your shared life in mind."
+          },
+          {
+            "title": "Contribution Beyond the Couple",
+            "text": "Engaging in work, family, or community that gives your love a broader purpose."
+          },
+          {
+            "title": "Commitment to Becoming",
+            "text": "Continuously showing up, evolving, and shaping life together with intention."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "What blocks Beyond",
+        "title": "In Practice",
+        "summary": "How BEYOND shows up in shared purpose and expansive love",
         "bullets": [
           {
-            "title": "Ego",
-            "text": "Focus only on self-gain."
+            "title": "Dream Together",
+            "text": "Talk about hopes, ideals, and the people you want to become — building a life as a team."
           },
           {
-            "title": "Disconnection",
-            "text": "Losing touch with larger meaning."
+            "title": "Decide with Shared Purpose",
+            "text": "Weigh choices by how they serve the life you’re co-creating, guided by intention rather than sacrifice."
+          },
+          {
+            "title": "Hold Each Other to Values",
+            "text": "Gently mirror and guide each other toward your better selves with care, not judgment."
+          },
+          {
+            "title": "Grow Through Hardship",
+            "text": "Face challenges as a team, finding meaning together and emerging stronger and more united."
+          },
+          {
+            "title": "Make Room for Legacy",
+            "text": "Reflect on how your relationship impacts family, community, and the world you’re shaping."
+          },
+          {
+            "title": "Co-Author Something Larger",
+            "text": "Engage in endeavors that expand your love beyond the personal — raising children, creating, or living mindfully."
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "Patterns that weaken BEYOND and limit shared purpose",
+        "bullets": [
+          {
+            "title": "Survival Mode",
+            "text": "Daily demands overshadow shared vision, making purpose feel like a luxury."
+          },
+          {
+            "title": "Fear of Difference",
+            "text": "Divergent values or growth feel threatening, leading to avoidance or drift."
+          },
+          {
+            "title": "Lack of Intentional Space",
+            "text": "Without protected time to reflect and dream, deep connection and purpose fade."
+          },
+          {
+            "title": "Love Defined Only by Feeling",
+            "text": "Focusing solely on passion or companionship can make shared meaning feel abstract or neglected."
+          },
+          {
+            "title": "Resistance to Change",
+            "text": "Avoiding new roles, mindsets, or habits stalls growth and the evolution of shared vision."
+          },
+          {
+            "title": "Avoidance of Conflict",
+            "text": "Fearing friction prevents confronting differences, limiting depth and shared understanding."
           }
         ]
       }
@@ -559,40 +795,99 @@
     "id": 9,
     "loveType": "GRACE",
     "title": "Grace",
-    "subtitle": "The universal compassion and sense of greater love",
-    "description": "Grace is about **compassion**, forgiveness, and letting go.",
+    "subtitle": "The generous love that softens, forgives, and keeps choosing.",
+    "description": "Grace is love at its most compassionate — meeting imperfection with **kindness instead of judgment**. It shows up in gentle words during conflict, patient listening after mistakes, and the quiet decision to stay tender when it would be easier to harden. Grace doesn’t ignore boundaries or harm — it holds dignity at the center while choosing mercy over pride. It remembers that we are all flawed, all becoming. With Grace, love feels **forgiving enough to heal and strong enough to endure**.",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Grace shows up",
+        "title": "Core Components",
+        "summary": "The foundations that make GRACE steady and compassionate",
         "bullets": [
           {
-            "title": "Altruism",
-            "text": "Helping others selflessly"
+            "title": "Compassion without Condition",
+            "text": "Showing steady kindness naturally, not as a reward, but as a response to shared humanity."
           },
           {
-            "title": "Spiritual Practice",
-            "text": "Meditation, prayer, or rituals."
+            "title": "Forgiveness and Repair",
+            "text": "Allowing space for mistakes and inviting healing instead of resentment."
           },
           {
-            "title": "Connection to Nature",
-            "text": "Feeling part of something larger."
+            "title": "Seeing the Deeper Self",
+            "text": "Understanding the feelings and fears beneath behavior before judging."
+          },
+          {
+            "title": "Loving Without Agenda",
+            "text": "Giving love freely, without keeping score or expecting a return."
+          },
+          {
+            "title": "Patience and Soft Presence",
+            "text": "Allowing growth and healing to unfold in their own rhythm without rushing."
+          },
+          {
+            "title": "Protection of Dignity",
+            "text": "Balancing compassion with self-respect, keeping love kind but not enabling."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "What blocks Grace",
+        "title": "In Practice",
+        "summary": "How GRACE shows up in daily love and connection",
         "bullets": [
           {
-            "title": "Ego",
-            "text": "Focus only on self-gain."
+            "title": "Holding Imperfections",
+            "text": "Seeing each other’s flaws without cruelty — acknowledging human limits with gentleness."
           },
           {
-            "title": "Disconnection",
-            "text": "Losing touch with larger meaning."
+            "title": "Moments of Rupture and Repair",
+            "text": "Coming back after hurt with sincere apologies and a shared desire to reconnect."
+          },
+          {
+            "title": "Presence in Struggle",
+            "text": "Staying kind when your partner is low or withdrawn, showing love through pain as well as joy."
+          },
+          {
+            "title": "Quiet Kindnesses",
+            "text": "Small, unasked-for acts that honor dignity and show care in subtle, powerful ways."
+          },
+          {
+            "title": "Resisting Punishment",
+            "text": "Pausing instead of retaliating when hurt, expressing feelings without shaming or wounding."
+          },
+          {
+            "title": "Loving Beyond Usefulness",
+            "text": "Caring even when your partner isn’t at their best, valuing them simply because they matter."
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "Patterns that weaken GRACE and make compassionate love harder",
+        "bullets": [
+          {
+            "title": "The Myth of Perfection",
+            "text": "Expecting smoothness or flawlessness leads to blame instead of compassion."
+          },
+          {
+            "title": "Hurt Turning into Punishment",
+            "text": "Responding to betrayal or disappointment with coldness, sarcasm, or withdrawal blocks repair."
+          },
+          {
+            "title": "Unspoken Needs and Resentment",
+            "text": "Ignoring your own needs can create quiet bitterness, even in gentle people."
+          },
+          {
+            "title": "Fear of Being Taken for Granted",
+            "text": "Withholding forgiveness or patience to avoid being walked over increases distance."
+          },
+          {
+            "title": "Exhaustion and Burnout",
+            "text": "Depletion reduces patience and generosity, making it harder to show grace."
+          },
+          {
+            "title": "Mistaking Grace for Passivity",
+            "text": "Grace without boundaries or accountability can enable harm instead of fostering love."
           }
         ]
       }
