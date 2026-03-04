@@ -1,27 +1,553 @@
 [
   {
-    "id": "1a2b3c4d-5e6f-7a8b-9c0d-1e2f3a4b5c6d",
-    "title": "Deep Connection Pack",
-    "tagLine": "Strengthen your bond through presence and shared experiences",
-    "description": "A collection of rituals designed to deepen your connection through presence and shared moments of wonder.",
-    "howItHelps": "These rituals help couples create meaningful connections by being fully present with each other and sharing experiences that spark joy and wonder.",
-    "ritualIds": [
-      "81116a4a-6e3f-49a9-8216-5a643b9d9e44",
-      "16ed763a-9c96-431c-98fb-1615e35f799e"
-    ],
+    "id": "b21567fb-36db-4051-b31f-844d846381c6",
+    "title": "Finding Our Way Back",
+    "tagLine": "",
+    "description": "When emotional distance starts to grow, it rarely happens all at once. This pack gently guides you from quiet awareness to renewed warmth and steady connection — one small reconnection at a time.",
+    "howItHelps": "",
+    "ritualIds": [],
     "journey": "FEELING_DISTANT",
     "loveTypes": [
-      "BEYOND",
       "BELONG",
-      "GRACE"
+      "CARE"
     ],
     "relationalNeeds": [
+      "CONNECTION",
+      "UNDERSTANDING",
       "PRESENCE_AND_QUALITY_TIME",
+      "COMMUNICATION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "ff603ffd-9cbf-4513-b1d6-7380081ac21a",
+    "title": "Bridges of Understanding",
+    "tagLine": "",
+    "description": "Bridges of Understanding",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "FEELING_DISTANT",
+    "loveTypes": [
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "CONNECTION",
+      "UNDERSTANDING",
+      "COMMUNICATION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "4f09e36d-5543-4dbe-a83a-d8f2fb458624",
+    "title": "Rekindle the Spark",
+    "tagLine": "",
+    "description": "When love feels flat or overly routine, this pack gently reawakens desire, curiosity, and physical warmth. Through playful energy and intentional touch, you’ll move from familiarity back into aliveness — slowly, without pressure.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "LOVE_FEELS_FLAT",
+    "loveTypes": [
+      "SPARK",
+      "FIRE",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "INTIMACY",
+      "CONNECTION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "cec18ec0-898a-4184-a12d-3bfc85e28655",
+    "title": "Everyday Magic",
+    "tagLine": "",
+    "description": "When love feels routine or muted, this pack brings delight back into the ordinary. Through micro-moments of curiosity, play, and tenderness, you’ll begin noticing each other again — not with intensity, but with steady joy.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "LOVE_FEELS_FLAT",
+    "loveTypes": [
+      "SPARK",
+      "BELONG",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "CONNECTION",
+      "INTIMACY"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "fe96c3f0-9ebe-48bd-8195-97c24d088f74",
+    "title": "The Return of Warmth",
+    "tagLine": "",
+    "description": "When physical closeness has faded, pressure makes it retreat further. This pack slowly restores warmth through safety, reassurance, and unhurried touch — helping your bodies remember each other without demand.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "LOST_TOUCH",
+    "loveTypes": [
+      "CARE",
+      "FIRE",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "INTIMACY",
       "TRUST_AND_SAFETY",
       "CONNECTION"
     ],
     "mediaAssets": [],
-    "semanticSummary": "A pack focused on deepening emotional connection through presence and shared experiences",
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "ec06d61c-eb6e-49bf-81cc-6a5cb42d1e1f",
+    "title": "Playful Sparks",
+    "tagLine": "",
+    "description": "When things feel flat, intensity isn’t the answer — play is. This pack brings back flirtation, laughter, and embodied curiosity so desire can reawaken through fun rather than pressure.\nreawaken desire through play and curiosity, making sensuality feel alive and effortless again.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "LOST_TOUCH",
+    "loveTypes": [
+      "SPARK",
+      "FIRE",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "INTIMACY",
+      "CONNECTION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "2ef2d41f-01d8-4043-8639-a4abac19bbc3",
+    "title": "Team Us",
+    "tagLine": "",
+    "description": "When daily life starts to feel unequal or heavy, this pack helps you return to being partners — not silent scorekeepers. It moves you from quiet overload to shared clarity, practical shifts, and a steady rhythm of appreciation.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "CARRYING_TOO_MUCH",
+    "loveTypes": [
+      "BUILD",
+      "GRACE",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "BALANCE_AND_FAIRNESS",
+      "SUPPORT",
+      "UNDERSTANDING",
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "f0c6201d-a033-4b88-a178-05465bca67c9",
+    "title": "Soften the Edges",
+    "tagLine": "",
+    "description": "When both of you feel stretched thin, this pack offers restoration instead of resolution. It helps you slow down, calm your nervous systems, and reconnect through gentleness rather than problem-solving.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "CARRYING_TOO_MUCH",
+    "loveTypes": [
+      "CARE",
+      "GRACE",
+      "SELF",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "PRESENCE_AND_QUALITY_TIME",
+      "SUPPORT",
+      "UNDERSTANDING",
+      "TRUST_AND_SAFETY"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "2b98a903-1744-4753-b216-4e8a9895c3a9",
+    "title": "Shelter in Each Other",
+    "tagLine": "",
+    "description": "When life feels uncertain or heavy, this pack helps you turn toward each other instead of bracing alone. It creates emotional shelter — a felt sense of safety, unity, and quiet strength in the middle of change.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "WEATHERING_A_STORM",
+    "loveTypes": [
+      "BUILD",
+      "CARE",
+      "GRACE",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "SUPPORT",
+      "TRUST_AND_SAFETY",
+      "ACCEPTANCE_AND_FORGIVENESS",
+      "CONNECTION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "c8ab9e7f-e123-4df7-b7e9-848232d57efa",
+    "title": "Finding Calm in Chaos",
+    "tagLine": "",
+    "description": "When stress is ongoing and unpredictable, this pack offers small, repeatable resets. These rituals are light, grounding, and easy to return to — helping you calm your bodies and remember you’re side by side.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "WEATHERING_A_STORM",
+    "loveTypes": [
+      "CARE",
+      "GRACE",
+      "BUILD",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "TRUST_AND_SAFETY",
+      "SUPPORT",
+      "CONNECTION",
+      "PRESENCE_AND_QUALITY_TIME"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "1677ca21-bb84-41b6-97f3-d21c0ab76bff",
+    "title": "From Hurt to Healing",
+    "tagLine": "",
+    "description": "Conflict can harden distance if it’s rushed or defended. This pack creates a slow, emotionally safe path from hurt to understanding — helping you feel seen, soften defensiveness, and consciously choose each other again.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "BRIDGING_THE_DIVIDE",
+    "loveTypes": [
+      "CARE",
+      "BELONG",
+      "GRACE",
+      "BEYOND"
+    ],
+    "relationalNeeds": [
+      "ACCEPTANCE_AND_FORGIVENESS",
+      "UNDERSTANDING",
+      "TRUST_AND_SAFETY",
+      "COMMUNICATION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "038a89f4-be52-4858-8506-46f9a4f428d1",
+    "title": "Softening the Distance",
+    "tagLine": "",
+    "description": "After tension, distance can linger even when the conflict is technically over. This pack gently restores warmth and emotional fluidity — using lightness, honest sharing, and small affectionate gestures to feel close again.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "BRIDGING_THE_DIVIDE",
+    "loveTypes": [
+      "CARE",
+      "BELONG",
+      "GRACE",
+      "SPARK",
+      "BUILD"
+    ],
+    "relationalNeeds": [
+      "CONNECTION",
+      "COMMUNICATION",
+      "TRUST_AND_SAFETY",
+      "ACCEPTANCE_AND_FORGIVENESS"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "0a6aa068-7041-4b15-9af9-8e64a3cafc8f",
+    "title": "The Art of Listening",
+    "tagLine": "",
+    "description": "Communication strengthens when couples slow down enough to truly hear. This pack builds emotional literacy and attentive presence — helping you speak honestly, listen with care, and feel known rather than misunderstood.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "LEARNING_TO_HEAR_EACH_OTHER",
+    "loveTypes": [
+      "BELONG",
+      "GROW",
+      "CARE",
+      "GRACE"
+    ],
+    "relationalNeeds": [
+      "COMMUNICATION",
+      "UNDERSTANDING",
+      "CONNECTION",
+      "TRUST_AND_SAFETY"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "feaeb48b-f1e2-4abe-927a-8ff4c4d4d71d",
+    "title": "Conversations That Spark",
+    "tagLine": "",
+    "description": "When conversations become purely logistical, connection dulls. This pack brings back lightness, imagination, and emotional play — helping you rediscover each other through curiosity and shared wonder.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "LEARNING_TO_HEAR_EACH_OTHER",
+    "loveTypes": [
+      "SPARK",
+      "BELONG",
+      "GROW",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "CONNECTION",
+      "COMMUNICATION",
+      "UNDERSTANDING",
+      "PLAY_AND_JOY"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "9c1b04e7-237a-42ec-acb5-028145480c26",
+    "title": "Finding Our Rhythm Again",
+    "tagLine": "",
+    "description": "When life feels full and connection feels squeezed, this pack helps you slow down, re-attune, and gently restore shared presence.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "MAKING_SPACE_FOR_US",
+    "loveTypes": [
+      "BELONG",
+      "CARE",
+      "SPARK"
+    ],
+    "relationalNeeds": [
+      "PRESENCE_AND_QUALITY_TIME",
+      "CONNECTION",
+      "UNDERSTANDING",
+      "PLAY_AND_JOY"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "b83b336e-3e8a-4ca2-9ded-678d34ea34dd",
+    "title": "The Soft Evenings",
+    "tagLine": "",
+    "description": "This pack invites you to soften into each other after the day ends. Through warmth, gaze, touch, and quiet words, you slow down enough to feel closeness again — gently, without rush or expectation.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "MAKING_SPACE_FOR_US",
+    "loveTypes": [
+      "CARE",
+      "BELONG",
+      "SPARK"
+    ],
+    "relationalNeeds": [
+      "INTIMACY",
+      "CONNECTION",
+      "TRUST_AND_SAFETY",
+      "PRESENCE_AND_QUALITY_TIME"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "b1e8e6bc-4648-4da3-bcb5-1a57b4d398ad",
+    "title": "Little Lights of Love",
+    "tagLine": "",
+    "description": "Love rarely fades from lack of intensity — it fades from neglect. This pack nurtures connection through small, steady gestures woven into everyday life. Tiny rituals. Repeated warmth. Quiet continuity.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "KEEP_THE_LOVE_ALIVE",
+    "loveTypes": [
+      "CARE",
+      "BELONG",
+      "GRACE"
+    ],
+    "relationalNeeds": [
+      "GRATITUDE_AND_APPRECIATION",
+      "CONNECTION",
+      "PRESENCE_AND_QUALITY_TIME"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "4dff8a85-4a8a-4469-a650-c43140e5a244",
+    "title": "Everyday Play & Wonder",
+    "tagLine": "",
+    "description": "Love stays alive when curiosity and play remain in motion. This pack invites small sparks of surprise, laughter, and light flirtation into ordinary days — so connection feels fresh, not routine.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "KEEP_THE_LOVE_ALIVE",
+    "loveTypes": [
+      "SPARK",
+      "BELONG",
+      "CARE"
+    ],
+    "relationalNeeds": [
+      "PLAY_AND_JOY",
+      "CONNECTION",
+      "GRATITUDE_AND_APPRECIATION",
+      "INTIMACY"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "12dbf0a3-10f3-47eb-b0cf-3733f397b6c8",
+    "title": "Seeds of Growth",
+    "tagLine": "",
+    "description": "Growth doesn’t happen through pressure — it happens through awareness and support. This pack creates space to reflect on who you’re becoming, witness each other’s evolution, and align on the direction you’re walking toward — together.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "GROW_AND_EVOLVE_TOGETHER",
+    "loveTypes": [
+      "GROW",
+      "SELF",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "GROWTH",
+      "UNDERSTANDING",
+      "SUPPORT",
+      "CONNECTION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "ff963d81-5de4-4d15-8149-039466af26f9",
+    "title": "Becoming Us",
+    "tagLine": "",
+    "description": "Growth is not just personal — it reshapes the space between you. This pack explores how your evolving selves meet, influence, and expand each other, turning individual change into shared direction and deeper love.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "GROW_AND_EVOLVE_TOGETHER",
+    "loveTypes": [
+      "BEYOND",
+      "GROW",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "GROWTH",
+      "UNDERSTANDING",
+      "CONNECTION",
+      "SUPPORT"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "313b8a59-a837-42e0-ba9d-a853419d0198",
+    "title": "Coming Home to Me",
+    "tagLine": "",
+    "description": "When you’ve been giving too much or drifting from yourself, this pack creates a gentle pathway back inward. These rituals restore presence, compassion, and quiet self-trust — whether practiced alone or alongside a partner.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "RETURN_TO_SELF",
+    "loveTypes": [
+      "SELF",
+      "GRACE",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "GROWTH",
+      "ACCEPTANCE_AND_FORGIVENESS",
+      "SPACE",
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "96d23c4f-41c5-4cd6-91d3-87a87cfc1bc4",
+    "title": "Space to Breathe",
+    "tagLine": "",
+    "description": "Closeness deepens when space is honored. This pack helps you pause together, express solitude needs without guilt, renew individually, and return to each other with softness and intention.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "RETURN_TO_SELF",
+    "loveTypes": [
+      "SELF",
+      "GRACE",
+      "BELONG"
+    ],
+    "relationalNeeds": [
+      "SPACE",
+      "ACCEPTANCE_AND_FORGIVENESS",
+      "CONNECTION",
+      "GRATITUDE_AND_APPRECIATION"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "d2565345-0a35-4da1-a328-21966e1ef225",
+    "title": "Radiant Together",
+    "tagLine": "",
+    "description": "A guided celebration of your love — honoring what you’ve built, remembering your evolution, and expanding gratitude into shared joy. This pack turns appreciation into something felt, spoken, and embodied.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "CELEBRATE_US",
+    "loveTypes": [
+      "GRACE",
+      "BEYOND",
+      "SPARK"
+    ],
+    "relationalNeeds": [
+      "GRATITUDE_AND_APPRECIATION",
+      "PLAY_AND_JOY",
+      "CONNECTION",
+      "PRESENCE_AND_QUALITY_TIME"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
+    "status": "PUBLISHED"
+  },
+  {
+    "id": "e24a93b5-ccee-40f3-95a4-a11543a3f2b2",
+    "title": "Sacred Celebration",
+    "tagLine": "",
+    "description": "A slower, soulful celebration of your love — honoring what you’ve endured, what you’ve built, and what you continue to choose. This pack transforms appreciation into reverence and connection into quiet devotion.",
+    "howItHelps": "",
+    "ritualIds": [],
+    "journey": "CELEBRATE_US",
+    "loveTypes": [
+      "GRACE",
+      "BEYOND",
+      "GROW"
+    ],
+    "relationalNeeds": [
+      "GRATITUDE_AND_APPRECIATION",
+      "PRESENCE_AND_QUALITY_TIME",
+      "CONNECTION",
+      "GROWTH"
+    ],
+    "mediaAssets": [],
+    "semanticSummary": "",
     "status": "PUBLISHED"
   }
 ]
