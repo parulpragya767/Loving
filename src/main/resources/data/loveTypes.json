@@ -140,39 +140,91 @@
     "id": 3,
     "loveType": "FIRE",
     "title": "Fire",
-    "subtitle": "The heat of passion and desire",
-    "description": "Fire is about **erotic energy**, intensity, and deep physical connection.",
+    "subtitle": "The passionate energy that fuels desire, intensity, and magnetic connection.",
+    "description": "Fire is the passionate force in love — the **magnetic pull**, the longing, and the emotional intensity that draw you toward each other. It lives in **physical desire**, charged moments, and the thrill of being deeply wanted. But Fire isn’t only about the body. It’s also the bold expression of feeling — the spark that keeps connection vivid and alive. When Fire is present, love feels energized, expressive, and deeply alive.",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Fire shows up",
+        "title": "Core Components",
+        "summary": "The elements that keep Fire intense and alive",
         "bullets": [
           {
-            "title": "Intimacy",
-            "text": "Moments of physical closeness."
+            "title": "Physical Desire",
+            "text": "A strong attraction that creates longing for closeness and intimate connection."
           },
           {
-            "title": "Desire",
-            "text": "Expressing attraction openly."
+            "title": "Passion",
+            "text": "Intense emotion that brings heat, energy, and expressive feeling into the relationship."
           },
           {
-            "text": "Trying new ways of **being together**."
+            "title": "Magnetic Pull",
+            "text": "The charged chemistry that draws you toward each other and heightens connection."
+          },
+          {
+            "title": "Emotional Intensity",
+            "text": "Deep, powerful feelings — from longing to vulnerability — that make love feel alive."
+          },
+          {
+            "title": "Sensual Presence",
+            "text": "Awareness of touch, eye contact, scent, and physical closeness that deepens shared experience."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "What dampens Fire",
+        "title": "In Practice",
+        "summary": "How Fire shows up in everyday love",
         "bullets": [
           {
-            "title": "Neglect",
-            "text": "Avoiding intimacy over time."
+            "title": "Magnetic Attraction",
+            "text": "A strong pull toward physical closeness that makes you seek each other out."
           },
           {
-            "title": "Fear of Rejection",
-            "text": "Not initiating because of uncertainty."
+            "title": "Spontaneous Touch",
+            "text": "Unplanned kisses, touches, or embraces that reignite connection."
+          },
+          {
+            "title": "Expressed Desire",
+            "text": "Openly sharing longing, attraction, and appreciation for each other."
+          },
+          {
+            "title": "Emotional Heat",
+            "text": "Feeling energized and deeply alive in each other’s presence."
+          },
+          {
+            "title": "Reigniting Passion",
+            "text": "Seeking novelty, intimacy, or shared fantasies that keep desire vibrant."
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "What can weaken or disrupt Fire",
+        "bullets": [
+          {
+            "title": "Stress & Routine",
+            "text": "Exhaustion, busy schedules, and repetitive patterns can quietly dull desire over time."
+          },
+          {
+            "title": "Emotional Distance",
+            "text": "When emotional closeness fades, physical intimacy can begin to feel disconnected or mechanical."
+          },
+          {
+            "title": "Unspoken Needs",
+            "text": "Avoiding honest conversations about desire, boundaries, or fantasies can create frustration or silence."
+          },
+          {
+            "title": "Shame or Suppression",
+            "text": "Past experiences, insecurity, or cultural pressure can make it hard to express or embrace desire."
+          },
+          {
+            "title": "Jealousy & Insecurity",
+            "text": "Comparison, fear, or self-doubt can block attraction and create tension instead of passion."
+          },
+          {
+            "title": "Intensity Imbalance",
+            "text": "Too much pressure for passion — or too little effort to nurture it — can both weaken Fire."
           }
         ]
       }
