@@ -182,40 +182,95 @@
     "id": 4,
     "loveType": "CARE",
     "title": "Care",
-    "subtitle": "The act of nurturing and protecting each other",
-    "description": "Care is expressed through **kindness**, generosity, and attention.",
+    "subtitle": "The steady love that makes you feel safe, known, and gently held.",
+    "description": "Care is the quiet, familiar side of love that grows through shared mornings, small rituals, and **everyday presence**. It’s built on **reliability** — remembering the little things, reaching for each other without thinking, staying close during hard days. Care isn’t loud or dramatic. It’s **tenderness in repetition** and **comfort in being deeply known**. It says, 'I see you every day — and I still choose you.' With Care, love feels **steady enough to exhale**.",
     "sections": [
       {
         "order": 1,
-        "title": "In Practice",
-        "summary": "How Care shows up",
+        "title": "Core Components",
+        "summary": "The foundations that make Care steady and sustaining",
         "bullets": [
           {
-            "title": "Checking In",
-            "text": "Asking about their day."
+            "title": "Reliability",
+            "text": "Consistently showing up — not just in big moments, but in the ordinary, everyday ones."
           },
           {
-            "title": "Acts of Service",
-            "text": "Small gestures of help."
+            "title": "Emotional Safety",
+            "text": "Creating a space of comfort and acceptance where both partners can relax and be themselves."
           },
           {
-            "title": "Comfort",
-            "text": "Offering support in tough times."
+            "title": "Tenderness",
+            "text": "Gentle gestures, soft tones, and small acts that communicate warmth and closeness."
+          },
+          {
+            "title": "Support",
+            "text": "Standing by each other through difficulty, offering help, encouragement, and steady presence."
+          },
+          {
+            "title": "Familiarity",
+            "text": "A deep bond built through shared history, routines, and knowing each other’s rhythms."
           }
         ]
       },
       {
         "order": 2,
-        "title": "Common Blocks",
-        "summary": "What reduces Care",
+        "title": "In Practice",
+        "summary": "How Care shows up in everyday love",
         "bullets": [
           {
-            "title": "Taking for Granted",
-            "text": "Not noticing the other’s needs."
+            "title": "Thoughtful Check-Ins",
+            "text": "Reaching out during the day and remembering the small details that matter to them."
           },
           {
-            "title": "Burnout",
-            "text": "Giving without replenishing yourself."
+            "title": "Quiet Acts of Help",
+            "text": "Doing a chore, preparing something, or simplifying their day without needing recognition."
+          },
+          {
+            "title": "Emotional Presence",
+            "text": "Noticing when something feels off and gently making space for them to share — or not share."
+          },
+          {
+            "title": "Respecting Their Rhythms",
+            "text": "Understanding moods, energy levels, and quiet spells without taking them personally."
+          },
+          {
+            "title": "Steady Support in Hard Times",
+            "text": "Staying close and dependable when they’re struggling, even when there are no solutions."
+          },
+          {
+            "title": "Warm Daily Gestures",
+            "text": "Small touches, familiar routines, and quiet signs of affection that say, 'I’m here.'"
+          }
+        ]
+      },
+      {
+        "order": 3,
+        "title": "Common Blocks",
+        "summary": "What can weaken Care over time",
+        "bullets": [
+          {
+            "title": "Taking Each Other for Granted",
+            "text": "When familiarity becomes invisible and appreciation fades, Care slowly stops being expressed."
+          },
+          {
+            "title": "Emotional Drift",
+            "text": "Skipping deeper check-ins or avoiding small hurts can create quiet distance over time."
+          },
+          {
+            "title": "Imbalance in Effort",
+            "text": "When one partner overfunctions and the other withdraws, resentment or exhaustion can build."
+          },
+          {
+            "title": "Withdrawing During Hard Times",
+            "text": "Pulling away emotionally when steadiness is most needed weakens the sense of reliability."
+          },
+          {
+            "title": "Care Turning Into Control",
+            "text": "Help offered in overbearing ways can feel intrusive rather than supportive."
+          },
+          {
+            "title": "Losing Curiosity",
+            "text": "Assuming you already know them fully, instead of staying attentive to who they’re becoming."
           }
         ]
       }
