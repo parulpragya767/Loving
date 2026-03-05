@@ -2,17 +2,31 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import json
+from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from model.ritual_pack_models import Journey, RitualPackDetailResponse, RitualPackInput
-from utils.json_utils import load_json_array, RITUAL_PACKS_PATH, RITUALS_PATH
-from utils.llm_utils import (
-    PromptType,
-    call_llm_json_with_usage,
-)
+from utils.json_utils import append_to_json_array_file, load_json_array, RITUAL_PACKS_PATH, RITUALS_PATH
+from utils.llm_utils import (PromptType, call_llm_json_with_usage,)
 from utils.ritual_utils import RitualFields, RitualPackFields
 
+LLM_RITUAL_PACK_OUTPUT_PATH = "data/llm_ritual_pack_output_changelog.json"
+
+def dump_llm_output(ritual_pack_id: str, ritual_pack_title: str, details: RitualPackDetailResponse, usage_info: Dict[str, Any]) -> None:
+    timestamp = datetime.now().isoformat()
+
+    entry = {
+        "timestamp": timestamp,
+        "ritual_pack_id": ritual_pack_id,
+        "title": ritual_pack_title,
+        "usage": usage_info,
+        "ritualPackDetails": details.model_dump(),
+    }
+
+    append_to_json_array_file(LLM_RITUAL_PACK_OUTPUT_PATH, entry)
+    print(f"  > Dumped LLM output for ritual pack {ritual_pack_id} to changelog at {timestamp}")
 
 def build_ritual_pack_input(ritual_pack_id: str) -> RitualPackInput:
     ritual_packs = load_json_array(RITUAL_PACKS_PATH)
@@ -65,7 +79,6 @@ def populate_ritual_pack_details_with_llm(
         prompt_type=PromptType.RITUAL_PACK_CREATION,
     )
 
-
 def main() -> None:
     parser = argparse.ArgumentParser(description="Build the ritual pack details by calling LLM")
     parser.add_argument(
@@ -80,17 +93,7 @@ def main() -> None:
     print(json.dumps(ritual_pack_input.model_dump(), indent=2, ensure_ascii=False))
 
     details, usage_info = populate_ritual_pack_details_with_llm(ritual_pack_input)
-    print(
-        json.dumps(
-            {
-                "ritualPackInput": ritual_pack_input.model_dump(),
-                "ritualPackDetails": details.model_dump(),
-                "usage": usage_info,
-            },
-            indent=2,
-            ensure_ascii=False,
-        )
-    )
+    dump_llm_output(args.ritual_pack_id, ritual_pack_input.title, details, usage_info)
 
 if __name__ == "__main__":
     main()

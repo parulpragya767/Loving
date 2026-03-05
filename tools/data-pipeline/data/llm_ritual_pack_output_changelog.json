@@ -1,0 +1,40 @@
+[
+  {
+    "timestamp": "2026-03-05T12:45:56.340417",
+    "ritual_pack_id": "b21567fb-36db-4051-b31f-844d846381c6",
+    "title": "Finding Our Way Back",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "3",
+      "input_tokens": 1736,
+      "output_tokens": 182,
+      "total_tokens": 1918
+    },
+    "ritualPackDetails": {
+      "tagLine": "Gently close the distance and rebuild steady togetherness.",
+      "description": "This pack is for moments when you sense emotional distance growing—not all at once, but in slow, subtle ways. It guides you through honest sharing, warm remembering, and simple time together to help your connection feel safe and reachable again. By taking small, intentional steps, you'll rediscover the comfort of being seen and cared for.",
+      "howItHelps": "This pack nurtures BELONG and CARE by helping partners feel understood and gently supported. It shifts the tone from quiet separation to steady, comforting presence and warmth.",
+      "semanticSummary": "Use this pack when you feel emotionally apart or long for more closeness. Through mindful sharing, quiet companionship, and everyday attention, it encourages you both to move from silent distance back to a steady sense of belonging and warmth."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T12:46:40.620396",
+    "ritual_pack_id": "b1e8e6bc-4648-4da3-bcb5-1a57b4d398ad",
+    "title": "Little Lights of Love",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "3",
+      "input_tokens": 1743,
+      "output_tokens": 180,
+      "total_tokens": 1923
+    },
+    "ritualPackDetails": {
+      "tagLine": "Keep love close with small, everyday gestures",
+      "description": "This pack is designed for couples who want to keep their connection strong without grand gestures—just small, intentional acts of care. Through simple routines and shared presence, you’ll rediscover the warmth that grows from noticing each other and expressing appreciation in ordinary moments. These rituals fit gently into daily life, inviting closeness without pressure.",
+      "howItHelps": "This pack strengthens CARE, BELONG, and GRACE by encouraging steady, nurturing attention and genuine appreciation. Partners will feel more connected, valued, and present with each other, one little act at a time.",
+      "semanticSummary": "This pack is most helpful for couples looking to reinforce their connection through repeated, everyday affection. By integrating small rituals of presence and gratitude, it builds a dependable sense of warmth and belonging—making love feel steady, noticed, and quietly cherished."
+    }
+  }
+]
