@@ -1,40 +1,458 @@
 [
   {
-    "timestamp": "2026-03-05T12:45:56.340417",
+    "timestamp": "2026-03-05T17:17:04.578927",
     "ritual_pack_id": "b21567fb-36db-4051-b31f-844d846381c6",
     "title": "Finding Our Way Back",
     "usage": {
       "model": "gpt-4.1",
       "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
-      "prompt_version": "3",
-      "input_tokens": 1736,
-      "output_tokens": 182,
-      "total_tokens": 1918
+      "prompt_version": "4",
+      "input_tokens": 2190,
+      "output_tokens": 181,
+      "total_tokens": 2371
     },
     "ritualPackDetails": {
-      "tagLine": "Gently close the distance and rebuild steady togetherness.",
-      "description": "This pack is for moments when you sense emotional distance growing—not all at once, but in slow, subtle ways. It guides you through honest sharing, warm remembering, and simple time together to help your connection feel safe and reachable again. By taking small, intentional steps, you'll rediscover the comfort of being seen and cared for.",
-      "howItHelps": "This pack nurtures BELONG and CARE by helping partners feel understood and gently supported. It shifts the tone from quiet separation to steady, comforting presence and warmth.",
-      "semanticSummary": "Use this pack when you feel emotionally apart or long for more closeness. Through mindful sharing, quiet companionship, and everyday attention, it encourages you both to move from silent distance back to a steady sense of belonging and warmth."
+      "tagLine": "Gently close the gap, one quiet moment at a time",
+      "description": "When you start to feel space growing between you, even small moments can feel out of reach. This pack supports you in noticing distance and slowly finding your way back through kind attention and quiet time together. You might notice a softening during a shared pause, or a simple smile emerging as you feel seen again.",
+      "howItHelps": "Guided by BELONG and CARE, you’ll find yourselves speaking more openly and listening with true patience. Often, it becomes easier to let your guard down and feel emotional closeness returning in everyday moments.",
+      "semanticSummary": "This pack helps partners rebuild ease and connection after emotional distance sets in. Through gentle presence, shared walks, and steady conversation, BELONG and CARE naturally deepen. Warmth and understanding begin to return, felt in small gestures and comfortable silences."
     }
   },
   {
-    "timestamp": "2026-03-05T12:46:40.620396",
+    "timestamp": "2026-03-05T17:32:04.860384",
+    "ritual_pack_id": "ff603ffd-9cbf-4513-b1d6-7380081ac21a",
+    "title": "Bridges of Understanding",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2175,
+      "output_tokens": 192,
+      "total_tokens": 2367
+    },
+    "ritualPackDetails": {
+      "tagLine": "See each other clearly again — even when it’s hard",
+      "description": "When it feels like you’re speaking but not truly hearing each other, this pack gently guides you back to feeling seen and cared for. You’ll share space quietly, notice the tension ease from your shoulders, and exchange honest words without rushing past discomfort. Sometimes, a small nod or a relieved breath marks when connection starts to return.",
+      "howItHelps": "Built on BELONG and CARE, this pack helps partners listen deeply and reflect back each other’s experience. Many find that misunderstandings soften and it feels safer to share what’s been unsaid, as trust starts to rebuild through steady, thoughtful attention.",
+      "semanticSummary": "Best for couples who feel distant or misunderstood, this pack fosters renewed understanding and security. Subtle glances and gentle pauses make space for empathy to grow, letting BELONG and CARE help partners reconnect through clear, honest, and compassionate exchange."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:32:31.901671",
+    "ritual_pack_id": "4f09e36d-5543-4dbe-a83a-d8f2fb458624",
+    "title": "Rekindle the Spark",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2250,
+      "output_tokens": 177,
+      "total_tokens": 2427
+    },
+    "ritualPackDetails": {
+      "tagLine": "Bring energy and playfulness back into your everyday moments",
+      "description": "When things start to feel a bit flat or routine, it can be easy to drift into a comfortable sameness. This pack brings small moments of surprise, playful glances, and shared laughter that help you feel each other’s presence in fresh ways. Simple touches or lingering eye contact invite warmth and curiosity back into your connection.",
+      "howItHelps": "With the spirit of SPARK and FIRE, these experiences help couples rediscover gentle excitement and intimacy, making playful moments and relaxed closeness feel natural again.",
+      "semanticSummary": "Perfect when daily life feels uninspired, this pack invites couples to explore lighthearted energy and physical closeness through small gestures and quiet attention. Laughter, playful eye contact, and relaxed physical touch help SPARK and FIRE come alive again as routine turns into renewed connection."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:32:52.693878",
+    "ritual_pack_id": "cec18ec0-898a-4184-a12d-3bfc85e28655",
+    "title": "Everyday Magic",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2249,
+      "output_tokens": 188,
+      "total_tokens": 2437
+    },
+    "ritualPackDetails": {
+      "tagLine": "Bring fresh attention and playful warmth to the everyday",
+      "description": "When daily life starts to feel dull or predictable, it’s easy to stop noticing each other in small ways. This pack invites moments of gentle curiosity and lighthearted connection back into ordinary routines. You might catch each other’s eye more often or find yourselves sharing a quiet laugh during an unexpected pause in the evening.",
+      "howItHelps": "With SPARK and BELONG at the core, these moments help partners rediscover small surprises and shared smiles that gently lift the mood. Couples often notice playfulness and a natural urge to reach for each other returning, making closeness feel easy again.",
+      "semanticSummary": "Best when routines have taken over and excitement is missing, the pack brings back little bursts of SPARK and BELONG. Couples share eye contact, laughter, and small playful gestures, slowly weaving delight and connection back into daily life without pressure or expectation."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:33:12.363624",
+    "ritual_pack_id": "fe96c3f0-9ebe-48bd-8195-97c24d088f74",
+    "title": "The Return of Warmth",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2206,
+      "output_tokens": 196,
+      "total_tokens": 2402
+    },
+    "ritualPackDetails": {
+      "tagLine": "Let gentle closeness return, one slow moment at a time",
+      "description": "It’s easy to lose touch, physically and emotionally, when warmth fades from daily life. This pack offers slow, reassuring steps back toward comfort and touch that feel safe instead of pressured. Sharing a quiet breath or feeling your partner’s hand linger for just a little longer can become enough to start feeling at ease in each other’s presence again.",
+      "howItHelps": "Grounded in CARE and FIRE, these experiences help you rebuild intimacy and trust at a gentle pace, making touch feel welcome and natural. Couples often notice an ease in reaching for each other and a sense of comfort returning in moments of quiet affection.",
+      "semanticSummary": "When physical closeness feels distant, this pack helps restore warmth and connection through gentle, pressure-free steps. Warm hands resting quietly and shared moments of simple presence make it easier to trust touch again. CARE and FIRE slowly grow as comfort and ease return."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:33:30.868995",
+    "ritual_pack_id": "ec06d61c-eb6e-49bf-81cc-6a5cb42d1e1f",
+    "title": "Playful Sparks",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2245,
+      "output_tokens": 203,
+      "total_tokens": 2448
+    },
+    "ritualPackDetails": {
+      "tagLine": "Bring back flirting, laughter, and the thrill of playful closeness",
+      "description": "When things start to feel a bit dull or routine between you, a small dose of playfulness can make affection and physical closeness feel inviting again. This pack helps you find moments to smile at each other, share a teasing glance, or enjoy a light, curious touch. It’s about letting warmth and desire return naturally through genuine joy and playful attention, not pressure.",
+      "howItHelps": "Rooted in SPARK and FIRE, this pack makes it easier to flirt and have fun together, helping desire return without feeling forced. Couples often notice laughter coming more easily and gentle physical closeness feeling natural again.",
+      "semanticSummary": "This pack is most helpful when affection and excitement feel flat and you want to rediscover warmth through playful, easy moments. Through shared smiles, teasing glances, and light touches, you’ll notice SPARK and FIRE rekindling, making intimacy feel simple and inviting once more."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:33:48.648617",
+    "ritual_pack_id": "2ef2d41f-01d8-4043-8639-a4abac19bbc3",
+    "title": "Team Us",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2203,
+      "output_tokens": 203,
+      "total_tokens": 2406
+    },
+    "ritualPackDetails": {
+      "tagLine": "Rediscover the ease of carrying life as true partners",
+      "description": "When daily demands start to feel lopsided and unspoken burdens build up, it’s easy to lose your sense of teamwork. This pack guides you back toward honest check-ins, small shifts, and real moments of appreciation. Noticing a partner’s unshared sigh or a grateful glance can mark the return to steadier footing.",
+      "howItHelps": "With BUILD and CARE at its heart, this pack supports couples in sharing mental load more openly and finding practical ways to rebalance. Partners experience tension easing as responsibilities feel shared again, and small thank-yous or acknowledgments become a natural part of your days.",
+      "semanticSummary": "Best used when the flow of daily life feels unfair or unspoken efforts go unnoticed. Partners name their load, readjust responsibilities, and build steady appreciation through small acts and open check-ins. The experience creates a stronger sense of BUILD and CARE, often seen through lighter moods and easier teamwork."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:34:08.536385",
+    "ritual_pack_id": "f0c6201d-a033-4b88-a178-05465bca67c9",
+    "title": "Soften the Edges",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2206,
+      "output_tokens": 209,
+      "total_tokens": 2415
+    },
+    "ritualPackDetails": {
+      "tagLine": "Gentle evenings for tired hearts to feel close again",
+      "description": "When life wears you down and caring for each other feels harder, this pack invites you to slow the pace together. Instead of fixing or solving, you’ll spend quiet moments offering comfort and simple support, like a hand being held or sinking into shared silence. Small cues—like a softened look or letting yourself exhale—show you’re not holding it all alone.",
+      "howItHelps": "Through moments rooted in CARE and GRACE, couples experience being met with gentleness instead of solutions. As you offer and receive simple support, it becomes easier to relax around each other and notice small shifts—tiredness easing when you sense you’re understood and not pressured.",
+      "semanticSummary": "Ideal when you’re both feeling stretched and distant, this pack helps partners move from tension and isolation toward shared presence and steadiness. With quiet pauses, gentle touch, and soft spoken words, CARE and GRACE create space for trust and understanding to return in everyday moments."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:34:31.294188",
+    "ritual_pack_id": "2b98a903-1744-4753-b216-4e8a9895c3a9",
+    "title": "Shelter in Each Other",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2212,
+      "output_tokens": 190,
+      "total_tokens": 2402
+    },
+    "ritualPackDetails": {
+      "tagLine": "Steady support and quiet unity through every uncertainty",
+      "description": "When life feels heavy or uncertain, it’s easy to feel alone even together. This pack helps you create gentle moments of reassurance and partnership—a shared glance of understanding or the comfort of leaning back and feeling each other’s steady presence. You’ll experience a sense of togetherness that feels simple and grounding, even in hard times.",
+      "howItHelps": "Through BUILD and CARE, this journey helps couples offer calm support and affirm their unity. You’ll notice it becomes easier to speak honestly, accept vulnerability, and feel less isolated under stress.",
+      "semanticSummary": "Best used during stressful times or transitions, this pack fosters warmth, practical steadiness, and shared safety. Couples sense their bond as a quiet strength—like the reassuring touch of leaning together or the small acknowledgment of a difficult day—allowing BUILD and CARE to grow as uncertainty softens and unity is restored."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:34:49.180695",
+    "ritual_pack_id": "c8ab9e7f-e123-4df7-b7e9-848232d57efa",
+    "title": "Finding Calm in Chaos",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2135,
+      "output_tokens": 190,
+      "total_tokens": 2325
+    },
+    "ritualPackDetails": {
+      "tagLine": "Steady support and gentle pauses when life feels overwhelming",
+      "description": "When daily stress and unpredictability wear you both down, it can be hard to catch your breath together. This pack creates easy moments to pause, share a quiet touch, or sit side by side, letting you feel grounded again. Even a short laugh or a steadying hand can remind you that you’re on the same team.",
+      "howItHelps": "Drawing on CARE and GRACE, these rituals help partners find steadiness through small acts of support, turning scattered moments into shared calm. Couples often notice themselves relaxing during pauses and feeling more at ease reaching out for comfort.",
+      "semanticSummary": "Especially helpful during life’s hectic or uncertain moments, this pack helps couples regain trust and steady connection with simple, grounding actions. Shared laughter and the comfort of a quiet pause bring CARE and GRACE to the surface, making it easier to feel present and supported together."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:35:06.098219",
+    "ritual_pack_id": "1677ca21-bb84-41b6-97f3-d21c0ab76bff",
+    "title": "From Hurt to Healing",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2197,
+      "output_tokens": 171,
+      "total_tokens": 2368
+    },
+    "ritualPackDetails": {
+      "tagLine": "A gentle path from lingering hurt back to closeness",
+      "description": "When conflict or hurt lingers between you, even small conversations can feel daunting. This pack offers a steady way to move from distance to feeling understood and accepted again. Partners may notice a shared calm settling in, or a small sigh of relief as words are finally heard without interruption.",
+      "howItHelps": "With roots in CARE and BELONG, this pack builds emotional safety as couples practice steady listening and gentle honesty. Many notice defensiveness easing and a growing sense of trust as their feelings are acknowledged and accepted.",
+      "semanticSummary": "This pack helps couples soften the edges of lingering hurt and move toward reconnection at a comfortable pace. Through calm pauses and attentive listening, partners rebuild trust and acceptance, letting CARE and BELONG grow stronger as genuine understanding replaces old tension."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:35:28.107895",
+    "ritual_pack_id": "038a89f4-be52-4858-8506-46f9a4f428d1",
+    "title": "Softening the Distance",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2189,
+      "output_tokens": 195,
+      "total_tokens": 2384
+    },
+    "ritualPackDetails": {
+      "tagLine": "Gentle gestures to close the gap after tension",
+      "description": "Even after conflict is over, a quiet distance can remain. This ritual pack is for those moments when warmth and easy conversation feel out of reach, but both want to feel close again. It invites small acts of honesty, a soft glance, or a genuine smile slowly returning. Each step is simple and natural, helping you recognize each other’s presence without pressure.",
+      "howItHelps": "With CARE and BELONG at its heart, this journey helps partners drop old tension through honest listening and steady, gentle attention. Couples often notice that sharing comes more easily, and open connection feels possible again without bracing.",
+      "semanticSummary": "This pack is most helpful when emotional distance remains after conflict or misunderstanding. Through quiet pauses, gentle smiles, and honest words, CARE and BELONG are rekindled as trust and safety return. Couples often experience a shift from guarded silence to small, comfortable exchanges."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:35:45.404839",
+    "ritual_pack_id": "0a6aa068-7041-4b15-9af9-8e64a3cafc8f",
+    "title": "The Art of Listening",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2186,
+      "output_tokens": 179,
+      "total_tokens": 2365
+    },
+    "ritualPackDetails": {
+      "tagLine": "Slow down and truly hear each other again",
+      "description": "When conversations start to miss the mark, it can feel lonely or tense. This pack guides you to pause, notice each other's presence, and hear what's truly being said. You might notice a sense of relief when your words land without interruption, or catch a reassuring nod from your partner as you listen.",
+      "howItHelps": "Through BELONG and CARE, couples begin to experience what it’s like to speak honestly and be received with patience. Many find it easier to soften defensiveness and feel comfort knowing their partner is really trying to understand them.",
+      "semanticSummary": "Best used when communication feels off or misunderstandings keep happening, this pack helps partners rebuild trust and closeness through steady, attentive listening. Gentle pauses and simple check-ins offer moments of being seen, letting BELONG and CARE deepen with each shared exchange."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:36:08.576015",
+    "ritual_pack_id": "feaeb48b-f1e2-4abe-927a-8ff4c4d4d71d",
+    "title": "Conversations That Spark",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2135,
+      "output_tokens": 201,
+      "total_tokens": 2336
+    },
+    "ritualPackDetails": {
+      "tagLine": "Light up your conversations with curiosity and play",
+      "description": "When everyday talks feel dry or routine, it’s easy to lose that spark between you. This pack opens space for lightness, unexpected questions, and moments of genuine interest—like sharing a laugh over something new you learn about each other. You might notice eyes lighting up or a playful question bringing back a sense of ease in your time together.",
+      "howItHelps": "Blending the openness of SPARK with the comfort of BELONG, this pack makes it easier to listen with curiosity and speak more freely. Couples often feel a shift from just exchanging information to reconnecting and really enjoying their conversations.",
+      "semanticSummary": "This pack is made for times when connection has gone dull and you want joy and warmth back in how you talk. Small moments—a quick smile, a thoughtful question, a feeling of being heard—bring SPARK and belonging into simple conversations, helping couples rediscover each other and communicate with more playfulness."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:36:24.782259",
+    "ritual_pack_id": "9c1b04e7-237a-42ec-acb5-028145480c26",
+    "title": "Finding Our Rhythm Again",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2213,
+      "output_tokens": 188,
+      "total_tokens": 2401
+    },
+    "ritualPackDetails": {
+      "tagLine": "Slow down, tune in, and meet each other here",
+      "description": "When routines and obligations stretch your attention thin, it’s easy to drift apart without realizing. This pack is about setting aside small moments to be with each other, even if just for a quiet breath or a side-by-side pause. You might notice a gentle smile return or a small warmth in shared silence as you create space again.",
+      "howItHelps": "By inviting BELONG and CARE, these experiences encourage a sense of steady presence and genuine listening. Partners often feel less rushed, more relaxed, and find understanding and lightness returning to their interactions.",
+      "semanticSummary": "Ideal for when life pulls you in different directions and connection feels distant, this pack gently restores shared presence through quiet pauses and simple togetherness. Noticing a subtle shift—a relaxed sigh or a shared glance—BELONG and CARE naturally rebuild closeness and ease in daily life."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:36:45.431228",
+    "ritual_pack_id": "b83b336e-3e8a-4ca2-9ded-678d34ea34dd",
+    "title": "The Soft Evenings",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2186,
+      "output_tokens": 207,
+      "total_tokens": 2393
+    },
+    "ritualPackDetails": {
+      "tagLine": "Ease back in together as the day slows and softens",
+      "description": "When the day’s pace keeps you apart, this pack helps you gently reconnect in the calm of evening. Through quiet touch, a small smile exchanged in the glow of softer lights, or simply sharing warmth under one blanket, closeness feels easy again. These small pauses invite you both to sink into comfort side by side, no expectations needed.",
+      "howItHelps": "Drawing from the warmth of CARE and the deep comfort of BELONG, these moments help partners settle together again after busy hours. You'll notice tension fading and a natural ease in sharing closeness, with trust and quiet affection returning.",
+      "semanticSummary": "Ideal for winding down when distraction or distance has crept in, this pack encourages gentle connection through shared pauses and attentive presence. As you sit quietly together or enjoy an unhurried touch, CARE and BELONG come forward, making space for easy affection and steady trust."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:37:02.019785",
     "ritual_pack_id": "b1e8e6bc-4648-4da3-bcb5-1a57b4d398ad",
     "title": "Little Lights of Love",
     "usage": {
       "model": "gpt-4.1",
       "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
-      "prompt_version": "3",
-      "input_tokens": 1743,
-      "output_tokens": 180,
-      "total_tokens": 1923
+      "prompt_version": "4",
+      "input_tokens": 2200,
+      "output_tokens": 203,
+      "total_tokens": 2403
     },
     "ritualPackDetails": {
-      "tagLine": "Keep love close with small, everyday gestures",
-      "description": "This pack is designed for couples who want to keep their connection strong without grand gestures—just small, intentional acts of care. Through simple routines and shared presence, you’ll rediscover the warmth that grows from noticing each other and expressing appreciation in ordinary moments. These rituals fit gently into daily life, inviting closeness without pressure.",
-      "howItHelps": "This pack strengthens CARE, BELONG, and GRACE by encouraging steady, nurturing attention and genuine appreciation. Partners will feel more connected, valued, and present with each other, one little act at a time.",
-      "semanticSummary": "This pack is most helpful for couples looking to reinforce their connection through repeated, everyday affection. By integrating small rituals of presence and gratitude, it builds a dependable sense of warmth and belonging—making love feel steady, noticed, and quietly cherished."
+      "tagLine": "Everyday gestures that quietly keep love alive",
+      "description": "This pack is for couples who want their bond to feel cared for in the little moments, not just the big ones. It creates gentle habits of reaching out—a small hug before leaving, a quick message mid-day, a shared smile over an inside joke. Regular cues of affection bring warmth and ease back into daily routines, making closeness feel steady again.",
+      "howItHelps": "Drawing from the warmth of CARE and the gentle reassurance of BELONG, this pack invites partners to notice and respond to each other with intentional appreciation. You may feel more comfortable sharing gratitude, or catch yourself looking forward to small touches and acknowledgements that used to go unspoken.",
+      "semanticSummary": "Little reminders of presence—like lingering hugs or simple messages—help partners stay connected throughout daily life. CARE and BELONG become part of the everyday, as small gestures spark shared smiles and lighten the ordinary, making appreciation and closeness feel both effortless and ongoing."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:37:18.982264",
+    "ritual_pack_id": "4dff8a85-4a8a-4469-a650-c43140e5a244",
+    "title": "Everyday Play & Wonder",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2198,
+      "output_tokens": 172,
+      "total_tokens": 2370
+    },
+    "ritualPackDetails": {
+      "tagLine": "Fresh sparks and light moments, woven into everyday life",
+      "description": "When routine settles in, it’s easy to forget the simple joys that keep connection lively. This pack brings playful gestures and gentle surprises back into daily life, making room for small smiles and spontaneous laughter. You’ll notice a shared glance turning into a grin, or the warmth of a light touch as you pass by.",
+      "howItHelps": "Rooted in SPARK and BELONG, these moments help couples notice each other with curiosity and playfulness, making it easier to exchange genuine appreciation and light affection throughout the day.",
+      "semanticSummary": "This pack keeps love feeling fresh by weaving playfulness and tiny surprises into the everyday. Partners share laughter and brief moments of affection, letting SPARK and BELONG grow naturally as smiles and playful glances become part of daily life."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:37:34.706600",
+    "ritual_pack_id": "12dbf0a3-10f3-47eb-b0cf-3733f397b6c8",
+    "title": "Seeds of Growth",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2169,
+      "output_tokens": 197,
+      "total_tokens": 2366
+    },
+    "ritualPackDetails": {
+      "tagLine": "Growing side by side, noticing every step forward",
+      "description": "When you're both ready for change, it can feel reassuring to pause and notice your growth together. This pack invites you to reflect on shifts in who you are and who you're becoming, creating moments where you genuinely see and hear one another. A quiet nod or a thoughtful word can leave you feeling witnessed and encouraged on your path.",
+      "howItHelps": "Through the lens of GROW and SELF, partners learn to recognize personal changes and openly share hopes for themselves and for each other. Partners often notice it feels safer to talk honestly about change and to support each other’s next steps with steady encouragement.",
+      "semanticSummary": "Best when you want to support each other’s evolution and foster understanding. Gentle reflections and small acknowledgments help you reconnect and cheer each other on, making GROW and SELF feel real and possible in daily life. A simple pause together or shared recognition creates deeper connection as you move forward."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:37:52.756803",
+    "ritual_pack_id": "ff963d81-5de4-4d15-8149-039466af26f9",
+    "title": "Becoming Us",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2175,
+      "output_tokens": 187,
+      "total_tokens": 2362
+    },
+    "ritualPackDetails": {
+      "tagLine": "Growing together into something more than before",
+      "description": "When change stirs between you, it can feel exciting but also uncertain. This pack invites you to notice how you and your partner are shifting and what new qualities are emerging in your relationship. A quiet moment of eye contact or sharing fresh inspiration can help you feel closer as you grow side by side.",
+      "howItHelps": "Drawing from GROW and BEYOND, these experiences help partners recognize one another’s evolving strengths and dreams, making honest conversation about change feel safe and encouraging. Couples often notice a stronger sense of being on the same team and feeling seen in who they are becoming.",
+      "semanticSummary": "This pack is most helpful when both partners are navigating change and want to deepen understanding and shared growth. A gentle look or naming new qualities can make growth a shared journey, building GROW and BEYOND love through real moments of support and recognition."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:38:12.423363",
+    "ritual_pack_id": "313b8a59-a837-42e0-ba9d-a853419d0198",
+    "title": "Coming Home to Me",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2199,
+      "output_tokens": 198,
+      "total_tokens": 2397
+    },
+    "ritualPackDetails": {
+      "tagLine": "Find steady ground and quiet kindness within yourself",
+      "description": "When you’ve lost touch with your own needs or feel stretched thin, it can be hard to settle back into yourself. This pack guides you through moments of pause, gentle noticing, and small acts that bring comfort. You might feel a gentle easing in your breath or notice a quiet sense of relief returning as you check in with yourself.",
+      "howItHelps": "Rooted in the spirit of SELF and GRACE, these simple practices help you notice where you’ve been giving too much and invite compassion for your own limits. Many people find it becomes easier to accept where they are and respond to their own needs with warmth.",
+      "semanticSummary": "This pack supports returning to yourself after giving too much to others or losing your own thread. Through small pauses and acts of self-compassion, you rebuild inner steadiness and appreciation. It gently grows SELF and GRACE, helping you feel grounded and present with yourself again."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:38:32.716248",
+    "ritual_pack_id": "96d23c4f-41c5-4cd6-91d3-87a87cfc1bc4",
+    "title": "Space to Breathe",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2175,
+      "output_tokens": 184,
+      "total_tokens": 2359
+    },
+    "ritualPackDetails": {
+      "tagLine": "Honoring need for solitude, returning with presence and care",
+      "description": "Sometimes closeness feels easier when each person has room to breathe. This pack invites you to notice your own needs, ask for solitude without worry, and allow space for quiet renewal. A gentle touch or shared glance after time apart can feel more meaningful, making homecomings feel lighter and more natural.",
+      "howItHelps": "With SELF and GRACE as its foundation, this pack makes it easier to ask for space and honor it without guilt. Partners often notice a sense of relief and acceptance, along with greater ease in reconnecting after time alone.",
+      "semanticSummary": "Best when you or your partner feel pulled to your own worlds, this pack nurtures respect for independence while keeping connection gentle and intact. Shared silences and simple acknowledgments make SELF and GRACE more present, so solitude renews and soft reunion feels warm."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:39:00.807521",
+    "ritual_pack_id": "d2565345-0a35-4da1-a328-21966e1ef225",
+    "title": "Radiant Together",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2193,
+      "output_tokens": 200,
+      "total_tokens": 2393
+    },
+    "ritualPackDetails": {
+      "tagLine": "Savoring gratitude, milestones, and simple celebration together",
+      "description": "For couples wanting to celebrate what they’ve built, this pack invites you to pause and truly notice what you cherish in each other. Through shared appreciation and playful reflection, you’ll mark important moments and feel the warmth of being seen. Expect genuine smiles, playful glances, and simple gestures of gratitude that are easy to remember long after the moment ends.",
+      "howItHelps": "With a spirit of GRACE and BEYOND, couples experience heartfelt appreciation made visible and a renewed sense of shared meaning. Many notice joy resurfacing in small ways, like laughter coming more easily or affection feeling more natural.",
+      "semanticSummary": "This pack is most helpful for couples honoring special milestones or simply wanting to feel closer through gratitude and shared presence. Appreciation becomes spoken and felt, and subtle cues like easy smiles or a lingering hand remind you of what you treasure, allowing GRACE and BEYOND to shape joyful connection."
+    }
+  },
+  {
+    "timestamp": "2026-03-05T17:39:19.897645",
+    "ritual_pack_id": "e24a93b5-ccee-40f3-95a4-a11543a3f2b2",
+    "title": "Sacred Celebration",
+    "usage": {
+      "model": "gpt-4.1",
+      "prompt_id": "pmpt_69a839b52a288196aceb049c87d4e71703b9a81bf58f11b4",
+      "prompt_version": "4",
+      "input_tokens": 2189,
+      "output_tokens": 198,
+      "total_tokens": 2387
+    },
+    "ritualPackDetails": {
+      "tagLine": "Honoring your love with presence, gratitude, and gentle celebration",
+      "description": "Set aside space to truly recognize what your relationship means to you both. This pack invites moments of pausing to look at each other with new appreciation, speaking simple truths about what you’ve built together. You might notice a slow breath shared, or a small squeeze of the hand as you express gratitude for all you’ve endured and created together.",
+      "howItHelps": "Drawing from GRACE and BEYOND, this journey helps couples turn appreciation into heartfelt recognition and quiet pride. Often, couples feel a renewed closeness and a soft sense of devotion as they witness one another with fresh eyes.",
+      "semanticSummary": "This pack supports couples in marking milestones, giving thanks, and reflecting on their journey with GRACE and BEYOND. Gentle words, shared pauses, and meaningful eye contact bring a feeling of reverence and present-moment connection, turning gratitude into a lived celebration of your love."
     }
   }
 ]
