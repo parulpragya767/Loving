@@ -6,7 +6,7 @@ from model.ritual_models import RitualDetailsResponse
 from utils.airtable_utils import AirtableFields, SyncStatus
 from utils.ritual_utils import steps_array_to_text
 
-LLM_OUTPUT_PATH = "data/llm_output_changelog.json"
+LLM_OUTPUT_PATH = "data/llm_ritual_output_changelog.json"
 
 def dump_llm_batch_output(ritual: RitualDetailsResponse, usage_info: Dict[str, Any], title: str):
     """Dump the LLM output for a batch to the changelog file."""
