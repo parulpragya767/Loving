@@ -1,0 +1,34 @@
+{
+  "name": "ritual_pack_detail_response",
+  "strict": true,
+  "schema": {
+    "additionalProperties": false,
+    "description": "Structured ritual pack content for the Loving App.",
+    "properties": {
+      "tagLine": {
+        "title": "Tagline",
+        "type": "string"
+      },
+      "description": {
+        "title": "Description",
+        "type": "string"
+      },
+      "howItHelps": {
+        "title": "Howithelps",
+        "type": "string"
+      },
+      "semanticSummary": {
+        "title": "Semanticsummary",
+        "type": "string"
+      }
+    },
+    "required": [
+      "tagLine",
+      "description",
+      "howItHelps",
+      "semanticSummary"
+    ],
+    "title": "RitualPackDetailResponse",
+    "type": "object"
+  }
+}
