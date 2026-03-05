@@ -1,12 +1,14 @@
-import json
 import os
 from dataclasses import dataclass
 from enum import Enum
 from typing import Any, Dict, TypeVar, Type
 from openai import OpenAI
 from pydantic import BaseModel
+from dotenv import load_dotenv
 
-# Configuration from environment variables with defaults
+# Load environment variables
+load_dotenv()
+
 OPENAI_API_KEY = os.getenv("AI_OPENAI_API_KEY")
 OPENAI_API_MODEL = "gpt-4.1"
 
