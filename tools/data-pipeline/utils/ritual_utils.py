@@ -9,6 +9,7 @@ class RitualFields:
     ID = "id"
     TITLE = "title"
     TAGLINE = "tagLine"
+    SHORT_DESCRIPTION = "shortDescription"
     DESCRIPTION = "description"
     STEPS = "steps"
     HOW_IT_HELPS = "howItHelps"

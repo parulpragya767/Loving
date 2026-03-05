@@ -28,6 +28,7 @@ class AirtableFields:
     
     TITLE = "Title"
     TAGLINE = "Tagline"
+    SHORT_DESCRIPTION = "Short Description"
     DESCRIPTION = "Description"
     STEPS = "Steps"
     HOW_IT_HELPS = "How It Helps"
@@ -41,7 +42,6 @@ class AirtableFields:
     
     #Airtable specific fields
     AIRTABLE_RECORD_ID = "airtable_record_id"
-    SHORT_DESCRIPTION = "Short Description"
     LAST_UPDATED_TS = "Last Updated Timestamp"
     SYNC_STATUS = "Sync Status"
 
@@ -53,7 +53,7 @@ class AirtableFields:
     
     # Fields populated by LLM
     AIRTABLE_SPECIFIC_FIELDS = [
-        AIRTABLE_RECORD_ID, SHORT_DESCRIPTION, LAST_UPDATED_TS, SYNC_STATUS
+        AIRTABLE_RECORD_ID, LAST_UPDATED_TS, SYNC_STATUS
     ]
 
 def get_airtable_table():

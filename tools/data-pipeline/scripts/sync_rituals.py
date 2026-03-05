@@ -20,6 +20,7 @@ FIELD_MAP: Dict[str, str] = {
     ID_FIELD_NAME: ID_FIELD_NAME,
     RitualFields.TITLE: AirtableFields.TITLE,
     RitualFields.TAGLINE: AirtableFields.TAGLINE,
+    RitualFields.SHORT_DESCRIPTION: AirtableFields.SHORT_DESCRIPTION,
     RitualFields.DESCRIPTION: AirtableFields.DESCRIPTION,
     RitualFields.HOW_IT_HELPS: AirtableFields.HOW_IT_HELPS,
     RitualFields.STEPS: AirtableFields.STEPS,
