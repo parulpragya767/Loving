@@ -8,11 +8,40 @@ from pathlib import Path
 from typing import Any, Dict, List, Optional, Tuple
 
 from model.ritual_pack_models import Journey, RitualPackDetailResponse, RitualPackInput
-from utils.json_utils import append_to_json_array_file, load_json_array, RITUAL_PACKS_PATH, RITUALS_PATH
+from utils.json_utils import (
+    append_to_json_array_file,
+    load_json_array,
+    write_json_file,
+    RITUAL_PACKS_PATH,
+    RITUALS_PATH,
+)
 from utils.llm_utils import (PromptType, call_llm_json_with_usage,)
 from utils.ritual_utils import RitualFields, RitualPackFields
 
 LLM_RITUAL_PACK_OUTPUT_PATH = "data/llm_ritual_pack_output_changelog.json"
+
+def update_ritual_pack_fields_from_llm_output(ritual_pack_id: str, details: RitualPackDetailResponse) -> None:
+    ritual_packs = load_json_array(RITUAL_PACKS_PATH)
+
+    ritual_pack: Optional[Dict[str, Any]] = next(
+        (p for p in ritual_packs if p.get(RitualPackFields.ID) == ritual_pack_id),
+        None,
+    )
+    if ritual_pack is None:
+        raise ValueError(f"Ritual pack with id '{ritual_pack_id}' not found")
+
+    llm_fields = details.model_dump()
+    updatable_fields = (
+        RitualPackFields.TAGLINE,
+        RitualPackFields.DESCRIPTION,
+        RitualPackFields.HOW_IT_HELPS,
+        RitualPackFields.SEMANTIC_SUMMARY,
+    )
+    for key in updatable_fields:
+        if key in llm_fields and key in ritual_pack:
+            ritual_pack[key] = llm_fields[key]
+
+    write_json_file(RITUAL_PACKS_PATH, ritual_packs)
 
 def dump_llm_output(ritual_pack_id: str, ritual_pack_title: str, details: RitualPackDetailResponse, usage_info: Dict[str, Any]) -> None:
     timestamp = datetime.now().isoformat()
@@ -86,6 +115,11 @@ def main() -> None:
         type=str,
         help="Ritual pack id (UUID) from src/main/resources/data/ritualPacks.json",
     )
+    parser.add_argument(
+        "--apply",
+        action="store_true",
+        help="Write the LLM-generated fields back into src/main/resources/data/ritualPacks.json",
+    )
 
     args = parser.parse_args()
 
@@ -94,6 +128,10 @@ def main() -> None:
 
     details, usage_info = populate_ritual_pack_details_with_llm(ritual_pack_input)
     dump_llm_output(args.ritual_pack_id, ritual_pack_input.title, details, usage_info)
+
+    if args.apply:
+        update_ritual_pack_fields_from_llm_output(args.ritual_pack_id, details)
+        print(f"  > Updated ritual pack fields in {RITUAL_PACKS_PATH}")
 
 if __name__ == "__main__":
     main()

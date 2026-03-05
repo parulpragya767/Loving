@@ -25,12 +25,16 @@ class RitualFields:
 class RitualPackFields:
     ID = "id"
     TITLE = "title"
+    TAGLINE = "tagLine"
     SHORT_DESCRIPTION = "shortDescription"
+    DESCRIPTION = "description"
     JOURNEY = "journey"
     LOVE_TYPES = "loveTypes"
     RELATIONAL_NEEDS = "relationalNeeds"
+    HOW_IT_HELPS = "howItHelps"
     RITUAL_IDS = "ritualIds"
     RITUALS = "rituals"
+    SEMANTIC_SUMMARY = "semanticSummary"
 
 def sanitize_steps_text_to_array(raw_steps: str | None) -> List[str]:
     """Sanitizes steps from Airtable (JSON string) to array format for JSON."""

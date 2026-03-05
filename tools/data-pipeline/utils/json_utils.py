@@ -21,6 +21,11 @@ def load_json_array(file_path: Path) -> List[Dict[str, Any]]:
         raise ValueError(f"JSON content must be a list of objects: {file_path}")
     return data
 
+def write_json_file(file_path: Path, data: Any) -> None:
+    with open(file_path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
 def append_to_json_array_file(file_path: Path, entry: Dict[str, Any]) -> None:
     try:
         with open(file_path, "r", encoding="utf-8") as f:
@@ -33,5 +38,4 @@ def append_to_json_array_file(file_path: Path, entry: Dict[str, Any]) -> None:
 
     data.append(entry)
 
-    with open(file_path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+    write_json_file(file_path, data)
