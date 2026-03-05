@@ -24,7 +24,6 @@ def load_json_array(file_path: Path) -> List[Dict[str, Any]]:
 def write_json_file(file_path: Path, data: Any) -> None:
     with open(file_path, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
-        f.write("\n")
 
 def append_to_json_array_file(file_path: Path, entry: Dict[str, Any]) -> None:
     try:
