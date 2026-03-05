@@ -20,6 +20,7 @@ public final class RitualPackMapper {
                 .id(pack.getId())
                 .title(pack.getTitle())
                 .tagLine(pack.getTagLine())
+                .shortDescription(pack.getShortDescription())
                 .description(pack.getDescription())
                 .howItHelps(pack.getHowItHelps())
                 .rituals((pack.getRituals() != null ? pack.getRituals() : Collections.<Ritual>emptyList())
@@ -50,6 +51,7 @@ public final class RitualPackMapper {
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
         entity.setTagLine(dto.getTagLine());
+        entity.setShortDescription(dto.getShortDescription());
         entity.setDescription(dto.getDescription());
         entity.setHowItHelps(dto.getHowItHelps());
         entity.setJourney(dto.getJourney());
@@ -68,6 +70,7 @@ public final class RitualPackMapper {
             return;
         entity.setTitle(dto.getTitle());
         entity.setTagLine(dto.getTagLine());
+        entity.setShortDescription(dto.getShortDescription());
         entity.setDescription(dto.getDescription());
         entity.setHowItHelps(dto.getHowItHelps());
         entity.setJourney(dto.getJourney());

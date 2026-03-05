@@ -245,6 +245,7 @@ public class ContentManagementService {
             RitualPackDTO hashDto = RitualPackDTO.builder()
                     .title(dto.getTitle())
                     .tagLine(dto.getTagLine())
+                    .shortDescription(dto.getShortDescription())
                     .description(dto.getDescription())
                     .howItHelps(dto.getHowItHelps())
                     .ritualIds(dto.getRitualIds())

@@ -57,6 +57,7 @@ CREATE TABLE ritual_packs (
     journey varchar(40) CHECK (journey IN ('FEELING_DISTANT','LOVE_FEELS_FLAT','LOST_TOUCH','CARRYING_TOO_MUCH','WEATHERING_A_STORM','BRIDGING_THE_DIVIDE','LEARNING_TO_HEAR_EACH_OTHER','MAKING_SPACE_FOR_US','KEEP_THE_LOVE_ALIVE','GROW_AND_EVOLVE_TOGETHER','RETURN_TO_SELF','CELEBRATE_US')),
     content_hash varchar(128),
     title varchar(200) NOT NULL,
+    short_description text,
     description text,
     how_it_helps text,
     semantic_summary text,

@@ -28,6 +28,7 @@ public class RitualPackDTO {
     private String title;
 
     private String tagLine;
+    private String shortDescription;
     private String description;
     private String howItHelps;
 
