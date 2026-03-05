@@ -197,41 +197,55 @@ class AirtableJsonSyncer:
             record[self.id_field_name]: record
             for record in json_data if self.id_field_name in record
         }
-        
-        # List of records that will replace the old JSON data
-        new_json_data = []
+
+        # Index Airtable records by common ID
+        airtable_index: Dict[Any, Dict[str, Any]] = {
+            record[self.id_field_name]: record
+            for record in airtable_data if self.id_field_name in record
+        }
+
+        # List of records that will replace the old JSON data (preserving existing JSON order)
+        new_json_data: List[Dict[str, Any]] = []
         updates_count = 0
         creations_count = 0
+        processed_airtable_ids: set[Any] = set()
 
-        for airtable_record in airtable_data:
-            common_id = airtable_record.get(self.id_field_name)
+        # Preserve existing JSON order by iterating json_data first and updating in place.
+        for json_record in json_data:
+            common_id = json_record.get(self.id_field_name)
 
-            # Sanitize steps from Airtable (JSON string to array) for JSON
-            if RitualFields.STEPS in airtable_record:
-                airtable_record[RitualFields.STEPS] = sanitize_steps_text_to_array(airtable_record[RitualFields.STEPS])
+            if common_id and common_id in airtable_index:
+                airtable_record = airtable_index[common_id]
 
-            if common_id in json_index:
-                # Record exists in JSON, update it
-                existing_json_record = json_index[common_id]
+                # Sanitize steps from Airtable (JSON string to array) for JSON
+                if RitualFields.STEPS in airtable_record:
+                    airtable_record[RitualFields.STEPS] = sanitize_steps_text_to_array(airtable_record[RitualFields.STEPS])
                 
                 # Update existing fields based on Airtable data
                 for key, value in airtable_record.items():
                     # Only update fields that are defined in the field map (JSON keys)
                     if key in self.field_map or key == self.id_field_name:
-                        existing_json_record[key] = value
+                        json_record[key] = value
 
-                new_json_data.append(existing_json_record)
                 updates_count += 1
-                del json_index[common_id] # Mark as processed
-            else:
-                # Record is new, add it to JSON
-                new_json_data.append(airtable_record)
-                creations_count += 1
+                processed_airtable_ids.add(common_id)
 
-        # Add any remaining (unmatched) records from the original JSON back to the new list
-        # This keeps JSON records that don't exist in Airtable (or were unmatched)
-        for record in json_index.values():
-             new_json_data.append(record)
+            new_json_data.append(json_record)
+
+        # Append new Airtable rituals at the end (do not disrupt existing JSON ordering)
+        for airtable_record in airtable_data:
+            common_id = airtable_record.get(self.id_field_name)
+            if not common_id:
+                continue
+            if common_id in json_index or common_id in processed_airtable_ids:
+                continue
+
+            # Sanitize steps from Airtable (JSON string to array) for JSON
+            if RitualFields.STEPS in airtable_record:
+                airtable_record[RitualFields.STEPS] = sanitize_steps_text_to_array(airtable_record[RitualFields.STEPS])
+
+            new_json_data.append(airtable_record)
+            creations_count += 1
 
         # Remove any fields present in AIRTABLE_SPECIFIC_FIELDS before saving to JSON
         final_data_for_json = []
@@ -244,7 +258,7 @@ class AirtableJsonSyncer:
 
         # Save the updated dataset back to the JSON file
         self.save_json_data(final_data_for_json)
-        
+
         print(f"Completed sync: {updates_count} JSON records updated, {creations_count} new records added.")
 
     def sync(self, direction: Literal['to_airtable', 'to_json']):
