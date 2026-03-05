@@ -1,7 +1,7 @@
 import json
 from typing import Dict, List, Any
 from datetime import datetime
-from utils.llm_utils import call_llm_json_with_usage
+from utils.llm_utils import PromptType, call_llm_json_with_usage
 from model.ritual_models import RitualDetailsResponse
 from utils.airtable_utils import AirtableFields, SyncStatus
 from utils.ritual_utils import steps_array_to_text
@@ -78,8 +78,8 @@ def populate_missing_ritual_fields_batch(batch: List[Dict[str, Any]], prompt_ver
             print(ritual_data_prompt)
             details, usage_info = call_llm_json_with_usage(
                 model_class=RitualDetailsResponse,
-                prompt_version=prompt_version,
-                user_input=ritual_data_prompt
+                user_input=ritual_data_prompt,
+                prompt_type=PromptType.RITUAL_CREATION,
             )
 
             dump_llm_batch_output(details, usage_info, title)

@@ -21,6 +21,17 @@ class RitualFields:
     SEMANTIC_SUMMARY = "semanticSummary"
     STATUS = "status"
 
+
+class RitualPackFields:
+    ID = "id"
+    TITLE = "title"
+    SHORT_DESCRIPTION = "shortDescription"
+    JOURNEY = "journey"
+    LOVE_TYPES = "loveTypes"
+    RELATIONAL_NEEDS = "relationalNeeds"
+    RITUAL_IDS = "ritualIds"
+    RITUALS = "rituals"
+
 def sanitize_steps_text_to_array(raw_steps: str | None) -> List[str]:
     """Sanitizes steps from Airtable (JSON string) to array format for JSON."""
     if not raw_steps:
