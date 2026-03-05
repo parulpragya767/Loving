@@ -4,18 +4,18 @@ from typing import Dict, List
 from pydantic import BaseModel, Field
 
 class Journey(str, Enum):
-    FEELING_DISTANT = "When emotional connection feels thin or you’re drifting apart inside."
-    LOVE_FEELS_FLAT = "When passion or excitement feels lost — when life together feels routine or uninspired, and the spark has dimmed."
+    FEELING_DISTANT = "When emotional connection feels thin and you sense yourselves drifting apart."
+    LOVE_FEELS_FLAT = "When passion or excitement has faded and life together feels routine or uninspired."
     LOST_TOUCH = "When physical intimacy or affection has faded, and you want to feel warmth and closeness again."
-    CARRYING_TOO_MUCH = "When the daily grind, imbalance of responsibility, or mental overload leaves you tired and disconnected."
-    WEATHERING_A_STORM = "Facing external stress or life transitions together and needing steadiness and support."
-    BRIDGING_THE_DIVIDE = "Learning to repair and reconnect after conflict, misunderstanding, or hurt."
-    LEARNING_TO_HEAR_EACH_OTHER = "Strengthening communication, empathy, and the ability to really listen and feel heard."
-    MAKING_SPACE_FOR_US = "Prioritising quality time and togetherness amid busy lives or distractions."
-    KEEP_THE_LOVE_ALIVE = "Nurturing affection and connection through small, daily gestures and presence."
-    GROW_AND_EVOLVE_TOGETHER = "Encouraging mutual growth, learning, and transformation as partners and individuals."
-    RETURN_TO_SELF = "Reconnecting with your own inner world, needs, and self-worth — so love can flow from wholeness."
-    CELEBRATE_US = "Honouring love, milestones, or shared gratitude — remembering what you’ve built together."
+    CARRYING_TOO_MUCH = "When responsibilities, imbalance, or mental load leave you tired and disconnected."
+    WEATHERING_A_STORM = "When external stress or life transitions test the relationship and you need steadiness and support."
+    BRIDGING_THE_DIVIDE = "When conflict, misunderstanding, or hurt has created distance and repair is needed."
+    LEARNING_TO_HEAR_EACH_OTHER = "When communication feels difficult and you want to listen, understand, and feel heard more deeply."
+    MAKING_SPACE_FOR_US = "When busy lives or distractions leave little time for each other and you want to reconnect."
+    KEEP_THE_LOVE_ALIVE = "When you want to keep love vibrant through small, everyday gestures of affection and presence."
+    GROW_AND_EVOLVE_TOGETHER = "When you want to support each other’s growth and evolve together as partners and individuals."
+    RETURN_TO_SELF = "When you need to reconnect with your own inner world, needs, and sense of self."
+    CELEBRATE_US = "When you want to honour your relationship, celebrate milestones, or express shared gratitude."
 
 
 class RitualPackInput(BaseModel):
