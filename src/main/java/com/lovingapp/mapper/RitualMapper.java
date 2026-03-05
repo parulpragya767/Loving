@@ -18,6 +18,7 @@ public final class RitualMapper {
                 .id(ritual.getId())
                 .title(ritual.getTitle())
                 .tagLine(ritual.getTagLine())
+                .shortDescription(ritual.getShortDescription())
                 .description(ritual.getDescription())
                 .howItHelps(ritual.getHowItHelps())
                 .ritualMode(ritual.getRitualMode())
@@ -46,6 +47,7 @@ public final class RitualMapper {
         entity.setId(dto.getId());
         entity.setTitle(dto.getTitle());
         entity.setTagLine(dto.getTagLine());
+        entity.setShortDescription(dto.getShortDescription());
         entity.setDescription(dto.getDescription());
         entity.setSteps(Objects.requireNonNullElse(dto.getSteps(), Collections.emptyList()));
         entity.setHowItHelps(dto.getHowItHelps());
@@ -68,6 +70,7 @@ public final class RitualMapper {
             return;
         entity.setTitle(dto.getTitle());
         entity.setTagLine(dto.getTagLine());
+        entity.setShortDescription(dto.getShortDescription());
         entity.setDescription(dto.getDescription());
         entity.setSteps(Objects.requireNonNullElse(dto.getSteps(), Collections.emptyList()));
         entity.setHowItHelps(dto.getHowItHelps());

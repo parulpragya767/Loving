@@ -48,6 +48,9 @@ public class Ritual {
     @Column(name = "tag_line", length = 255)
     private String tagLine;
 
+    @Column(name = "short_description", columnDefinition = "text")
+    private String shortDescription;
+
     @Column(columnDefinition = "text")
     private String description;
 

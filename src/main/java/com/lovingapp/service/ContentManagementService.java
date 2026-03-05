@@ -219,6 +219,7 @@ public class ContentManagementService {
             RitualDTO hashDto = RitualDTO.builder()
                     .title(dto.getTitle())
                     .tagLine(dto.getTagLine())
+                    .shortDescription(dto.getShortDescription())
                     .description(dto.getDescription())
                     .howItHelps(dto.getHowItHelps())
                     .steps(dto.getSteps())

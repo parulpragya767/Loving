@@ -87,6 +87,7 @@ CREATE TABLE rituals (
     time_taken varchar(20) CHECK (time_taken IN ('MOMENT','SHORT','MEDIUM','LONG','EXTENDED','FLEXIBLE')),
     content_hash varchar(128),
     title varchar(200) NOT NULL,
+    short_description text,
     description text,
     how_it_helps text,
     semantic_summary text,

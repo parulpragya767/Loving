@@ -30,6 +30,7 @@ public class RitualDTO {
     private String title;
 
     private String tagLine;
+    private String shortDescription;
     private String description;
     private String howItHelps;
     private List<String> steps;
