@@ -1,0 +1,22 @@
+{
+    "name": "LLMEmpatheticResponse",
+    "strict": false,
+    "schema": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+            "response": {
+                "type": "string",
+                "description": "Empathetic response for the user query"
+            },
+            "readyForRitualSuggestion": {
+                "type": "boolean",
+                "description": "Does LLM have all the information to suggest a ritual pack?"
+            }
+        },
+        "required": [
+            "response",
+            "readyForRitualSuggestion"
+        ]
+    }
+}
