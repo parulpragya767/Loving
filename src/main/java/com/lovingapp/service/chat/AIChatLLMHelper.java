@@ -1,14 +1,16 @@
 package com.lovingapp.service.chat;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
 import com.lovingapp.client.LlmClient;
-import com.lovingapp.helpers.ai.LLMPromptHelper;
-import com.lovingapp.model.domain.ai.LLMChatMessage;
+import com.lovingapp.config.llm.PromptConfig;
+import com.lovingapp.config.llm.PromptConfigConstants;
 import com.lovingapp.model.domain.ai.LLMEmpatheticResponse;
 import com.lovingapp.model.domain.ai.LLMRequest;
 import com.lovingapp.model.domain.ai.LLMResponse;
@@ -16,6 +18,7 @@ import com.lovingapp.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.model.domain.ai.LLMUserContextExtraction;
 import com.lovingapp.model.dto.RitualPackDTO;
 import com.lovingapp.model.entity.ChatMessage;
+import com.lovingapp.model.enums.ChatMessageRole;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,15 +38,22 @@ public class AIChatLLMHelper {
      * Generate empathetic response from conversation using LLM.
      */
     public LLMEmpatheticResponse generateEmpatheticResponse(UUID sessionId, List<ChatMessage> messages) {
+        PromptConfig promptConfig = PromptConfigConstants.EMPATHETIC_CHAT_RESPONSE;
+
+        // Get all messages except the last one for conversation context
+        String conversationText = createConversationText(messages.subList(0, messages.size() - 1));
+
+        Map<String, String> variables = new HashMap<>();
+        variables.put(PromptConfigConstants.CONVERSATION_VARIABLE, conversationText);
+        variables.put(PromptConfigConstants.LATEST_USER_MESSAGE_VARIABLE, messages.getLast().getContent());
+
         LLMRequest llmRequest = LLMRequest.builder()
-                .messages(messages.stream()
-                        .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
-                        .collect(Collectors.toList()))
-                .systemPrompt(LLMPromptHelper.generateEmpatheticChatResponsePrompt())
+                .promptId(promptConfig.getPromptId())
+                .promptVersion(promptConfig.getPromptVersion())
+                .promptVariables(variables)
                 .responseFormat(LLMResponseFormat.JSON)
                 .build();
 
-        // Call LLM to generate empathetic response
         log.info("Generating empathetic response via LLM sessionId={}", sessionId);
 
         LLMResponse<LLMEmpatheticResponse> aiReply = llmClient.generate(llmRequest, LLMEmpatheticResponse.class);
@@ -58,11 +68,17 @@ public class AIChatLLMHelper {
      * Extract user context from conversation using LLM.
      */
     public LLMUserContextExtraction extractUserContext(UUID userId, UUID sessionId, List<ChatMessage> messages) {
+        PromptConfig promptConfig = PromptConfigConstants.USER_CONTEXT_EXTRACTION;
+
+        String conversationText = createConversationText(messages);
+
+        Map<String, String> variables = new HashMap<>();
+        variables.put(PromptConfigConstants.CONVERSATION_VARIABLE, conversationText);
+
         LLMRequest extractionRequest = LLMRequest.builder()
-                .messages(messages.stream()
-                        .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
-                        .collect(Collectors.toList()))
-                .systemPrompt(LLMPromptHelper.generateUserContextExtractionPrompt())
+                .promptId(promptConfig.getPromptId())
+                .promptVersion(promptConfig.getPromptVersion())
+                .promptVariables(variables)
                 .responseFormat(LLMResponseFormat.JSON)
                 .build();
 
@@ -86,11 +102,18 @@ public class AIChatLLMHelper {
 
         try {
             if (recommendedPack != null) {
+                PromptConfig promptConfig = PromptConfigConstants.WRAP_UP_CHAT_RESPONSE;
+
+                String conversationText = createConversationText(messages);
+
+                Map<String, String> variables = new HashMap<>();
+                variables.put(PromptConfigConstants.CONVERSATION_VARIABLE, conversationText);
+                variables.put(PromptConfigConstants.RECOMMENDED_RITUAL_PACK_VARIABLE, recommendedPack.toString());
+
                 LLMRequest wrapUpRequest = LLMRequest.builder()
-                        .messages(messages.stream()
-                                .map(m -> new LLMChatMessage(m.getRole(), m.getContent()))
-                                .collect(Collectors.toList()))
-                        .systemPrompt(LLMPromptHelper.generateWrapUpChatResponsePrompt(recommendedPack))
+                        .promptId(promptConfig.getPromptId())
+                        .promptVersion(promptConfig.getPromptVersion())
+                        .promptVariables(variables)
                         .responseFormat(LLMResponseFormat.TEXT)
                         .build();
 
@@ -128,5 +151,17 @@ public class AIChatLLMHelper {
         }
 
         return wrapUpMessage;
+    }
+
+    /**
+     * Create conversation text from messages with proper formatting.
+     */
+    private String createConversationText(List<ChatMessage> messages) {
+        return messages.stream()
+                .map(m -> {
+                    String roleLabel = m.getRole() == ChatMessageRole.USER ? "[User]" : "[Assistant]";
+                    return roleLabel + "\n" + m.getContent();
+                })
+                .collect(Collectors.joining("\n\n"));
     }
 }

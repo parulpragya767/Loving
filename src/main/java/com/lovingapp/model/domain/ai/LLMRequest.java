@@ -17,5 +17,9 @@ public class LLMRequest {
     private String systemPrompt;
     private List<LLMChatMessage> messages;
     private LLMResponseFormat responseFormat;
-    private Map<String, Object> metadata; // optional — e.g. temperature, schema, etc.
+    private Map<String, Object> metadata;
+
+    private String promptId;
+    private String promptVersion;
+    private Map<String, String> promptVariables;
 }

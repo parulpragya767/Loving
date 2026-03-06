@@ -13,9 +13,11 @@ import com.lovingapp.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.model.enums.ChatMessageRole;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
+import com.openai.core.JsonValue;
 import com.openai.models.responses.EasyInputMessage;
 import com.openai.models.responses.ResponseCreateParams;
 import com.openai.models.responses.ResponseInputItem;
+import com.openai.models.responses.ResponsePrompt;
 import com.openai.models.responses.StructuredResponseCreateParams;
 
 import lombok.extern.slf4j.Slf4j;
@@ -47,11 +49,12 @@ public class OpenAiChatClient implements LlmClient {
                         .text(responseClass)
                         .build();
 
-                log.info("LLM request: model={}, format={}, systemPrompt.len={}, messages.size={}",
+                log.info("LLM request: model={}, format={}, promptId={}, promptVersion={}, variables.size={}",
                         getLLMModel(request),
                         request.getResponseFormat(),
-                        request.getSystemPrompt() == null ? 0 : request.getSystemPrompt().length(),
-                        request.getMessages() == null ? 0 : request.getMessages().size());
+                        request.getPromptId(),
+                        request.getPromptVersion(),
+                        request.getPromptVariables() == null ? 0 : request.getPromptVariables().size());
 
                 var response = client.responses().create(params);
 
@@ -79,11 +82,12 @@ public class OpenAiChatClient implements LlmClient {
                 ResponseCreateParams params = buildResponseCreateParams(request)
                         .build();
 
-                log.info("LLM request: model={}, format={}, systemPrompt.len={}, messages.size={}",
+                log.info("LLM request: model={}, format={}, promptId={}, promptVersion={}, variables.size={}",
                         getLLMModel(request),
                         request.getResponseFormat(),
-                        request.getSystemPrompt() == null ? 0 : request.getSystemPrompt().length(),
-                        request.getMessages() == null ? 0 : request.getMessages().size());
+                        request.getPromptId(),
+                        request.getPromptVersion(),
+                        request.getPromptVariables() == null ? 0 : request.getPromptVariables().size());
 
                 var response = client.responses().create(params);
 
@@ -110,9 +114,37 @@ public class OpenAiChatClient implements LlmClient {
     }
 
     private ResponseCreateParams.Builder buildResponseCreateParams(LLMRequest request) {
-        return ResponseCreateParams.builder()
-                .model(getLLMModel(request))
-                .inputOfResponse(buildInputItems(request));
+        ResponseCreateParams.Builder builder = ResponseCreateParams.builder()
+                .model(getLLMModel(request));
+
+        if (request.getPromptId() != null && !request.getPromptId().isBlank()) {
+            builder.prompt(buildPrompt(request));
+        } else {
+            builder.inputOfResponse(buildInputItems(request));
+        }
+
+        return builder;
+    }
+
+    private ResponsePrompt buildPrompt(LLMRequest request) {
+        ResponsePrompt.Builder promptBuilder = ResponsePrompt.builder()
+                .id(request.getPromptId());
+
+        if (request.getPromptVersion() != null && !request.getPromptVersion().isBlank()) {
+            promptBuilder.version(request.getPromptVersion());
+        }
+
+        if (request.getPromptVariables() != null && !request.getPromptVariables().isEmpty()) {
+            ResponsePrompt.Variables.Builder variablesBuilder = ResponsePrompt.Variables.builder();
+
+            request.getPromptVariables().forEach((key, value) -> {
+                variablesBuilder.putAdditionalProperty(key, JsonValue.from(value));
+            });
+
+            promptBuilder.variables(variablesBuilder.build());
+        }
+
+        return promptBuilder.build();
     }
 
     private List<ResponseInputItem> buildInputItems(LLMRequest request) {
