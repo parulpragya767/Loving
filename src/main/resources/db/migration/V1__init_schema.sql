@@ -116,16 +116,21 @@ CREATE TABLE user_contexts (
 );
 
 CREATE TABLE users (
-    onboarding_completed boolean NOT NULL,
-    created_at timestamptz NOT NULL,
-    last_login_at timestamptz,
-    updated_at timestamptz NOT NULL,
-    auth_user_id uuid NOT NULL UNIQUE,
-    id uuid NOT NULL,
-    display_name varchar(120),
-    email varchar(255) NOT NULL UNIQUE,
-    PRIMARY KEY (id)
-);
+    is_beta_user boolean NOT NULL, 
+    onboarding_completed boolean NOT NULL, 
+    created_at timestamptz NOT NULL, 
+    last_login_at timestamptz, 
+    subscription_expires_at timestamptz, 
+    subscription_started_at timestamptz, 
+    updated_at timestamptz NOT NULL, 
+    auth_user_id uuid NOT NULL UNIQUE, 
+    id uuid NOT NULL, 
+    display_name varchar(120), 
+    email varchar(255) NOT NULL UNIQUE, 
+    subscription_source varchar(30) NOT NULL CHECK (subscription_source IN ('APPLE','GOOGLE_PLAY','STRIPE','INTERNAL','NONE')), 
+    subscription_status varchar(30) NOT NULL CHECK (subscription_status IN ('INACTIVE','ACTIVE','TRIALING','GRACE_PERIOD','EXPIRED','CANCELLED')), 
+    subscription_tier varchar(30) NOT NULL CHECK (subscription_tier IN ('FREE','PREMIUM')), 
+    PRIMARY KEY (id));
 
 ALTER TABLE ritual_pack_rituals
     ADD CONSTRAINT ritual_pack_rituals_pk

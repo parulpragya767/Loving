@@ -56,13 +56,13 @@ public class User {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "subscription_tier", nullable = false)
+    @Column(name = "subscription_tier", length = 30, nullable = false)
     @Builder.Default
     private SubscriptionTier subscriptionTier = SubscriptionTier.FREE;
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "subscription_status", nullable = false)
+    @Column(name = "subscription_status", length = 30, nullable = false)
     @Builder.Default
     private SubscriptionStatus subscriptionStatus = SubscriptionStatus.INACTIVE;
 
@@ -71,7 +71,7 @@ public class User {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "subscription_source", nullable = false)
+    @Column(name = "subscription_source", length = 30, nullable = false)
     @Builder.Default
     private SubscriptionSource subscriptionSource = SubscriptionSource.NONE;
 
