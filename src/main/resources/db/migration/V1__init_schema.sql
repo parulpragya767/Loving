@@ -115,6 +115,19 @@ CREATE TABLE user_contexts (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE user_usage_counters (
+    created_at timestamptz NOT NULL,
+    updated_at timestamptz NOT NULL,
+    id uuid NOT NULL,
+    user_id uuid NOT NULL,
+    period_type varchar(20) NOT NULL CHECK (period_type IN ('DAILY','WEEKLY')),
+    period_start timestamptz NOT NULL,
+    ai_messages_count integer NOT NULL DEFAULT 0,
+    recommendations_count integer NOT NULL DEFAULT 0,
+    PRIMARY KEY (id),
+    UNIQUE (user_id, period_type, period_start)
+);
+
 CREATE TABLE users (
     is_beta_user boolean NOT NULL, 
     onboarding_completed boolean NOT NULL, 
@@ -204,4 +217,10 @@ ALTER TABLE user_contexts
     ADD CONSTRAINT fk_user_contexts_conversation
     FOREIGN KEY (conversation_id)
     REFERENCES chat_sessions(id)
+    ON DELETE CASCADE;
+
+ALTER TABLE user_usage_counters
+    ADD CONSTRAINT fk_user_usage_counters_user
+    FOREIGN KEY (user_id)
+    REFERENCES users(id)
     ON DELETE CASCADE;
