@@ -23,6 +23,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RecommendationEngine {
 
+    private static final float LOVE_TYPE_WEIGHT = 0.65f;
+    private static final float RELATIONAL_NEED_WEIGHT = 0.35f;
+
     private final RitualPackService ritualPackService;
 
     /**
@@ -73,7 +76,12 @@ public class RecommendationEngine {
                 .map(ScoredPack::getPack)
                 .collect(Collectors.toList());
 
-        log.info("Recommended {} ritual packs from {} filtered candidates", result.size(), filteredPacks.size());
+        String packDetails = result.stream()
+                .map(pack -> String.format("%s (%s)", pack.getId(), pack.getTitle()))
+                .collect(Collectors.joining("; "));
+
+        log.info("Recommended {} ritual packs. Details: {}", result.size(), packDetails);
+
         return result;
     }
 
@@ -142,12 +150,12 @@ public class RecommendationEngine {
         float loveTypeScore = calculateLoveTypeScore(pack, context);
         float relationalNeedScore = calculateRelationalNeedScore(pack, context);
 
-        // Combine base scores (equal weight for now)
-        float baseScore = (loveTypeScore + relationalNeedScore) / 2.0f;
+        // Combine base scores (weighted)
+        float baseScore = (loveTypeScore * LOVE_TYPE_WEIGHT) + (relationalNeedScore * RELATIONAL_NEED_WEIGHT);
 
         // Apply penalties
-        float historyPenalty = calculateHistoryPenalty(pack.getId(), recommendationCounts);
-        float recencyPenalty = calculateRecencyPenalty(pack.getId(), lastRecommendedPackId);
+        float historyPenalty = calculateHistoryPenalty(pack, recommendationCounts);
+        float recencyPenalty = calculateRecencyPenalty(pack, lastRecommendedPackId);
 
         // Calculate final score
         float finalScore = baseScore * historyPenalty * recencyPenalty;
@@ -166,7 +174,7 @@ public class RecommendationEngine {
 
     /**
      * Calculates love type score with weighted matching.
-     * First 2 love types get higher weight, remaining get lower weight.
+     * First 2 love types in the pack get higher weight, remaining get lower weight.
      * Score is normalized between 0-1.
      */
     private float calculateLoveTypeScore(RitualPackDTO pack, RitualRecommendationContext context) {
@@ -178,22 +186,20 @@ public class RecommendationEngine {
         float totalWeight = 0.0f;
         float matchedWeight = 0.0f;
 
-        List<LoveType> userLoveTypes = context.getLoveTypes();
-
-        for (int i = 0; i < userLoveTypes.size(); i++) {
-            LoveType loveType = userLoveTypes.get(i);
-            // First 2 love types get weight 1.0, remaining get weight 0.5
+        for (int i = 0; i < pack.getLoveTypes().size(); i++) {
+            LoveType loveType = pack.getLoveTypes().get(i);
+            // First 2 love types in the pack get weight 1.0, remaining get weight 0.5
             float weight = (i < 2) ? 1.0f : 0.5f;
             totalWeight += weight;
 
-            if (pack.getLoveTypes().contains(loveType)) {
+            if (context.getLoveTypes().contains(loveType)) {
                 matchedWeight += weight;
             }
         }
 
         float score = totalWeight > 0 ? matchedWeight / totalWeight : 0.0f;
-        log.debug("Love type score for pack {}: matchedWeight={}, totalWeight={}, score={}",
-                pack.getId(), matchedWeight, totalWeight, score);
+        log.debug("Love type score for pack {} ({}): matchedWeight={}, totalWeight={}, score={}",
+                pack.getId(), pack.getTitle(), matchedWeight, totalWeight, score);
 
         return score;
     }
@@ -217,8 +223,8 @@ public class RecommendationEngine {
 
         float score = (float) intersection / userNeeds.size();
 
-        log.debug("Relational need score for pack {}: intersection={}, userNeedsSize={}, score={}",
-                pack.getId(), intersection, userNeeds.size(), score);
+        log.debug("Relational need score for pack {} ({}): intersection={}, userNeedsSize={}, score={}",
+                pack.getId(), pack.getTitle(), intersection, userNeeds.size(), score);
 
         return score;
     }
@@ -227,13 +233,13 @@ public class RecommendationEngine {
      * Calculates history penalty based on recommendation count.
      * historyPenalty = 1 / (1 + recommendationCount)
      */
-    private float calculateHistoryPenalty(UUID packId, Map<UUID, Long> recommendationCounts) {
-        long count = recommendationCounts.getOrDefault(packId, 0L);
+    private float calculateHistoryPenalty(RitualPackDTO pack, Map<UUID, Long> recommendationCounts) {
+        long count = recommendationCounts.getOrDefault(pack.getId(), 0L);
         float penalty = 1.0f / (1.0f + count);
 
         if (count > 0) {
-            log.debug("History penalty for pack {}: recommendationCount={}, penalty={}",
-                    packId, count, penalty);
+            log.debug("History penalty for pack {} ({}): recommendationCount={}, penalty={}",
+                    pack.getId(), pack.getTitle(), count, penalty);
         }
 
         return penalty;
@@ -243,9 +249,9 @@ public class RecommendationEngine {
      * Calculates recency penalty for the last recommended pack.
      * If pack was the last recommended, apply 0.3 multiplier.
      */
-    private float calculateRecencyPenalty(UUID packId, UUID lastRecommendedPackId) {
-        if (lastRecommendedPackId != null && packId.equals(lastRecommendedPackId)) {
-            log.debug("Recency penalty applied to pack {}: penalty=0.3", packId);
+    private float calculateRecencyPenalty(RitualPackDTO pack, UUID lastRecommendedPackId) {
+        if (lastRecommendedPackId != null && pack.getId().equals(lastRecommendedPackId)) {
+            log.debug("Recency penalty applied to pack {} ({}): penalty=0.3", pack.getId(), pack.getTitle());
             return 0.3f;
         }
         return 1.0f;
