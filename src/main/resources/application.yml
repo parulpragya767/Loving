@@ -75,6 +75,12 @@ info:
     description: Backend for Loving App
     version: 0.1.0
 
+app:
+  usage:
+    free:
+      daily-ai-messages: 10
+      weekly-recommendations: 5
+
 logging:
   level:
     root: INFO
