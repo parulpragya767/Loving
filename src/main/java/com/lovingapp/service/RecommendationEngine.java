@@ -156,8 +156,8 @@ public class RecommendationEngine {
         finalScore = Math.max(0.0f, Math.min(1.0f, finalScore));
 
         // Debug logging
-        log.debug("Pack {} ({}): loveTypeScore={:.3f}, relationalNeedScore={:.3f}, " +
-                "baseScore={:.3f}, historyPenalty={:.3f}, recencyPenalty={:.3f}, finalScore={:.3f}",
+        log.debug("Pack {} ({}): loveTypeScore={}, relationalNeedScore={}, " +
+                "baseScore={}, historyPenalty={}, recencyPenalty={}, finalScore={}",
                 pack.getId(), pack.getTitle(), loveTypeScore, relationalNeedScore,
                 baseScore, historyPenalty, recencyPenalty, finalScore);
 
@@ -192,7 +192,7 @@ public class RecommendationEngine {
         }
 
         float score = totalWeight > 0 ? matchedWeight / totalWeight : 0.0f;
-        log.debug("Love type score for pack {}: matchedWeight={:.3f}, totalWeight={:.3f}, score={:.3f}",
+        log.debug("Love type score for pack {}: matchedWeight={}, totalWeight={}, score={}",
                 pack.getId(), matchedWeight, totalWeight, score);
 
         return score;
@@ -217,7 +217,7 @@ public class RecommendationEngine {
 
         float score = (float) intersection / userNeeds.size();
 
-        log.debug("Relational need score for pack {}: intersection={}, userNeedsSize={}, score={:.3f}",
+        log.debug("Relational need score for pack {}: intersection={}, userNeedsSize={}, score={}",
                 pack.getId(), intersection, userNeeds.size(), score);
 
         return score;
@@ -232,7 +232,7 @@ public class RecommendationEngine {
         float penalty = 1.0f / (1.0f + count);
 
         if (count > 0) {
-            log.debug("History penalty for pack {}: recommendationCount={}, penalty={:.3f}",
+            log.debug("History penalty for pack {}: recommendationCount={}, penalty={}",
                     packId, count, penalty);
         }
 
