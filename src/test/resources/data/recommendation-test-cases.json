@@ -1,0 +1,28 @@
+[
+  {
+    "testName": "feeling_distant_with_connection_needs",
+    "context": {
+      "journey": "FEELING_DISTANT",
+      "loveTypes": ["BELONG", "CARE"],
+      "relationalNeeds": ["CONNECTION", "UNDERSTANDING", "PRESENCE_AND_QUALITY_TIME", "COMMUNICATION"],
+      "relationshipStatus": "COMMITTED",
+      "semanticSummary": "Couple feeling emotionally distant and seeking reconnection",
+      "recommendationHistory": []
+    },
+    "expectedRitualPackId": "b21567fb-36db-4051-b31f-844d846381c6",
+    "expectedRitualPackTitle": "Finding Our Way Back"
+  },
+  {
+    "testName": "love_feels_flat_with_play_needs",
+    "context": {
+      "journey": "LOVE_FEELS_FLAT",
+      "loveTypes": ["SPARK", "FIRE", "BELONG"],
+      "relationalNeeds": ["PLAY_AND_JOY", "INTIMACY", "CONNECTION", "PRESENCE_AND_QUALITY_TIME"],
+      "relationshipStatus": "COMMITTED",
+      "semanticSummary": "Couple experiencing routine and wanting to rekindle excitement",
+      "recommendationHistory": []
+    },
+    "expectedRitualPackId": "4f09e36d-5543-4dbe-a83a-d8f2fb458624",
+    "expectedRitualPackTitle": "Rekindle the Spark"
+  }
+]
