@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.mapper.ChatMessageMapper;
 import com.lovingapp.mapper.ChatSessionMapper;
+import com.lovingapp.model.domain.RitualRecommendationContext;
 import com.lovingapp.model.domain.ai.LLMEmpatheticResponse;
 import com.lovingapp.model.domain.ai.LLMUserContextExtraction;
 import com.lovingapp.model.dto.ChatDTOs.ChatSessionDTO;
@@ -45,6 +46,7 @@ public class AIChatService {
 	private final AIChatMessagePersistenceService chatMessagePersistenceService;
 	private final UserContextService userContextService;
 	private final RecommendationEngine recommendationEngine;
+	private final RitualRecommendationService ritualRecommendationService;
 	private final AIChatLLMHelper aiChatLLMHelper;
 	private final AIChatRitualRecommendationAndHistoryHelper ritualRecommendationAndHistoryHelper;
 
@@ -96,7 +98,7 @@ public class AIChatService {
 		UserContextDTO savedUserContext = saveUserContext(userId, sessionId, extractedUserContext);
 
 		// Get ritual pack recommendation
-		RitualPackDTO recommendedPack = getRitualPackRecommendation(savedUserContext);
+		RitualPackDTO recommendedPack = getRitualPackRecommendation(userId, savedUserContext);
 
 		// Generate wrap-up message using LLM
 		String wrapUpMessage = aiChatLLMHelper.generateWrapUpMessage(messages, recommendedPack, sessionId);
@@ -214,10 +216,33 @@ public class AIChatService {
 	/**
 	 * Get ritual pack recommendation from recommendation engine.
 	 */
-	private RitualPackDTO getRitualPackRecommendation(UserContextDTO savedUserContext) {
+	private RitualPackDTO getRitualPackRecommendation(UUID userId, UserContextDTO savedUserContext) {
 		UUID sessionId = savedUserContext.getConversationId();
-		RitualPackDTO recommendedPack = recommendationEngine.recommendRitualPack(savedUserContext)
-				.orElse(null);
+
+		// Fetch recommendation history
+		List<RitualRecommendationContext.RitualPackRecommendationEvent> recommendationHistory = ritualRecommendationService
+				.getAll(userId)
+				.stream()
+				.map(recommendation -> RitualRecommendationContext.RitualPackRecommendationEvent.builder()
+						.ritualPackId(recommendation.getRitualPackId())
+						.recommendedAt(recommendation.getCreatedAt())
+						.build())
+				.collect(Collectors.toList());
+
+		// Build recommendation context
+		RitualRecommendationContext context = RitualRecommendationContext.builder()
+				.journey(savedUserContext.getJourney())
+				.loveTypes(savedUserContext.getLoveTypes())
+				.relationalNeeds(savedUserContext.getRelationalNeeds())
+				.relationshipStatus(savedUserContext.getRelationshipStatus())
+				.semanticSummary(savedUserContext.getSemanticSummary())
+				.recommendationHistory(recommendationHistory)
+				.build();
+
+		// Get recommendations (limit to 1 for now)
+		List<RitualPackDTO> recommendedPacks = recommendationEngine.recommend(context, 1);
+
+		RitualPackDTO recommendedPack = recommendedPacks.isEmpty() ? null : recommendedPacks.get(0);
 
 		if (recommendedPack == null) {
 			log.info("No ritual pack could be recommended for this session sessionId={}", sessionId);
