@@ -3,8 +3,16 @@
     "testName": "feeling_distant_with_connection_needs",
     "context": {
       "journey": "FEELING_DISTANT",
-      "loveTypes": ["BELONG", "CARE"],
-      "relationalNeeds": ["CONNECTION", "UNDERSTANDING", "PRESENCE_AND_QUALITY_TIME", "COMMUNICATION"],
+      "loveTypes": [
+        "BELONG",
+        "CARE"
+      ],
+      "relationalNeeds": [
+        "CONNECTION",
+        "UNDERSTANDING",
+        "PRESENCE_AND_QUALITY_TIME",
+        "COMMUNICATION"
+      ],
       "relationshipStatus": "COMMITTED",
       "semanticSummary": "Couple feeling emotionally distant and seeking reconnection",
       "recommendationHistory": []
@@ -16,13 +24,96 @@
     "testName": "love_feels_flat_with_play_needs",
     "context": {
       "journey": "LOVE_FEELS_FLAT",
-      "loveTypes": ["SPARK", "FIRE", "BELONG"],
-      "relationalNeeds": ["PLAY_AND_JOY", "INTIMACY", "CONNECTION", "PRESENCE_AND_QUALITY_TIME"],
+      "loveTypes": [
+        "SPARK",
+        "FIRE",
+        "BELONG"
+      ],
+      "relationalNeeds": [
+        "PLAY_AND_JOY",
+        "INTIMACY",
+        "CONNECTION",
+        "PRESENCE_AND_QUALITY_TIME"
+      ],
       "relationshipStatus": "COMMITTED",
       "semanticSummary": "Couple experiencing routine and wanting to rekindle excitement",
       "recommendationHistory": []
     },
     "expectedRitualPackId": "4f09e36d-5543-4dbe-a83a-d8f2fb458624",
     "expectedRitualPackTitle": "Rekindle the Spark"
+  },
+  {
+    "testName": "test_with_recommendation_history",
+    "context": {
+      "journey": "FEELING_DISTANT",
+      "loveTypes": [
+        "BELONG",
+        "CARE"
+      ],
+      "relationalNeeds": [
+        "CONNECTION",
+        "UNDERSTANDING"
+      ],
+      "relationshipStatus": "COMMITTED",
+      "semanticSummary": "Test case with recommendation history",
+      "recommendationHistory": [
+        {
+          "ritualPackId": "b21567fb-36db-4051-b31f-844d846381c6",
+          "recommendedAt": "2024-03-08T16:24:00Z"
+        }
+      ]
+    },
+    "expectedRitualPackId": "b21567fb-36db-4051-b31f-844d846381c6",
+    "expectedRitualPackTitle": "Finding Our Way Back"
+  },
+  {
+    "testName": "test_scoring_with_history_and_recency",
+    "context": {
+      "journey": "FEELING_DISTANT",
+      "loveTypes": [
+        "BELONG",
+        "CARE",
+        "SPARK"
+      ],
+      "relationalNeeds": [
+        "CONNECTION",
+        "UNDERSTANDING"
+      ],
+      "relationshipStatus": "COMMITTED",
+      "semanticSummary": "Test case with multiple history events and recency penalties",
+      "recommendationHistory": [
+        {
+          "ritualPackId": "b21567fb-36db-4051-b31f-844d846381c6",
+          "recommendedAt": "2024-03-04T16:24:00Z"
+        },
+        {
+          "ritualPackId": "b21567fb-36db-4051-b31f-844d846381c6",
+          "recommendedAt": "2024-03-06T16:24:00Z"
+        },
+        {
+          "ritualPackId": "4f09e36d-5543-4dbe-a83a-d8f2fb458624",
+          "recommendedAt": "2024-03-08T15:24:00Z"
+        }
+      ]
+    },
+    "expectedRitualPackId": "b21567fb-36db-4051-b31f-844d846381c6",
+    "expectedRitualPackTitle": "Finding Our Way Back"
+  },
+  {
+    "testName": "test_journey_filtering_with_fallback",
+    "context": {
+      "journey": "FEELING_DISTANT",
+      "loveTypes": [
+        "BELONG"
+      ],
+      "relationalNeeds": [
+        "CONNECTION"
+      ],
+      "relationshipStatus": "COMMITTED",
+      "semanticSummary": "Test case for journey filtering with fallback",
+      "recommendationHistory": []
+    },
+    "expectedRitualPackId": "b21567fb-36db-4051-b31f-844d846381c6",
+    "expectedRitualPackTitle": "Finding Our Way Back"
   }
 ]
