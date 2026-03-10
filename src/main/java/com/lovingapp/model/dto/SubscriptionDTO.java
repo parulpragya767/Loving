@@ -28,5 +28,5 @@ public class SubscriptionDTO {
     private Boolean isBetaUser;
 
     @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-    private Boolean hasAccess;
+    private Boolean hasPremiumAccess;
 }

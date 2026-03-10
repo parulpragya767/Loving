@@ -25,9 +25,7 @@ public class SubscriptionService {
     private final UserRepository userRepository;
 
     public SubscriptionDTO getSubscription(UUID userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
+        User user = findUserById(userId);
         boolean hasAccess = hasAccessToPremiumFeatures(userId);
 
         return SubscriptionDTO.builder()
@@ -35,22 +33,18 @@ public class SubscriptionService {
                 .status(user.getSubscriptionStatus())
                 .expiresAt(user.getSubscriptionExpiresAt())
                 .isBetaUser(user.getIsBetaUser())
-                .hasAccess(hasAccess)
+                .hasPremiumAccess(hasAccess)
                 .build();
     }
 
     public boolean hasActiveSubscription(UUID userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
+        User user = findUserById(userId);
         return hasActiveSubscription(user);
     }
 
     public boolean hasAccessToPremiumFeatures(UUID userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
-
-        return hasActiveSubscription(user) || Boolean.TRUE.equals(user.getIsBetaUser());
+        User user = findUserById(userId);
+        return hasActiveSubscription(user) || user.getIsBetaUser();
     }
 
     private boolean hasActiveSubscription(User user) {
@@ -66,5 +60,10 @@ public class SubscriptionService {
             return user.getSubscriptionExpiresAt().isAfter(OffsetDateTime.now());
         }
         return false;
+    }
+
+    private User findUserById(UUID userId) {
+        return userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
     }
 }

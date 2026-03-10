@@ -26,11 +26,31 @@ public class SubscriptionController {
 
     @GetMapping
     public ResponseEntity<SubscriptionDTO> getSubscription(@CurrentUser UUID userId) {
-        log.info("Fetch subscription request received for user={}", userId);
+        log.info("Fetch subscription request received");
 
         SubscriptionDTO subscription = subscriptionService.getSubscription(userId);
 
-        log.info("Subscription fetched successfully for user={}", userId);
+        log.info("Subscription fetched successfully");
         return ResponseEntity.ok(subscription);
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<Boolean> hasActiveSubscription(@CurrentUser UUID userId) {
+        log.info("Check if user has active subscription request received");
+
+        boolean hasActive = subscriptionService.hasActiveSubscription(userId);
+
+        log.info("User has active subscription: {}", hasActive);
+        return ResponseEntity.ok(hasActive);
+    }
+
+    @GetMapping("/premium")
+    public ResponseEntity<Boolean> hasAccessToPremiumFeatures(@CurrentUser UUID userId) {
+        log.info("Check if user has access to premium features request received");
+
+        boolean hasAccess = subscriptionService.hasAccessToPremiumFeatures(userId);
+
+        log.info("User has access to premium features: {}", hasAccess);
+        return ResponseEntity.ok(hasAccess);
     }
 }
