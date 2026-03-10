@@ -80,6 +80,9 @@ app:
     free:
       daily-ai-messages: 10
       weekly-recommendations: 5
+    premium:
+      daily-ai-messages: 1000
+      weekly-recommendations: 100
 
 logging:
   level:

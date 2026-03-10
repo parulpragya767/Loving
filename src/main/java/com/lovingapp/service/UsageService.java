@@ -9,7 +9,6 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.lovingapp.config.app.AppUsageLimitsProperties;
 import com.lovingapp.mapper.UserUsageCounterMapper;
 import com.lovingapp.model.dto.UserUsageCounterDTOs.UserUsageCounterDTO;
 import com.lovingapp.model.entity.UserUsageCounter;
@@ -26,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 public class UsageService {
 
     private final UserUsageCounterRepository userUsageCounterRepository;
-    private final AppUsageLimitsProperties usageLimitsProperties;
 
     @Transactional
     public void incrementAiMessageUsage(UUID userId) {
@@ -43,31 +41,6 @@ public class UsageService {
         userUsageCounterRepository.save(counter);
         log.info("Incremented recommendation usage for user: {} to count: {}", userId,
                 counter.getRecommendationsCount());
-    }
-
-    public int getRemainingAiMessagesToday(UUID userId) {
-        UserUsageCounter counter = getOrCreateCounterDaily(userId);
-        int remaining = usageLimitsProperties.getFree().getDailyAiMessages() - counter.getAiMessagesCount();
-        return Math.max(0, remaining);
-    }
-
-    public int getRemainingRecommendationsThisWeek(UUID userId) {
-        UserUsageCounter counter = getOrCreateCounterWeekly(userId);
-        int remaining = usageLimitsProperties.getFree().getWeeklyRecommendations() - counter.getRecommendationsCount();
-        return Math.max(0, remaining);
-    }
-
-    public boolean checkAiMessageAllowed(UUID userId) {
-        UserUsageCounter counter = getOrCreateCounterDaily(userId);
-        boolean allowed = counter.getAiMessagesCount() < usageLimitsProperties.getFree().getDailyAiMessages();
-        return allowed;
-    }
-
-    public boolean checkRecommendationAllowed(UUID userId) {
-        UserUsageCounter counter = getOrCreateCounterWeekly(userId);
-        boolean allowed = counter.getRecommendationsCount() < usageLimitsProperties.getFree()
-                .getWeeklyRecommendations();
-        return allowed;
     }
 
     public UserUsageCounterDTO getDailyUsage(UUID userId) {
