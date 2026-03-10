@@ -15,4 +15,8 @@ public class FeatureFlagService {
     public boolean isPaymentsEnabled() {
         return featureFlags.isPaymentsEnabled();
     }
+
+    public boolean isPremiumEnabled() {
+        return featureFlags.isPremiumEnabled();
+    }
 }

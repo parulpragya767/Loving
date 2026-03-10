@@ -23,6 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class SubscriptionService {
 
     private final UserRepository userRepository;
+    private final FeatureFlagService featureFlagService;
 
     public SubscriptionDTO getSubscription(UUID userId) {
         User user = findUserById(userId);
@@ -43,6 +44,10 @@ public class SubscriptionService {
     }
 
     public boolean hasAccessToPremiumFeatures(UUID userId) {
+        if (!featureFlagService.isPremiumEnabled()) {
+            return true;
+        }
+
         User user = findUserById(userId);
         return hasActiveSubscription(user) || user.getIsBetaUser();
     }

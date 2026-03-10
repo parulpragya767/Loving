@@ -85,6 +85,7 @@ app:
       weekly-recommendations: 100
   features:
     payments-enabled: false
+    premium-enabled: false
 
 logging:
   level:

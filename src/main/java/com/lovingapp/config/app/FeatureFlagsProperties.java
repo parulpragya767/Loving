@@ -9,4 +9,6 @@ import lombok.Data;
 public class FeatureFlagsProperties {
 
     private boolean paymentsEnabled;
+
+    private boolean premiumEnabled;
 }
