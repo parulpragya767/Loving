@@ -79,10 +79,10 @@ app:
   usage:
     free:
       daily-ai-messages: 10
-      weekly-recommendations: 5
+      weekly-recommendations: 3
     premium:
-      daily-ai-messages: 1000
-      weekly-recommendations: 100
+      daily-ai-messages: 20
+      weekly-recommendations: 10
   features:
     payments-enabled: false
     premium-enabled: false
