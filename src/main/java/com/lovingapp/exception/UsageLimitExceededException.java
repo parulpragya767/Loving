@@ -33,7 +33,7 @@ public class UsageLimitExceededException extends RuntimeException {
     private static String getMessageForType(FeatureType featureType) {
         return switch (featureType) {
             case AI_CHAT -> "Daily AI usage limit has been reached. Please try again tomorrow.";
-            case AI_RECOMMENDATION ->
+            case RITUAL_PACK_RECOMMENDATION ->
                 "Weekly recommendation limit has been reached. Please try again next week.";
         };
     }

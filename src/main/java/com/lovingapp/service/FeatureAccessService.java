@@ -41,7 +41,7 @@ public class FeatureAccessService {
                 int usage = usageService.getDailyUsage(userId).getAiMessagesCount();
                 yield Math.max(0, limits.getDailyAiMessages() - usage);
             }
-            case AI_RECOMMENDATION -> {
+            case RITUAL_PACK_RECOMMENDATION -> {
                 int usage = usageService.getWeeklyUsage(userId).getRecommendationsCount();
                 yield Math.max(0, limits.getWeeklyRecommendations() - usage);
             }

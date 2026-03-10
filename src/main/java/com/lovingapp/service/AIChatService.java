@@ -25,6 +25,7 @@ import com.lovingapp.model.dto.UserContextDTOs.UserContextDTO;
 import com.lovingapp.model.entity.ChatMessage;
 import com.lovingapp.model.entity.ChatSession;
 import com.lovingapp.model.enums.ChatMessageRole;
+import com.lovingapp.model.enums.FeatureType;
 import com.lovingapp.service.chat.AIChatLLMHelper;
 import com.lovingapp.service.chat.AIChatMessagePersistenceService;
 import com.lovingapp.service.chat.AIChatRitualRecommendationAndHistoryHelper;
@@ -49,6 +50,8 @@ public class AIChatService {
 	private final RitualRecommendationService ritualRecommendationService;
 	private final AIChatLLMHelper aiChatLLMHelper;
 	private final AIChatRitualRecommendationAndHistoryHelper ritualRecommendationAndHistoryHelper;
+	private final FeatureAccessService featureAccessService;
+	private final UsageService usageService;
 
 	@Transactional
 	public ChatSessionDTO createSession(UUID userId) {
@@ -57,6 +60,9 @@ public class AIChatService {
 
 	@Transactional
 	public SendMessageResponse sendMessage(UUID userId, UUID sessionId, SendMessageRequest request) {
+		// Check if user has remaining quota for AI chat
+		featureAccessService.assertAccess(userId, FeatureType.AI_CHAT);
+
 		// 0. Validate session exists and belongs to the user
 		ChatSession session = chatSessionPersistenceService.findSessionByIdAndUserId(sessionId, userId);
 
@@ -78,6 +84,9 @@ public class AIChatService {
 
 		chatSessionPersistenceService.updateSessionTitleAndLastMessagePreview(session, null, response);
 
+		// Increment AI message usage counter
+		usageService.incrementAiMessageUsage(userId);
+
 		return SendMessageResponse.builder()
 				.assistantResponse(ChatMessageMapper.toDto(savedAssistantMessage))
 				.isReadyForRitualPackRecommendation(ready)
@@ -86,6 +95,9 @@ public class AIChatService {
 
 	@Transactional
 	public RecommendRitualPackResponse recommendRitualPack(UUID userId, UUID sessionId) {
+		// Check if user has remaining quota for Ritual Pack Recommendation
+		featureAccessService.assertAccess(userId, FeatureType.RITUAL_PACK_RECOMMENDATION);
+
 		// Validate session exists and belongs to user and fetch chat messages
 		ChatSession session = chatSessionPersistenceService.findSessionByIdAndUserId(sessionId, userId);
 
@@ -113,6 +125,9 @@ public class AIChatService {
 		// Update session title and lastMessagePreview
 		chatSessionPersistenceService.updateSessionTitleAndLastMessagePreview(session,
 				extractedUserContext.getConversationTitle(), "✨ Ritual pack suggested");
+
+		// Increment ritual pack recommendation counter
+		usageService.incrementRecommendationUsage(userId);
 
 		return RecommendRitualPackResponse.builder()
 				.ritualPack(recommendedPack)
