@@ -20,7 +20,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
 public class UsageService {
 
@@ -67,8 +66,8 @@ public class UsageService {
                             .recommendationsCount(0)
                             .build();
 
-                    UserUsageCounter saved = userUsageCounterRepository.save(counter);
-                    log.info("Created new daily usage counter for user: {} for period: {}", userId, periodStart);
+                    UserUsageCounter saved = userUsageCounterRepository.saveAndFlush(counter);
+                    log.info("Created new daily usage counter for period: {}", periodStart);
                     return saved;
                 });
     }
@@ -87,8 +86,8 @@ public class UsageService {
                             .recommendationsCount(0)
                             .build();
 
-                    UserUsageCounter saved = userUsageCounterRepository.save(counter);
-                    log.info("Created new weekly usage counter for user: {} for period: {}", userId, periodStart);
+                    UserUsageCounter saved = userUsageCounterRepository.saveAndFlush(counter);
+                    log.info("Created new weekly usage counter for period: {}", periodStart);
                     return saved;
                 });
     }

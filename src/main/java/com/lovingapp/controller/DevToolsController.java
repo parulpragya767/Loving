@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.lovingapp.auth.CurrentUser;
 import com.lovingapp.model.dto.UserContextDTOs.UserContextCreateRequest;
 import com.lovingapp.model.dto.UserContextDTOs.UserContextDTO;
+import com.lovingapp.model.dto.UserUsageCounterDTOs.UserUsageCounterDTO;
+import com.lovingapp.service.UsageService;
 import com.lovingapp.service.UserContextService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DevToolsController {
 
     private final UserContextService userContextService;
+    private final UsageService usageService;
 
     @PostMapping("/user-contexts")
     public ResponseEntity<UserContextDTO> createUserContext(
@@ -62,6 +65,46 @@ public class DevToolsController {
         List<UserContextDTO> result = userContextService.findByConversationId(userId, id);
 
         log.info("User contexts fetched successfully count={}", result == null ? 0 : result.size());
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/usage/increment/ai-message")
+    public ResponseEntity<Void> incrementAiMessageUsage(@CurrentUser UUID userId) {
+        log.info("Increment AI message usage request received");
+
+        usageService.incrementAiMessageUsage(userId);
+
+        log.info("AI message usage incremented successfully");
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/usage/increment/recommendation")
+    public ResponseEntity<Void> incrementRecommendationUsage(@CurrentUser UUID userId) {
+        log.info("Increment recommendation usage request received");
+
+        usageService.incrementRecommendationUsage(userId);
+
+        log.info("Recommendation usage incremented successfully");
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/usage/daily")
+    public ResponseEntity<UserUsageCounterDTO> getDailyUsage(@CurrentUser UUID userId) {
+        log.info("Get daily usage request received");
+
+        UserUsageCounterDTO result = usageService.getDailyUsage(userId);
+
+        log.info("Daily usage fetched successfully usageCounterId: {}", result.getId());
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/usage/weekly")
+    public ResponseEntity<UserUsageCounterDTO> getWeeklyUsage(@CurrentUser UUID userId) {
+        log.info("Get weekly usage request received");
+
+        UserUsageCounterDTO result = usageService.getWeeklyUsage(userId);
+
+        log.info("Weekly usage fetched successfully usageCounterId: {}", result.getId());
         return ResponseEntity.ok(result);
     }
 }
