@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.lovingapp.config.app.AppUsageLimitsProperties;
 import com.lovingapp.config.app.AppUsageLimitsProperties.Limits;
-import com.lovingapp.model.domain.FeatureAccessResult;
+import com.lovingapp.exception.UsageLimitExceededException;
 import com.lovingapp.model.enums.FeatureType;
 
 import lombok.RequiredArgsConstructor;
@@ -23,13 +23,14 @@ public class FeatureAccessService {
     private final UsageService usageService;
     private final AppUsageLimitsProperties usageLimitsProperties;
 
-    public FeatureAccessResult checkAccess(UUID userId, FeatureType feature) {
+    public void assertAccess(UUID userId, FeatureType feature) {
         int remaining = getRemainingQuota(userId, feature);
-        boolean allowed = remaining > 0;
 
-        log.info("Checking access for user: {} and feature: {}, allowed: {}, remaining: {}", userId, feature, allowed,
-                remaining);
-        return new FeatureAccessResult(allowed, remaining);
+        if (remaining <= 0) {
+            throw new UsageLimitExceededException(feature);
+        }
+
+        log.info("Access granted for feature: {}, remaining: {}", feature, remaining);
     }
 
     public int getRemainingQuota(UUID userId, FeatureType feature) {

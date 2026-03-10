@@ -107,22 +107,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UsageLimitExceededException.class)
     public ResponseEntity<Void> handleUsageLimitExceeded(UsageLimitExceededException ex) {
-        UsageLimitExceededException.Type type = ex.getType();
         String msg = ex.getLimitMessage();
-
-        return switch (type) {
-            case AI_DAILY_LIMIT_REACHED -> {
-                log.warn("AI daily limit reached: {}", msg);
-                yield ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
-            }
-            case WEEKLY_RECOMMENDATION_LIMIT_REACHED -> {
-                log.warn("Weekly recommendation limit reached: {}", msg);
-                yield ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
-            }
-            case PREMIUM_REQUIRED -> {
-                log.warn("Premium subscription required: {}", msg);
-                yield ResponseEntity.status(HttpStatus.PAYMENT_REQUIRED).build();
-            }
-        };
+        log.warn("Usage limit exceeded: {}", msg);
+        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
     }
 }
