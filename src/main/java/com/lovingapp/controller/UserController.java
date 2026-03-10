@@ -6,6 +6,7 @@ import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,8 @@ import com.lovingapp.auth.AuthContext;
 import com.lovingapp.auth.CurrentUser;
 import com.lovingapp.model.dto.UserDTOs.UserDTO;
 import com.lovingapp.model.dto.UserDTOs.UserUpdateRequest;
+import com.lovingapp.model.dto.UserUsageCounterDTOs.UsageQuotaDTO;
+import com.lovingapp.service.FeatureAccessService;
 import com.lovingapp.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,6 +32,7 @@ public class UserController {
 
     private final UserService userService;
     private final AuthContext authContext;
+    private final FeatureAccessService featureAccessService;
 
     @PostMapping("/sync")
     public ResponseEntity<UserDTO> syncUser(@AuthenticationPrincipal Jwt jwt) {
@@ -54,5 +58,15 @@ public class UserController {
 
         log.info("User updated successfully");
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/usage")
+    public ResponseEntity<UsageQuotaDTO> getUsage(@CurrentUser UUID userId) {
+        log.info("Get usage quota request received");
+
+        UsageQuotaDTO quotaDTO = featureAccessService.getRemainingQuotaForAllFeatures(userId);
+
+        log.info("Usage quota retrieved successfully");
+        return ResponseEntity.ok(quotaDTO);
     }
 }

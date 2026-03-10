@@ -6,7 +6,6 @@ import java.util.UUID;
 import com.lovingapp.model.enums.UsagePeriodType;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -41,37 +40,15 @@ public final class UserUsageCounterDTOs {
         private OffsetDateTime updatedAt;
     }
 
+    @Data
+    @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    @Builder
-    @Data
-    public static class UserUsageCounterCreateRequest {
+    public static class UsageQuotaDTO {
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-        @NotNull(message = "periodType is required")
-        private UsagePeriodType periodType;
+        private Integer aiMessagesRemainingToday;
 
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-        @NotNull(message = "periodStart is required")
-        private OffsetDateTime periodStart;
-
-        @Builder.Default
-        private Integer aiMessagesCount = 0;
-
-        @Builder.Default
-        private Integer recommendationsCount = 0;
-    }
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    @Data
-    public static class UserUsageCounterIncrementRequest {
-        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-        @NotNull(message = "periodType is required")
-        private UsagePeriodType periodType;
-
-        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-        @NotNull(message = "periodStart is required")
-        private OffsetDateTime periodStart;
+        private Integer recommendationsRemainingThisWeek;
     }
 }

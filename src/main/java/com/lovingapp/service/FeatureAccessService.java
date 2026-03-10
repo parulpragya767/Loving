@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.lovingapp.config.app.AppUsageLimitsProperties;
 import com.lovingapp.config.app.AppUsageLimitsProperties.Limits;
 import com.lovingapp.exception.UsageLimitExceededException;
+import com.lovingapp.model.dto.UserUsageCounterDTOs.UsageQuotaDTO;
 import com.lovingapp.model.enums.FeatureType;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,8 @@ public class FeatureAccessService {
     private final AppUsageLimitsProperties usageLimitsProperties;
 
     public void assertAccess(UUID userId, FeatureType feature) {
-        int remaining = getRemainingQuota(userId, feature);
+        Limits limits = resolveLimits(userId);
+        int remaining = getRemainingQuota(userId, feature, limits);
 
         if (remaining <= 0) {
             throw new UsageLimitExceededException(feature);
@@ -33,9 +35,19 @@ public class FeatureAccessService {
         log.info("Access granted for feature: {}, remaining: {}", feature, remaining);
     }
 
-    public int getRemainingQuota(UUID userId, FeatureType feature) {
+    public UsageQuotaDTO getRemainingQuotaForAllFeatures(UUID userId) {
         Limits limits = resolveLimits(userId);
 
+        int aiMessagesRemaining = getRemainingQuota(userId, FeatureType.AI_CHAT, limits);
+        int recommendationsRemaining = getRemainingQuota(userId, FeatureType.RITUAL_PACK_RECOMMENDATION, limits);
+
+        return UsageQuotaDTO.builder()
+                .aiMessagesRemainingToday(aiMessagesRemaining)
+                .recommendationsRemainingThisWeek(recommendationsRemaining)
+                .build();
+    }
+
+    private int getRemainingQuota(UUID userId, FeatureType feature, Limits limits) {
         return switch (feature) {
             case AI_CHAT -> {
                 int usage = usageService.getDailyUsage(userId).getAiMessagesCount();
