@@ -83,6 +83,8 @@ app:
     premium:
       daily-ai-messages: 1000
       weekly-recommendations: 100
+  features:
+    payments-enabled: false
 
 logging:
   level:
