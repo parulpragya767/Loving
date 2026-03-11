@@ -19,6 +19,7 @@ import com.lovingapp.model.domain.ai.LLMUserContextExtraction;
 import com.lovingapp.model.dto.RitualPackDTO;
 import com.lovingapp.model.entity.ChatMessage;
 import com.lovingapp.model.enums.ChatMessageRole;
+import com.lovingapp.model.enums.LoveType;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -70,10 +71,8 @@ public class AIChatLLMHelper {
     public LLMUserContextExtraction extractUserContext(UUID userId, UUID sessionId, List<ChatMessage> messages) {
         PromptConfig promptConfig = PromptConfigConstants.USER_CONTEXT_EXTRACTION;
 
-        String conversationText = createConversationText(messages);
-
         Map<String, String> variables = new HashMap<>();
-        variables.put(PromptConfigConstants.CONVERSATION_VARIABLE, conversationText);
+        variables.put(PromptConfigConstants.CONVERSATION_VARIABLE, createConversationText(messages));
 
         LLMRequest extractionRequest = LLMRequest.builder()
                 .promptId(promptConfig.getPromptId())
@@ -104,11 +103,10 @@ public class AIChatLLMHelper {
             if (recommendedPack != null) {
                 PromptConfig promptConfig = PromptConfigConstants.WRAP_UP_CHAT_RESPONSE;
 
-                String conversationText = createConversationText(messages);
-
                 Map<String, String> variables = new HashMap<>();
-                variables.put(PromptConfigConstants.CONVERSATION_VARIABLE, conversationText);
-                variables.put(PromptConfigConstants.RECOMMENDED_RITUAL_PACK_VARIABLE, recommendedPack.toString());
+                variables.put(PromptConfigConstants.CONVERSATION_VARIABLE, createConversationText(messages));
+                variables.put(PromptConfigConstants.RECOMMENDED_RITUAL_PACK_VARIABLE,
+                        ritualPackToPromptString(recommendedPack));
 
                 LLMRequest wrapUpRequest = LLMRequest.builder()
                         .promptId(promptConfig.getPromptId())
@@ -165,5 +163,25 @@ public class AIChatLLMHelper {
                 .collect(Collectors.joining("\n\n"));
 
         return conversationText;
+    }
+
+    public static String ritualPackToPromptString(RitualPackDTO pack) {
+        return """
+                Title: %s
+                Tagline: %s
+
+                Summary:
+                %s
+
+                How It Helps:
+                %s
+
+                Love Types: %s
+                """.formatted(
+                pack.getTitle(),
+                pack.getTagLine(),
+                pack.getDescription(),
+                pack.getHowItHelps(),
+                String.join(", ", pack.getLoveTypes().stream().map(LoveType::name).toList()));
     }
 }

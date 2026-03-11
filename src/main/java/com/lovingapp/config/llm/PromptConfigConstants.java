@@ -20,7 +20,7 @@ public final class PromptConfigConstants {
 
         public static final PromptConfig WRAP_UP_CHAT_RESPONSE = new PromptConfig(
                         "pmpt_69b0f97c27a881909324dd324d3882ed0df189ca14cd810f",
-                        "1",
+                        "2",
                         List.of(CONVERSATION_VARIABLE, RECOMMENDED_RITUAL_PACK_VARIABLE));
 
         private PromptConfigConstants() {
