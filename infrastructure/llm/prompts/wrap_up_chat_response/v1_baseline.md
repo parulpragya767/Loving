@@ -55,10 +55,18 @@ You will receive the following inputs:
 - GRACE — Offering appreciation, forgiveness, and compassion, especially during repair.
 
 ### Conversation
-{{conversation}}
+A chronological transcript between the user and assistant:
+
+[User]
+message
+
+[Assistant]
+message
+
+...
 
 ### Suggested Ritual Pack
-{{SUGGESTED_RITUAL_PACK}}
+Details of the ritual pack recommended to the user by the Loving App.
 
 ## Output Rules
 - Return only the message text.

@@ -157,11 +157,13 @@ public class AIChatLLMHelper {
      * Create conversation text from messages with proper formatting.
      */
     private String createConversationText(List<ChatMessage> messages) {
-        return messages.stream()
+        String conversationText = messages.stream()
                 .map(m -> {
                     String roleLabel = m.getRole() == ChatMessageRole.USER ? "[User]" : "[Assistant]";
                     return roleLabel + "\n" + m.getContent();
                 })
                 .collect(Collectors.joining("\n\n"));
+
+        return conversationText;
     }
 }

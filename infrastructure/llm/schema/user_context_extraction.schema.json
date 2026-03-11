@@ -1,0 +1,116 @@
+{
+    "name": "user_context_extraction",
+    "strict": true,
+    "schema": {
+        "$defs": {
+            "Journey": {
+                "description": "The user's current emotional or relational phase in their journey.",
+                "type": "string",
+                "enum": [
+                    "FEELING_DISTANT",
+                    "LOVE_FEELS_FLAT",
+                    "LOST_TOUCH",
+                    "CARRYING_TOO_MUCH",
+                    "WEATHERING_A_STORM",
+                    "BRIDGING_THE_DIVIDE",
+                    "LEARNING_TO_HEAR_EACH_OTHER",
+                    "MAKING_SPACE_FOR_US",
+                    "KEEP_THE_LOVE_ALIVE",
+                    "GROW_AND_EVOLVE_TOGETHER",
+                    "RETURN_TO_SELF",
+                    "CELEBRATE_US"
+                ]
+            },
+            "LoveType": {
+                "description": "Primary love types expressed or sought by the user.",
+                "type": "string",
+                "enum": [
+                    "BELONG",
+                    "FIRE",
+                    "SPARK",
+                    "CARE",
+                    "SELF",
+                    "BUILD",
+                    "GROW",
+                    "BEYOND",
+                    "GRACE"
+                ]
+            },
+            "RelationalNeed": {
+                "description": "Core relational needs present in the user's experience.",
+                "type": "string",
+                "enum": [
+                    "CONNECTION",
+                    "INTIMACY",
+                    "UNDERSTANDING",
+                    "ACCEPTANCE_AND_FORGIVENESS",
+                    "TRUST_AND_SAFETY",
+                    "SUPPORT",
+                    "BALANCE_AND_FAIRNESS",
+                    "COMMUNICATION",
+                    "PLAY_AND_JOY",
+                    "GROWTH",
+                    "GRATITUDE_AND_APPRECIATION",
+                    "PRESENCE_AND_QUALITY_TIME",
+                    "SPACE"
+                ]
+            },
+            "RelationshipStatus": {
+                "description": "The user's relationship status if clearly implied.",
+                "type": "string",
+                "enum": [
+                    "INSERT_RELATIONSHIP_STATUS_ENUM_VALUES"
+                ]
+            }
+        },
+        "type": "object",
+        "additionalProperties": false,
+        "description": "Structured extraction of user emotional context and relational themes from conversation.",
+        "properties": {
+            "journey": {
+                "$ref": "#/$defs/Journey"
+            },
+            "loveTypes": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/$defs/LoveType"
+                },
+                "minItems": 1,
+                "maxItems": 3
+            },
+            "relationalNeeds": {
+                "type": "array",
+                "items": {
+                    "$ref": "#/$defs/RelationalNeed"
+                },
+                "minItems": 1,
+                "maxItems": 3
+            },
+            "relationshipStatus": {
+                "anyOf": [
+                    {
+                        "$ref": "#/$defs/RelationshipStatus"
+                    },
+                    {
+                        "type": "null"
+                    }
+                ]
+            },
+            "semanticSummary": {
+                "type": "string"
+            },
+            "conversationTitle": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "journey",
+            "loveTypes",
+            "relationalNeeds",
+            "relationshipStatus",
+            "semanticSummary",
+            "conversationTitle"
+        ],
+        "title": "UserContextExtraction"
+    }
+}
