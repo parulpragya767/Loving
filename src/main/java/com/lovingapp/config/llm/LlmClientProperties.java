@@ -6,6 +6,8 @@ import org.springframework.validation.annotation.Validated;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
 @Validated
@@ -32,6 +34,24 @@ public class LlmClientProperties {
 
         @NotBlank(message = "OpenAI model is required")
         private String model = "gpt-4.1-mini";
-    }
 
+        @Valid
+        private Prompts prompts = new Prompts();
+
+        @Data
+        public static class Prompts {
+
+            private Prompt empatheticChatResponse;
+            private Prompt userContextExtraction;
+            private Prompt wrapUpChatResponse;
+        }
+
+        @Getter
+        @Setter
+        public static class Prompt {
+            private String name;
+            private String id;
+            private String version;
+        }
+    }
 }

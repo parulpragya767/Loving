@@ -9,7 +9,8 @@ import org.springframework.stereotype.Component;
 
 import com.lovingapp.client.LlmClient;
 import com.lovingapp.config.llm.PromptConfig;
-import com.lovingapp.config.llm.PromptConfigConstants;
+import com.lovingapp.config.llm.PromptConfigService;
+import com.lovingapp.constants.PromptConfigConstants;
 import com.lovingapp.helpers.ai.LLMPromptHelper;
 import com.lovingapp.model.domain.ai.LLMEmpatheticResponse;
 import com.lovingapp.model.domain.ai.LLMRequest;
@@ -32,12 +33,13 @@ import lombok.extern.slf4j.Slf4j;
 public class AIChatLLMHelper {
 
     private final LlmClient llmClient;
+    private final PromptConfigService promptConfigService;
 
     /**
      * Generate empathetic response from conversation using LLM.
      */
     public LLMEmpatheticResponse generateEmpatheticResponse(UUID sessionId, List<ChatMessage> messages) {
-        PromptConfig promptConfig = PromptConfigConstants.EMPATHETIC_CHAT_RESPONSE;
+        PromptConfig promptConfig = promptConfigService.getEmpatheticChatResponse();
 
         // Get all messages except the last one for conversation context
         String conversationText = LLMPromptHelper
@@ -68,7 +70,7 @@ public class AIChatLLMHelper {
      * Extract user context from conversation using LLM.
      */
     public LLMUserContextExtraction extractUserContext(UUID userId, UUID sessionId, List<ChatMessage> messages) {
-        PromptConfig promptConfig = PromptConfigConstants.USER_CONTEXT_EXTRACTION;
+        PromptConfig promptConfig = promptConfigService.getUserContextExtraction();
 
         Map<String, String> variables = new HashMap<>();
         variables.put(PromptConfigConstants.CONVERSATION_VARIABLE,
@@ -101,7 +103,7 @@ public class AIChatLLMHelper {
 
         try {
             if (recommendedPack != null) {
-                PromptConfig promptConfig = PromptConfigConstants.WRAP_UP_CHAT_RESPONSE;
+                PromptConfig promptConfig = promptConfigService.getWrapUpChatResponse();
 
                 Map<String, String> variables = new HashMap<>();
                 variables.put(PromptConfigConstants.CONVERSATION_VARIABLE,
