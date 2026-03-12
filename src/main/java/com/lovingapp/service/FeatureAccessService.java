@@ -16,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
 @Slf4j
 public class FeatureAccessService {
 
@@ -24,6 +23,7 @@ public class FeatureAccessService {
     private final UsageService usageService;
     private final AppUsageLimitsProperties usageLimitsProperties;
 
+    @Transactional
     public void assertAccess(UUID userId, FeatureType feature) {
         Limits limits = resolveLimits(userId);
         int remaining = getRemainingQuota(userId, feature, limits);
@@ -35,6 +35,7 @@ public class FeatureAccessService {
         log.info("Access granted for feature: {}, remaining: {}", feature, remaining);
     }
 
+    @Transactional
     public UsageQuotaDTO getRemainingQuotaForAllFeatures(UUID userId) {
         Limits limits = resolveLimits(userId);
 
