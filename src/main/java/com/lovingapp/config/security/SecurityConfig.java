@@ -44,7 +44,8 @@ public class SecurityConfig {
 			"/v1/love-types/**",
 			"/v1/rituals/**",
 			"/v1/ritual-packs/**",
-			"/v1/chat/sample-prompts"
+			"/v1/chat/sample-prompts",
+			"/v1/legal/**"
 	};
 
 	private final JwtDecoderConfig jwtConfig;
