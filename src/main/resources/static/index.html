@@ -1,24 +1,30 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Loving – Practice Love</title>
 
 <style>
 
+*{
+box-sizing:border-box;
+}
+
 body{
-font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 margin:0;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
 background:#F6EFEA;
 color:#2A1F1D;
 line-height:1.6;
 }
 
 .container{
-max-width:900px;
+max-width:1100px;
 margin:auto;
-padding:40px 20px;
+padding:24px;
 }
 
 header{
@@ -28,77 +34,161 @@ align-items:center;
 padding:20px 0;
 }
 
+.logo{
+font-weight:600;
+font-size:20px;
+}
+
 nav a{
-margin-left:20px;
+margin-left:22px;
 text-decoration:none;
 color:#4A3A37;
 font-size:14px;
 }
 
 .hero{
-text-align:center;
-padding:80px 20px;
+display:grid;
+grid-template-columns:1fr 1fr;
+align-items:center;
+gap:40px;
+padding:80px 0;
 }
 
 .hero h1{
-font-size:42px;
-margin-bottom:20px;
+font-size:44px;
+margin:0 0 20px 0;
 }
 
 .hero p{
 font-size:18px;
 color:#4A3A37;
+max-width:420px;
+}
+
+.app-button{
+margin-top:30px;
+display:inline-block;
+padding:14px 26px;
+background:#2A1F1D;
+color:white;
+border-radius:8px;
+text-decoration:none;
+font-size:15px;
+}
+
+.phone{
+background:white;
+border-radius:30px;
+height:500px;
+box-shadow:0 20px 50px rgba(0,0,0,0.12);
+display:flex;
+align-items:center;
+justify-content:center;
+color:#9C8F8C;
+font-size:14px;
+}
+
+.section{
+padding:80px 0;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:60px;
+}
+
+.section-title h2{
+font-size:32px;
+margin-bottom:10px;
+}
+
+.section-title p{
+color:#4A3A37;
 max-width:600px;
 margin:auto;
 }
 
-.section{
-margin-top:80px;
-}
-
-.section h2{
-font-size:26px;
-margin-bottom:10px;
-}
-
 .features{
 display:grid;
-grid-template-columns:1fr 1fr;
+grid-template-columns:repeat(3,1fr);
 gap:40px;
-margin-top:30px;
 }
 
 .feature{
 background:white;
-padding:24px;
-border-radius:12px;
-box-shadow:0 4px 12px rgba(0,0,0,0.05);
+padding:30px;
+border-radius:14px;
+box-shadow:0 8px 20px rgba(0,0,0,0.06);
+}
+
+.feature h3{
+margin-top:0;
+}
+
+.rituals{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:30px;
+}
+
+.ritual{
+background:white;
+padding:26px;
+border-radius:14px;
+box-shadow:0 8px 20px rgba(0,0,0,0.06);
+}
+
+.ritual-title{
+font-weight:600;
+margin-bottom:6px;
+}
+
+.cta{
+text-align:center;
+padding:100px 20px;
+}
+
+.cta h2{
+font-size:34px;
+margin-bottom:20px;
 }
 
 footer{
+border-top:1px solid #E8DDD7;
 margin-top:80px;
-padding-top:30px;
-border-top:1px solid #e6dcd6;
-font-size:14px;
-color:#6F5F5B;
+padding:30px 0;
 display:flex;
 justify-content:space-between;
 flex-wrap:wrap;
+font-size:14px;
+color:#6F5F5B;
 }
 
 footer a{
-color:#6F5F5B;
 text-decoration:none;
-margin-right:15px;
+color:#6F5F5B;
+margin-left:20px;
 }
 
-@media(max-width:700px){
+@media(max-width:900px){
+
+.hero{
+grid-template-columns:1fr;
+text-align:center;
+}
+
+.hero p{
+margin:auto;
+}
+
 .features{
 grid-template-columns:1fr;
 }
-.hero h1{
-font-size:32px;
+
+.rituals{
+grid-template-columns:1fr;
 }
+
 }
 
 </style>
@@ -108,56 +198,75 @@ font-size:32px;
 
 <div class="container">
 
+<header>
+<div class="logo">Loving</div>
+</header>
+
 <section class="hero">
 
-<h1>Love is a practice.</h1>
+<div>
+
+<h1>Love is something you practice.</h1>
 
 <p>
-Loving helps couples build stronger relationships through small rituals,
-thoughtful reflection, and everyday moments of care.
+Loving helps couples strengthen their relationship through simple rituals, shared moments of connection, and everyday acts of care.
 </p>
+
+<a class="app-button" href="#">
+Download on the App Store
+</a>
+
+</div>
+
+<div class="phone">
+App preview
+</div>
 
 </section>
 
 <section class="section">
 
-<h2>How Loving Works</h2>
+<div class="section-title">
+<h2>Small rituals. Real connection.</h2>
+<p>
+Loving offers simple rituals couples can practice together to nurture their relationship.
+</p>
+</div>
 
 <div class="features">
 
 <div class="feature">
-<h3>Small Rituals</h3>
+<h3>Love has many forms</h3>
 <p>
-Simple practices designed to help partners reconnect,
-express appreciation, and deepen emotional intimacy.
+Care, intimacy, partnership, growth — relationships are made of many kinds of love. Loving helps couples notice and nurture the ones that need attention.
 </p>
 </div>
 
 <div class="feature">
-<h3>Relationship Guidance</h3>
+<h3>Rituals for real moments</h3>
 <p>
-Gentle prompts and conversations that help couples understand each
-other better and grow together over time.
+Ritual packs are small sets of guided rituals designed to help couples move through a moment together — whether it’s reconnecting, deepening intimacy, or simply sharing time.
 </p>
 </div>
 
 <div class="feature">
-<h3>Designed for Real Life</h3>
+<h3>Personalized guidance</h3>
 <p>
-Short, practical rituals that fit naturally into everyday routines —
-whether you have five minutes or an evening together.
-</p>
-</div>
-
-<div class="feature">
-<h3>Grow Together</h3>
-<p>
-Relationships evolve. Loving helps partners stay curious,
-kind, and intentional as they grow together.
+Reflect on moments in your relationship and discover ritual packs that fit what you're going through and help you move forward together.
 </p>
 </div>
 
 </div>
+
+</section>
+
+<section class="cta">
+
+<h2>Build a more intentional relationship.</h2>
+
+<a class="app-button" href="#">
+Download Loving
+</a>
 
 </section>
 
@@ -168,9 +277,9 @@ kind, and intentional as they grow together.
 </div>
 
 <div>
-<a href="privacy">Privacy Policy</a>
-<a href="terms">Terms</a>
-<a href="support">Support</a>
+<a href="support.html">Support</a>
+<a href="privacy.html">Privacy</a>
+<a href="terms.html">Terms</a>
 </div>
 
 </footer>
