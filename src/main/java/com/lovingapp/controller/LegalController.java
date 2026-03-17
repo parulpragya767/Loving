@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class LegalController {
 
-    @GetMapping(value = "/terms-and-conditions", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "/terms", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> getTermsAndConditions() throws IOException {
         log.info("Terms and Conditions request received");
 
@@ -35,7 +35,7 @@ public class LegalController {
                 .body(content);
     }
 
-    @GetMapping(value = "/privacy-policy", produces = MediaType.TEXT_HTML_VALUE)
+    @GetMapping(value = "/privacy", produces = MediaType.TEXT_HTML_VALUE)
     public ResponseEntity<String> getPrivacyPolicy() throws IOException {
         log.info("Privacy Policy request received");
 
@@ -46,6 +46,38 @@ public class LegalController {
         headers.setContentType(MediaType.TEXT_HTML);
 
         log.info("Privacy Policy served successfully");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(content);
+    }
+
+    @GetMapping(value = "/support", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<String> getSupport() throws IOException {
+        log.info("Support request received");
+
+        Resource resource = new ClassPathResource("static/support.html");
+        String content = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+
+        log.info("Support served successfully");
+        return ResponseEntity.ok()
+                .headers(headers)
+                .body(content);
+    }
+
+    @GetMapping(value = "/index", produces = MediaType.TEXT_HTML_VALUE)
+    public ResponseEntity<String> getHome() throws IOException {
+        log.info("Home request received");
+
+        Resource resource = new ClassPathResource("static/index.html");
+        String content = new String(resource.getInputStream().readAllBytes(), StandardCharsets.UTF_8);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_HTML);
+
+        log.info("Home served successfully");
         return ResponseEntity.ok()
                 .headers(headers)
                 .body(content);
