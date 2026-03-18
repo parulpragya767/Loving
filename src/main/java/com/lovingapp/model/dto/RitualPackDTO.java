@@ -32,8 +32,8 @@ public class RitualPackDTO {
     private String description;
     private String howItHelps;
 
-    // Rituals included in the pack
-    private List<RitualDTO> rituals;
+    // Rituals included in the pack with ordering
+    private List<RitualInPackDTO> rituals;
     private List<UUID> ritualIds;
 
     // Core tags on the pack

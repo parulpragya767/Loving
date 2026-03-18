@@ -4,9 +4,10 @@ import java.util.Collections;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import com.lovingapp.model.dto.RitualInPackDTO;
 import com.lovingapp.model.dto.RitualPackDTO;
-import com.lovingapp.model.entity.Ritual;
 import com.lovingapp.model.entity.RitualPack;
+import com.lovingapp.model.entity.RitualPackRitual;
 
 public final class RitualPackMapper {
 
@@ -23,14 +24,19 @@ public final class RitualPackMapper {
                 .shortDescription(pack.getShortDescription())
                 .description(pack.getDescription())
                 .howItHelps(pack.getHowItHelps())
-                .rituals((pack.getRituals() != null ? pack.getRituals() : Collections.<Ritual>emptyList())
+                .rituals((pack.getRitualPackRituals() != null ? pack.getRitualPackRituals()
+                        : Collections.<RitualPackRitual>emptyList())
                         .stream()
-                        .map(ritual -> RitualMapper.toDto(ritual))
+                        .map(rpr -> RitualInPackDTO.builder()
+                                .ritual(RitualMapper.toDto(rpr.getRitual()))
+                                .position(rpr.getPosition())
+                                .build())
                         .collect(Collectors.toList()))
                 // setting ritualIds for quick lookup
-                .ritualIds((pack.getRituals() != null ? pack.getRituals() : Collections.<Ritual>emptyList())
+                .ritualIds((pack.getRitualPackRituals() != null ? pack.getRitualPackRituals()
+                        : Collections.<RitualPackRitual>emptyList())
                         .stream()
-                        .map(Ritual::getId)
+                        .map(rpr -> rpr.getRitual().getId())
                         .collect(Collectors.toList()))
                 .journey(pack.getJourney())
                 .loveTypes(Objects.requireNonNullElse(pack.getLoveTypes(), Collections.emptyList()))

@@ -45,8 +45,9 @@ CREATE TABLE ritual_history (
 );
 
 CREATE TABLE ritual_pack_rituals (
-    pack_id uuid NOT NULL,
-    ritual_id uuid NOT NULL
+    ritual_pack_id uuid NOT NULL,
+    ritual_id uuid NOT NULL,
+    position integer NOT NULL
 );
 
 CREATE TABLE ritual_packs (

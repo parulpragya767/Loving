@@ -78,7 +78,7 @@ public class AIChatRitualRecommendationAndHistoryHelper {
         List<UUID> ritualIds = null;
         if (recommendedPack.getRituals() != null && !recommendedPack.getRituals().isEmpty()) {
             ritualIds = recommendedPack.getRituals().stream()
-                    .map(r -> r.getId())
+                    .map(r -> r.getRitual().getId())
                     .collect(Collectors.toList());
         } else if (recommendedPack.getRitualIds() != null && !recommendedPack.getRitualIds().isEmpty()) {
             ritualIds = recommendedPack.getRitualIds();
