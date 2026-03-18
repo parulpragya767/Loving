@@ -16,6 +16,7 @@ import com.lovingapp.model.enums.PublicationStatus;
 import com.lovingapp.model.enums.RelationalNeed;
 import com.vladmihalcea.hibernate.type.json.JsonType;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -58,7 +59,7 @@ public class RitualPack {
     private String howItHelps;
 
     // Curated rituals in this pack with ordering
-    @OneToMany(mappedBy = "ritualPack", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "ritualPack", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @Builder.Default
     private List<RitualPackRitual> ritualPackRituals = new ArrayList<>();
 
@@ -100,4 +101,21 @@ public class RitualPack {
     @UpdateTimestamp
     @Column(name = "updated_at", nullable = false, columnDefinition = "timestamptz")
     private OffsetDateTime updatedAt;
+
+    public void setRitualsFromList(List<Ritual> rituals) {
+        this.ritualPackRituals.clear();
+        if (rituals != null && !rituals.isEmpty()) {
+            for (int i = 0; i < rituals.size(); i++) {
+                Ritual ritual = rituals.get(i);
+                RitualPackRitualId id = new RitualPackRitualId(this.id, ritual.getId());
+                RitualPackRitual rpr = RitualPackRitual.builder()
+                        .id(id)
+                        .ritualPack(this)
+                        .ritual(ritual)
+                        .position(i)
+                        .build();
+                this.ritualPackRituals.add(rpr);
+            }
+        }
+    }
 }
