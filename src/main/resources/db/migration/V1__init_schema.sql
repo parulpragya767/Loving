@@ -148,11 +148,11 @@ CREATE TABLE users (
 
 ALTER TABLE ritual_pack_rituals
     ADD CONSTRAINT ritual_pack_rituals_pk
-    PRIMARY KEY (pack_id, ritual_id);
+    PRIMARY KEY (ritual_pack_id, ritual_id);
 
 ALTER TABLE ritual_pack_rituals
     ADD CONSTRAINT fk_pack
-    FOREIGN KEY (pack_id)
+    FOREIGN KEY (ritual_pack_id)
     REFERENCES ritual_packs(id)
     ON DELETE CASCADE;
 
@@ -162,6 +162,10 @@ ALTER TABLE ritual_pack_rituals
     REFERENCES rituals(id)
     ON DELETE CASCADE;
 
+ALTER TABLE ritual_pack_rituals
+    ADD CONSTRAINT uk_ritual_pack_ritual_position
+    UNIQUE (ritual_pack_id, position);
+    
 ALTER TABLE chat_sessions
     ADD CONSTRAINT fk_chat_sessions_user
     FOREIGN KEY (user_id)

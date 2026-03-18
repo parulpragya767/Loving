@@ -231,6 +231,7 @@ public class RitualPackService {
         log.info("Ritual pack deleted successfully ritualPackId={}", id);
     }
 
+    @Transactional(readOnly = true)
     private List<Ritual> resolveRituals(List<UUID> ritualIds) {
         if (ritualIds == null || ritualIds.isEmpty())
             return Collections.emptyList();
@@ -250,6 +251,7 @@ public class RitualPackService {
         return rituals;
     }
 
+    @Transactional(readOnly = true)
     private Map<UUID, List<Ritual>> resolveRitualsAcrossPacks(List<RitualPackDTO> dtos) {
         if (dtos == null || dtos.isEmpty())
             return Collections.emptyMap();
