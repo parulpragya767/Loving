@@ -29,26 +29,24 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class RitualPackService {
 
     private final RitualPackRepository ritualPackRepository;
     private final RitualRepository ritualRepository;
 
-    @Transactional(readOnly = true)
     public List<RitualPackDTO> findAll() {
         return ritualPackRepository.findAll().stream()
                 .map(RitualPackMapper::toSummaryDto)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public RitualPackDTO findById(UUID id) {
         return ritualPackRepository.findById(id)
                 .map(RitualPackMapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException("RitualPack", "id", id));
     }
 
-    @Transactional(readOnly = true)
     public List<RitualPackDTO> findAllById(List<UUID> ids) {
         if (ids == null || ids.isEmpty()) {
             return List.of();
@@ -231,7 +229,6 @@ public class RitualPackService {
         log.info("Ritual pack deleted successfully ritualPackId={}", id);
     }
 
-    @Transactional(readOnly = true)
     private List<Ritual> resolveRituals(List<UUID> ritualIds) {
         if (ritualIds == null || ritualIds.isEmpty())
             return Collections.emptyList();
@@ -251,7 +248,6 @@ public class RitualPackService {
         return rituals;
     }
 
-    @Transactional(readOnly = true)
     private Map<UUID, List<Ritual>> resolveRitualsAcrossPacks(List<RitualPackDTO> dtos) {
         if (dtos == null || dtos.isEmpty())
             return Collections.emptyMap();

@@ -37,25 +37,23 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Transactional(readOnly = true)
 public class RitualService {
 
     private final RitualRepository ritualRepository;
 
-    @Transactional(readOnly = true)
     public List<RitualDTO> findAll() {
         return ritualRepository.findAll().stream()
                 .map(RitualMapper::toDto)
                 .collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
     public RitualDTO findById(UUID id) {
         return ritualRepository.findById(id)
                 .map(RitualMapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException("Ritual", "id", id));
     }
 
-    @Transactional(readOnly = true)
     public List<RitualDTO> findAllById(List<UUID> ids) {
         if (ids == null || ids.isEmpty()) {
             return Collections.emptyList();
@@ -78,13 +76,11 @@ public class RitualService {
         return rituals;
     }
 
-    @Transactional(readOnly = true)
     public Page<RitualDTO> searchRituals(RitualFilterDTO filter, Pageable pageable) {
         Page<Ritual> result = ritualRepository.search(filter, pageable);
         return result.map(RitualMapper::toDto);
     }
 
-    @Transactional(readOnly = true)
     public RitualTags getRitualTags() {
         RitualTag loveTypes = new RitualTag(
                 "Love Types",
