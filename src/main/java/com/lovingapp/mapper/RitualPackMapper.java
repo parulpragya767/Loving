@@ -14,6 +14,28 @@ public final class RitualPackMapper {
     private RitualPackMapper() {
     }
 
+    public static RitualPackDTO toSummaryDto(RitualPack pack) {
+        if (pack == null)
+            return null;
+        return RitualPackDTO.builder()
+                .id(pack.getId())
+                .title(pack.getTitle())
+                .tagLine(pack.getTagLine())
+                .shortDescription(pack.getShortDescription())
+                .description(pack.getDescription())
+                .howItHelps(pack.getHowItHelps())
+                .journey(pack.getJourney())
+                .loveTypes(Objects.requireNonNullElse(pack.getLoveTypes(), Collections.emptyList()))
+                .relationalNeeds(Objects.requireNonNullElse(pack.getRelationalNeeds(), Collections.emptyList()))
+                .mediaAssets(Objects.requireNonNullElse(pack.getMediaAssets(), Collections.emptyList()))
+                .semanticSummary(pack.getSemanticSummary())
+                .status(pack.getStatus())
+                .contentHash(pack.getContentHash())
+                .createdAt(pack.getCreatedAt())
+                .updatedAt(pack.getUpdatedAt())
+                .build();
+    }
+
     public static RitualPackDTO toDto(RitualPack pack) {
         if (pack == null)
             return null;

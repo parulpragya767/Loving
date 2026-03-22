@@ -11,6 +11,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.async.AsyncRequestNotUsableException;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
 import lombok.extern.slf4j.Slf4j;
@@ -62,6 +63,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Void> handleResourceAlreadyExists(ResourceAlreadyExistsException ex) {
         log.warn("Resource already exists: {}", ex.getMessage());
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
+
+    @ExceptionHandler(AsyncRequestNotUsableException.class)
+    public ResponseEntity<Void> handleAsyncRequestNotUsable(AsyncRequestNotUsableException ex) {
+        log.info("Request closed before response could be written: {}", ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @ExceptionHandler(Exception.class)
