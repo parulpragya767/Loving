@@ -22,6 +22,7 @@ import com.lovingapp.model.dto.RitualHistoryDTOs.StatusUpdateEntry;
 import com.lovingapp.model.dto.RitualPackDTO;
 import com.lovingapp.model.dto.UserRitualsDTOs.CurrentRitualsDTO;
 import com.lovingapp.model.dto.UserRitualsDTOs.UserRitualDTO;
+import com.lovingapp.model.dto.UserRitualsDTOs.UserRitualInPackDTO;
 import com.lovingapp.model.dto.UserRitualsDTOs.UserRitualPackDTO;
 import com.lovingapp.model.entity.RitualHistory;
 import com.lovingapp.model.enums.RitualFeedback;
@@ -170,15 +171,36 @@ public class RitualHistoryService {
 			List<RitualHistory> histories,
 			RitualPackDTO ritualPack,
 			Map<UUID, RitualDTO> ritualMap) {
-		List<UserRitualDTO> rituals = histories.stream()
-				.map(history -> buildUserRitual(history, ritualMap.get(history.getRitualId())))
+
+		// Create a map of ritual history by ritual ID for quick lookup
+		Map<UUID, RitualHistory> historyByRitualId = histories.stream()
+				.collect(Collectors.toMap(RitualHistory::getRitualId, Function.identity()));
+
+		// Build UserRitualInPackDTO objects with position from ritualPackRituals
+		List<UserRitualInPackDTO> ritualsWithPosition = ritualPack.getRituals().stream()
+				.map(ritualPackRitual -> {
+					UUID ritualId = ritualPackRitual.getRitual().getId();
+					RitualHistory history = historyByRitualId.get(ritualId);
+
+					// Only include rituals that have a history entry
+					if (history != null) {
+						UserRitualDTO userRitual = buildUserRitual(history, ritualMap.get(ritualId));
+						return UserRitualInPackDTO.builder()
+								.position(ritualPackRitual.getPosition())
+								.userRitual(userRitual)
+								.build();
+					}
+					return null;
+				})
+				.filter(Objects::nonNull)
 				.collect(Collectors.toList());
 
+		// Convert entity to DTO
 		UserRitualPackDTO dto = UserRitualPackDTO.builder()
 				.ritualPackId(ritualPack.getId())
 				.recommendationId(recommendationId)
 				.ritualPack(ritualPack)
-				.rituals(rituals)
+				.rituals(ritualsWithPosition)
 				.build();
 		return dto;
 	}

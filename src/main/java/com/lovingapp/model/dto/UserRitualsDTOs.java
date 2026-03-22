@@ -40,7 +40,7 @@ public final class UserRitualsDTOs {
         private RitualPackDTO ritualPack;
 
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
-        private List<UserRitualDTO> rituals;
+        private List<UserRitualInPackDTO> rituals;
     }
 
     @Data
@@ -59,5 +59,17 @@ public final class UserRitualsDTOs {
 
         @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
         private RitualHistoryDTO ritualHistory;
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class UserRitualInPackDTO {
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+        private int position;
+
+        @Schema(requiredMode = Schema.RequiredMode.REQUIRED)
+        private UserRitualDTO userRitual;
     }
 }
