@@ -37,7 +37,7 @@ public class RitualPackService {
 
     public List<RitualPackDTO> findAll() {
         return ritualPackRepository.findAll().stream()
-                .map(RitualPackMapper::toSummaryDto)
+                .map(RitualPackMapper::toDto)
                 .collect(Collectors.toList());
     }
 
