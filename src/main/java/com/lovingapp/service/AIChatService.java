@@ -153,9 +153,9 @@ public class AIChatService {
 
 	public List<String> getSamplePrompts() {
 		return Arrays.asList(
-				"What's one small thing I can do today to make my partner feel appreciated?",
-				"How can we improve our communication when we disagree?",
-				"What's a fun activity we could try together this weekend?");
+				"We've been busy and a bit out of sync lately.",
+				"Daily life has been getting in the way of us a bit.",
+				"Things feel a little flat between us lately.");
 	}
 
 	@Transactional(readOnly = true)
