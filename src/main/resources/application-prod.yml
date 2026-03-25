@@ -1,11 +1,10 @@
 spring:
   datasource:
     hikari:
-      maximum-pool-size: 5
+      maximum-pool-size: 8
       minimum-idle: 2
-      idle-timeout: 300000
-      max-lifetime: 1800000
-      leak-detection-threshold: 60000
+      idle-timeout: 300000                    # 5 min
+      leak-detection-threshold: 60000         # 1 min
   jpa:
     properties:
       hibernate:
