@@ -13,7 +13,7 @@ public enum TimeTaken {
     MEDIUM("5-15 minutes"),
     LONG("15-30 minutes"),
     EXTENDED("30+ minutes"),
-    FLEXIBLE("Flexible / As long as you wish");
+    FLEXIBLE("Flexible");
 
     private final String displayName;
 }
