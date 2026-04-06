@@ -12,7 +12,7 @@ ai:
       empathetic-chat-response:
         name: empathetic_chat_response
         id: pmpt_699fd785fc34819087b33231cd9060ff0e4ac7e54210cd79
-        version: "6"
+        version: "7"
       user-context-extraction:
         name: user_context_extraction
         id: pmpt_69b0f66d64388195932ce49c40739a240bc30d0d9cfd7126

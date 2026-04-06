@@ -20,7 +20,7 @@ ai:
       empathetic-chat-response:
         name: empathetic_chat_response
         id: pmpt_69c3d064cc548196a8841243fe7c72fb08967bd5dbf2930f
-        version: "1"
+        version: "2"
       user-context-extraction:
         name: user_context_extraction
         id: pmpt_69c3d10403c4819595deeaa9613bc71b0ba03035b585317a
