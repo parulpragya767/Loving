@@ -79,4 +79,16 @@ public class UserService {
         UserMapper.updateEntity(request, existingUser);
         userRepository.save(existingUser);
     }
+
+    @Transactional
+    public void deleteUser(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
+
+        log.info("Deleting user and all associated data userId={}, email={}", userId, user.getEmail());
+
+        userRepository.delete(user);
+
+        log.info("User and all associated data deleted successfully userId={}", userId);
+    }
 }

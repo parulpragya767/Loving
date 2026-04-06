@@ -6,6 +6,7 @@ import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -68,5 +69,15 @@ public class UserController {
 
         log.info("Usage quota retrieved successfully");
         return ResponseEntity.ok(quotaDTO);
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<Void> deleteUser(@CurrentUser UUID userId) {
+        log.info("User deletion request received userId={}", userId);
+
+        userService.deleteUser(userId);
+
+        log.info("User deletion completed successfully userId={}", userId);
+        return ResponseEntity.noContent().build();
     }
 }
