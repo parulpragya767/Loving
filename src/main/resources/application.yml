@@ -42,7 +42,7 @@ supabase:
   url: ${SUPABASE_URL}
   jwt-issuer: ${SUPABASE_URL}/auth/v1
   jwt-jwks-uri: ${SUPABASE_URL}/auth/v1/.well-known/jwks.json
-  service-role-key: ${SUPABASE_SERVICE_ROLE_KEY}
+  secretKey: ${SUPABASE_SECRET_KEY}
 
 ai:
   openai:

@@ -30,28 +30,27 @@ public class SupabaseAuthService {
      */
     public void deleteAuthUser(UUID authUserId) {
         String url = supabaseProperties.getUrl() + "/auth/v1/admin/users/" + authUserId;
-        
+
         log.info("Attempting to delete Supabase auth user authUserId={}", authUserId);
-        
+
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer " + supabaseProperties.getServiceRoleKey());
-        headers.set("apikey", supabaseProperties.getServiceRoleKey());
-        
+        headers.set("Authorization", "Bearer " + supabaseProperties.getSecretKey());
+        headers.set("apikey", supabaseProperties.getSecretKey());
+
         HttpEntity<Void> requestEntity = new HttpEntity<>(headers);
-        
+
         try {
             ResponseEntity<Void> response = restTemplate.exchange(
-                url,
-                HttpMethod.DELETE,
-                requestEntity,
-                Void.class
-            );
-            
+                    url,
+                    HttpMethod.DELETE,
+                    requestEntity,
+                    Void.class);
+
             if (response.getStatusCode().is2xxSuccessful()) {
                 log.info("Successfully deleted Supabase auth user authUserId={}", authUserId);
             } else {
-                log.error("Failed to delete Supabase auth user authUserId={}, status={}", 
-                    authUserId, response.getStatusCode());
+                log.error("Failed to delete Supabase auth user authUserId={}, status={}",
+                        authUserId, response.getStatusCode());
                 throw new RuntimeException("Failed to delete Supabase auth user: " + response.getStatusCode());
             }
         } catch (Exception e) {

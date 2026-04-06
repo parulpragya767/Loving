@@ -16,6 +16,6 @@ public class SupabaseProperties {
     /** JWKS URI for JWT validation */
     private String jwtJwksUri;
 
-    /** Service role key for admin operations (e.g., deleting users) */
-    private String serviceRoleKey;
+    /** Secret key for admin operations (e.g., deleting users) */
+    private String secretKey;
 }
