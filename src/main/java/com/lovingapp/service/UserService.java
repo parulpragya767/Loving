@@ -93,7 +93,7 @@ public class UserService {
             log.info("Successfully deleted Supabase auth account for userId={}", userId);
         } catch (Exception e) {
             log.error("Failed to delete Supabase auth account for userId={}, authUserId={}",
-                    userId, user.getAuthUserId(), e);
+                    userId, user.getAuthUserId());
             throw new RuntimeException("Failed to delete Supabase auth account. Please retry.", e);
         }
 
