@@ -36,13 +36,13 @@ public class RitualPackService {
     private final RitualRepository ritualRepository;
 
     public List<RitualPackDTO> findAll() {
-        return ritualPackRepository.findAll().stream()
+        return ritualPackRepository.findAllWithRituals().stream()
                 .map(RitualPackMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     public RitualPackDTO findById(UUID id) {
-        return ritualPackRepository.findById(id)
+        return ritualPackRepository.findByIdWithRituals(id)
                 .map(RitualPackMapper::toDto)
                 .orElseThrow(() -> new ResourceNotFoundException("RitualPack", "id", id));
     }
@@ -52,7 +52,7 @@ public class RitualPackService {
             return List.of();
         }
 
-        List<RitualPackDTO> ritualPacks = ritualPackRepository.findAllById(ids).stream()
+        List<RitualPackDTO> ritualPacks = ritualPackRepository.findAllByIdWithRituals(ids).stream()
                 .map(RitualPackMapper::toDto)
                 .collect(Collectors.toList());
 
@@ -71,7 +71,7 @@ public class RitualPackService {
     }
 
     @Transactional
-    public RitualPackDTO create(RitualPackDTO dto) {
+    public void create(RitualPackDTO dto) {
         if (dto == null) {
             throw new IllegalArgumentException("RitualPackDTO cannot be null");
         }
@@ -89,10 +89,9 @@ public class RitualPackService {
             entity.setRitualsFromList(rituals);
         }
 
-        RitualPack saved = ritualPackRepository.save(entity);
+        ritualPackRepository.save(entity);
 
-        log.info("Ritual pack created successfully ritualPackId={}", saved.getId());
-        return RitualPackMapper.toDto(saved);
+        log.info("Ritual pack created successfully ritualPackId={}", entity.getId());
     }
 
     @Transactional
@@ -118,10 +117,10 @@ public class RitualPackService {
     }
 
     @Transactional
-    public List<RitualPackDTO> bulkCreate(List<RitualPackDTO> dtos) {
+    public void bulkCreate(List<RitualPackDTO> dtos) {
         log.info("Bulk creating ritual packs count={}", dtos == null ? 0 : dtos.size());
         if (dtos == null || dtos.isEmpty()) {
-            return Collections.emptyList();
+            return;
         }
 
         List<UUID> ids = dtos.stream()
@@ -152,14 +151,9 @@ public class RitualPackService {
                 })
                 .collect(Collectors.toList());
 
-        List<RitualPack> savedEntities = ritualPackRepository.saveAll(entities);
+        ritualPackRepository.saveAll(entities);
 
-        List<RitualPackDTO> result = savedEntities.stream()
-                .map(RitualPackMapper::toDto)
-                .collect(Collectors.toList());
-
-        log.info("Bulk ritual packs created successfully count={}", result.size());
-        return result;
+        log.info("Bulk ritual packs created successfully.");
     }
 
     @Transactional

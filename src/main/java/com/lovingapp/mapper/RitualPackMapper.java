@@ -39,27 +39,39 @@ public final class RitualPackMapper {
     public static RitualPackDTO toDto(RitualPack pack) {
         if (pack == null)
             return null;
-        return RitualPackDTO.builder()
+
+        var ritualPackRituals = pack.getRitualPackRituals() != null
+                ? pack.getRitualPackRituals()
+                : Collections.<RitualPackRitual>emptyList();
+
+        var ritualsBuilder = RitualPackDTO.builder()
                 .id(pack.getId())
                 .title(pack.getTitle())
                 .tagLine(pack.getTagLine())
                 .shortDescription(pack.getShortDescription())
                 .description(pack.getDescription())
-                .howItHelps(pack.getHowItHelps())
-                .rituals((pack.getRitualPackRituals() != null ? pack.getRitualPackRituals()
-                        : Collections.<RitualPackRitual>emptyList())
-                        .stream()
-                        .map(rpr -> RitualInPackDTO.builder()
-                                .ritual(RitualMapper.toDto(rpr.getRitual()))
-                                .position(rpr.getPosition())
-                                .build())
-                        .collect(Collectors.toList()))
-                // setting ritualIds for quick lookup
-                .ritualIds((pack.getRitualPackRituals() != null ? pack.getRitualPackRituals()
-                        : Collections.<RitualPackRitual>emptyList())
-                        .stream()
-                        .map(rpr -> rpr.getRitual().getId())
-                        .collect(Collectors.toList()))
+                .howItHelps(pack.getHowItHelps());
+
+        if (!ritualPackRituals.isEmpty()) {
+            var ritualsList = ritualPackRituals.stream()
+                    .map(rpr -> RitualInPackDTO.builder()
+                            .ritual(RitualMapper.toDto(rpr.getRitual()))
+                            .position(rpr.getPosition())
+                            .build())
+                    .collect(Collectors.toList());
+
+            var ritualIdsList = ritualsList.stream()
+                    .map(rip -> rip.getRitual().getId())
+                    .collect(Collectors.toList());
+
+            ritualsBuilder.rituals(ritualsList)
+                    .ritualIds(ritualIdsList);
+        } else {
+            ritualsBuilder.rituals(Collections.emptyList())
+                    .ritualIds(Collections.emptyList());
+        }
+
+        return ritualsBuilder
                 .journey(pack.getJourney())
                 .loveTypes(Objects.requireNonNullElse(pack.getLoveTypes(), Collections.emptyList()))
                 .relationalNeeds(Objects.requireNonNullElse(pack.getRelationalNeeds(), Collections.emptyList()))
