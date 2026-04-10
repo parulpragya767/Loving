@@ -11,11 +11,11 @@ public enum Journey {
 
         FEELING_DISTANT(
                         "Feeling Distant",
-                        "When emotional connection feels thin or you’re drifting apart inside."),
+                        "When emotional connection feels thin and you sense yourselves drifting apart."),
 
         LOVE_FEELS_FLAT(
                         "Love Feels Flat",
-                        "When passion or excitement feels lost — when life together feels routine or uninspired, and the spark has dimmed."),
+                        "When passion or excitement has faded and life together feels routine or uninspired."),
 
         LOST_TOUCH(
                         "Lost Touch",
@@ -23,39 +23,39 @@ public enum Journey {
 
         CARRYING_TOO_MUCH(
                         "Carrying Too Much",
-                        "When the daily grind, imbalance of responsibility, or mental overload leaves you tired and disconnected."),
+                        "When responsibilities, imbalance, or mental load leave you tired and disconnected."),
 
         WEATHERING_A_STORM(
                         "Weathering a Storm",
-                        "Facing external stress or life transitions together and needing steadiness and support."),
+                        "When external stress or life transitions test the relationship and you need steadiness and support."),
 
         BRIDGING_THE_DIVIDE(
                         "Bridging the Divide",
-                        "Learning to repair and reconnect after conflict, misunderstanding, or hurt."),
+                        "When conflict, misunderstanding, or hurt has created distance and repair is needed."),
 
         LEARNING_TO_HEAR_EACH_OTHER(
                         "Learning to Hear Each Other",
-                        "Strengthening communication, empathy, and the ability to really listen and feel heard."),
+                        "When communication feels difficult and you want to listen, understand, and feel heard more deeply."),
 
         MAKING_SPACE_FOR_US(
                         "Making Space for Us",
-                        "Prioritising quality time and togetherness amid busy lives or distractions."),
+                        "When busy lives or distractions leave little time for each other and you want to reconnect."),
 
         KEEP_THE_LOVE_ALIVE(
                         "Keep the Love Alive",
-                        "Nurturing affection and connection through small, daily gestures and presence."),
+                        "When you want to keep love vibrant through small, everyday gestures of affection and presence."),
 
         GROW_AND_EVOLVE_TOGETHER(
                         "Grow and Evolve Together",
-                        "Encouraging mutual growth, learning, and transformation as partners and individuals."),
+                        "When you want to support each other's growth and evolve together as partners and individuals."),
 
         RETURN_TO_SELF(
                         "Return to Self",
-                        "Reconnecting with your own inner world, needs, and self-worth — so love can flow from wholeness."),
+                        "When you need to reconnect with your own inner world, needs, and sense of self."),
 
         CELEBRATE_US(
                         "Celebrate Us",
-                        "Honouring love, milestones, or shared gratitude — remembering what you’ve built together.");
+                        "When you want to honour your relationship, celebrate milestones, or express shared gratitude.");
 
         private final String displayName;
         private final String description;

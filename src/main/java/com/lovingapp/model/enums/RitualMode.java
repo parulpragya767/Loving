@@ -8,8 +8,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Schema(enumAsRef = true)
 public enum RitualMode {
-    SOLO("Solo"),
-    TOGETHER("Together");
+    SOLO("Solo", "Individual practice."),
+    TOGETHER("Together", "Shared partner practice.");
 
     private final String displayName;
+    private final String description;
 }
