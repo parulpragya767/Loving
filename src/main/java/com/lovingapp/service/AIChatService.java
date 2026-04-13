@@ -58,7 +58,6 @@ public class AIChatService {
 		return chatSessionPersistenceService.createSession(userId);
 	}
 
-	@Transactional
 	public SendMessageResponse sendMessage(UUID userId, UUID sessionId, SendMessageRequest request) {
 		// Check if user has remaining quota for AI chat
 		featureAccessService.assertAccess(userId, FeatureType.AI_CHAT);
@@ -77,12 +76,10 @@ public class AIChatService {
 		String response = empatheticResponse.getResponse();
 		boolean ready = empatheticResponse.isReadyForRitualSuggestion();
 
-		// 4. Create and save assistant message
-		ChatMessage savedAssistantMessage = chatMessagePersistenceService.saveAssistantMessage(sessionId, response);
+		// 4. Save assistant message and update session
+		ChatMessage savedAssistantMessage = saveAssistantMessageAndUpdateSession(sessionId, session, response);
 		log.info("Assistant message created sessionId={} chatMessageId={} readyForRecommendation={}", sessionId,
 				savedAssistantMessage.getId(), ready);
-
-		chatSessionPersistenceService.updateSessionTitleAndLastMessagePreview(session, null, response);
 
 		// Increment AI message usage counter
 		usageService.incrementAiMessageUsage(userId);
@@ -93,7 +90,6 @@ public class AIChatService {
 				.build();
 	}
 
-	@Transactional
 	public RecommendRitualPackResponse recommendRitualPack(UUID userId, UUID sessionId) {
 		// Check if user has remaining quota for Ritual Pack Recommendation
 		featureAccessService.assertAccess(userId, FeatureType.RITUAL_PACK_RECOMMENDATION);
@@ -115,16 +111,13 @@ public class AIChatService {
 		// Generate wrap-up message using LLM
 		String wrapUpMessage = aiChatLLMHelper.generateWrapUpMessage(messages, recommendedPack, sessionId);
 
-		// Save wrap-up message
-		ChatMessage savedAssistantMessage = chatMessagePersistenceService.saveWrapUpMessage(sessionId, wrapUpMessage);
+		// Save wrap-up message, create recommendation/history, and update session
+		RecommendationResult result = saveRecommendationDataInTransaction(
+				userId, sessionId, session, wrapUpMessage, recommendedPack,
+				extractedUserContext.getConversationTitle());
 
-		// Create recommendation and history records
-		UUID recommendationId = ritualRecommendationAndHistoryHelper.createRecommendationAndHistory(
-				userId, sessionId, recommendedPack);
-
-		// Update session title and lastMessagePreview
-		chatSessionPersistenceService.updateSessionTitleAndLastMessagePreview(session,
-				extractedUserContext.getConversationTitle(), "✨ Ritual pack suggested");
+		ChatMessage savedAssistantMessage = result.assistantMessage();
+		UUID recommendationId = result.recommendationId();
 
 		// Increment ritual pack recommendation counter
 		usageService.incrementRecommendationUsage(userId);
@@ -167,6 +160,43 @@ public class AIChatService {
 	public void deleteSession(UUID userId, UUID sessionId) {
 		chatSessionPersistenceService.deleteSession(userId, sessionId);
 		userContextService.deleteByUserIdAndConversationId(userId, sessionId);
+	}
+
+	/**
+	 * Record to hold the result of saving recommendation data.
+	 */
+	private record RecommendationResult(ChatMessage assistantMessage, UUID recommendationId) {
+	}
+
+	/**
+	 * Save assistant message and update session in a single transaction.
+	 */
+	@Transactional
+	public ChatMessage saveAssistantMessageAndUpdateSession(UUID sessionId, ChatSession session, String response) {
+		ChatMessage savedAssistantMessage = chatMessagePersistenceService.saveAssistantMessage(sessionId, response);
+		chatSessionPersistenceService.updateSessionTitleAndLastMessagePreview(session, null, response);
+		return savedAssistantMessage;
+	}
+
+	/**
+	 * Save all recommendation-related data in a single transaction.
+	 */
+	@Transactional
+	public RecommendationResult saveRecommendationDataInTransaction(
+			UUID userId, UUID sessionId, ChatSession session, String wrapUpMessage,
+			RitualPackDTO recommendedPack, String conversationTitle) {
+		// Save wrap-up message
+		ChatMessage savedAssistantMessage = chatMessagePersistenceService.saveWrapUpMessage(sessionId, wrapUpMessage);
+
+		// Create recommendation and history records
+		UUID recommendationId = ritualRecommendationAndHistoryHelper.createRecommendationAndHistory(
+				userId, sessionId, recommendedPack);
+
+		// Update session title and lastMessagePreview
+		chatSessionPersistenceService.updateSessionTitleAndLastMessagePreview(session,
+				conversationTitle, "✨ Ritual pack suggested");
+
+		return new RecommendationResult(savedAssistantMessage, recommendationId);
 	}
 
 	/**
