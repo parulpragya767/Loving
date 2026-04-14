@@ -22,7 +22,7 @@
     "ritualMode": "SOLO",
     "ritualTones": [
       "CALM",
-      "REFLECTIVE"
+      "HEALING"
     ],
     "timeTaken": "FLEXIBLE",
     "semanticSummary": "Each partner takes an intentional hour apart to recharge alone, with no explanations or interruptions. This ritual practices SELF by creating honored space for individual needs and boundaries, helping each person return to the relationship feeling more settled and present.",
@@ -200,8 +200,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners take a pause to ask each other a lighthearted, unexpected question, then share quick, playful answers. By inviting SPARK, this ritual brings a sense of fun and fresh connection, perfect for breaking routine and enjoying each other’s lighter sides.",
@@ -259,8 +258,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "CALM",
-      "WARM"
+      "CALM"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners take one minute of shared quiet before starting a conversation, practicing GRACE through soft, attentive presence. This small pause helps both people arrive fully, setting a gentle tone for any important discussion and fostering a deeper sense of togetherness.",
@@ -345,8 +343,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
-      "CALM"
+      "SACRED",
+      "WARM"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners intentionally voice a shared statement of unity, affirming steady commitment to one another. Practicing BUILD in this way helps anchor trust and a sense of reliable partnership, especially useful when daily stress puts unity to the test.",
@@ -404,8 +402,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "INTIMATE",
-      "CALM"
+      "CALM",
+      "INTIMATE"
     ],
     "timeTaken": "MEDIUM",
     "semanticSummary": "Partners share a blanket and settle together in quiet warmth, allowing natural closeness without needing conversation. This practice brings SPARK to life through tender, wordless intimacy and helps create a gently connected mood for both people.",
@@ -555,7 +553,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
+      "CALM",
       "REFLECTIVE"
     ],
     "timeTaken": "MEDIUM",
@@ -644,8 +642,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "CALM",
-      "WARM"
+      "CALM"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners change the lighting together to mark a shift into softer, more intentional time. This small act brings gentle presence, signaling to both people that it’s safe to relax and connect, deepening a felt sense of BELONG and attention to SELF.",
@@ -729,8 +726,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "REFLECTIVE",
-      "WARM"
+      "CALM",
+      "REFLECTIVE"
     ],
     "timeTaken": "MEDIUM",
     "semanticSummary": "Partners sit down to list out personal, shared, and forgotten tasks in four columns, then talk openly about workload and make small adjustments. Practicing BUILD, this ritual brings greater fairness, transparency, and a renewed sense of shared partnership to daily responsibilities.",
@@ -877,8 +874,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners take turns answering fun or curious questions drawn from a shared jar, bringing fresh discovery and playful attention to daily life. The ritual nurtures BELONG, SPARK, and BUILD by making space for open conversation and deeper connection outside routine.",
@@ -907,8 +903,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
-      "INTIMATE"
+      "SACRED",
+      "WARM"
     ],
     "timeTaken": "MEDIUM",
     "semanticSummary": "Partners take turns completing the sentence, \"Because of you, my life has…\" They share specific ways they value each other, cultivating GRACE through spoken gratitude. The practice brings warmth, connection, and mutual recognition to the relationship.",
@@ -1118,8 +1114,9 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
-      "INTIMATE"
+      "INTIMATE",
+      "REFLECTIVE",
+      "WARM"
     ],
     "timeTaken": "MEDIUM",
     "semanticSummary": "Partners sit together and each share something honest they've been holding back, followed by a genuine appreciation for the other. This WARM, BELONG- and CARE-centered ritual encourages open communication and safety, helping you feel truly seen and emotionally close.",
@@ -1146,7 +1143,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
+      "CALM",
       "REFLECTIVE"
     ],
     "timeTaken": "SHORT",
@@ -1203,7 +1200,6 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
       "CALM"
     ],
     "timeTaken": "SHORT",
@@ -1232,8 +1228,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners co-create a private word for expressing love or presence and agree to use it daily. This playful, warm act deepens BELONG by fostering a sense of shared connection and secret joy in everyday moments.",
@@ -1378,8 +1373,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners leave short, handwritten notes in hidden places to create a playful burst of connection and surprise. The ritual brings CARE and SPARK into ordinary routines, making everyday moments feel thoughtful and fun.",
@@ -1436,8 +1430,7 @@
     ],
     "ritualMode": "SOLO",
     "ritualTones": [
-      "WARM",
-      "CALM"
+      "WARM"
     ],
     "timeTaken": "FLEXIBLE",
     "semanticSummary": "You quietly do one helpful thing for your partner, letting it be a subtle gesture of care. This form of steady nurturing strengthens CARE by offering support silently, deepening connection without needing acknowledgment.",
@@ -1583,8 +1576,8 @@
     ],
     "ritualMode": "SOLO",
     "ritualTones": [
-      "REFLECTIVE",
-      "CALM"
+      "CALM",
+      "REFLECTIVE"
     ],
     "timeTaken": "MEDIUM",
     "semanticSummary": "You set aside quiet time to write openly about your heart’s state, finishing by clearly naming a present need. Practicing SELF love in this way encourages honest self-connection and gives clarity and understanding to your inner world.",
@@ -1612,7 +1605,6 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
       "CALM"
     ],
     "timeTaken": "SHORT",
@@ -1640,8 +1632,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
-      "PLAYFUL"
+      "ENERGETIC",
+      "WARM"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners start the morning by sharing something they’re curious or hopeful about, inviting playful attention and mutual excitement. This practice centers SPARK in daily life, helping partners feel connected and energized as they begin their day.",
@@ -1758,8 +1750,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "ENERGETIC"
+      "ENERGETIC",
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners send each other a song reflecting their mood or what reminds them of one another, then share a quick note about why they chose it. This playful music swap brings fresh energy, surprise, and joyful connection into the day.",
@@ -1938,7 +1930,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
+      "REFLECTIVE",
       "WARM"
     ],
     "timeTaken": "SHORT",
@@ -1966,8 +1958,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "MOMENT",
     "semanticSummary": "Partners pause and hold eye contact until a genuine smile appears, creating a spontaneous moment of playful connection. This practice nurtures SPARK and brings joyful lightness back into your everyday togetherness.",
@@ -2026,8 +2017,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "ADVENTUROUS",
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners step outside together for a spontaneous, no-pressure ten-minute mini adventure. By focusing on playful enjoyment and leaving routine behind, this practice brings fresh SPARK and a renewed sense of belonging to everyday connection.",
@@ -2054,8 +2045,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "MOMENT",
     "semanticSummary": "Partners send each other a quick, playful message or emoji in the middle of the day. By practicing SPARK, the ritual brings small moments of lightness and helps both people feel noticed and connected even when apart.",
@@ -2173,7 +2163,7 @@
     "ritualMode": "TOGETHER",
     "ritualTones": [
       "CALM",
-      "WARM"
+      "REFLECTIVE"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners sit together and each name one worry or task they’ll put down for the night, receiving gentle presence instead of solutions. Practicing SELF, this ritual helps make room for relaxation and shared restfulness in the evening.",
@@ -2201,7 +2191,6 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
       "CALM"
     ],
     "timeTaken": "SHORT",
@@ -2260,8 +2249,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
-      "PLAYFUL"
+      "HEALING",
+      "WARM"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners share a current personal burden and agree on one specific, sustainable way to ease each other’s week. Practicing BUILD and CARE, this turns everyday strain into shared support and strengthens the feeling of teamwork in your relationship.",
@@ -2291,7 +2280,7 @@
     "ritualMode": "SOLO",
     "ritualTones": [
       "CALM",
-      "REFLECTIVE"
+      "HEALING"
     ],
     "timeTaken": "LONG",
     "semanticSummary": "This solo ritual guides you outside for an unhurried nature walk, using your senses to restore calm and space. By intentionally unplugging and paying gentle attention, you practice GROW—returning to yourself with steady presence and renewed clarity.",
@@ -2350,7 +2339,6 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
       "CALM"
     ],
     "timeTaken": "FLEXIBLE",
@@ -2380,8 +2368,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "CALM",
-      "WARM"
+      "CALM"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners make a comforting drink and share a few minutes of companionable silence, side by side. By practicing warm presence without words, this ritual nurtures CARE and GRACE, supporting a gentle sense of togetherness and quiet ease.",
@@ -2441,7 +2428,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
+      "HEALING",
       "INTIMATE"
     ],
     "timeTaken": "MEDIUM",
@@ -2471,8 +2458,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners stand up together and physically shake out tension for thirty seconds, inviting laughter and lightness. Practicing a blend of nurturing and playful connection, this ritual quickly moves both bodies and moods into a more joyful, relaxed state.",
@@ -2500,8 +2486,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
-      "REFLECTIVE"
+      "SACRED",
+      "WARM"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners pause to each make a small, specific promise for their coming season together, marking it with eye contact or touch. Practicing intentional commitment, this ritual nurtures BEYOND by deepening connection and a shared sense of direction.",
@@ -2586,8 +2572,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "CALM",
-      "WARM"
+      "CALM"
     ],
     "timeTaken": "MOMENT",
     "semanticSummary": "Partners put away their phones, face each other, and share several slow breaths to transition from daily distractions into real-time presence together. This brief ritual practices attentive CARE and SELF, helping shift from scattered to connected in under a minute.",
@@ -2642,8 +2627,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners set a timer for two minutes to play a fast, silly game together, focusing on enjoyment over outcome. By cultivating BELONG, this ritual makes space for bursts of connection and helps couples feel lighter and more bonded in the flow of everyday life.",
@@ -2702,7 +2686,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
+      "HEALING",
       "INTIMATE"
     ],
     "timeTaken": "MEDIUM",
@@ -2731,7 +2715,6 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "WARM",
       "CALM"
     ],
     "timeTaken": "MEDIUM",
@@ -2761,7 +2744,7 @@
     "ritualMode": "SOLO",
     "ritualTones": [
       "CALM",
-      "REFLECTIVE"
+      "WARM"
     ],
     "timeTaken": "MEDIUM",
     "semanticSummary": "You choose and complete a simple, nourishing act — like stretching or making tea — intentionally and without distraction. By slowing down to care for yourself, this practice strengthens SELF and helps you move from feeling scattered to quietly supported.",
@@ -2788,8 +2771,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "MOMENT",
     "semanticSummary": "Partners quickly shake out their bodies side by side, then pause to exchange genuine smiles. This playful act brings in fresh energy, awakens SPARK, and adds a touch of lightness and shared joy to everyday moments.",
@@ -2938,8 +2920,8 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "REFLECTIVE"
+      "ADVENTUROUS",
+      "PLAYFUL"
     ],
     "timeTaken": "MEDIUM",
     "semanticSummary": "Partners step out of routine by imagining life in a parallel universe—sharing playful visions of what could change and what would stay the same. This practice strengthens SPARK by reigniting curiosity, while BEYOND deepens the feeling of lasting connection through creative exploration.",
@@ -3237,8 +3219,7 @@
     ],
     "ritualMode": "TOGETHER",
     "ritualTones": [
-      "PLAYFUL",
-      "WARM"
+      "PLAYFUL"
     ],
     "timeTaken": "SHORT",
     "semanticSummary": "Partners take turns asking and answering playful, imaginative prompts, bringing out light teasing and laughter. By practicing SPARK, this ritual invites curiosity and helps refresh your sense of fun and connection in a casual, low-pressure way.",
