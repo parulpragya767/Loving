@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.lovingapp.client.LlmClient;
 import com.lovingapp.client.OpenAiChatClient;
+import com.lovingapp.service.MetricsService;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,13 +18,14 @@ import lombok.extern.slf4j.Slf4j;
 public class LlmClientConfig {
 
     private final LlmClientProperties properties;
+    private final MetricsService metricsService;
 
     @Bean
     public LlmClient llmClient() {
         log.info("LLM provider configured provider={}", properties.getProvider());
 
         return switch (properties.getProvider()) {
-            case OPENAI -> new OpenAiChatClient(properties.getOpenai());
+            case OPENAI -> new OpenAiChatClient(properties.getOpenai(), metricsService);
             default -> throw new IllegalArgumentException("Unsupported LLM provider: " + properties.getProvider());
 
         };

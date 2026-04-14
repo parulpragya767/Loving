@@ -63,7 +63,7 @@ management:
     web:
       base-path: /actuator
       exposure:
-        include: health,info
+        include: health,metrics,info
   endpoint:
     health:
       probes:
@@ -71,6 +71,25 @@ management:
   info:
     env:
       enabled: true
+  metrics:
+    distribution:
+      percentiles-histogram:
+        loving.ai.call.duration: false
+      percentiles:
+        loving.ai.call.duration: 0.5, 0.9, 0.95
+    enable:
+      http: true
+      jvm: true
+      hikaricp: true
+
+      system: false
+      process: false
+      logback: false
+      executor: false
+      spring:
+        data: false
+        security: false
+      tomcat: false
 
 info:
   app:

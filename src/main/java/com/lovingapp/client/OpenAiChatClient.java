@@ -5,12 +5,14 @@ import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lovingapp.config.llm.LlmClientProperties.OpenAiProperties;
+import com.lovingapp.constants.MetricsConstants;
 import com.lovingapp.exception.LLMException;
 import com.lovingapp.model.domain.ai.LLMChatMessage;
 import com.lovingapp.model.domain.ai.LLMRequest;
 import com.lovingapp.model.domain.ai.LLMResponse;
 import com.lovingapp.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.model.enums.ChatMessageRole;
+import com.lovingapp.service.MetricsService;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.core.JsonValue;
@@ -29,10 +31,12 @@ import lombok.extern.slf4j.Slf4j;
 public class OpenAiChatClient implements LlmClient {
 
     private final OpenAiProperties openAiProperties;
+    private final MetricsService metricsService;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public OpenAiChatClient(OpenAiProperties openAiProperties) {
+    public OpenAiChatClient(OpenAiProperties openAiProperties, MetricsService metricsService) {
         this.openAiProperties = openAiProperties;
+        this.metricsService = metricsService;
     }
 
     @Override
@@ -56,7 +60,8 @@ public class OpenAiChatClient implements LlmClient {
                         request.getPromptVersion(),
                         request.getPromptVariables() == null ? 0 : request.getPromptVariables().size());
 
-                var response = client.responses().create(params);
+                var response = metricsService.recordTime(MetricsConstants.AI_CALL_DURATION,
+                        () -> client.responses().create(params));
 
                 parsed = response.output().stream()
                         .flatMap(item -> item.message().stream())
@@ -89,7 +94,8 @@ public class OpenAiChatClient implements LlmClient {
                         request.getPromptVersion(),
                         request.getPromptVariables() == null ? 0 : request.getPromptVariables().size());
 
-                var response = client.responses().create(params);
+                var response = metricsService.recordTime(MetricsConstants.AI_CALL_DURATION,
+                        () -> client.responses().create(params));
 
                 rawText = response.output().stream()
                         .flatMap(item -> item.message().stream())
