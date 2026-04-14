@@ -1,22 +1,28 @@
 # Stage 1: Get Prometheus binary
-FROM prom/prometheus:v2.49.1 as prom
+FROM prom/prometheus:v2.49.1 AS prom
 
 # Stage 2: Lightweight Alpine wrapper
 FROM alpine:3.19
 
-RUN apk add --no-cache gettext ca-certificates
+# Install envsubst
+RUN apk add --no-cache gettext
 
 # Copy Prometheus binary from official image
 COPY --from=prom /bin/prometheus /bin/prometheus
 
-# Copy startup script
-COPY startup.sh /usr/local/bin/startup.sh
-RUN chmod +x /usr/local/bin/startup.sh
+# Copy files
+COPY prometheus.yml.tpl /etc/prometheus/prometheus.yml.tpl
+COPY entrypoint.sh /entrypoint.sh
 
-# Create required directories and set permissions
-RUN mkdir -p /etc/prometheus /prometheus && \
-    chown -R nobody:nobody /etc/prometheus /prometheus
+# Permissions
+RUN chmod +x /entrypoint.sh && \
+    mkdir -p /prometheus && \
+    chown -R nobody:nobody /prometheus /etc/prometheus
 
+# Drop privileges
 USER nobody
 
-ENTRYPOINT ["/usr/local/bin/startup.sh"]
+# Expose Prometheus UI port
+EXPOSE 9090
+
+ENTRYPOINT ["/entrypoint.sh"]

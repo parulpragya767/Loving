@@ -30,13 +30,14 @@ services:
   prometheus-agent:
     build:
       context: ./docker/prometheus
-    volumes:
-      - ./docker/prometheus/prometheus.yml.tpl:/etc/prometheus/prometheus.yml.tpl:ro
+    ports:
+      - "9090:9090"
     networks:
       - monitoring
     depends_on:
       - loving-backend
     environment:
+      BACKEND_HOST: loving-backend:8080
       GRAFANA_PROMETHEUS_URL: ${GRAFANA_PROMETHEUS_URL}
       GRAFANA_PROMETHEUS_USERNAME: ${GRAFANA_PROMETHEUS_USERNAME}
       GRAFANA_PROMETHEUS_API_KEY: ${GRAFANA_PROMETHEUS_API_KEY}
