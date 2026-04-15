@@ -37,7 +37,8 @@ public class SecurityConfig {
 			"/api-docs/**",
 			"/actuator/health/**",
 			"/actuator/info",
-			"/actuator/prometheus"
+			"/actuator/prometheus",
+			"/actuator/metrics/**"
 	};
 
 	public static final String[] PUBLIC_API_ENDPOINTS = {

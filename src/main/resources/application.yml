@@ -71,6 +71,7 @@ management:
   info:
     env:
       enabled: true
+
   metrics:
     distribution:
       percentiles-histogram:
@@ -90,6 +91,15 @@ management:
         data: false
         security: false
       tomcat: false
+
+  otlp:
+    metrics:
+      export:
+        enabled: true
+        url: ${GRAFANA_OTLP_URL}/v1/metrics
+        step: 30s
+        headers:
+          Authorization: Basic ${GRAFANA_OTLP_AUTH_TOKEN}
 
 info:
   app:
