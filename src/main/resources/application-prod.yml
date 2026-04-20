@@ -34,7 +34,10 @@ management:
   endpoint:
     health:
       show-details: when-authorized
-  
+  otlp:
+    metrics:
+      export:
+        enabled: true
   health:
     db:
       enabled: true

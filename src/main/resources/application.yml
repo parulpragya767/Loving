@@ -95,7 +95,7 @@ management:
   otlp:
     metrics:
       export:
-        enabled: true
+        enabled: false
         url: ${GRAFANA_OTLP_URL}/v1/metrics
         step: 120s
         batch-size: 2000
