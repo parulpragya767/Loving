@@ -19,6 +19,7 @@ import com.lovingapp.model.domain.ai.LLMResponseFormat;
 import com.lovingapp.model.domain.ai.LLMUserContextExtraction;
 import com.lovingapp.model.dto.RitualPackDTO;
 import com.lovingapp.model.entity.ChatMessage;
+import com.lovingapp.model.enums.ChatMessageRole;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,10 +45,14 @@ public class AIChatLLMHelper {
         // Get all messages except the last one for conversation context
         String conversationText = LLMPromptHelper
                 .generateConversationVariable(messages.subList(0, messages.size() - 1));
+        long currentTurn = messages.stream()
+                .filter(msg -> msg.getRole() == ChatMessageRole.ASSISTANT)
+                .count() + 1;
 
         Map<String, String> variables = new HashMap<>();
         variables.put(PromptConfigConstants.CONVERSATION_VARIABLE, conversationText);
         variables.put(PromptConfigConstants.LATEST_USER_MESSAGE_VARIABLE, messages.getLast().getContent());
+        variables.put(PromptConfigConstants.CURRENT_TURN_VARIABLE, String.valueOf(currentTurn));
 
         LLMRequest llmRequest = LLMRequest.builder()
                 .promptId(promptConfig.getPromptId())
