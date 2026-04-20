@@ -14,5 +14,6 @@ import lombok.NoArgsConstructor;
 public class PromptConfig {
     private String promptId;
     private String promptVersion;
+    private String promptName;
     private List<String> promptVariables;
 }

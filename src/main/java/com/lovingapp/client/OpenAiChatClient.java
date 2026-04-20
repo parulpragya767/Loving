@@ -17,9 +17,12 @@ import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.core.JsonValue;
 import com.openai.models.responses.EasyInputMessage;
+import com.openai.models.responses.Response;
 import com.openai.models.responses.ResponseCreateParams;
 import com.openai.models.responses.ResponseInputItem;
 import com.openai.models.responses.ResponsePrompt;
+import com.openai.models.responses.ResponseUsage;
+import com.openai.models.responses.StructuredResponse;
 import com.openai.models.responses.StructuredResponseCreateParams;
 
 import lombok.extern.slf4j.Slf4j;
@@ -63,6 +66,8 @@ public class OpenAiChatClient implements LlmClient {
                 var response = metricsService.recordTime(MetricsConstants.AI_CALL_DURATION,
                         () -> client.responses().create(params));
 
+                recordTokenMetrics(response, request);
+
                 parsed = response.output().stream()
                         .flatMap(item -> item.message().stream())
                         .flatMap(message -> message.content().stream())
@@ -96,6 +101,8 @@ public class OpenAiChatClient implements LlmClient {
 
                 var response = metricsService.recordTime(MetricsConstants.AI_CALL_DURATION,
                         () -> client.responses().create(params));
+
+                recordTokenMetrics(response, request);
 
                 rawText = response.output().stream()
                         .flatMap(item -> item.message().stream())
@@ -193,5 +200,58 @@ public class OpenAiChatClient implements LlmClient {
     private String getLLMModel(LLMRequest request) {
         return request.getModel() != null && !request.getModel().isEmpty() ? request.getModel()
                 : openAiProperties.getModel();
+    }
+
+    private void recordTokenMetrics(Object response, LLMRequest request) {
+        try {
+            ResponseUsage usage = extractUsage(response);
+            if (usage == null) {
+                log.debug("No usage data available in OpenAI response");
+                return;
+            }
+
+            String model = getLLMModel(request);
+            String promptName = request.getPromptName() != null ? request.getPromptName() : "direct";
+
+            long totalTokens = usage.totalTokens();
+            long inputTokens = usage.inputTokens();
+            long outputTokens = usage.outputTokens();
+
+            metricsService.recordDistribution(
+                    MetricsConstants.AI_CALL_TOKENS,
+                    totalTokens,
+                    "type", "total",
+                    "model", model,
+                    "prompt", promptName);
+
+            metricsService.recordDistribution(
+                    MetricsConstants.AI_CALL_TOKENS,
+                    inputTokens,
+                    "type", "input",
+                    "model", model,
+                    "prompt", promptName);
+
+            metricsService.recordDistribution(
+                    MetricsConstants.AI_CALL_TOKENS,
+                    outputTokens,
+                    "type", "output",
+                    "model", model,
+                    "prompt", promptName);
+
+            log.info("Recorded token metrics: total={}, input={}, output={}, model={}, prompt={}",
+                    totalTokens, inputTokens, outputTokens, model, promptName);
+
+        } catch (Exception e) {
+            log.error("Failed to record token metrics", e);
+        }
+    }
+
+    private ResponseUsage extractUsage(Object response) {
+        if (response instanceof Response) {
+            return ((Response) response).usage().orElse(null);
+        } else if (response instanceof StructuredResponse) {
+            return ((StructuredResponse<?>) response).usage().orElse(null);
+        }
+        return null;
     }
 }

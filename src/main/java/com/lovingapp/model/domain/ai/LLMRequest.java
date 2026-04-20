@@ -21,5 +21,6 @@ public class LLMRequest {
 
     private String promptId;
     private String promptVersion;
+    private String promptName;
     private Map<String, String> promptVariables;
 }

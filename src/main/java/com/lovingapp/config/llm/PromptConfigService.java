@@ -20,8 +20,10 @@ public class PromptConfigService {
         return new PromptConfig(
                 prompt.getId(),
                 prompt.getVersion(),
+                prompt.getName(),
                 List.of(PromptConfigConstants.CONVERSATION_VARIABLE,
-                        PromptConfigConstants.LATEST_USER_MESSAGE_VARIABLE));
+                        PromptConfigConstants.LATEST_USER_MESSAGE_VARIABLE,
+                        PromptConfigConstants.CURRENT_TURN_VARIABLE));
     }
 
     public PromptConfig getUserContextExtraction() {
@@ -29,6 +31,7 @@ public class PromptConfigService {
         return new PromptConfig(
                 prompt.getId(),
                 prompt.getVersion(),
+                prompt.getName(),
                 List.of(PromptConfigConstants.CONVERSATION_VARIABLE));
     }
 
@@ -37,6 +40,7 @@ public class PromptConfigService {
         return new PromptConfig(
                 prompt.getId(),
                 prompt.getVersion(),
+                prompt.getName(),
                 List.of(PromptConfigConstants.CONVERSATION_VARIABLE,
                         PromptConfigConstants.RECOMMENDED_RITUAL_PACK_VARIABLE));
     }

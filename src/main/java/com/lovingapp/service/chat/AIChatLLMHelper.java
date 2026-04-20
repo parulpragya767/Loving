@@ -57,6 +57,7 @@ public class AIChatLLMHelper {
         LLMRequest llmRequest = LLMRequest.builder()
                 .promptId(promptConfig.getPromptId())
                 .promptVersion(promptConfig.getPromptVersion())
+                .promptName(promptConfig.getPromptName())
                 .promptVariables(variables)
                 .responseFormat(LLMResponseFormat.JSON)
                 .build();
@@ -84,6 +85,7 @@ public class AIChatLLMHelper {
         LLMRequest extractionRequest = LLMRequest.builder()
                 .promptId(promptConfig.getPromptId())
                 .promptVersion(promptConfig.getPromptVersion())
+                .promptName(promptConfig.getPromptName())
                 .promptVariables(variables)
                 .responseFormat(LLMResponseFormat.JSON)
                 .build();
@@ -119,6 +121,7 @@ public class AIChatLLMHelper {
                 LLMRequest wrapUpRequest = LLMRequest.builder()
                         .promptId(promptConfig.getPromptId())
                         .promptVersion(promptConfig.getPromptVersion())
+                        .promptName(promptConfig.getPromptName())
                         .promptVariables(variables)
                         .responseFormat(LLMResponseFormat.TEXT)
                         .build();

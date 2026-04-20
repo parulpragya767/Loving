@@ -4,6 +4,7 @@ import java.util.concurrent.Callable;
 
 import org.springframework.stereotype.Service;
 
+import io.micrometer.core.instrument.DistributionSummary;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
 import io.micrometer.core.instrument.Tags;
@@ -73,6 +74,17 @@ public class MetricsService {
                 throw (RuntimeException) e;
             }
             throw new RuntimeException(e);
+        }
+    }
+
+    public void recordDistribution(String metricName, double value, String... tags) {
+        try {
+            DistributionSummary.builder(metricName)
+                    .tags(toTags(tags))
+                    .register(meterRegistry)
+                    .record(value);
+        } catch (Exception e) {
+            log.error("Error recording distribution metric: {}", metricName, e);
         }
     }
 
