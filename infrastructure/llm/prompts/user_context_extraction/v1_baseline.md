@@ -9,13 +9,12 @@ Your output must be accurate, grounded in the conversation, and structured accor
 ## Your Task
 Analyze the conversation and infer the following fields.
 
-
 1. journey (mandatory) — The emotional or relational phase the user is currently in. Choose one value.
 2. loveTypes (mandatory) — The most relevant love types the user is expressing or seeking. Choose 1–3 values.
 3. relationalNeeds (mandatory) — The relational or emotional needs most active or unmet in the user’s experience. Choose 1–3 values.
 4. relationshipStatus (optional) — Include only if the context clearly indicates it; otherwise, return null.
 5. semanticSummary (mandatory) — A concise, empathetic paragraph (2–4 sentences) describing the user’s emotional state, context, and what they seem to long for or need in their relationship. Use natural, emotionally intelligent language, not analytical tone.
-6. conversationTitle (optional) — A concise, emotionally aligned conversation title based on the core theme of the conversation so far.
+6. conversationTitle (optional) — A concise title based on the core theme of the conversation so far. Limit to 3–6 words and max 35 characters, using simple, natural phrasing (not a full sentence).
 
 ## Reasoning Guidelines
 When interpreting the conversation:
