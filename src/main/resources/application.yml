@@ -97,7 +97,8 @@ management:
       export:
         enabled: true
         url: ${GRAFANA_OTLP_URL}/v1/metrics
-        step: 30s
+        step: 120s
+        batch-size: 2000
         headers:
           Authorization: Basic ${GRAFANA_OTLP_AUTH_TOKEN}
 
